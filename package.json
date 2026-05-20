@@ -5,7 +5,8 @@
   "scripts": {
     "publish": "node publish.mjs",
     "verify": "node verify.mjs",
-    "deploy": "node publish.mjs && node verify.mjs"
+    "deploy": "node publish.mjs && node verify.mjs",
+    "list": "node -e \"const d=require('./pages.json'); d.categories.forEach(c=>{const ps=d.pages.filter(p=>p.category===c.id); if(ps.length){console.log('\\n【'+c.name+'】'); ps.forEach(p=>console.log('  '+p.title+' ('+p.date+')'))}})\""
   },
   "dependencies": {
     "dotenv": "^16.4.7",

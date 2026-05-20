@@ -3,39 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Pages</title>
+    <title>Docs Hub</title>
     <style>
+        :root {
+            --bg: #f0f2f5;
+            --card: #ffffff;
+            --border: #e8e8e8;
+            --text: #1d2129;
+            --text-secondary: #86909c;
+            --primary: #165dff;
+            --primary-light: #e8f3ff;
+            --requirement-color: #ff7d00;
+            --requirement-bg: #fff7e8;
+            --flow-color: #0fc6c2;
+            --flow-bg: #e8fffb;
+            --tag-bg: #f2f3f5;
+            --shadow: 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-hover: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; color: #333; padding: 40px 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        h1 { font-size: 24px; margin-bottom: 24px; color: #1a1a1a; }
-        .file-list { list-style: none; }
-        .file-list li { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 12px; transition: box-shadow 0.2s; }
-        .file-list li:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .file-list a { display: block; padding: 16px 20px; text-decoration: none; color: #0366d6; font-size: 16px; }
-        .file-list a:hover { color: #0250a3; }
-        .meta { font-size: 12px; color: #888; margin-top: 4px; }
-        .footer { margin-top: 40px; font-size: 13px; color: #999; text-align: center; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(135deg, #1d2129 0%, #2d3748 100%);
+            color: #fff;
+            padding: 48px 24px 40px;
+        }
+        .header-inner {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        .header p {
+            margin-top: 8px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+        .stats {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .stat {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+        .stat-num {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ── Main ── */
+        .main {
+            max-width: 960px;
+            margin: -24px auto 0;
+            padding: 0 24px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Filter bar ── */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        /* ── Category section ── */
+        .category-section {
+            margin-bottom: 32px;
+        }
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-left: 2px;
+        }
+        .category-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .category-icon.requirement { background: var(--requirement-bg); }
+        .category-icon.flow { background: var(--flow-bg); }
+        .category-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .category-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: var(--tag-bg);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .category-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-left: auto;
+        }
+
+        /* ── Card list ── */
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            border-radius: 3px 0 0 3px;
+        }
+        .card.requirement::before { background: var(--requirement-color); }
+        .card.flow::before { background: var(--flow-color); }
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.4;
+            color: var(--text);
+        }
+        .card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: var(--tag-bg);
+            color: var(--text-secondary);
+        }
+        .card.requirement .tag { background: var(--requirement-bg); color: var(--requirement-color); }
+        .card.flow .tag { background: var(--flow-bg); color: var(--flow-color); }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── Empty state ── */
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            .header { padding: 32px 16px 28px; }
+            .main { padding: 0 16px 40px; }
+            .card-list { grid-template-columns: 1fr; }
+            .category-desc { display: none; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>HTML Pages</h1>
-        <ul class="file-list" id="fileList"></ul>
-        <div class="footer">Hosted on GitHub Pages &middot; Auto-published</div>
+    <div class="header">
+        <div class="header-inner">
+            <h1>Docs Hub</h1>
+            <p>GitHub Pages &middot; smith12138/html-pages</p>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-num" id="totalCount">0</span>
+                    <span class="stat-label">篇文档</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num" id="catCount">0</span>
+                    <span class="stat-label">个分类</span>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="main">
+        <div class="filter-bar" id="filterBar"></div>
+        <div id="content"></div>
+    </div>
+
+    <div class="footer">Auto-published via GitHub Pages</div>
+
     <script>
-        // Auto-generate file list from known pages
-        const pages = [
-            { name: 'AI客服问题汇总报告_20260516', file: 'AI客服问题汇总报告_20260516.html' },
-            { name: '常规客服接待SOP流程', file: '常规客服接待SOP流程.html' },
-        ];
-        const list = document.getElementById('fileList');
-        pages.forEach(p => {
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="${encodeURIComponent(p.file)}">${p.name}</a>`;
-            list.appendChild(li);
-        });
+        const DATA = {"categories":[{"id":"requirement","name":"需求文档","icon":"doc","description":"产品需求、问题分析、数据报告"},{"id":"flow","name":"流程文档","icon":"flow","description":"业务流程、SOP、操作规范"}],"pages":[{"file":"AI客服问题汇总报告_20260516.html","title":"AI客服问题汇总报告","category":"requirement","date":"2026-05-16","tags":["AI客服","问题汇总"]},{"file":"常规客服接待SOP流程.html","title":"常规客服接待SOP流程","category":"flow","date":"2026-05-20","tags":["客服","SOP"]}]};
+
+        const ICONS = {
+            requirement: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff7d00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+            flow: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0fc6c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+        };
+
+        let activeFilter = 'all';
+
+        function render() {
+            const cats = DATA.categories;
+            const pages = DATA.pages;
+
+            document.getElementById('totalCount').textContent = pages.length;
+            document.getElementById('catCount').textContent = cats.length;
+
+            // Filter bar
+            const filterBar = document.getElementById('filterBar');
+            filterBar.innerHTML = `<button class="filter-btn ${activeFilter === 'all' ? 'active' : ''}" data-filter="all">全部</button>` +
+                cats.map(c => `<button class="filter-btn ${activeFilter === c.id ? 'active' : ''}" data-filter="${c.id}">${c.name}</button>`).join('');
+
+            filterBar.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activeFilter = btn.dataset.filter;
+                    render();
+                });
+            });
+
+            // Content
+            const content = document.getElementById('content');
+            const visibleCats = activeFilter === 'all' ? cats : cats.filter(c => c.id === activeFilter);
+
+            content.innerHTML = visibleCats.map(cat => {
+                const catPages = pages.filter(p => p.category === cat.id);
+                if (catPages.length === 0) return '';
+
+                return `
+                    <div class="category-section">
+                        <div class="category-header">
+                            <div class="category-icon ${cat.id}">${ICONS[cat.id] || ''}</div>
+                            <span class="category-title">${cat.name}</span>
+                            <span class="category-count">${catPages.length}</span>
+                            <span class="category-desc">${cat.description}</span>
+                        </div>
+                        <div class="card-list">
+                            ${catPages.map(p => `
+                                <a class="card ${p.category}" href="${encodeURIComponent(p.file)}">
+                                    <div class="card-title">${p.title}</div>
+                                    <div class="card-meta">
+                                        <span class="card-date">${p.date}</span>
+                                        <div class="card-tags">
+                                            ${(p.tags || []).map(t => `<span class="tag">${t}</span>`).join('')}
+                                        </div>
+                                    </div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (!content.innerHTML.trim()) {
+                content.innerHTML = '<div class="empty">暂无文档</div>';
+            }
+        }
+
+        render();
     </script>
 </body>
 </html>

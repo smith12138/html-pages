@@ -1,0 +1,38 @@
+{
+  "categories": [
+    {
+      "id": "requirement",
+      "name": "需求文档",
+      "icon": "doc",
+      "description": "产品需求、问题分析、数据报告"
+    },
+    {
+      "id": "flow",
+      "name": "流程文档",
+      "icon": "flow",
+      "description": "业务流程、SOP、操作规范"
+    }
+  ],
+  "pages": [
+    {
+      "file": "AI客服问题汇总报告_20260516.html",
+      "title": "AI客服问题汇总报告",
+      "category": "requirement",
+      "date": "2026-05-16",
+      "tags": [
+        "AI客服",
+        "问题汇总"
+      ]
+    },
+    {
+      "file": "常规客服接待SOP流程.html",
+      "title": "常规客服接待SOP流程",
+      "category": "flow",
+      "date": "2026-05-20",
+      "tags": [
+        "客服",
+        "SOP"
+      ]
+    }
+  ]
+}
