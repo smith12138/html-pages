@@ -1,0 +1,14 @@
+{
+  "name": "html-pages-publisher",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "publish": "node publish.mjs",
+    "verify": "node verify.mjs",
+    "deploy": "node publish.mjs && node verify.mjs"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "playwright": "^1.52.0"
+  }
+}
