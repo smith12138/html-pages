@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>双鱼座AI投放项目文档</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#0e0e1a;color:#e0e0e8;line-height:1.7;padding:24px}
+.container{max-width:1100px;margin:0 auto}
+
+/* Header */
+.header{background:linear-gradient(135deg,#1a1035,#2d1b69,#1a1035);color:#fff;padding:40px 36px;border-radius:16px;margin-bottom:28px;box-shadow:0 8px 32px rgba(45,27,105,.5);border:1px solid rgba(212,175,55,.15)}
+.header h1{font-size:28px;margin-bottom:6px;background:linear-gradient(90deg,#d4af37,#f0d060,#d4af37);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header .sub{font-size:15px;opacity:.85;margin-bottom:16px;color:#c8b8e8}
+.header .meta-row{display:flex;gap:24px;font-size:13px;opacity:.75;flex-wrap:wrap;color:#a89ec8}
+.header .meta-row span{display:flex;align-items:center;gap:4px}
+
+/* Stats */
+.stats{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:130px;background:linear-gradient(145deg,#1a1530,#221945);padding:18px;border-radius:12px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.3);border:1px solid rgba(212,175,55,.1);transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+.stat-card .num{font-size:32px;font-weight:700}
+.stat-card .label{font-size:12px;color:#9088a8;margin-top:4px}
+.c-gold .num{color:#d4af37}.c-purple .num{color:#a78bfa}.c-cyan .num{color:#22d3ee}.c-green .num{color:#34d399}.c-orange .num{color:#fb923c}.c-pink .num{color:#f472b6}
+
+/* TOC */
+.toc{background:linear-gradient(145deg,#1a1530,#1e1840);border-radius:14px;padding:24px 28px;margin-bottom:28px;box-shadow:0 4px 16px rgba(0,0,0,.3);border-left:5px solid #d4af37}
+.toc h2{font-size:18px;color:#d4af37;margin-bottom:14px}
+.toc ul{list-style:none;padding:0}
+.toc li{padding:5px 0}
+.toc a{color:#a78bfa;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.toc a:hover{color:#d4af37;text-decoration:underline}
+.toc .sub{padding-left:24px}
+
+/* Tags */
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:10px;margin-right:6px}
+.tag-acct{background:rgba(167,139,250,.2);color:#a78bfa}
+.tag-report{background:rgba(34,211,238,.2);color:#22d3ee}
+.tag-sys{background:rgba(251,146,60,.2);color:#fb923c}
+.tag-ai{background:rgba(212,175,55,.2);color:#d4af37}
+.tag-monitor{background:rgba(244,114,182,.2);color:#f472b6}
+.tag-dash{background:rgba(52,211,153,.2);color:#34d399}
+
+/* Section */
+.sec{background:linear-gradient(145deg,#1a1530,#1e1840);border-radius:14px;margin-bottom:28px;box-shadow:0 4px 16px rgba(0,0,0,.3);overflow:hidden;border:1px solid rgba(255,255,255,.05)}
+.sec-head{padding:20px 28px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sec-head h2{font-size:18px;font-weight:700;color:#e8e0f0}
+.sec-head h3{font-size:16px;font-weight:600;color:#c8b8e8;margin-top:8px}
+.sec-head .desc{font-size:13px;color:#8880a0;margin-top:4px}
+.sec-body{padding:20px 28px}
+
+/* Sub-section */
+.subsec{margin:16px 0;padding:16px 20px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid rgba(255,255,255,.05)}
+.subsec h4{font-size:15px;font-weight:600;color:#d4af37;margin-bottom:8px}
+.subsec-inner{margin:12px 0;padding:12px 16px;background:rgba(255,255,255,.02);border-radius:8px;border-left:3px solid rgba(167,139,250,.4)}
+.subsec-inner h5{font-size:14px;font-weight:600;color:#a78bfa;margin-bottom:6px}
+
+/* Tables */
+.stbl{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.stbl th{background:rgba(212,175,55,.1);padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid rgba(212,175,55,.2);font-size:12px;color:#d4af37}
+.stbl td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:top;line-height:1.6;color:#c8c0e0}
+.stbl tr:hover{background:rgba(255,255,255,.03)}
+
+/* Callouts */
+.tip{background:rgba(34,211,238,.08);border-left:3px solid #22d3ee;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#a0d8e8}
+.warn{background:rgba(251,146,60,.08);border-left:3px solid #fb923c;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#e8c0a0}
+.ok{background:rgba(52,211,153,.08);border-left:3px solid #34d399;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#a0e8c8}
+.info{background:rgba(167,139,250,.08);border-left:3px solid #a78bfa;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#c8b8e8}
+.alert{background:rgba(239,68,68,.08);border-left:3px solid #ef4444;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#e8a0a0}
+
+/* Role cards */
+.role-grid{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0}
+.role-card{flex:1;min-width:160px;background:rgba(255,255,255,.04);border-radius:10px;padding:16px;border:1px solid rgba(255,255,255,.06);transition:transform .2s}
+.role-card:hover{transform:translateY(-2px)}
+.role-card h4{font-size:14px;margin-bottom:5px;color:#d4af37}
+.role-card .role-count{font-size:24px;font-weight:700;color:#a78bfa;margin:4px 0}
+.role-card p{font-size:12px;color:#8880a0}
+
+/* Status badges */
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px}
+.badge-ok{background:rgba(52,211,153,.15);color:#34d399}
+.badge-warn{background:rgba(251,146,60,.15);color:#fb923c}
+.badge-err{background:rgba(239,68,68,.15);color:#ef4444}
+.badge-info{background:rgba(167,139,250,.15);color:#a78bfa}
+
+/* Feature list */
+.feat-list{list-style:none;padding:0;margin:8px 0}
+.feat-list li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;color:#c8c0e0;display:flex;align-items:flex-start;gap:8px}
+.feat-list li:last-child{border-bottom:none}
+.feat-list li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#d4af37;margin-top:8px;flex-shrink:0}
+
+/* Architecture */
+.arch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:16px 0}
+.arch-card{background:rgba(255,255,255,.04);border-radius:10px;padding:16px;border:1px solid rgba(255,255,255,.06)}
+.arch-card h5{font-size:13px;font-weight:700;color:#d4af37;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.arch-card ul{list-style:none;padding:0}
+.arch-card li{font-size:12px;color:#a89ec8;padding:3px 0}
+.arch-card li::before{content:"\2022";color:#a78bfa;margin-right:8px}
+
+/* System status */
+.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.status-item{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.03);padding:12px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.05)}
+.status-item .name{font-size:13px;color:#c8c0e0}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.status-dot.green{background:#34d399;box-shadow:0 0 6px rgba(52,211,153,.5)}
+.status-dot.red{background:#ef4444;box-shadow:0 0 6px rgba(239,68,68,.5)}
+
+/* Flow diagram */
+.flow-wrap{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0}
+.flow-step{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);padding:8px 16px;border-radius:8px;font-size:13px;color:#c8b8e8}
+.flow-arrow{color:#d4af37;font-size:18px}
+
+/* Tabs */
+.tab-bar{display:flex;background:rgba(0,0,0,.2);border-radius:10px 10px 0 0;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto}
+.tab-btn{padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:transparent;color:#8880a0;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
+.tab-btn:hover{color:#c8b8e8;background:rgba(255,255,255,.03)}
+.tab-btn.active{border-bottom-color:#d4af37;color:#d4af37;background:rgba(212,175,55,.05)}
+.tab-panel{display:none;padding:20px 24px}
+.tab-panel.active{display:block}
+
+/* Number highlight */
+.num-hl{font-weight:700;color:#d4af37;font-size:15px}
+
+/* Footer */
+.footer{text-align:center;padding:24px;color:#5a5278;font-size:12px;margin-top:12px}
+
+/* FAB */
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.3);transition:all .25s ease;opacity:.75}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:rgba(30,24,64,.95);color:#d4af37;border:1px solid rgba(212,175,55,.2)}
+.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+
+@media(max-width:768px){body{padding:12px}.stats{flex-direction:column}.role-grid{flex-direction:column}.arch-grid{grid-template-columns:1fr}.status-grid{grid-template-columns:1fr}.tab-btn{padding:8px 14px;font-size:12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== HEADER ========== -->
+<div class="header">
+<h1>双鱼座AI投放 (Piscipient) 项目文档</h1>
+<div class="sub">Facebook / Meta 广告账户管理与 AI 智能投放优化平台 &nbsp;|&nbsp; https://piscipient.ai/</div>
+<div class="meta-row">
+<span>平台类型：AI广告智能投放管理系统</span>
+<span>支持语言：中文 / English</span>
+<span>时区支持：UTC-12 ~ UTC+14</span>
+<span>整理时间：2026-05-22</span>
+</div>
+</div>
+
+<!-- ========== STATS ========== -->
+<div class="stats">
+<div class="stat-card c-gold"><div class="num">104</div><div class="label">总用户数</div></div>
+<div class="stat-card c-purple"><div class="num">100</div><div class="label">活跃用户</div></div>
+<div class="stat-card c-cyan"><div class="num">34</div><div class="label">BM 总数</div></div>
+<div class="stat-card c-green"><div class="num">1,257</div><div class="label">广告账户</div></div>
+<div class="stat-card c-orange"><div class="num">5</div><div class="label">系统角色</div></div>
+<div class="stat-card c-pink"><div class="num">4</div><div class="label">系统模块</div></div>
+</div>
+
+<!-- ========== TOC ========== -->
+<div class="toc" id="toc">
+<h2>目录导航</h2>
+<ul>
+<li><a href="#sec-overview"><span class="tag tag-dash">概览</span>一、产品概述</a></li>
+<li><a href="#sec-dashboard"><span class="tag tag-dash">控制台</span>二、管理员控制台（Dashboard）</a></li>
+<li class="sub"><a href="#sec-dash-stats">&nbsp;&nbsp;└ 系统概览与用户统计</a></li>
+<li class="sub"><a href="#sec-dash-roles">&nbsp;&nbsp;└ 角色分布与操作日志</a></li>
+<li class="sub"><a href="#sec-dash-status">&nbsp;&nbsp;└ 系统状态监控与快速操作</a></li>
+<li><a href="#sec-accounts"><span class="tag tag-acct">账户</span>三、账户管理模块</a></li>
+<li class="sub"><a href="#sec-all-accounts">&nbsp;&nbsp;└ 3.1 全部账户</a></li>
+<li class="sub"><a href="#sec-account-assign">&nbsp;&nbsp;└ 3.2 账户分配</a></li>
+<li class="sub"><a href="#sec-page-assign">&nbsp;&nbsp;└ 3.3 主页分配</a></li>
+<li><a href="#sec-reports"><span class="tag tag-report">报表</span>四、报表中心 &amp; 下载中心</a></li>
+<li><a href="#sec-system"><span class="tag tag-sys">系统</span>五、系统管理模块</a></li>
+<li class="sub"><a href="#sec-user-mgmt">&nbsp;&nbsp;└ 5.1 用户管理</a></li>
+<li class="sub"><a href="#sec-role-mgmt">&nbsp;&nbsp;└ 5.2 角色管理</a></li>
+<li class="sub"><a href="#sec-audit">&nbsp;&nbsp;└ 5.3 审计日志</a></li>
+<li class="sub"><a href="#sec-ops-monitor">&nbsp;&nbsp;└ 5.4 运营监控</a></li>
+<li class="sub"><a href="#sec-ai-center">&nbsp;&nbsp;└ 5.5 AI 数据中心</a></li>
+<li><a href="#sec-arch"><span class="tag tag-ai">架构</span>六、技术架构</a></li>
+<li><a href="#sec-concepts"><span class="tag tag-ai">概念</span>七、核心业务概念</a></li>
+</ul>
+</div>
+
+<!-- ========== 一、产品概述 ========== -->
+<div class="sec" id="sec-overview">
+<div class="sec-head">
+<h2>一、产品概述</h2>
+<div class="desc">Piscipient（双鱼座）AI 广告智能投放平台核心信息</div>
+</div>
+<div class="sec-body">
+<table class="stbl">
+<tr><th style="width:160px">属性</th><th>描述</th></tr>
+<tr><td>产品名称</td><td><strong>Piscipient（双鱼座）</strong> - AI Advertising Intelligence Platform</td></tr>
+<tr><td>访问地址</td><td>https://piscipient.ai/</td></tr>
+<tr><td>产品定位</td><td>Facebook / Meta 广告账户管理与 AI 智能广告投放优化平台</td></tr>
+<tr><td>核心能力</td><td>BM 资产管理、广告账户分配、API 限额监控、账户健康检测、AI 训练数据管线</td></tr>
+<tr><td>多语言支持</td><td>中文 / English 双语界面</td></tr>
+<tr><td>时区支持</td><td>UTC-12 至 UTC+14 全时区覆盖</td></tr>
+<tr><td>界面风格</td><td>深色主题（Dark Theme），金色（Gold）强调色</td></tr>
+<tr><td>前端框架</td><td>Vue.js / Nuxt.js（SPA 单页应用）</td></tr>
+<tr><td>权限体系</td><td>RBAC（基于角色的访问控制），5 种系统角色</td></tr>
+</table>
+
+<div class="tip">
+<strong>平台定位：</strong>双鱼座平台专注于 Facebook / Meta 广告生态，为投放团队提供从账户管理、广告优化到 AI 数据训练的全链路支撑。通过集中化的 BM 资产管理与智能监控，帮助团队高效管理 1,257 个广告账户。
+</div>
+</div>
+</div>
+
+<!-- ========== 二、管理员控制台 ========== -->
+<div class="sec" id="sec-dashboard">
+<div class="sec-head">
+<h2>二、管理员控制台（Dashboard）</h2>
+<div class="desc">系统全局视图与核心运营指标一览</div>
+</div>
+<div class="sec-body">
+
+<!-- 系统概览 -->
+<div class="subsec" id="sec-dash-stats">
+<h4>2.1 系统概览</h4>
+<p style="font-size:13px;color:#a89ec8;margin-bottom:12px">Dashboard 顶部展示平台核心统计数据，管理员可一目了然掌握系统整体运行状态。</p>
+
+<div class="stats" style="margin-bottom:16px">
+<div class="stat-card c-gold"><div class="num">104</div><div class="label">总用户数</div></div>
+<div class="stat-card c-purple"><div class="num">100</div><div class="label">活跃用户</div></div>
+<div class="stat-card c-cyan"><div class="num">9</div><div class="label">今日登录</div></div>
+<div class="stat-card c-green"><div class="num">5</div><div class="label">系统角色</div></div>
+</div>
+
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin-bottom:8px">用户状态卡片</p>
+<table class="stbl">
+<tr><th>指标</th><th>数值</th><th>说明</th></tr>
+<tr><td>在线用户</td><td><span class="num-hl">9</span></td><td>当前在线的活跃用户数量</td></tr>
+<tr><td>今日活跃</td><td><span class="num-hl">9</span></td><td>今日已登录并执行过操作的用户</td></tr>
+<tr><td>本周活跃</td><td><span class="num-hl">100</span></td><td>本周内至少登录一次的用户</td></tr>
+<tr><td>禁用用户</td><td><span class="num-hl">0</span></td><td>被管理员禁用的账户数量</td></tr>
+</table>
+</div>
+
+<!-- 角色分布 -->
+<div class="subsec" id="sec-dash-roles">
+<h4>2.2 角色分布与操作日志</h4>
+
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin:12px 0 8px">角色分布统计</p>
+<div class="role-grid">
+<div class="role-card">
+<h4>Shooter（投手）</h4>
+<div class="role-count">79</div>
+<p>广告投放操作员，负责日常广告投放与优化</p>
+</div>
+<div class="role-card">
+<h4>Leader（组长）</h4>
+<div class="role-count">14</div>
+<p>团队负责人，管理投手团队与账户分配</p>
+</div>
+<div class="role-card">
+<h4>Admin（管理员）</h4>
+<div class="role-count">6</div>
+<p>系统管理员，拥有全部系统权限</p>
+</div>
+<div class="role-card">
+<h4>Art（美术）</h4>
+<div class="role-count">1</div>
+<p>创意设计角色，负责广告素材制作</p>
+</div>
+</div>
+
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin:16px 0 8px">近期操作日志</p>
+<div class="info">
+<strong>日志内容：</strong>系统实时记录所有用户的登录/登出事件，包含精确时间戳、操作用户、IP 地址等关键信息。管理员可通过操作日志审计用户行为，排查安全事件。
+</div>
+<table class="stbl">
+<tr><th>时间</th><th>事件类型</th><th>说明</th></tr>
+<tr><td>实时记录</td><td>用户登录</td><td>记录用户登录时间、登录 IP、设备信息</td></tr>
+<tr><td>实时记录</td><td>用户登出</td><td>记录用户主动登出或会话过期事件</td></tr>
+<tr><td>实时记录</td><td>操作事件</td><td>记录关键业务操作（账户分配、数据导出等）</td></tr>
+</table>
+</div>
+
+<!-- 系统状态 -->
+<div class="subsec" id="sec-dash-status">
+<h4>2.3 系统状态监控与快速操作</h4>
+
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin-bottom:10px">系统服务状态</p>
+<div class="status-grid">
+<div class="status-item">
+<span class="name">数据库</span>
+<span><span class="status-dot green"></span><span class="badge badge-ok">正常</span></span>
+</div>
+<div class="status-item">
+<span class="name">缓存服务</span>
+<span><span class="status-dot green"></span><span class="badge badge-ok">正常</span></span>
+</div>
+<div class="status-item">
+<span class="name">API 服务</span>
+<span><span class="status-dot green"></span><span class="badge badge-ok">正常</span></span>
+</div>
+<div class="status-item">
+<span class="name">定时任务</span>
+<span><span class="status-dot green"></span><span class="badge badge-ok">正常</span></span>
+</div>
+</div>
+
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin:16px 0 8px">快速操作入口</p>
+<div class="flow-wrap">
+<div class="flow-step">创建用户</div>
+<div class="flow-step">角色管理</div>
+<div class="flow-step">审计日志</div>
+</div>
+<div class="tip">管理员可通过 Dashboard 快速操作按钮直达常用功能页面，无需逐级导航。</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== 三、账户管理模块 ========== -->
+<div class="sec" id="sec-accounts">
+<div class="sec-head">
+<h2>三、账户管理模块</h2>
+<div class="desc">Facebook / Meta Business Manager 资产管理核心模块</div>
+</div>
+<div class="sec-body">
+
+<div class="stats" style="margin-bottom:20px">
+<div class="stat-card c-cyan"><div class="num">34</div><div class="label">BM 总数</div></div>
+<div class="stat-card c-gold"><div class="num">1,257</div><div class="label">广告账户总量</div></div>
+</div>
+
+<!-- 3.1 全部账户 -->
+<div class="subsec" id="sec-all-accounts">
+<h4>3.1 全部账户</h4>
+<p style="font-size:13px;color:#a89ec8;margin-bottom:12px">集中展示所有 BM 及其下属广告账户的树形结构视图，支持多维度筛选与批量操作。</p>
+
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin-bottom:8px">账户信息字段</p>
+<table class="stbl">
+<tr><th>字段</th><th>说明</th><th>示例</th></tr>
+<tr><td>系统用户</td><td>账户绑定的系统用户</td><td>Yago Pacheco</td></tr>
+<tr><td>账户名称</td><td>广告账户显示名称</td><td>Yago Pacheco</td></tr>
+<tr><td>BM 名称</td><td>所属 Business Manager 名称</td><td>Yago Pacheco</td></tr>
+<tr><td>BMID</td><td>Business Manager 唯一标识</td><td>750500571242059</td></tr>
+<tr><td>AppID</td><td>关联应用 ID</td><td>PiscipientA</td></tr>
+<tr><td>同步时间</td><td>最近一次数据同步时间</td><td>实时同步</td></tr>
+</table>
+
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin:16px 0 8px">功能特性</p>
+<ul class="feat-list">
+<li>可展开的树形结构：BM → 广告账户层级，直观展示从属关系</li>
+<li>多条件筛选：支持搜索、BM 筛选、状态筛选等多维过滤</li>
+<li>导入 BM 资产数据：批量导入 Business Manager 资产信息</li>
+<li>导出 BM 资产数据：将当前账户数据导出为文件格式</li>
+<li>账户状态标识：清晰展示每个账户的当前状态</li>
+</ul>
+</div>
+
+<!-- 3.2 账户分配 -->
+<div class="subsec" id="sec-account-assign">
+<h4>3.2 账户分配</h4>
+<p style="font-size:13px;color:#a89ec8;margin-bottom:12px">将广告账户分配给系统用户或团队，管理账户权限与访问控制。</p>
+
+<ul class="feat-list">
+<li>支持将广告账户分配至指定投手（Shooter）或团队组长（Leader）</li>
+<li>可批量分配或单独调整账户归属</li>
+<li>分配后用户仅能查看和操作其名下账户，实现权限隔离</li>
+<li>支持账户回收与重新分配</li>
+</ul>
+
+<div class="flow-wrap">
+<div class="flow-step">选择广告账户</div>
+<span class="flow-arrow">→</span>
+<div class="flow-step">指定分配用户</div>
+<span class="flow-arrow">→</span>
+<div class="flow-step">确认权限配置</div>
+<span class="flow-arrow">→</span>
+<div class="flow-step">完成分配</div>
+</div>
+</div>
+
+<!-- 3.3 主页分配 -->
+<div class="subsec" id="sec-page-assign">
+<h4>3.3 主页分配</h4>
+<p style="font-size:13px;color:#a89ec8;margin-bottom:12px">将 Facebook 主页（Page）分配给用户，管理主页访问权限。</p>
+
+<ul class="feat-list">
+<li>将 Facebook Page 分配给指定用户或团队</li>
+<li>管理主页的访问控制与操作权限</li>
+<li>支持多主页批量分配</li>
+<li>确保广告投放所需的主页资源归属清晰</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<!-- ========== 四、报表中心 & 下载中心 ========== -->
+<div class="sec" id="sec-reports">
+<div class="sec-head">
+<h2>四、报表中心 &amp; 下载中心</h2>
+<div class="desc">数据报表生成与文件集中下载管理</div>
+</div>
+<div class="sec-body">
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="subsec">
+<h4>4.1 报表中心</h4>
+<ul class="feat-list">
+<li>广告投放效果报表生成与下载</li>
+<li>多维度数据汇总分析</li>
+<li>支持自定义时间范围查询</li>
+<li>报表格式化导出</li>
+</ul>
+</div>
+<div class="subsec">
+<h4>4.2 下载中心</h4>
+<ul class="feat-list">
+<li>集中管理所有已生成的可下载文件</li>
+<li>报表文件、导出数据统一存放</li>
+<li>支持文件状态追踪（生成中/已完成）</li>
+<li>历史文件管理与清理</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== 五、系统管理模块 ========== -->
+<div class="sec" id="sec-system">
+<div class="sec-head">
+<h2>五、系统管理模块</h2>
+<div class="desc">用户权限、审计、监控与 AI 数据中心</div>
+</div>
+<div class="sec-body">
+
+<!-- 5.1 用户管理 -->
+<div class="subsec" id="sec-user-mgmt">
+<h4>5.1 用户管理</h4>
+<p style="font-size:13px;color:#a89ec8;margin-bottom:12px">系统用户的全生命周期管理，包括创建、配置、权限分配与禁用。</p>
+
+<ul class="feat-list">
+<li>创建新用户：填写基本信息，指定角色与初始权限</li>
+<li>用户认证：账户密码认证，支持会话管理</li>
+<li>角色绑定：为用户分配 Leader / Shooter / Admin / Art 角色</li>
+<li>访问控制：基于角色的功能模块访问限制</li>
+<li>用户状态管理：启用/禁用账户</li>
+</ul>
+</div>
+
+<!-- 5.2 角色管理 -->
+<div class="subsec" id="sec-role-mgmt">
+<h4>5.2 角色管理</h4>
+<p style="font-size:13px;color:#a89ec8;margin-bottom:12px">RBAC 权限模型下的角色定义与权限配置。</p>
+
+<div class="role-grid">
+<div class="role-card">
+<h4>Leader 组长</h4>
+<div class="role-count">14 人</div>
+<p>团队管理、查看团队数据、账户分配审批、下级投手管理</p>
+</div>
+<div class="role-card">
+<h4>Shooter 投手</h4>
+<div class="role-count">79 人</div>
+<p>广告投放操作、素材上传、效果数据查看、日常投放优化</p>
+</div>
+<div class="role-card">
+<h4>Admin 管理员</h4>
+<div class="role-count">6 人</div>
+<p>系统全权限、用户管理、角色配置、系统监控、数据导出</p>
+</div>
+<div class="role-card">
+<h4>Art 美术</h4>
+<div class="role-count">1 人</div>
+<p>创意素材管理、广告设计资源上传与维护</p>
+</div>
+</div>
+
+<div class="info">
+<strong>RBAC 说明：</strong>系统采用基于角色的访问控制（Role-Based Access Control）模型，每个角色绑定一组预定义权限集合。用户通过角色继承对应权限，避免逐用户配置的维护成本。当前共 5 种系统角色（含 1 种超级管理角色）。
+</div>
+</div>
+
+<!-- 5.3 审计日志 -->
+<div class="subsec" id="sec-audit">
+<h4>5.3 审计日志</h4>
+<p style="font-size:13px;color:#a89ec8;margin-bottom:12px">全量操作审计追踪，满足安全合规与问题排查需求。</p>
+
+<table class="stbl">
+<tr><th>审计维度</th><th>记录内容</th></tr>
+<tr><td>登录/登出</td><td>用户登录时间、登出时间、登录IP、设备指纹</td></tr>
+<tr><td>账户操作</td><td>账户分配、权限变更、BM资产导入导出</td></tr>
+<tr><td>数据操作</td><td>报表生成、数据导出、AI训练数据导出</td></tr>
+<tr><td>系统配置</td><td>用户创建、角色变更、系统参数修改</td></tr>
+</table>
+
+<div class="tip">
+<strong>合规要求：</strong>所有审计日志不可篡改，保留完整时间戳，支持按时间范围、用户、操作类型等条件检索。
+</div>
+</div>
+
+<!-- 5.4 运营监控 -->
+<div class="subsec" id="sec-ops-monitor">
+<h4>5.4 运营监控</h4>
+<p style="font-size:13px;color:#a89ec8;margin-bottom:12px">三大子模块：API 限额监控、账户健康检测、系统负载监控。</p>
+
+<div class="tab-bar">
+<button class="tab-btn active" onclick="switchTab(this,'ops-tab','ops-panel')">API 限额</button>
+<button class="tab-btn" onclick="switchTab(this,'ops-tab','ops-panel')">账户健康</button>
+<button class="tab-btn" onclick="switchTab(this,'ops-tab','ops-panel')">系统负载</button>
+</div>
+
+<!-- API限额 -->
+<div class="tab-panel ops-panel active">
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin-bottom:10px">API 限额概览</p>
+<div class="stats" style="margin-bottom:16px">
+<div class="stat-card c-green"><div class="num">944</div><div class="label">正常账户</div></div>
+<div class="stat-card c-orange"><div class="num">0</div><div class="label">受限账户</div></div>
+<div class="stat-card c-pink"><div class="num">0</div><div class="label">限制账户</div></div>
+<div class="stat-card c-purple"><div class="num">2,525</div><div class="label">账户总量</div></div>
+</div>
+
+<div class="alert">
+<strong>异常提醒：</strong>2,525 个账户存在异常，余额偏高，请核查以修复 Meta Business Manager 中数据。
+</div>
+
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin:12px 0 8px">账户健康状态表</p>
+<table class="stbl">
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td>账户名称</td><td>广告账户显示名称</td></tr>
+<tr><td>账户 ID</td><td>广告账户唯一标识</td></tr>
+<tr><td>关联 BM</td><td>账户所属 Business Manager</td></tr>
+<tr><td>健康状态</td><td>
+<span class="badge badge-ok">正常</span>&nbsp;
+<span class="badge badge-err">账户异常(封停)</span>&nbsp;
+<span class="badge badge-info">未获取</span>
+</td></tr>
+</table>
+
+<p style="font-size:13px;color:#a89ec8;margin-top:10px">筛选功能：支持按账户 ID / 名称搜索，按 BM 筛选，按状态过滤。</p>
+</div>
+
+<!-- 账户健康 -->
+<div class="tab-panel ops-panel">
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin-bottom:10px">账户健康监控</p>
+<ul class="feat-list">
+<li>实时监控 Facebook 广告账户的健康质量分数</li>
+<li>自动检测账户风险等级（正常、警告、封停）</li>
+<li>账户健康趋势图表，追踪历史健康状态变化</li>
+<li>异常账户自动告警，及时通知管理员处理</li>
+<li>支持按 BM 维度汇总健康状态分布</li>
+</ul>
+<div class="warn">
+<strong>注意：</strong>账户健康状态直接影响广告投放效果。健康度低的账户可能面临更高的 CPM 和更低的投放量。建议定期检查并处理异常账户。
+</div>
+</div>
+
+<!-- 系统负载 -->
+<div class="tab-panel ops-panel">
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin-bottom:10px">系统负载监控</p>
+<ul class="feat-list">
+<li>服务器 CPU / 内存 / 磁盘使用率实时监控</li>
+<li>API 接口响应时间与吞吐量追踪</li>
+<li>数据库连接池状态与查询性能</li>
+<li>定时任务执行状态与耗时统计</li>
+<li>系统异常与错误日志聚合</li>
+</ul>
+<div class="status-grid">
+<div class="status-item">
+<span class="name">数据库</span>
+<span><span class="status-dot green"></span><span class="badge badge-ok">正常</span></span>
+</div>
+<div class="status-item">
+<span class="name">缓存服务</span>
+<span><span class="status-dot green"></span><span class="badge badge-ok">正常</span></span>
+</div>
+<div class="status-item">
+<span class="name">API 服务</span>
+<span><span class="status-dot green"></span><span class="badge badge-ok">正常</span></span>
+</div>
+<div class="status-item">
+<span class="name">定时任务</span>
+<span><span class="status-dot green"></span><span class="badge badge-ok">正常</span></span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 5.5 AI 数据中心 -->
+<div class="subsec" id="sec-ai-center">
+<h4>5.5 AI 数据中心</h4>
+<p style="font-size:13px;color:#a89ec8;margin-bottom:12px">AI 模型训练数据管线管理，涵盖数据导出、采集概况与事件明细。</p>
+
+<div class="tab-bar">
+<button class="tab-btn active" onclick="switchTab(this,'ai-tab','ai-panel')">训练数据导出</button>
+<button class="tab-btn" onclick="switchTab(this,'ai-tab','ai-panel')">数据采集概况</button>
+<button class="tab-btn" onclick="switchTab(this,'ai-tab','ai-panel')">事件明细</button>
+</div>
+
+<!-- 训练数据导出 -->
+<div class="tab-panel ai-panel active">
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin-bottom:10px">训练数据导出</p>
+
+<div class="info">
+<strong>自动调度：</strong>系统每日 04:30 自动执行训练数据导出任务，无需人工干预。
+</div>
+
+<p style="font-size:13px;font-weight:600;color:#a89ec8;margin:12px 0 8px">近 7 日导出趋势（数据类型）</p>
+<table class="stbl">
+<tr><th>数据类型</th><th>说明</th><th>用途</th></tr>
+<tr><td><span class="badge badge-info">三元组 (Triplet)</span></td><td>AI 模型训练的三元组格式数据</td><td>广告效果预测模型训练</td></tr>
+<tr><td><span class="badge badge-ok">优质 (Quality)</span></td><td>高质量标注数据</td><td>模型精调与优化</td></tr>
+<tr><td><span class="badge badge-warn">回填 (Backfill)</span></td><td>历史补充数据</td><td>填充数据空缺，提升训练完整性</td></tr>
+</table>
+
+<p style="font-size:13px;font-weight:600;color:#a89ec8;margin:16px 0 8px">每日导出记录表</p>
+<table class="stbl">
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td>日期</td><td>导出执行日期</td></tr>
+<tr><td>状态</td><td><span class="badge badge-ok">成功</span> / <span class="badge badge-err">失败</span></td></tr>
+<tr><td>导出规模</td><td>本次导出的数据总量</td></tr>
+<tr><td>导出结果</td><td>三元组数量 / 优质数据数量 / 回填数据数量</td></tr>
+<tr><td>文件下载</td><td>导出文件名及大小，支持直接下载</td></tr>
+</table>
+
+<div class="flow-wrap" style="margin-top:16px">
+<div class="flow-step">04:30 定时触发</div>
+<span class="flow-arrow">→</span>
+<div class="flow-step">采集原始数据</div>
+<span class="flow-arrow">→</span>
+<div class="flow-step">三元组构建</div>
+<span class="flow-arrow">→</span>
+<div class="flow-step">质量筛选</div>
+<span class="flow-arrow">→</span>
+<div class="flow-step">回填补充</div>
+<span class="flow-arrow">→</span>
+<div class="flow-step">生成导出文件</div>
+</div>
+</div>
+
+<!-- 数据采集概况 -->
+<div class="tab-panel ai-panel">
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin-bottom:10px">数据采集概况</p>
+<ul class="feat-list">
+<li>展示各数据源的采集状态与数据量汇总</li>
+<li>采集频率与成功率统计</li>
+<li>数据源健康状态监控</li>
+<li>采集异常告警与重试机制</li>
+<li>历史采集趋势分析</li>
+</ul>
+</div>
+
+<!-- 事件明细 -->
+<div class="tab-panel ai-panel">
+<p style="font-size:14px;font-weight:600;color:#c8b8e8;margin-bottom:10px">事件明细</p>
+<ul class="feat-list">
+<li>详细的事件追踪日志</li>
+<li>广告投放事件（曝光、点击、转化）记录</li>
+<li>系统事件与异常事件记录</li>
+<li>支持按事件类型、时间范围、账户等维度过滤</li>
+<li>事件数据可用于 AI 模型训练与效果分析</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== 六、技术架构 ========== -->
+<div class="sec" id="sec-arch">
+<div class="sec-head">
+<h2>六、技术架构</h2>
+<div class="desc">平台技术栈与系统架构说明</div>
+</div>
+<div class="sec-body">
+
+<div class="arch-grid">
+<div class="arch-card">
+<h5>前端技术</h5>
+<ul>
+<li>Vue.js / Nuxt.js（SPA）</li>
+<li>深色主题 + 金色强调色</li>
+<li>响应式布局设计</li>
+<li>多语言国际化（i18n）</li>
+</ul>
+</div>
+<div class="arch-card">
+<h5>核心集成</h5>
+<ul>
+<li>Facebook / Meta Business API</li>
+<li>BM 资产数据同步</li>
+<li>广告账户状态实时拉取</li>
+<li>API 限额监控接口</li>
+</ul>
+</div>
+<div class="arch-card">
+<h5>数据与AI</h5>
+<ul>
+<li>AI 训练数据管线</li>
+<li>三元组数据导出引擎</li>
+<li>定时任务调度系统</li>
+<li>数据采集与回填机制</li>
+</ul>
+</div>
+<div class="arch-card">
+<h5>安全与权限</h5>
+<ul>
+<li>RBAC 角色权限模型</li>
+<li>全量审计日志</li>
+<li>会话管理与超时控制</li>
+<li>操作行为追踪</li>
+</ul>
+</div>
+<div class="arch-card">
+<h5>监控运维</h5>
+<ul>
+<li>实时系统状态仪表盘</li>
+<li>数据库/缓存/API 健康检查</li>
+<li>账户健康自动检测</li>
+<li>异常告警通知机制</li>
+</ul>
+</div>
+<div class="arch-card">
+<h5>全球化支持</h5>
+<ul>
+<li>中文 / English 双语界面</li>
+<li>UTC-12 ~ UTC+14 时区</li>
+<li>多地域广告账户管理</li>
+<li>跨时区数据报表</li>
+</ul>
+</div>
+</div>
+
+<div class="tip">
+<strong>架构特点：</strong>系统采用前后端分离架构，前端基于 Vue.js / Nuxt.js 构建 SPA 应用，通过 RESTful API 与后端服务通信。深度集成 Facebook / Meta Business API，实现 BM 资产、广告账户、API 限额等数据的实时同步与监控。AI 数据管线支持自动化训练数据导出，为广告效果预测模型提供持续的数据供给。
+</div>
+</div>
+</div>
+
+<!-- ========== 七、核心业务概念 ========== -->
+<div class="sec" id="sec-concepts">
+<div class="sec-head">
+<h2>七、核心业务概念</h2>
+<div class="desc">平台涉及的关键术语与业务概念释义</div>
+</div>
+<div class="sec-body">
+
+<table class="stbl">
+<tr><th style="width:180px">术语</th><th>英文</th><th>释义</th></tr>
+<tr><td><strong>BM</strong></td><td>Business Manager</td><td>Meta 的商务管理平台资产管理单元，是广告账户、主页、像素等资产的顶层容器。每个 BM 可包含多个广告账户。</td></tr>
+<tr><td><strong>广告账户</strong></td><td>Ad Account</td><td>BM 下的独立广告投放单元，每个广告账户拥有独立的预算、花费记录和投放数据。</td></tr>
+<tr><td><strong>投手（Shooter）</strong></td><td>Ad Operator</td><td>广告投放操作员角色，负责日常广告系列的创建、优化、预算调整等操作。占系统用户总数的 79%。</td></tr>
+<tr><td><strong>组长（Leader）</strong></td><td>Team Leader</td><td>团队负责人角色，管理一组投手，负责账户分配、投放策略指导和团队绩效管理。</td></tr>
+<tr><td><strong>美术（Art）</strong></td><td>Creative Designer</td><td>创意设计角色，负责广告素材（图片、视频、文案）的制作与维护。</td></tr>
+<tr><td><strong>API 限额</strong></td><td>API Rate Limit</td><td>Facebook 对每个广告账户的 API 调用频率限制。超出限额将导致接口返回错误，影响投放操作。</td></tr>
+<tr><td><strong>账户健康度</strong></td><td>Account Health</td><td>Facebook 对广告账户的质量评分体系，健康度低的账户可能面临投放限制甚至封停。</td></tr>
+<tr><td><strong>三元组导出</strong></td><td>Triplet Export</td><td>AI 模型训练数据的特定格式，以三元组（Anchor, Positive, Negative）形式组织，用于训练广告效果预测模型。</td></tr>
+<tr><td><strong>回填数据</strong></td><td>Backfill Data</td><td>对历史时间段内缺失或不完整数据的补充导出，确保训练数据的时间连续性。</td></tr>
+<tr><td><strong>优质数据</strong></td><td>Quality Data</td><td>经过筛选和标注的高质量训练样本，用于模型精调以提升预测准确率。</td></tr>
+</table>
+
+</div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer">双鱼座AI投放项目文档 &nbsp;|&nbsp; Piscipient AI Advertising Platform &nbsp;|&nbsp; 整理时间：2026-05-22</div>
+
+</div><!-- /container -->
+
+<!-- ========== FLOAT BUTTONS ========== -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.3);transition:all .25s ease;opacity:.75}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:rgba(30,24,64,.95);color:#d4af37;border:1px solid rgba(212,175,55,.2)}
+.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/?project=piscipient" title="返回项目">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+
+<script>
+// FAB visibility
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+
+// Tab switching
+function switchTab(btn,tabClass,panelClass){
+var bar=btn.parentElement;
+var sec=bar.parentElement;
+var tabs=bar.querySelectorAll('.tab-btn');
+var panels=sec.querySelectorAll('.'+panelClass);
+var idx=Array.prototype.indexOf.call(tabs,btn);
+tabs.forEach(function(t){t.classList.remove('active')});
+panels.forEach(function(p){p.classList.remove('active')});
+btn.classList.add('active');
+if(panels[idx])panels[idx].classList.add('active');
+}
+</script>
+
+</body>
+</html>

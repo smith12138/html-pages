@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>昆仑幻视项目文档</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.7;padding:24px}
+.container{max-width:1100px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1a2980,#26d0ce);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:28px;box-shadow:0 6px 20px rgba(26,41,128,.3)}
+.header h1{font-size:26px;margin-bottom:6px}
+.header .sub{font-size:15px;opacity:.85;margin-bottom:16px}
+.header .meta-row{display:flex;gap:24px;font-size:13px;opacity:.75;flex-wrap:wrap}
+.stats{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:120px;background:#fff;padding:18px;border-radius:10px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.stat-card .num{font-size:34px;font-weight:700}
+.stat-card .label{font-size:12px;color:#888;margin-top:4px}
+.c-blu .num{color:#2980b9}.c-grn .num{color:#27ae60}.c-ora .num{color:#e67e22}.c-pur .num{color:#8e44ad}.c-red .num{color:#e74c3c}.c-teal .num{color:#0d7377}
+.toc{background:#fff;border-radius:12px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid #1a2980}
+.toc h2{font-size:18px;color:#1a2980;margin-bottom:14px}
+.toc ul{list-style:none;padding:0}.toc li{padding:5px 0}.toc a{color:#2980b9;text-decoration:none;font-size:14px;font-weight:500}.toc a:hover{text-decoration:underline}.toc .sub{padding-left:24px}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:10px;margin-right:6px}
+.tag-img{background:#dae8fc;color:#1a6fb5}.tag-vid{background:#f8cecc;color:#c0392b}.tag-aud{background:#d5e8d4;color:#2d7600}.tag-sys{background:#e1d5e7;color:#6a4c93}.tag-admin{background:#fff2cc;color:#b8860b}.tag-ui{background:#ffe6cc;color:#b8690b}
+.sec{background:#fff;border-radius:12px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden}
+.sec-head{padding:20px 28px 14px;border-bottom:1px solid #f0f0f0}.sec-head h2{font-size:18px;font-weight:700}.sec-head .desc{font-size:13px;color:#888;margin-top:4px}
+.sec-body{padding:20px 28px}
+.model-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:14px 0}
+.model-card{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;transition:all .2s}
+.model-card:hover{border-color:#2980b9;box-shadow:0 2px 12px rgba(41,128,185,.12)}
+.model-card h4{font-size:14px;margin-bottom:4px;color:#1a1a2e}
+.model-card p{font-size:12px;color:#666;line-height:1.5}
+.model-card .mtag{display:inline-block;font-size:10px;padding:1px 8px;border-radius:8px;margin-top:6px;font-weight:600}
+.mtag-qwen{background:#e8f0fe;color:#1967d2}.mtag-ltx{background:#fce8e6;color:#c5221f}.mtag-wan{background:#e6f4ea;color:#188038}.mtag-flux{background:#fef7e0;color:#b8860b}.mtag-other{background:#f3e8fd;color:#7627bb}
+.stbl{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}.stbl th{background:#f8f9fa;padding:9px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6;font-size:12px;color:#666}.stbl td{padding:10px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top;line-height:1.6}.stbl tr:hover{background:#fafbfc}
+.tip{background:#edf7ff;border-left:3px solid #2980b9;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px}
+.warn{background:#fff5f5;border-left:3px solid #e74c3c;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px}
+.ok{background:#f0fff4;border-left:3px solid #27ae60;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px}
+.note{background:#f9f9f9;border-left:3px solid #999;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:12px;color:#666;font-style:italic}
+.arch-box{background:linear-gradient(135deg,#f8f9fa,#eef2f7);border:1px solid #dee2e6;border-radius:10px;padding:20px 24px;margin:14px 0}
+.arch-layer{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed #dee2e6}
+.arch-layer:last-child{border-bottom:none}
+.arch-label{min-width:100px;font-size:12px;font-weight:700;color:#1a2980;text-align:right}
+.arch-items{display:flex;gap:8px;flex-wrap:wrap}
+.arch-item{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:4px 12px;font-size:12px;font-weight:500;color:#333}
+.arch-item.highlight{background:#1a2980;color:#fff;border-color:#1a2980}
+.role-grid{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0}.role-card{flex:1;min-width:200px;background:#f8f9fa;border-radius:10px;padding:14px;border:1px solid #e8e8e8}.role-card h4{font-size:14px;margin-bottom:5px}.role-card p{font-size:12px;color:#666}
+.module-list{list-style:none;padding:0;margin:10px 0}
+.module-list li{padding:8px 14px;margin:6px 0;background:#f8f9fa;border-radius:8px;border-left:3px solid #2980b9;font-size:13px}
+.module-list li strong{color:#1a2980}
+.feat-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.feat-box{background:#f8f9fa;border-radius:10px;padding:14px 16px;border:1px solid #e8e8e8}
+.feat-box h4{font-size:14px;color:#1a2980;margin-bottom:8px}
+.feat-box ul{padding-left:18px;font-size:13px;color:#555}
+.feat-box ul li{padding:2px 0}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:14px 0}
+.admin-card{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:10px;padding:16px;transition:all .2s}
+.admin-card:hover{border-color:#b8860b;box-shadow:0 2px 12px rgba(184,134,11,.1)}
+.admin-card h4{font-size:14px;margin-bottom:6px;color:#1a1a2e;display:flex;align-items:center;gap:6px}
+.admin-card ul{padding-left:18px;font-size:12px;color:#666;margin:0}
+.admin-card ul li{padding:2px 0}
+.admin-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ai-chart,.ai-node,.ai-wf,.ai-ws,.ai-sa,.ai-user,.ai-media,.ai-file{color:#fff}
+.ai-chart{background:#e74c3c}.ai-node{background:#2980b9}.ai-wf{background:#27ae60}.ai-ws{background:#e67e22}.ai-sa{background:#8e44ad}.ai-user{background:#0d7377}.ai-media{background:#d4a017}.ai-file{background:#555}
+.footer{text-align:center;padding:20px;color:#bbb;font-size:12px}
+@media(max-width:768px){body{padding:12px}.stats{flex-direction:column}.model-grid{grid-template-columns:1fr}.feat-cols{grid-template-columns:1fr}.admin-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- 头部 -->
+<div class="header">
+<h1>昆仑·幻视 (KunLun MiraVision) 项目文档</h1>
+<div class="sub">AI 驱动的视频、图像与音频生成平台 &nbsp;|&nbsp; 基于 ComfyUI 工作流引擎</div>
+<div class="meta-row">
+<span>前端地址：https://testkunlun.winterfly-aivideo.com/</span>
+<span>后台地址：https://testserverkunlun.winterfly-aivideo.com/</span>
+<span>整理时间：2026-05-22</span>
+</div>
+</div>
+
+<!-- 统计概览 -->
+<div class="stats">
+<div class="stat-card c-blu"><div class="num">6</div><div class="label">前端模块</div></div>
+<div class="stat-card c-red"><div class="num">14</div><div class="label">图像生成模型</div></div>
+<div class="stat-card c-ora"><div class="num">19</div><div class="label">视频生成模型</div></div>
+<div class="stat-card c-grn"><div class="num">3</div><div class="label">音频生成模型</div></div>
+<div class="stat-card c-pur"><div class="num">8</div><div class="label">后台管理模块</div></div>
+<div class="stat-card c-teal"><div class="num">48</div><div class="label">注册用户</div></div>
+</div>
+
+<!-- 目录导航 -->
+<div class="toc">
+<h2>目录导航</h2>
+<ul>
+<li><a href="#sec-overview">一、产品概述</a></li>
+<li><a href="#sec-arch">二、技术架构</a></li>
+<li><a href="#sec-frontend">三、前端功能模块</a></li>
+<li class="sub"><a href="#sec-ai-create">&nbsp;&nbsp;3.1 AI 创作（主页面）</a></li>
+<li class="sub"><a href="#sec-img-models">&nbsp;&nbsp;&nbsp;&nbsp;3.1.1 图像生成模型</a></li>
+<li class="sub"><a href="#sec-vid-models">&nbsp;&nbsp;&nbsp;&nbsp;3.1.2 视频生成模型</a></li>
+<li class="sub"><a href="#sec-aud-models">&nbsp;&nbsp;&nbsp;&nbsp;3.1.3 音频生成模型</a></li>
+<li class="sub"><a href="#sec-model-detail">&nbsp;&nbsp;&nbsp;&nbsp;3.1.4 模型详情页结构</a></li>
+<li class="sub"><a href="#sec-templates">&nbsp;&nbsp;3.2 视频模板</a></li>
+<li class="sub"><a href="#sec-workshop">&nbsp;&nbsp;3.3 创意工坊</a></li>
+<li class="sub"><a href="#sec-ai-creative">&nbsp;&nbsp;3.4 AI 创意</a></li>
+<li class="sub"><a href="#sec-works">&nbsp;&nbsp;3.5 我的作品</a></li>
+<li class="sub"><a href="#sec-materials">&nbsp;&nbsp;3.6 基础素材</a></li>
+<li class="sub"><a href="#sec-usermenu">&nbsp;&nbsp;3.7 用户菜单</a></li>
+<li><a href="#sec-backend">四、后台管理系统</a></li>
+<li class="sub"><a href="#sec-admin-modules">&nbsp;&nbsp;4.1 管理模块一览</a></li>
+<li class="sub"><a href="#sec-user-mgmt">&nbsp;&nbsp;4.2 用户管理</a></li>
+<li class="sub"><a href="#sec-role-system">&nbsp;&nbsp;4.3 角色体系</a></li>
+<li><a href="#sec-ai-models">五、AI 模型体系</a></li>
+</ul>
+</div>
+
+<!-- ==================== 一、产品概述 ==================== -->
+<div class="sec" id="sec-overview">
+<div class="sec-head">
+<h2>一、产品概述</h2>
+<div class="desc">昆仑·幻视平台基本信息与定位</div>
+</div>
+<div class="sec-body">
+<table class="stbl">
+<tr><th style="width:140px">项目</th><th>内容</th></tr>
+<tr><td><strong>产品名称</strong></td><td>昆仑·幻视 (KunLun MiraVision)</td></tr>
+<tr><td><strong>产品类型</strong></td><td>AI 驱动的视频、图像与音频生成平台</td></tr>
+<tr><td><strong>核心引擎</strong></td><td>基于 ComfyUI 工作流引擎，支持可视化工作流编排</td></tr>
+<tr><td><strong>前端地址</strong></td><td>https://testkunlun.winterfly-aivideo.com/</td></tr>
+<tr><td><strong>后台地址</strong></td><td>https://testserverkunlun.winterfly-aivideo.com/</td></tr>
+<tr><td><strong>后台框架</strong></td><td>Gin-Vue-Admin（Golang + Vue）</td></tr>
+<tr><td><strong>核心能力</strong></td><td>图像生成/编辑、视频生成/转换、音频提取/合成、工作流编排、AI 创意生成</td></tr>
+<tr><td><strong>支持模型</strong></td><td>Qwen、LTX、Wan、Flux、Scail、HunyuanVideo 等</td></tr>
+<tr><td><strong>MCP 集成</strong></td><td>支持 MCP 密钥管理与集成</td></tr>
+</table>
+<div class="tip">昆仑·幻视定位为一站式 AI 多媒体创作平台，涵盖从素材上传、AI 生成、工作流编排到成品管理的完整创作链路。</div>
+</div>
+</div>
+
+<!-- ==================== 二、技术架构 ==================== -->
+<div class="sec" id="sec-arch">
+<div class="sec-head">
+<h2>二、技术架构</h2>
+<div class="desc">平台整体技术选型与架构分层</div>
+</div>
+<div class="sec-body">
+<div class="arch-box">
+<div class="arch-layer">
+<div class="arch-label">前端层</div>
+<div class="arch-items">
+<span class="arch-item highlight">Vue.js (SPA)</span>
+<span class="arch-item">Hash Router</span>
+<span class="arch-item">响应式布局</span>
+<span class="arch-item">多语言支持</span>
+</div>
+</div>
+<div class="arch-layer">
+<div class="arch-label">后台管理</div>
+<div class="arch-items">
+<span class="arch-item highlight">Gin-Vue-Admin</span>
+<span class="arch-item">Vue.js</span>
+<span class="arch-item">Golang (Gin)</span>
+<span class="arch-item">GORM</span>
+</div>
+</div>
+<div class="arch-layer">
+<div class="arch-label">AI 引擎</div>
+<div class="arch-items">
+<span class="arch-item highlight">ComfyUI</span>
+<span class="arch-item">工作流调度</span>
+<span class="arch-item">节点管理</span>
+<span class="arch-item">MCP 集成</span>
+</div>
+</div>
+<div class="arch-layer">
+<div class="arch-label">AI 模型</div>
+<div class="arch-items">
+<span class="arch-item">Qwen</span>
+<span class="arch-item">LTX-2.3</span>
+<span class="arch-item">Wan 2.1/2.2</span>
+<span class="arch-item">Flux</span>
+<span class="arch-item">Scail</span>
+<span class="arch-item">HunyuanVideo</span>
+</div>
+</div>
+<div class="arch-layer">
+<div class="arch-label">存储层</div>
+<div class="arch-items">
+<span class="arch-item highlight">Cloudflare R2</span>
+<span class="arch-item">断点续传</span>
+<span class="arch-item">媒体库管理</span>
+</div>
+</div>
+</div>
+<div class="note">后台采用 Gin-Vue-Admin 开源框架，提供角色权限管理、API 管理、菜单管理等完整的后台管理能力。</div>
+</div>
+</div>
+
+<!-- ==================== 三、前端功能模块 ==================== -->
+<div class="sec" id="sec-frontend">
+<div class="sec-head">
+<h2>三、前端功能模块</h2>
+<div class="desc">共 6 大功能模块，覆盖 AI 创作全链路</div>
+</div>
+<div class="sec-body">
+<ul class="module-list">
+<li><strong>AI 创作</strong> — 主页面，涵盖图像/视频/音频生成全部模型入口</li>
+<li><strong>视频模板</strong> — 预置模板快速创作，降低使用门槛</li>
+<li><strong>创意工坊</strong> — 可视化节点编辑器，自定义工作流链</li>
+<li><strong>AI 创意</strong> — 输入文字描述自动生成多套视频创意方案</li>
+<li><strong>我的作品</strong> — 生成内容管理与预览</li>
+<li><strong>基础素材</strong> — 素材上传、分类管理</li>
+</ul>
+</div>
+</div>
+
+<!-- 3.1 AI 创作 -->
+<div class="sec" id="sec-ai-create">
+<div class="sec-head">
+<h2>3.1 AI 创作（主页面）</h2>
+<div class="desc">平台核心功能入口，支持图像、视频、音频三大类 AI 生成</div>
+</div>
+<div class="sec-body">
+<p style="font-size:13px;color:#555;margin-bottom:14px">顶部标签页切换：<strong>全部</strong> | <strong>图像生成</strong> | <strong>视频生成</strong> | <strong>音频生成</strong>，支持按模型名称搜索。</p>
+
+<!-- 3.1.1 图像生成模型 -->
+<h3 id="sec-img-models" style="font-size:16px;color:#1a2980;margin:20px 0 12px;padding-bottom:8px;border-bottom:2px solid #dae8fc">
+<span class="tag tag-img">图像</span> 3.1.1 图像生成模型（14个）
+</h3>
+<div class="model-grid">
+<div class="model-card">
+<h4>视频去水印</h4>
+<p>智能识别并移除视频中的水印内容</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+<div class="model-card">
+<h4>Qwen image edit 自由角度视角</h4>
+<p>3D 角度旋转，可将图片转换为任意视角进行查看</p>
+<span class="mtag mtag-qwen">Qwen</span>
+</div>
+<div class="model-card">
+<h4>Qwen image edit 三视图</h4>
+<p>根据参考图像生成正视/侧视/俯视三视图</p>
+<span class="mtag mtag-qwen">Qwen</span>
+</div>
+<div class="model-card">
+<h4>Flux 扩图</h4>
+<p>智能图像扩展，保持风格一致性的同时扩大画面范围</p>
+<span class="mtag mtag-flux">Flux</span>
+</div>
+<div class="model-card">
+<h4>Qwen image edit 图生图</h4>
+<p>基于参考图像 + 提示词引导生成新图像</p>
+<span class="mtag mtag-qwen">Qwen</span>
+</div>
+<div class="model-card">
+<h4>Qwen image layered 图像分层</h4>
+<p>将图像分解为多个可编辑 RGBA 图层</p>
+<span class="mtag mtag-qwen">Qwen</span>
+</div>
+<div class="model-card">
+<h4>Qwen Image 局部重绘</h4>
+<p>细粒度局部图像编辑，精准修改指定区域</p>
+<span class="mtag mtag-qwen">Qwen</span>
+</div>
+<div class="model-card">
+<h4>Qwen image edit 单图编辑</h4>
+<p>单张图片 + 提示词进行智能编辑</p>
+<span class="mtag mtag-qwen">Qwen</span>
+</div>
+<div class="model-card">
+<h4>Qwen image edit 双图编辑</h4>
+<p>双图语义融合编辑，实现跨图像内容迁移</p>
+<span class="mtag mtag-qwen">Qwen</span>
+</div>
+<div class="model-card">
+<h4>Qwen image edit 三图编辑</h4>
+<p>多图编辑结合 ControlNet，精确控制生成效果</p>
+<span class="mtag mtag-qwen">Qwen</span>
+</div>
+<div class="model-card">
+<h4>Qwen image 极速生图</h4>
+<p>快速图像生成，支持多语言文字渲染</p>
+<span class="mtag mtag-qwen">Qwen</span>
+</div>
+<div class="model-card">
+<h4>文字生成</h4>
+<p>艺术文字特效生成，多种字体风格可选</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+<div class="model-card">
+<h4>AI 图片修复</h4>
+<p>智能修复受损或低质量图片，提升清晰度</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+<div class="model-card">
+<h4>AI 图片添加水印</h4>
+<p>批量为图片添加自定义水印</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+</div>
+
+<!-- 3.1.2 视频生成模型 -->
+<h3 id="sec-vid-models" style="font-size:16px;color:#1a2980;margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid #f8cecc">
+<span class="tag tag-vid">视频</span> 3.1.2 视频生成模型（19个）
+</h3>
+<div class="model-grid">
+<div class="model-card">
+<h4>LTX-2.3 图像音频到视频</h4>
+<p>图像 + 音频合成视频，支持唇形同步</p>
+<span class="mtag mtag-ltx">LTX</span>
+</div>
+<div class="model-card">
+<h4>LTX-2.3 首尾帧到视频</h4>
+<p>设定首帧与尾帧，自动生成平滑过渡视频</p>
+<span class="mtag mtag-ltx">LTX</span>
+</div>
+<div class="model-card">
+<h4>LTX-2.3 图生视频</h4>
+<p>静态图像转动态视频，支持 24/30/50fps</p>
+<span class="mtag mtag-ltx">LTX</span>
+</div>
+<div class="model-card">
+<h4>LTX-2.3 文生视频</h4>
+<p>文本描述直接生成视频，支持音频同步</p>
+<span class="mtag mtag-ltx">LTX</span>
+</div>
+<div class="model-card">
+<h4>Scail 动作迁移</h4>
+<p>将人体动作迁移到目标图像，支持多人舞蹈</p>
+<span class="mtag mtag-other">Scail</span>
+</div>
+<div class="model-card">
+<h4>Wan move 轨迹控制运动</h4>
+<p>通过绘制运动轨迹精确控制视频中的物体运动</p>
+<span class="mtag mtag-wan">Wan</span>
+</div>
+<div class="model-card">
+<h4>Wan2.1 Alpha 文生视频</h4>
+<p>文生视频 + Alpha 通道（透明背景），适合合成</p>
+<span class="mtag mtag-wan">Wan</span>
+</div>
+<div class="model-card">
+<h4>Wan2.2 首尾帧到视频 消散重组</h4>
+<p>消散/重组过渡特效，实现创意转场</p>
+<span class="mtag mtag-wan">Wan</span>
+</div>
+<div class="model-card">
+<h4>Wan 2.2 图生视频 快速运镜</h4>
+<p>增强版镜头运动控制，模拟专业摄影运镜</p>
+<span class="mtag mtag-wan">Wan</span>
+</div>
+<div class="model-card">
+<h4>Wan2.2 文生视频</h4>
+<p>电影级文本到视频生成，画质细腻</p>
+<span class="mtag mtag-wan">Wan</span>
+</div>
+<div class="model-card">
+<h4>Wan2.2 图生视频</h4>
+<p>将静态图片转化为动态视频</p>
+<span class="mtag mtag-wan">Wan</span>
+</div>
+<div class="model-card">
+<h4>Wan2.2 14B 首尾帧到视频</h4>
+<p>14B 大模型驱动的平滑视频过渡</p>
+<span class="mtag mtag-wan">Wan</span>
+</div>
+<div class="model-card">
+<h4>Wan2.2 Animate 角色替换</h4>
+<p>动画角色替换，将目标角色融入视频场景</p>
+<span class="mtag mtag-wan">Wan</span>
+</div>
+<div class="model-card">
+<h4>Wan2.2 Animate 动作迁移</h4>
+<p>将参考动作迁移到静态图像上实现动画化</p>
+<span class="mtag mtag-wan">Wan</span>
+</div>
+<div class="model-card">
+<h4>AI 视频拼接</h4>
+<p>多段视频智能拼接为完整作品</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+<div class="model-card">
+<h4>AI 视频添加音轨</h4>
+<p>为视频添加背景音乐或音效音轨</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+<div class="model-card">
+<h4>AI 视频添加文字</h4>
+<p>在视频上叠加文字、字幕等信息</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+<div class="model-card">
+<h4>AI 视频添加水印</h4>
+<p>批量为视频添加自定义水印</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+<div class="model-card">
+<h4>AI 视频添加模糊字体</h4>
+<p>在视频上添加模糊文字效果</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+</div>
+
+<!-- 3.1.3 音频生成模型 -->
+<h3 id="sec-aud-models" style="font-size:16px;color:#1a2980;margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid #d5e8d4">
+<span class="tag tag-aud">音频</span> 3.1.3 音频生成模型（3个）
+</h3>
+<div class="model-grid">
+<div class="model-card">
+<h4>AI 音频提取</h4>
+<p>从视频或其他多媒体内容中智能提取音频轨道</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+<div class="model-card">
+<h4>AI 音频拼接</h4>
+<p>将多段音频片段拼接为完整音频文件</p>
+<span class="mtag mtag-other">工具</span>
+</div>
+<div class="model-card">
+<h4>HunyuanVideo-Foley 生成音频</h4>
+<p>根据视频内容自动生成同步的高质量音效</p>
+<span class="mtag mtag-other">HunyuanVideo</span>
+</div>
+</div>
+
+<!-- 3.1.4 模型详情页 -->
+<h3 id="sec-model-detail" style="font-size:16px;color:#1a2980;margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid #e1d5e7">
+3.1.4 模型详情页结构
+</h3>
+<div class="feat-cols">
+<div class="feat-box">
+<h4>左侧 - 输入与参数区</h4>
+<ul>
+<li>素材上传区（图片/视频/音频）</li>
+<li>参数控制面板（角度、种子值、数量等，因模型而异）</li>
+<li>「一键重置」按钮 — 恢复默认参数</li>
+<li>「开始生成」按钮 — 提交生成任务</li>
+</ul>
+</div>
+<div class="feat-box">
+<h4>右侧 - 任务与结果区</h4>
+<ul>
+<li>当前任务执行状态实时展示</li>
+<li>生成进度追踪</li>
+<li>「查看全部作品 →」快捷跳转</li>
+<li>结果预览与下载</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 3.2 视频模板 -->
+<div class="sec" id="sec-templates">
+<div class="sec-head">
+<h2>3.2 视频模板</h2>
+<div class="desc">预置创意模板，一键生成专业视频内容</div>
+</div>
+<div class="sec-body">
+<p style="font-size:13px;color:#555;margin-bottom:14px">提供预制作的视频模板，用户上传素材即可快速生成，降低创作门槛。</p>
+<table class="stbl">
+<tr><th>功能</th><th>说明</th></tr>
+<tr><td><strong>预置模板</strong></td><td>法老王、潮流虎模板、牛牛乐、圣诞模板等</td></tr>
+<tr><td><strong>分类标签</strong></td><td>全部 | 图像生成 | 视频生成 | 音频生成</td></tr>
+<tr><td><strong>搜索</strong></td><td>支持按模板名称搜索</td></tr>
+<tr><td><strong>使用方式</strong></td><td>选择模板 → 上传素材 → 调整参数 → 开始生成</td></tr>
+</table>
+</div>
+</div>
+
+<!-- 3.3 创意工坊 -->
+<div class="sec" id="sec-workshop">
+<div class="sec-head">
+<h2>3.3 创意工坊</h2>
+<div class="desc">可视化节点编辑器，自定义 AI 工作流</div>
+</div>
+<div class="sec-body">
+<p style="font-size:13px;color:#555;margin-bottom:14px">基于节点的可视化工作流构建器，支持用户自由组合 AI 能力，打造专属创作流程。</p>
+<div class="feat-cols">
+<div class="feat-box">
+<h4>核心功能</h4>
+<ul>
+<li>「创建新工作流链」— 从零构建工作流</li>
+<li>节点拖拽式编辑器</li>
+<li>节点间连线定义数据流</li>
+<li>工作流保存与复用</li>
+</ul>
+</div>
+<div class="feat-box">
+<h4>工作流管理</h4>
+<ul>
+<li>我的工作流列表</li>
+<li>状态追踪：执行中 / 已完成</li>
+<li>信息展示：名称、状态、节点数、创建时间</li>
+<li>支持编辑、删除、重新执行</li>
+</ul>
+</div>
+</div>
+<div class="tip">创意工坊的底层基于 ComfyUI 的工作流引擎，每个节点对应一个 AI 处理单元，节点之间通过数据管道连接，实现复杂的多步 AI 处理流程。</div>
+</div>
+</div>
+
+<!-- 3.4 AI 创意 -->
+<div class="sec" id="sec-ai-creative">
+<div class="sec-head">
+<h2>3.4 AI 创意</h2>
+<div class="desc">文字描述自动生成多套视频创意方案</div>
+</div>
+<div class="sec-body">
+<table class="stbl">
+<tr><th style="width:120px">项目</th><th>说明</th></tr>
+<tr><td><strong>输入</strong></td><td>创意描述文本（最多 1000 字）</td></tr>
+<tr><td><strong>视频时长</strong></td><td>默认 15 秒，可自定义调整</td></tr>
+<tr><td><strong>创意等级</strong></td><td>三档可选：保守 / 平衡 / 大胆</td></tr>
+<tr><td><strong>输出</strong></td><td>一次生成 3 套不同的视频创意方案</td></tr>
+<tr><td><strong>历史记录</strong></td><td>创意历史记录，支持回溯查看</td></tr>
+</table>
+<div class="ok">AI 创意模块适合广告投放、短视频营销等场景，用户只需描述需求，平台自动输出完整的创意方案供选择。</div>
+</div>
+</div>
+
+<!-- 3.5 我的作品 -->
+<div class="sec" id="sec-works">
+<div class="sec-head">
+<h2>3.5 我的作品</h2>
+<div class="desc">生成内容统一管理与预览</div>
+</div>
+<div class="sec-body">
+<table class="stbl">
+<tr><th style="width:120px">项目</th><th>说明</th></tr>
+<tr><td><strong>分类标签</strong></td><td>全部 | 图片 | 视频 | 音频（各类展示数量统计）</td></tr>
+<tr><td><strong>搜索</strong></td><td>支持关键词搜索作品</td></tr>
+<tr><td><strong>展示方式</strong></td><td>画廊网格视图，直观预览生成内容</td></tr>
+<tr><td><strong>操作</strong></td><td>预览、下载、删除</td></tr>
+</table>
+</div>
+</div>
+
+<!-- 3.6 基础素材 -->
+<div class="sec" id="sec-materials">
+<div class="sec-head">
+<h2>3.6 基础素材</h2>
+<div class="desc">素材上传与分类管理</div>
+</div>
+<div class="sec-body">
+<table class="stbl">
+<tr><th style="width:120px">项目</th><th>说明</th></tr>
+<tr><td><strong>上传功能</strong></td><td>「上传素材」按钮，支持图片、视频、音频格式</td></tr>
+<tr><td><strong>分类管理</strong></td><td>全部分类，用户可自定义分类体系</td></tr>
+<tr><td><strong>筛选标签</strong></td><td>全部 | 图片 | 视频 | 音频</td></tr>
+<tr><td><strong>信息展示</strong></td><td>文件名、尺寸（分辨率）、文件大小</td></tr>
+<tr><td><strong>存储</strong></td><td>上传至 Cloudflare R2 存储</td></tr>
+</table>
+</div>
+</div>
+
+<!-- 3.7 用户菜单 -->
+<div class="sec" id="sec-usermenu">
+<div class="sec-head">
+<h2>3.7 用户菜单</h2>
+<div class="desc">右上角用户菜单功能</div>
+</div>
+<div class="sec-body">
+<ul class="module-list">
+<li><strong>切换语言</strong> — 多语言界面切换</li>
+<li><strong>我的工作流</strong> — 快捷跳转至工作流管理</li>
+<li><strong>MCP 密钥管理</strong> — 管理 MCP 集成密钥</li>
+<li><strong>算力状态显示</strong> — 实时查看当前算力资源使用状况</li>
+<li><strong>退出登录</strong> — 安全退出当前账户</li>
+</ul>
+</div>
+</div>
+
+<!-- ==================== 四、后台管理系统 ==================== -->
+<div class="sec" id="sec-backend">
+<div class="sec-head">
+<h2>四、后台管理系统</h2>
+<div class="desc">基于 Gin-Vue-Admin 框架的运营管理后台</div>
+</div>
+<div class="sec-body">
+<p style="font-size:13px;color:#555;margin-bottom:14px">后台地址：https://testserverkunlun.winterfly-aivideo.com/，提供报表统计、节点管理、工作流管理、用户管理等完整运营能力。</p>
+
+<h3 id="sec-admin-modules" style="font-size:16px;color:#1a2980;margin:20px 0 14px">4.1 管理模块一览</h3>
+<div class="admin-grid">
+<div class="admin-card">
+<h4><span class="admin-icon ai-chart">&#x2715;</span> 报表统计</h4>
+<ul>
+<li>工作流日统计 — 每日工作流执行量分析</li>
+<li>节点日统计 — 每日节点调用量分析</li>
+</ul>
+</div>
+<div class="admin-card">
+<h4><span class="admin-icon ai-node">&#x25CF;</span> 节点管理</h4>
+<ul>
+<li>节点版本 — ComfyUI 节点版本管理</li>
+<li>节点信息 — 节点详情与配置</li>
+</ul>
+</div>
+<div class="admin-card">
+<h4><span class="admin-icon ai-wf">&#x25B6;</span> 工作流</h4>
+<ul>
+<li>生成类型 — 管理图像/视频/音频生成类型</li>
+<li>工作流 — 工作流创建与管理</li>
+<li>工作流模版 — 预置工作流模板</li>
+<li>工作流记录 — 执行历史查询</li>
+<li>任务信息 — 任务状态与详情</li>
+</ul>
+</div>
+<div class="admin-card">
+<h4><span class="admin-icon ai-ws">&#x2699;</span> 创意工坊</h4>
+<ul>
+<li>工坊列表 — 所有工坊实例管理</li>
+<li>调度日志 — 工坊调度执行日志</li>
+<li>工坊配置 — 工坊参数与规则配置</li>
+</ul>
+</div>
+<div class="admin-card">
+<h4><span class="admin-icon ai-sa">&#x2605;</span> 超级管理员</h4>
+<ul>
+<li>角色管理 — 角色与权限配置</li>
+<li>后台用户 — 管理员账户管理</li>
+<li>菜单管理 — 后台菜单结构配置</li>
+<li>API 管理 — 接口权限与路由管理</li>
+<li>字典管理 — 系统字典数据维护</li>
+<li>操作历史 — 管理员操作审计日志</li>
+<li>参数管理 — 系统参数配置</li>
+</ul>
+</div>
+<div class="admin-card">
+<h4><span class="admin-icon ai-user">&#x263A;</span> 用户管理</h4>
+<ul>
+<li>用户列表（含头像、ID、昵称等）</li>
+<li>增删改查 + 批量创建</li>
+<li>重置密码</li>
+<li>多条件搜索筛选</li>
+</ul>
+</div>
+<div class="admin-card">
+<h4><span class="admin-icon ai-media">&#x25A0;</span> 媒体库（断点续传）</h4>
+<ul>
+<li>媒体文件统一管理</li>
+<li>支持断点续传大文件</li>
+<li>Cloudflare R2 存储对接</li>
+</ul>
+</div>
+<div class="admin-card">
+<h4><span class="admin-icon ai-file">&#x25C6;</span> 示例文件</h4>
+<ul>
+<li>媒体库（上传下载）</li>
+<li>客户列表（资源示例）</li>
+</ul>
+</div>
+</div>
+
+<!-- 4.2 用户管理详情 -->
+<h3 id="sec-user-mgmt" style="font-size:16px;color:#1a2980;margin:28px 0 14px">4.2 用户管理详情</h3>
+<table class="stbl">
+<tr><th style="width:140px">项目</th><th>说明</th></tr>
+<tr><td><strong>用户信息字段</strong></td><td>头像、用户ID、用户名、昵称、上级用户、手机号、邮箱、用户等级、状态</td></tr>
+<tr><td><strong>操作功能</strong></td><td>新建用户、批量创建、删除、编辑、重置密码</td></tr>
+<tr><td><strong>搜索筛选</strong></td><td>支持按用户名、昵称、上级用户、手机号、邮箱筛选</td></tr>
+<tr><td><strong>用户总数</strong></td><td>48 个注册用户</td></tr>
+<tr><td><strong>分页</strong></td><td>每页 10 条，支持翻页</td></tr>
+<tr><td><strong>用户等级</strong></td><td>普通用户</td></tr>
+</table>
+
+<!-- 4.3 角色体系 -->
+<h3 id="sec-role-system" style="font-size:16px;color:#1a2980;margin:28px 0 14px">4.3 角色体系</h3>
+<div class="role-grid">
+<div class="role-card">
+<h4>总控用户</h4>
+<p>最高权限角色，拥有所有后台功能的访问与操作权限，负责系统级配置与管理。</p>
+</div>
+<div class="role-card">
+<h4>管理用户</h4>
+<p>具备日常运营管理权限，包括用户管理、工作流管理、报表查看等常规操作。</p>
+</div>
+<div class="role-card">
+<h4>普通用户</h4>
+<p>前端使用者，可使用 AI 创作、视频模板、创意工坊等功能，查看自己的作品与素材。</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 五、AI 模型体系 ==================== -->
+<div class="sec" id="sec-ai-models">
+<div class="sec-head">
+<h2>五、AI 模型体系</h2>
+<div class="desc">平台集成的主要 AI 模型家族</div>
+</div>
+<div class="sec-body">
+<table class="stbl">
+<tr><th style="width:160px">模型</th><th>类型</th><th>核心能力</th></tr>
+<tr><td><strong><span class="mtag mtag-qwen">Qwen</span></strong></td><td>图像生成/编辑</td><td>图生图、局部重绘、分层编辑、三视图、极速生图、多语言文字渲染，覆盖 8 个图像模型</td></tr>
+<tr><td><strong><span class="mtag mtag-ltx">LTX-2.3</span></strong></td><td>视频生成</td><td>图像到视频、首尾帧补间、文生视频、音频同步、唇形同步，支持多帧率（24/30/50fps）</td></tr>
+<tr><td><strong><span class="mtag mtag-wan">Wan 2.1/2.2</span></strong></td><td>视频生成</td><td>文生视频（含 Alpha 通道）、图生视频、运镜控制、消散重组转场、角色替换、动作迁移、轨迹控制</td></tr>
+<tr><td><strong><span class="mtag mtag-flux">Flux</span></strong></td><td>图像扩展</td><td>智能图像扩展，保持风格一致性</td></tr>
+<tr><td><strong><span class="mtag mtag-other">Scail</span></strong></td><td>动作迁移</td><td>人体动作迁移，支持多人场景舞蹈迁移</td></tr>
+<tr><td><strong><span class="mtag mtag-other">HunyuanVideo</span></strong></td><td>音频生成</td><td>基于视频内容生成同步高质量 Foley 音效</td></tr>
+</table>
+<div class="tip">所有模型均通过 ComfyUI 工作流引擎进行编排与调度，用户可在创意工坊中自由组合不同模型节点，实现复杂的多步 AI 创作流程。</div>
+</div>
+</div>
+
+<!-- 页脚 -->
+<div class="footer">整理时间：2026-05-22</div>
+
+</div><!-- /container -->
+
+<!-- 浮动按钮 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+@media(max-width:640px){.fab-group{right:14px;bottom:20px;gap:8px}.fab{width:38px;height:38px}.fab svg{width:16px;height:16px}}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/?project=kunlun" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+</script>
+
+</body>
+</html>

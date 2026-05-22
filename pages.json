@@ -77,14 +77,30 @@
       "name": "双鱼座AI投放",
       "description": "AI广告投放管理平台",
       "color": "#d4a017",
-      "pages": []
+      "pages": [
+        {
+          "file": "docs/双鱼座AI投放/双鱼座AI投放项目文档.html",
+          "title": "双鱼座AI投放项目文档",
+          "category": "requirement",
+          "date": "2026-05-22",
+          "tags": []
+        }
+      ]
     },
     {
       "id": "kunlun",
       "name": "昆仑幻视",
       "description": "AI视频与图像生成平台",
       "color": "#0d7377",
-      "pages": []
+      "pages": [
+        {
+          "file": "docs/昆仑幻视/昆仑幻视项目文档.html",
+          "title": "昆仑幻视项目文档",
+          "category": "requirement",
+          "date": "2026-05-22",
+          "tags": []
+        }
+      ]
     }
   ]
 }
