@@ -101,6 +101,13 @@
           "tags": []
         }
       ]
+    },
+    {
+      "id": "zhishu",
+      "name": "智数数据管理",
+      "description": "数据管理与运营分析平台",
+      "color": "#3b82f6",
+      "pages": []
     }
   ]
 }
