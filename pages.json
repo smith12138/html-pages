@@ -71,6 +71,13 @@
       "description": "风控系统相关文档",
       "color": "#ef4444",
       "pages": []
+    },
+    {
+      "id": "piscipient",
+      "name": "双鱼座AI投放",
+      "description": "AI广告投放管理平台",
+      "color": "#d4a017",
+      "pages": []
     }
   ]
 }
