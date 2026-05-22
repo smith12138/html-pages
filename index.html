@@ -9,191 +9,194 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-            background: #ffffff; color: #111827; line-height: 1.6; min-height: 100vh;
+            background: #f7f8fa; color: #1f2937; line-height: 1.6; min-height: 100vh;
         }
 
-        /* ── Header ── */
-        .header {
-            padding: 64px 24px 56px;
-            text-align: center;
-            border-bottom: 1px solid #f3f4f6;
-        }
-        .header h1 {
-            font-size: 36px; font-weight: 800; color: #111827;
-            letter-spacing: -1px;
-        }
-        .header h1 span { color: #6366f1; }
-        .header-stats {
-            display: inline-flex; gap: 32px; margin-top: 20px;
-            padding: 12px 28px; background: #f9fafb; border-radius: 100px;
-            border: 1px solid #f3f4f6;
-        }
-        .header-stat { font-size: 14px; color: #6b7280; }
-        .header-stat strong { color: #111827; font-weight: 700; font-size: 18px; margin-right: 4px; }
+        /* ── Layout ── */
+        .page { display: flex; flex-direction: column; min-height: 100vh; }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; width: 100%; }
 
-        /* ── Main ── */
-        .main { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
-
-        /* ── View bar ── */
-        .view-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
-        .view-title { font-size: 14px; font-weight: 500; color: #9ca3af; text-transform: uppercase; letter-spacing: 1px; }
-        .search-box {
-            padding: 10px 16px; border: 1.5px solid #e5e7eb; border-radius: 12px;
-            font-size: 14px; width: 200px; outline: none; transition: all .2s;
-            background: #fafafa; color: #111827;
+        /* ── Top Bar ── */
+        .topbar {
+            padding: 16px 0; display: flex; align-items: center; justify-content: space-between;
         }
-        .search-box:focus { border-color: #6366f1; background: #fff; box-shadow: 0 0 0 4px rgba(99,102,241,0.06); }
-        .search-box::placeholder { color: #9ca3af; }
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
+        .topbar-logo {
+            font-size: 16px; font-weight: 700; color: #1f2937;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .topbar-logo span { color: #6366f1; }
+        .topbar-clock { font-size: 13px; color: #9ca3af; font-variant-numeric: tabular-nums; }
+        .topbar-greeting { font-size: 13px; color: #6b7280; }
 
-        /* ── Project list ── */
-        .project-list { display: flex; flex-direction: column; gap: 16px; }
+        /* ── Hero ── */
+        .hero {
+            padding: 48px 0 40px; display: flex; align-items: flex-start; justify-content: space-between; gap: 32px;
+        }
+        .hero-left { flex: 1; }
+        .hero-greeting { font-size: 26px; font-weight: 700; color: #1f2937; margin-bottom: 8px; }
+        .hero-greeting span { color: #6366f1; }
+        .hero-quote { font-size: 14px; color: #9ca3af; font-style: italic; line-height: 1.6; max-width: 420px; }
+        .hero-quote .author { font-style: normal; opacity: 0.7; }
+        .hero-right {
+            display: flex; gap: 12px;
+        }
+        .stat-card {
+            background: #fff; border: 1px solid #e5e7eb; border-radius: 14px;
+            padding: 18px 22px; min-width: 100px; text-align: center;
+        }
+        .stat-card .num { font-size: 28px; font-weight: 800; color: #6366f1; }
+        .stat-card .label { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+
+        /* ── Content Grid ── */
+        .content { padding-bottom: 60px; flex: 1; }
+        .grid { display: grid; grid-template-columns: 1fr 280px; gap: 24px; }
+
+        /* ── Projects (left) ── */
+        .section-title {
+            font-size: 12px; font-weight: 600; color: #9ca3af;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
+        }
+        .project-list { display: flex; flex-direction: column; gap: 12px; }
         .project-card {
-            display: flex; align-items: center; gap: 20px;
-            padding: 24px 28px; background: #fff; border: 1.5px solid #f3f4f6;
-            border-radius: 16px; cursor: pointer; transition: all .2s;
+            display: flex; align-items: center; gap: 16px;
+            padding: 20px 22px; background: #fff; border: 1px solid #e5e7eb;
+            border-radius: 14px; cursor: pointer; transition: all .2s;
         }
-        .project-card:hover { border-color: #6366f1; box-shadow: 0 4px 20px rgba(99,102,241,0.08); transform: translateX(4px); }
+        .project-card:hover { border-color: #6366f1; box-shadow: 0 4px 16px rgba(99,102,241,0.08); transform: translateY(-2px); }
         .project-icon {
-            width: 48px; height: 48px; border-radius: 14px;
+            width: 44px; height: 44px; border-radius: 12px;
             display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
-        .project-icon svg { width: 22px; height: 22px; }
+        .project-icon svg { width: 20px; height: 20px; }
         .project-info { flex: 1; min-width: 0; }
-        .project-name { font-size: 17px; font-weight: 700; color: #111827; margin-bottom: 2px; }
-        .project-desc { font-size: 13px; color: #6b7280; }
-        .project-meta { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
-        .project-count {
-            font-size: 13px; color: #6b7280; background: #f3f4f6;
-            padding: 4px 12px; border-radius: 8px; font-weight: 500;
+        .project-name { font-size: 15px; font-weight: 600; color: #1f2937; }
+        .project-desc { font-size: 12px; color: #6b7280; margin-top: 2px; }
+        .project-badge { font-size: 12px; color: #6366f1; background: #eef2ff; padding: 4px 10px; border-radius: 8px; font-weight: 600; flex-shrink: 0; }
+
+        /* ── Timeline (right sidebar) ── */
+        .sidebar {}
+        .timeline { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; }
+        .timeline-list { list-style: none; position: relative; padding-left: 20px; }
+        .timeline-list::before {
+            content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px;
+            width: 2px; background: #eef2ff; border-radius: 2px;
         }
-        .project-arrow { color: #d1d5db; transition: color .2s; }
-        .project-card:hover .project-arrow { color: #6366f1; }
+        .timeline-item { position: relative; padding-bottom: 16px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -18px; top: 6px;
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #6366f1;
+        }
+        .tl-title { font-size: 13px; font-weight: 500; color: #1f2937; line-height: 1.3; }
+        .tl-meta { font-size: 11px; color: #9ca3af; margin-top: 3px; }
 
         /* ── Detail view ── */
         .detail-view { display: none; }
         .detail-view.active { display: block; }
         .detail-header {
-            display: flex; align-items: center; gap: 14px; margin-bottom: 32px;
-            padding-bottom: 20px; border-bottom: 1px solid #f3f4f6;
+            display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+            padding-bottom: 16px; border-bottom: 1px solid #e5e7eb;
         }
         .back-btn {
-            width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid #e5e7eb;
+            width: 34px; height: 34px; border-radius: 10px; border: 1px solid #e5e7eb;
             background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: all .2s; color: #6b7280;
+            transition: all .15s; color: #6b7280;
         }
         .back-btn:hover { border-color: #6366f1; color: #6366f1; }
-        .detail-name { font-size: 22px; font-weight: 700; color: #111827; }
+        .detail-name { font-size: 20px; font-weight: 700; color: #1f2937; }
 
-        .filter-bar { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+        .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
         .filter-btn {
-            padding: 7px 18px; border-radius: 10px; border: 1.5px solid #e5e7eb;
+            padding: 6px 16px; border-radius: 10px; border: 1px solid #e5e7eb;
             background: #fff; font-size: 13px; color: #6b7280; cursor: pointer;
-            font-weight: 500; transition: all .2s;
+            font-weight: 500; transition: all .15s;
         }
         .filter-btn:hover { border-color: #6366f1; color: #6366f1; }
         .filter-btn.active { background: #6366f1; border-color: #6366f1; color: #fff; }
 
-        .category-section { margin-bottom: 32px; }
-        .category-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .category-section { margin-bottom: 28px; }
+        .category-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
         .category-dot { width: 8px; height: 8px; border-radius: 50%; }
-        .category-title { font-size: 13px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
-        .category-count { font-size: 11px; color: #9ca3af; }
+        .category-title { font-size: 12px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .card-list { display: flex; flex-direction: column; gap: 10px; }
+        .card-list { display: flex; flex-direction: column; gap: 8px; }
         .card {
-            display: flex; align-items: center; gap: 14px;
-            padding: 16px 20px; background: #fff; border: 1.5px solid #f3f4f6;
-            border-radius: 12px; text-decoration: none; color: inherit; transition: all .2s;
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 18px; background: #fff; border: 1px solid #e5e7eb;
+            border-radius: 12px; text-decoration: none; color: inherit; transition: all .15s;
         }
-        .card:hover { border-color: #6366f1; box-shadow: 0 2px 12px rgba(99,102,241,0.06); }
+        .card:hover { border-color: #6366f1; box-shadow: 0 2px 8px rgba(99,102,241,0.06); }
         .card-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
         .card-body { flex: 1; min-width: 0; }
-        .card-title { font-size: 14px; font-weight: 500; color: #111827; }
+        .card-title { font-size: 14px; font-weight: 500; color: #1f2937; }
         .card-meta { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
         .card-date { font-size: 12px; color: #9ca3af; }
-        .card-tags { display: flex; gap: 5px; }
-        .tag { font-size: 11px; padding: 1px 8px; border-radius: 4px; font-weight: 500; }
-        .card-go { color: #d1d5db; flex-shrink: 0; transition: color .2s; }
-        .card:hover .card-go { color: #6366f1; }
-
-        /* ── Greeting + Clock ── */
-        .greeting {
-            font-size: 14px; color: #6b7280; margin-bottom: 8px;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .greeting .clock { font-variant-numeric: tabular-nums; color: #9ca3af; font-size: 13px; }
-
-        /* ── Quote ── */
-        .quote {
-            margin-top: 20px; font-size: 13px; color: #9ca3af;
-            font-style: italic; max-width: 400px;
-            line-height: 1.5;
-        }
-        .quote .author { font-style: normal; color: #b0b7c3; margin-left: 6px; }
-
-        /* ── Timeline ── */
-        .timeline {
-            margin-bottom: 32px; padding: 20px 24px;
-            background: #fafbfc; border: 1px solid #f3f4f6; border-radius: 14px;
-        }
-        .timeline-title {
-            font-size: 12px; font-weight: 600; color: #9ca3af;
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
-        }
-        .timeline-list { list-style: none; position: relative; padding-left: 16px; }
-        .timeline-list::before {
-            content: ''; position: absolute; left: 3px; top: 4px; bottom: 4px;
-            width: 2px; background: #e5e7eb; border-radius: 2px;
-        }
-        .timeline-item {
-            position: relative; padding: 4px 0 12px 16px; font-size: 13px;
-        }
-        .timeline-item:last-child { padding-bottom: 0; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -14px; top: 8px;
-            width: 8px; height: 8px; border-radius: 50%;
-            background: #6366f1; border: 2px solid #fff; box-shadow: 0 0 0 2px #e5e7eb;
-        }
-        .timeline-item .tl-title { color: #111827; font-weight: 500; }
-        .timeline-item .tl-meta { color: #9ca3af; font-size: 12px; margin-top: 1px; }
+        .tag { font-size: 11px; padding: 1px 7px; border-radius: 4px; font-weight: 500; }
+        .card-arrow { color: #d1d5db; flex-shrink: 0; transition: color .15s; }
+        .card:hover .card-arrow { color: #6366f1; }
 
         /* ── Footer ── */
-        .footer { text-align: center; font-size: 12px; color: #d1d5db; padding: 24px; }
+        .footer { text-align: center; font-size: 12px; color: #d1d5db; padding: 20px; }
 
-        .empty { text-align: center; padding: 48px; color: #9ca3af; font-size: 14px; }
+        .empty { text-align: center; padding: 40px; color: #9ca3af; font-size: 14px; }
+        .search-box {
+            padding: 8px 14px; border: 1px solid #e5e7eb; border-radius: 10px;
+            font-size: 13px; width: 180px; outline: none; transition: all .2s;
+            background: #fff; color: #1f2937;
+        }
+        .search-box:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.06); }
+        .search-box::placeholder { color: #9ca3af; }
 
-        @media (max-width: 640px) {
-            .header { padding: 40px 16px 36px; }
-            .header h1 { font-size: 28px; }
-            .main { padding: 32px 16px 60px; }
-            .project-card { padding: 18px 20px; gap: 14px; }
-            .project-meta { display: none; }
-            .search-box { width: 140px; }
-            .header-stats { gap: 20px; padding: 10px 20px; }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .hero { flex-direction: column; padding: 32px 0 28px; }
+            .hero-right { align-self: flex-start; }
+            .sidebar { order: -1; }
+            .topbar-clock { display: none; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="greeting" id="greeting"></div>
-        <h1>Docs <span>Hub</span></h1>
-        <div class="header-stats">
-            <div class="header-stat"><strong id="projCount">0</strong>项目</div>
-            <div class="header-stat"><strong id="totalCount">0</strong>文档</div>
+<div class="page">
+    <div class="container">
+        <div class="topbar">
+            <div class="topbar-left">
+                <div class="topbar-logo">Docs <span>Hub</span></div>
+            </div>
+            <div class="topbar-clock" id="clock"></div>
         </div>
-        <div class="quote" id="quote"></div>
     </div>
 
-    <div class="main">
-        <div id="projectsView">
-            <!-- 最近更新 -->
-            <div class="timeline" id="timeline"></div>
-
-            <div class="view-bar">
-                <span class="view-title">Projects</span>
-                <input class="search-box" id="searchBox" placeholder="搜索..." />
+    <div class="container">
+        <div class="hero">
+            <div class="hero-left">
+                <div class="hero-greeting" id="heroGreeting"></div>
+                <div class="hero-quote" id="heroQuote"></div>
             </div>
-            <div class="project-list" id="projectGrid"></div>
+            <div class="hero-right">
+                <div class="stat-card"><div class="num" id="projCount">0</div><div class="label">项目</div></div>
+                <div class="stat-card"><div class="num" id="totalCount">0</div><div class="label">文档</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container content">
+        <div id="projectsView">
+            <div class="grid">
+                <div class="projects-col">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                        <div class="section-title">Projects</div>
+                        <input class="search-box" id="searchBox" placeholder="搜索..." />
+                    </div>
+                    <div class="project-list" id="projectGrid"></div>
+                </div>
+                <div class="sidebar">
+                    <div class="section-title">最近更新</div>
+                    <div class="timeline" id="timeline"></div>
+                </div>
+            </div>
         </div>
 
         <div class="detail-view" id="detailView">
@@ -209,180 +212,154 @@
     </div>
 
     <div class="footer">Docs Hub</div>
+</div>
 
-    <script>
-        const DATA = {"categories":[{"id":"requirement","name":"需求文档","icon":"doc","color":"#ff7d00","bg":"#fff7e8"},{"id":"flow","name":"流程文档","icon":"flow","color":"#0fc6c2","bg":"#e8fffb"},{"id":"feedback","name":"反馈汇总","icon":"feedback","color":"#722ed1","bg":"#f3e8ff"}],"projects":[{"id":"ai-cs","name":"AI客服","description":"智能客服系统相关文档","color":"#6366f1","pages":[{"file":"docs/AI客服/AI客服问题汇总报告_20260516.html","title":"AI客服问题汇总报告","category":"feedback","date":"2026-05-16","tags":["AI客服","问题汇总"]},{"file":"docs/AI客服/智能客服SOP流程.html","title":"智能客服SOP流程","category":"requirement","date":"2026-05-22","tags":["智能客服","SOP"]}]}]};
+<script>
+    const DATA = {"categories":[{"id":"requirement","name":"需求文档","icon":"doc","color":"#ff7d00","bg":"#fff7e8"},{"id":"flow","name":"流程文档","icon":"flow","color":"#0fc6c2","bg":"#e8fffb"},{"id":"feedback","name":"反馈汇总","icon":"feedback","color":"#722ed1","bg":"#f3e8ff"}],"projects":[{"id":"ai-cs","name":"AI客服","description":"智能客服系统相关文档","color":"#6366f1","pages":[{"file":"docs/AI客服/AI客服问题汇总报告_20260516.html","title":"AI客服问题汇总报告","category":"feedback","date":"2026-05-16","tags":["AI客服","问题汇总"]},{"file":"docs/AI客服/智能客服SOP流程.html","title":"智能客服SOP流程","category":"requirement","date":"2026-05-22","tags":["智能客服","SOP"]}]}]};
 
-        const PROJ_ICON = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>';
-        const ARROW = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+    const PROJ_ICON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>';
+    const ARROW = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
 
-        function encodePath(p) { return p.split('/').map(s => encodeURIComponent(s)).join('/'); }
-        function getCat(id) { return DATA.categories.find(c => c.id === id) || { name: id, color: '#999', bg: '#f5f5f5' }; }
+    function encodePath(p) { return p.split('/').map(s => encodeURIComponent(s)).join('/'); }
+    function getCat(id) { return DATA.categories.find(c => c.id === id) || { name: id, color: '#999', bg: '#f5f5f5' }; }
 
-        let activeProject = null;
-        let activeFilter = 'all';
+    let activeProject = null;
+    let activeFilter = 'all';
 
-        function updateStats() {
-            const total = DATA.projects.reduce((s, p) => s + p.pages.length, 0);
-            document.getElementById('projCount').textContent = DATA.projects.length;
-            document.getElementById('totalCount').textContent = total;
-        }
+    // ── Clock ──
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
+    }
+    updateClock(); setInterval(updateClock, 1000);
 
-        function renderProjects(filter) {
-            const grid = document.getElementById('projectGrid');
-            let projects = DATA.projects;
-            if (filter) {
-                const q = filter.toLowerCase();
-                projects = projects.filter(p =>
-                    p.name.toLowerCase().includes(q) ||
-                    p.description.toLowerCase().includes(q) ||
-                    p.pages.some(pg => pg.title.toLowerCase().includes(q))
-                );
-            }
-            grid.innerHTML = projects.map(proj => {
-                return `
-                    <div class="project-card" onclick="showDetail('${proj.id}')">
-                        <div class="project-icon" style="background:${proj.color}">${PROJ_ICON}</div>
-                        <div class="project-info">
-                            <div class="project-name">${proj.name}</div>
-                            <div class="project-desc">${proj.description}</div>
-                        </div>
-                        <div class="project-meta">
-                            <span class="project-count">${proj.pages.length} 篇</span>
-                        </div>
-                        <div class="project-arrow">${ARROW}</div>
-                    </div>
-                `;
-            }).join('');
-            if (!grid.innerHTML.trim()) grid.innerHTML = '<div class="empty">未找到匹配的项目</div>';
-        }
+    // ── Greeting ──
+    (function() {
+        const h = new Date().getHours();
+        const greet = h < 6 ? '夜深了，注意休息' : h < 12 ? '早上好' : h < 14 ? '中午好' : h < 18 ? '下午好' : '晚上好';
+        document.getElementById('heroGreeting').innerHTML = `${greet}，欢迎回来 <span>.</span>`;
+    })();
 
-        function showProjects() {
-            activeProject = null;
-            activeFilter = 'all';
-            document.getElementById('projectsView').style.display = '';
-            document.getElementById('detailView').classList.remove('active');
-            history.pushState(null, '', location.pathname);
-            renderProjects(document.getElementById('searchBox').value);
-        }
-
-        function showDetail(projId) {
-            const proj = DATA.projects.find(p => p.id === projId);
-            if (!proj) return;
-            activeProject = proj;
-            activeFilter = 'all';
-            document.getElementById('projectsView').style.display = 'none';
-            document.getElementById('detailView').classList.add('active');
-            document.getElementById('detailName').textContent = proj.name;
-            history.pushState(null, '', `?project=${projId}`);
-            renderDetail();
-        }
-
-        function renderDetail() {
-            if (!activeProject) return;
-            const pages = activeProject.pages;
-            const catIds = [...new Set(pages.map(p => p.category))];
-
-            const bar = document.getElementById('filterBar');
-            bar.innerHTML = `<button class="filter-btn ${activeFilter === 'all' ? 'active' : ''}" data-f="all">全部</button>` +
-                catIds.map(id => {
-                    const c = getCat(id);
-                    return `<button class="filter-btn ${activeFilter === id ? 'active' : ''}" data-f="${id}">${c.name}</button>`;
-                }).join('');
-            bar.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => { activeFilter = btn.dataset.f; renderDetail(); });
-            });
-
-            const el = document.getElementById('detailContent');
-            const visCats = activeFilter === 'all' ? catIds : [activeFilter];
-            el.innerHTML = visCats.map(catId => {
-                const c = getCat(catId);
-                const catPages = pages.filter(p => p.category === catId);
-                if (!catPages.length) return '';
-                return `
-                    <div class="category-section">
-                        <div class="category-header">
-                            <div class="category-dot" style="background:${c.color}"></div>
-                            <span class="category-title">${c.name}</span>
-                            <span class="category-count">${catPages.length}</span>
-                        </div>
-                        <div class="card-list">
-                            ${catPages.map(p => {
-                                const c2 = getCat(p.category);
-                                return `
-                                <a class="card" href="${encodePath(p.file)}">
-                                    <div class="card-dot" style="background:${c2.color}"></div>
-                                    <div class="card-body">
-                                        <div class="card-title">${p.title}</div>
-                                        <div class="card-meta">
-                                            <span class="card-date">${p.date}</span>
-                                            <div class="card-tags">${(p.tags||[]).map(t=>`<span class="tag" style="background:${c2.bg};color:${c2.color}">${t}</span>`).join('')}</div>
-                                        </div>
-                                    </div>
-                                    <div class="card-go">${ARROW}</div>
-                                </a>`;
-                            }).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            if (!el.innerHTML.trim()) el.innerHTML = '<div class="empty">暂无文档</div>';
-        }
-
-        // ── 问候语 + 时钟 ──
-        function updateGreeting() {
-            const now = new Date();
-            const h = now.getHours();
-            const greet = h < 6 ? '夜深了' : h < 12 ? '早上好' : h < 18 ? '下午好' : '晚上好';
-            const time = now.toLocaleTimeString('zh-CN', { hour12: false });
-            document.getElementById('greeting').innerHTML = `${greet} <span class="clock">${time}</span>`;
-        }
-        updateGreeting();
-        setInterval(updateGreeting, 1000);
-
-        // ── 随机名言 ──
-        const QUOTES = [
+    // ── Quote ──
+    (function() {
+        const quotes = [
             ['好的文档是送给未来自己的礼物', ''],
             ['把复杂的事情简单化，是最高级的能力', ''],
             ['文档不是终点，是协作的起点', ''],
-            ['Done is better than perfect', 'Sheryl Sandberg'],
-            ['Simplicity is the ultimate sophistication', 'Leonardo da Vinci'],
-            ['The best time to document was yesterday', ''],
+            ['Done is better than perfect.', 'Sheryl Sandberg'],
+            ['Simplicity is the ultimate sophistication.', 'Da Vinci'],
             ['清晰的流程胜过一千次口头沟通', ''],
-            ['Write drunk, edit sober', 'Ernest Hemingway'],
-            ['If you can not explain it simply, you do not understand it well enough', 'Einstein'],
+            ['Write it down. Make it clear. Move on.', ''],
             ['把事情做对，比把事情做完更重要', ''],
         ];
-        const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-        document.getElementById('quote').innerHTML = `"${q[0]}"${q[1] ? `<span class="author">— ${q[1]}</span>` : ''}`;
+        const q = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('heroQuote').innerHTML = `"${q[0]}"${q[1] ? ` <span class="author">— ${q[1]}</span>` : ''}`;
+    })();
 
-        // ── 最近更新时间线 ──
-        function renderTimeline() {
-            const allPages = DATA.projects.flatMap(proj => proj.pages.map(p => ({ ...p, project: proj.name })));
-            const sorted = allPages.sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
-            if (!sorted.length) { document.getElementById('timeline').style.display = 'none'; return; }
-            const items = sorted.map(p => {
-                const c = getCat(p.category);
-                return `<li class="timeline-item"><div class="tl-title">${p.title}</div><div class="tl-meta">${p.date} · ${p.project} · ${c.name}</div></li>`;
-            }).join('');
-            document.getElementById('timeline').innerHTML = `<div class="timeline-title">最近更新</div><ul class="timeline-list">${items}</ul>`;
+    // ── Stats ──
+    function updateStats() {
+        const total = DATA.projects.reduce((s, p) => s + p.pages.length, 0);
+        document.getElementById('projCount').textContent = DATA.projects.length;
+        document.getElementById('totalCount').textContent = total;
+    }
+
+    // ── Timeline ──
+    function renderTimeline() {
+        const allPages = DATA.projects.flatMap(proj => proj.pages.map(p => ({ ...p, project: proj.name })));
+        const sorted = allPages.sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+        const el = document.getElementById('timeline');
+        if (!sorted.length) { el.parentElement.style.display = 'none'; return; }
+        el.innerHTML = `<ul class="timeline-list">${sorted.map(p => {
+            const c = getCat(p.category);
+            return `<li class="timeline-item"><div class="tl-title">${p.title}</div><div class="tl-meta">${p.date} · ${p.project} · ${c.name}</div></li>`;
+        }).join('')}</ul>`;
+    }
+
+    // ── Projects ──
+    function renderProjects(filter) {
+        const grid = document.getElementById('projectGrid');
+        let projects = DATA.projects;
+        if (filter) {
+            const q = filter.toLowerCase();
+            projects = projects.filter(p =>
+                p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) ||
+                p.pages.some(pg => pg.title.toLowerCase().includes(q))
+            );
         }
-        renderTimeline();
+        grid.innerHTML = projects.map(proj => `
+            <div class="project-card" onclick="showDetail('${proj.id}')">
+                <div class="project-icon" style="background:${proj.color}">${PROJ_ICON}</div>
+                <div class="project-info">
+                    <div class="project-name">${proj.name}</div>
+                    <div class="project-desc">${proj.description}</div>
+                </div>
+                <div class="project-badge">${proj.pages.length} 篇</div>
+            </div>
+        `).join('') || '<div class="empty">未找到匹配的项目</div>';
+    }
 
-        updateStats();
-        const params = new URLSearchParams(location.search);
-        const initProj = params.get('project');
-        if (initProj && DATA.projects.find(p => p.id === initProj)) {
-            showDetail(initProj);
-        } else {
-            renderProjects();
-        }
+    function showProjects() {
+        activeProject = null; activeFilter = 'all';
+        document.getElementById('projectsView').style.display = '';
+        document.getElementById('detailView').classList.remove('active');
+        history.pushState(null, '', location.pathname);
+        renderProjects(document.getElementById('searchBox').value);
+    }
 
-        document.getElementById('searchBox').addEventListener('input', e => renderProjects(e.target.value));
-        window.addEventListener('popstate', () => {
-            const p = new URLSearchParams(location.search).get('project');
-            if (p) showDetail(p); else showProjects();
-        });
-    </script>
+    function showDetail(projId) {
+        const proj = DATA.projects.find(p => p.id === projId);
+        if (!proj) return;
+        activeProject = proj; activeFilter = 'all';
+        document.getElementById('projectsView').style.display = 'none';
+        document.getElementById('detailView').classList.add('active');
+        document.getElementById('detailName').textContent = proj.name;
+        history.pushState(null, '', `?project=${projId}`);
+        renderDetail();
+    }
+
+    function renderDetail() {
+        if (!activeProject) return;
+        const pages = activeProject.pages;
+        const catIds = [...new Set(pages.map(p => p.category))];
+
+        const bar = document.getElementById('filterBar');
+        bar.innerHTML = `<button class="filter-btn ${activeFilter === 'all' ? 'active' : ''}" data-f="all">全部</button>` +
+            catIds.map(id => { const c = getCat(id); return `<button class="filter-btn ${activeFilter === id ? 'active' : ''}" data-f="${id}">${c.name}</button>`; }).join('');
+        bar.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => { activeFilter = btn.dataset.f; renderDetail(); }));
+
+        const el = document.getElementById('detailContent');
+        const visCats = activeFilter === 'all' ? catIds : [activeFilter];
+        el.innerHTML = visCats.map(catId => {
+            const c = getCat(catId);
+            const catPages = pages.filter(p => p.category === catId);
+            if (!catPages.length) return '';
+            return `
+                <div class="category-section">
+                    <div class="category-header"><div class="category-dot" style="background:${c.color}"></div><span class="category-title">${c.name}</span></div>
+                    <div class="card-list">${catPages.map(p => `
+                        <a class="card" href="${encodePath(p.file)}">
+                            <div class="card-dot" style="background:${c.color}"></div>
+                            <div class="card-body">
+                                <div class="card-title">${p.title}</div>
+                                <div class="card-meta"><span class="card-date">${p.date}</span>${(p.tags||[]).map(t=>`<span class="tag" style="background:${c.bg};color:${c.color}">${t}</span>`).join('')}</div>
+                            </div>
+                            <div class="card-arrow">${ARROW}</div>
+                        </a>`).join('')}
+                    </div>
+                </div>`;
+        }).join('') || '<div class="empty">暂无文档</div>';
+    }
+
+    // ── Init ──
+    updateStats();
+    renderTimeline();
+    const params = new URLSearchParams(location.search);
+    const initProj = params.get('project');
+    if (initProj && DATA.projects.find(p => p.id === initProj)) { showDetail(initProj); }
+    else { renderProjects(); }
+
+    document.getElementById('searchBox').addEventListener('input', e => renderProjects(e.target.value));
+    window.addEventListener('popstate', () => { const p = new URLSearchParams(location.search).get('project'); if (p) showDetail(p); else showProjects(); });
+</script>
 </body>
 </html>
