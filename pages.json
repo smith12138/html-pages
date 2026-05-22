@@ -48,6 +48,13 @@
             "智能客服",
             "SOP"
           ]
+        },
+        {
+          "file": "docs/AI客服/AI客服系统测试用例.html",
+          "title": "AI客服系统测试用例",
+          "category": "requirement",
+          "date": "2026-05-22",
+          "tags": []
         }
       ]
     }
