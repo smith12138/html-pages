@@ -116,6 +116,47 @@
         .card-go { color: #d1d5db; flex-shrink: 0; transition: color .2s; }
         .card:hover .card-go { color: #6366f1; }
 
+        /* ── Greeting + Clock ── */
+        .greeting {
+            font-size: 14px; color: #6b7280; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .greeting .clock { font-variant-numeric: tabular-nums; color: #9ca3af; font-size: 13px; }
+
+        /* ── Quote ── */
+        .quote {
+            margin-top: 20px; font-size: 13px; color: #9ca3af;
+            font-style: italic; max-width: 400px;
+            line-height: 1.5;
+        }
+        .quote .author { font-style: normal; color: #b0b7c3; margin-left: 6px; }
+
+        /* ── Timeline ── */
+        .timeline {
+            margin-bottom: 32px; padding: 20px 24px;
+            background: #fafbfc; border: 1px solid #f3f4f6; border-radius: 14px;
+        }
+        .timeline-title {
+            font-size: 12px; font-weight: 600; color: #9ca3af;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
+        }
+        .timeline-list { list-style: none; position: relative; padding-left: 16px; }
+        .timeline-list::before {
+            content: ''; position: absolute; left: 3px; top: 4px; bottom: 4px;
+            width: 2px; background: #e5e7eb; border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative; padding: 4px 0 12px 16px; font-size: 13px;
+        }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -14px; top: 8px;
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #6366f1; border: 2px solid #fff; box-shadow: 0 0 0 2px #e5e7eb;
+        }
+        .timeline-item .tl-title { color: #111827; font-weight: 500; }
+        .timeline-item .tl-meta { color: #9ca3af; font-size: 12px; margin-top: 1px; }
+
         /* ── Footer ── */
         .footer { text-align: center; font-size: 12px; color: #d1d5db; padding: 24px; }
 
@@ -134,15 +175,20 @@
 </head>
 <body>
     <div class="header">
+        <div class="greeting" id="greeting"></div>
         <h1>Docs <span>Hub</span></h1>
         <div class="header-stats">
             <div class="header-stat"><strong id="projCount">0</strong>项目</div>
             <div class="header-stat"><strong id="totalCount">0</strong>文档</div>
         </div>
+        <div class="quote" id="quote"></div>
     </div>
 
     <div class="main">
         <div id="projectsView">
+            <!-- 最近更新 -->
+            <div class="timeline" id="timeline"></div>
+
             <div class="view-bar">
                 <span class="view-title">Projects</span>
                 <input class="search-box" id="searchBox" placeholder="搜索..." />
@@ -282,6 +328,46 @@
             }).join('');
             if (!el.innerHTML.trim()) el.innerHTML = '<div class="empty">暂无文档</div>';
         }
+
+        // ── 问候语 + 时钟 ──
+        function updateGreeting() {
+            const now = new Date();
+            const h = now.getHours();
+            const greet = h < 6 ? '夜深了' : h < 12 ? '早上好' : h < 18 ? '下午好' : '晚上好';
+            const time = now.toLocaleTimeString('zh-CN', { hour12: false });
+            document.getElementById('greeting').innerHTML = `${greet} <span class="clock">${time}</span>`;
+        }
+        updateGreeting();
+        setInterval(updateGreeting, 1000);
+
+        // ── 随机名言 ──
+        const QUOTES = [
+            ['好的文档是送给未来自己的礼物', ''],
+            ['把复杂的事情简单化，是最高级的能力', ''],
+            ['文档不是终点，是协作的起点', ''],
+            ['Done is better than perfect', 'Sheryl Sandberg'],
+            ['Simplicity is the ultimate sophistication', 'Leonardo da Vinci'],
+            ['The best time to document was yesterday', ''],
+            ['清晰的流程胜过一千次口头沟通', ''],
+            ['Write drunk, edit sober', 'Ernest Hemingway'],
+            ['If you can not explain it simply, you do not understand it well enough', 'Einstein'],
+            ['把事情做对，比把事情做完更重要', ''],
+        ];
+        const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+        document.getElementById('quote').innerHTML = `"${q[0]}"${q[1] ? `<span class="author">— ${q[1]}</span>` : ''}`;
+
+        // ── 最近更新时间线 ──
+        function renderTimeline() {
+            const allPages = DATA.projects.flatMap(proj => proj.pages.map(p => ({ ...p, project: proj.name })));
+            const sorted = allPages.sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+            if (!sorted.length) { document.getElementById('timeline').style.display = 'none'; return; }
+            const items = sorted.map(p => {
+                const c = getCat(p.category);
+                return `<li class="timeline-item"><div class="tl-title">${p.title}</div><div class="tl-meta">${p.date} · ${p.project} · ${c.name}</div></li>`;
+            }).join('');
+            document.getElementById('timeline').innerHTML = `<div class="timeline-title">最近更新</div><ul class="timeline-list">${items}</ul>`;
+        }
+        renderTimeline();
 
         updateStats();
         const params = new URLSearchParams(location.search);
