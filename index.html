@@ -82,7 +82,8 @@
             content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px;
             width: 2px; background: #eef2ff; border-radius: 2px;
         }
-        .timeline-item { position: relative; padding-bottom: 16px; }
+        .timeline-item { position: relative; padding-bottom: 16px; border-radius: 6px; transition: background .15s; cursor: pointer; }
+        .timeline-item:hover { background: #f9fafb; }
         .timeline-item:last-child { padding-bottom: 0; }
         .timeline-item::before {
             content: ''; position: absolute; left: -18px; top: 6px;
@@ -271,7 +272,7 @@
         if (!sorted.length) { el.parentElement.style.display = 'none'; return; }
         el.innerHTML = `<ul class="timeline-list">${sorted.map(p => {
             const c = getCat(p.category);
-            return `<li class="timeline-item"><div class="tl-title">${p.title}</div><div class="tl-meta">${p.date} · ${p.project} · ${c.name}</div></li>`;
+            return `<li class="timeline-item"><a href="${encodePath(p.file)}" style="text-decoration:none;color:inherit;display:block"><div class="tl-title">${p.title}</div><div class="tl-meta">${p.date} · ${p.project} · ${c.name}</div></a></li>`;
         }).join('')}</ul>`;
     }
 
