@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智数数据管理系统 - 项目文档</title>
+    <link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 70%, #1a1a6e 100%);
+            color: #fff;
+            padding: 60px 40px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 60%);
+            animation: headerPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.3);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            color: #a5b4fc;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .header h1 span {
+            color: #818cf8;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .header-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-meta .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #6366f1;
+            display: inline-block;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-left: 4px solid #6366f1;
+        }
+
+        .toc h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc h2::before {
+            content: "\1F4D1";
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 8px 24px;
+        }
+
+        .toc a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 4px 0;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: #6366f1;
+            text-decoration: underline;
+        }
+
+        .toc a.toc-l1 { font-weight: 600; font-size: 15px; color: #1e293b; margin-top: 6px; }
+        .toc a.toc-l2 { padding-left: 18px; }
+
+        /* Section Card */
+        .section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 36px 40px;
+            margin-bottom: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            font-size: 24px;
+            color: #1e293b;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            font-size: 19px;
+            color: #334155;
+            margin: 24px 0 12px;
+            padding-left: 14px;
+            border-left: 3px solid #6366f1;
+        }
+
+        .section h4 {
+            font-size: 16px;
+            color: #475569;
+            margin: 18px 0 8px;
+            font-weight: 600;
+        }
+
+        .section p {
+            color: #475569;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .section ul, .section ol {
+            padding-left: 22px;
+            margin-bottom: 14px;
+        }
+
+        .section li {
+            color: #475569;
+            font-size: 14.5px;
+            margin-bottom: 5px;
+        }
+
+        .section li strong {
+            color: #334155;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 18px 22px;
+        }
+
+        .info-card .label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .info-card .value {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .info-card .value a {
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        /* Module Card */
+        .module-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 14px 0;
+        }
+
+        .module-card .module-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .module-card .module-title .num {
+            background: #6366f1;
+            color: #fff;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .module-card p, .module-card li {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Data Table Style */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13.5px;
+        }
+
+        .data-table thead th {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .data-table thead th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .data-table thead th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .data-table tbody td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f1f5f9;
+        }
+
+        .data-table tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 8px;
+        }
+
+        .data-table tbody tr:last-child td:last-child {
+            border-radius: 0 0 8px 0;
+        }
+
+        /* Badge / Tag */
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .tag-indigo { background: #eef2ff; color: #4338ca; }
+        .tag-green { background: #ecfdf5; color: #047857; }
+        .tag-amber { background: #fffbeb; color: #b45309; }
+        .tag-blue { background: #eff6ff; color: #1d4ed8; }
+        .tag-red { background: #fef2f2; color: #dc2626; }
+        .tag-slate { background: #f1f5f9; color: #475569; }
+
+        /* Report Tags Container */
+        .report-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 16px;
+        }
+
+        .report-tag {
+            display: inline-block;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: "SF Mono", "Fira Code", monospace;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+            border: 1px solid #c7d2fe;
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .highlight-box.warn {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-color: #fde68a;
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border-color: #a7f3d0;
+        }
+
+        .highlight-box p {
+            font-size: 14px;
+            color: #334155;
+        }
+
+        /* Architecture Diagram */
+        .arch-diagram {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            color: #e2e8f0;
+            font-family: "SF Mono", "Fira Code", Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+
+        .arch-diagram .layer {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin: 10px 0;
+        }
+
+        .arch-diagram .layer-title {
+            color: #818cf8;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .arch-diagram .layer-items {
+            color: #94a3b8;
+        }
+
+        /* Columns Overview */
+        .columns-scroll {
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+
+        .columns-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0;
+        }
+
+        .col-tag {
+            background: #1e293b;
+            color: #a5b4fc;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: "SF Mono", monospace;
+            white-space: nowrap;
+        }
+
+        /* Float Buttons */
+        .float-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .float-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .float-btn-home {
+            background: #6366f1;
+            color: #fff;
+        }
+
+        .float-btn-top {
+            background: #fff;
+            color: #6366f1;
+            border: 1px solid #e2e8f0;
+        }
+
+        .float-btn-bottom {
+            background: #fff;
+            color: #6366f1;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px 30px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .footer .divider {
+            width: 60px;
+            height: 2px;
+            background: #e2e8f0;
+            margin: 0 auto 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 40px 20px 36px; }
+            .header h1 { font-size: 28px; }
+            .section { padding: 24px 20px; }
+            .toc { padding: 24px 20px; }
+            .toc-grid { grid-template-columns: 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+            .header-meta { flex-direction: column; gap: 8px; align-items: center; }
+            .float-buttons { bottom: 16px; right: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="header-content">
+        <div class="header-badge">Project Documentation</div>
+        <h1><span>智数</span> 数据管理系统</h1>
+        <div class="subtitle">ZynSIS - Comprehensive Data Management &amp; Operations Analytics Platform</div>
+        <div class="header-meta">
+            <span><span class="dot"></span>平台地址：zynsis.ai</span>
+            <span><span class="dot"></span>框架：RuoYi (Java + Vue)</span>
+            <span><span class="dot"></span>主题风格：Dark Theme</span>
+            <span><span class="dot"></span>模块数量：10 大模块</span>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+
+    <!-- Table of Contents -->
+    <div class="toc" id="toc">
+        <h2>目录导航</h2>
+        <div class="toc-grid">
+            <div>
+                <a href="#overview" class="toc-l1">一、产品概述</a>
+                <a href="#login" class="toc-l2">1.1 登录与认证</a>
+                <a href="#tech" class="toc-l2">1.2 技术架构</a>
+            </div>
+            <div>
+                <a href="#modules" class="toc-l1">二、功能模块总览</a>
+                <a href="#mod-home" class="toc-l2">2.1 首页</a>
+                <a href="#mod-ops" class="toc-l2">2.2 运营中心</a>
+                <a href="#mod-finance" class="toc-l2">2.3 财务中心</a>
+            </div>
+            <div>
+                <a href="#mod-audit" class="toc-l1">二、功能模块（续）</a>
+                <a href="#mod-audit" class="toc-l2">2.4 审核中心</a>
+                <a href="#mod-biz" class="toc-l2">2.5 业务中心</a>
+                <a href="#mod-sys" class="toc-l2">2.6 系统管理</a>
+            </div>
+            <div>
+                <a href="#mod-export" class="toc-l1">二、功能模块（续）</a>
+                <a href="#mod-export" class="toc-l2">2.7 报表导出</a>
+                <a href="#mod-report" class="toc-l2">2.8 报表中心</a>
+                <a href="#mod-submit" class="toc-l2">2.9 提交记录</a>
+                <a href="#mod-quality" class="toc-l2">2.10 号码质量</a>
+            </div>
+            <div>
+                <a href="#report-detail" class="toc-l1">三、预配置报表详情</a>
+                <a href="#concepts" class="toc-l2">四、核心业务概念</a>
+                <a href="#architecture" class="toc-l2">五、系统架构</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1: Product Overview -->
+    <div class="section" id="overview">
+        <h2>一、产品概述</h2>
+        <p>
+            <strong>智数（ZynSIS）</strong>是一款综合性数据管理与运营分析平台，专为游戏及广告投放业务设计。
+            系统提供从运营数据汇总、财务管控、审核流程到报表生成的全链路数据管理能力，
+            帮助运营团队高效管理多平台、多渠道的业务数据。
+        </p>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">系统名称</div>
+                <div class="value">数据管理系统（智数 / ZynSIS）</div>
+            </div>
+            <div class="info-card">
+                <div class="label">访问地址</div>
+                <div class="value"><a href="https://zynsis.ai/" target="_blank">https://zynsis.ai/</a></div>
+            </div>
+            <div class="info-card">
+                <div class="label">系统类型</div>
+                <div class="value">数据管理与运营分析平台</div>
+            </div>
+            <div class="info-card">
+                <div class="label">业务领域</div>
+                <div class="value">游戏运营 / 广告投放</div>
+            </div>
+            <div class="info-card">
+                <div class="label">底层框架</div>
+                <div class="value">RuoYi（ruoyi.vip）</div>
+            </div>
+            <div class="info-card">
+                <div class="label">界面风格</div>
+                <div class="value">深色主题（Dark Theme）</div>
+            </div>
+        </div>
+
+        <h3 id="login">1.1 登录与认证方式</h3>
+        <p>系统支持多种认证登录方式，确保账户安全：</p>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>认证方式</th>
+                    <th>说明</th>
+                    <th>安全等级</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>账号 + 密码 + Google Authenticator</strong></td>
+                    <td>主要登录方式，需输入账号、密码及 Google 动态验证码（2FA）</td>
+                    <td><span class="tag tag-green">高</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Google 登录</strong></td>
+                    <td>支持 Google OAuth 第三方快捷登录</td>
+                    <td><span class="tag tag-blue">中</span></td>
+                </tr>
+                <tr>
+                    <td><strong>飞书登录</strong></td>
+                    <td>支持 Lark（飞书）OAuth 第三方快捷登录</td>
+                    <td><span class="tag tag-blue">中</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="tech">1.2 技术架构概述</h3>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">后端框架</div>
+                <div class="value">RuoYi (Java)</div>
+            </div>
+            <div class="info-card">
+                <div class="label">前端框架</div>
+                <div class="value">Vue.js</div>
+            </div>
+            <div class="info-card">
+                <div class="label">认证机制</div>
+                <div class="value">Username/Password + Google 2FA</div>
+            </div>
+            <div class="info-card">
+                <div class="label">OAuth 集成</div>
+                <div class="value">Google Login / Lark Login</div>
+            </div>
+            <div class="info-card">
+                <div class="label">数据处理</div>
+                <div class="value">实时运营数据聚合</div>
+            </div>
+            <div class="info-card">
+                <div class="label">导出功能</div>
+                <div class="value">Excel 导出</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Module Overview -->
+    <div class="section" id="modules">
+        <h2>二、功能模块总览</h2>
+        <p>系统共包含 <strong>10 大核心模块</strong>，覆盖运营、财务、审核、业务、系统管理、报表及号码质量等全流程业务场景。</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>模块名称</th>
+                    <th>子模块数</th>
+                    <th>核心功能</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td><strong>首页</strong></td><td>-</td><td>系统欢迎页与快捷入口</td></tr>
+                <tr><td>2</td><td><strong>运营中心</strong></td><td>4</td><td>运营数据一览、用户报表、消耗报表、产品管理</td></tr>
+                <tr><td>3</td><td><strong>财务中心</strong></td><td>4</td><td>账变记录、钱包地址、群组配置、消耗流水</td></tr>
+                <tr><td>4</td><td><strong>审核中心</strong></td><td>3</td><td>业务审核、报表审核、渠道审核</td></tr>
+                <tr><td>5</td><td><strong>业务中心</strong></td><td>2</td><td>短信发送、投放消耗</td></tr>
+                <tr><td>6</td><td><strong>系统管理</strong></td><td>4</td><td>账号、角色、菜单、字典管理</td></tr>
+                <tr><td>7</td><td><strong>报表导出</strong></td><td>-</td><td>集中化报表导出任务管理</td></tr>
+                <tr><td>8</td><td><strong>报表中心</strong></td><td>2+</td><td>自定义配置 + 100+ 预配置报表</td></tr>
+                <tr><td>9</td><td><strong>提交记录</strong></td><td>4</td><td>业务/报表/渠道提交 + 运营计算</td></tr>
+                <tr><td>10</td><td><strong>号码质量</strong></td><td>2</td><td>质量分析、垃圾号码库</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Module Details -->
+
+    <!-- 2.1 Homepage -->
+    <div class="section" id="mod-home">
+        <h2>2.1 首页 (Homepage)</h2>
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span>欢迎页面</div>
+            <p>系统登录后的默认落地页，显示 <strong>"欢迎使用"</strong> 提示信息，为用户提供系统导航快捷入口。</p>
+        </div>
+    </div>
+
+    <!-- 2.2 Operations Center -->
+    <div class="section" id="mod-ops">
+        <h2>2.2 运营中心 (Operations Center)</h2>
+        <p>运营中心是系统的核心数据模块，汇集了运营数据一览、用户分析、消耗追踪及产品管理四大子模块。</p>
+
+        <h3>2.2.1 运营一览表 (Operations Overview)</h3>
+        <p>综合数据看板，支持多维度筛选与数据分析。</p>
+
+        <h4>筛选条件</h4>
+        <div class="columns-list">
+            <span class="col-tag">日期范围</span>
+            <span class="col-tag">平台名称</span>
+            <span class="col-tag">产品名称</span>
+            <span class="col-tag">总代号</span>
+            <span class="col-tag">渠道号</span>
+        </div>
+
+        <h4>数据列（25+ 字段）</h4>
+        <div class="columns-list">
+            <span class="col-tag">日期</span>
+            <span class="col-tag">平台名称</span>
+            <span class="col-tag">产品名称</span>
+            <span class="col-tag">总代号</span>
+            <span class="col-tag">渠道号</span>
+            <span class="col-tag">注册人数</span>
+            <span class="col-tag">充值金额</span>
+            <span class="col-tag">充值人数</span>
+            <span class="col-tag">充值笔数</span>
+            <span class="col-tag">人均充值金额</span>
+            <span class="col-tag">人均充值笔数</span>
+            <span class="col-tag">首充金额</span>
+            <span class="col-tag">首充人数</span>
+            <span class="col-tag">首充次数</span>
+            <span class="col-tag">首充转化率</span>
+            <span class="col-tag">充提差</span>
+            <span class="col-tag">充提比</span>
+            <span class="col-tag">出入比</span>
+            <span class="col-tag">游戏总号</span>
+            <span class="col-tag">提取金额</span>
+            <span class="col-tag">消耗(A)</span>
+            <span class="col-tag">首充成本(A)</span>
+            <span class="col-tag">展示数</span>
+            <span class="col-tag">点击数</span>
+        </div>
+
+        <h4>操作功能</h4>
+        <div class="columns-list">
+            <span class="tag tag-indigo">查询</span>
+            <span class="tag tag-amber">重置</span>
+            <span class="tag tag-blue">展开列</span>
+            <span class="tag tag-green">导出Excel</span>
+        </div>
+
+        <h3>2.2.2 用户报表 (User Report)</h3>
+        <div class="module-card">
+            <div class="module-title"><span class="num">U</span>用户级数据分析</div>
+            <p>提供用户维度的数据分析与统计报表，支持用户行为追踪与转化分析。</p>
+        </div>
+
+        <h3>2.2.3 消耗报表 (Consumption Report)</h3>
+        <div class="module-card">
+            <div class="module-title"><span class="num">C</span>广告消耗追踪</div>
+            <p>追踪和分析广告投放消耗数据，帮助优化投放策略与预算分配。</p>
+        </div>
+
+        <h3>2.2.4 产品管理 (Product Management)</h3>
+        <div class="module-card">
+            <div class="module-title"><span class="num">P</span>游戏产品管理</div>
+            <p>管理各游戏平台的产品信息，包括产品配置、上下架管理等功能。</p>
+        </div>
+    </div>
+
+    <!-- 2.3 Finance Center -->
+    <div class="section" id="mod-finance">
+        <h2>2.3 财务中心 (Finance Center)</h2>
+        <p>财务中心负责资金流动追踪与财务管控，覆盖账变、钱包、群组配置与消耗流水。</p>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span>账变记录 (Account Change Records)</div>
+            <p>记录并追踪所有财务账户变动，包括充值、提现、转账等操作的完整流水。</p>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span>钱包地址 (Wallet Addresses)</div>
+            <p>管理业务相关的钱包/支付地址信息，支持多地址配置与状态管理。</p>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">3</span>群组配置 (Group Configuration)</div>
+            <p>配置财务相关群组信息，实现分组管理与权限控制。</p>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">4</span>消耗流水 (Consumption Flow)</div>
+            <p>详细记录每一笔消耗交易流水，支持按时间、渠道、平台等维度查询与分析。</p>
+        </div>
+    </div>
+
+    <!-- 2.4 Audit Center -->
+    <div class="section" id="mod-audit">
+        <h2>2.4 审核中心 (Audit Center)</h2>
+        <p>审核中心是数据质量保障的关键环节，对业务数据、报表数据和渠道数据进行分级审核。</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>子模块</th>
+                    <th>审核对象</th>
+                    <th>功能说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>业务审核</strong></td>
+                    <td>业务数据提交</td>
+                    <td>对业务人员提交的运营数据进行审核确认，确保数据准确性</td>
+                </tr>
+                <tr>
+                    <td><strong>报表审核</strong></td>
+                    <td>报表数据提交</td>
+                    <td>对生成的报表数据进行复核审批，保障报表质量</td>
+                </tr>
+                <tr>
+                    <td><strong>渠道审核</strong></td>
+                    <td>渠道数据提交</td>
+                    <td>对各渠道提交的投放、消耗数据进行核实审批</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2.5 Business Center -->
+    <div class="section" id="mod-biz">
+        <h2>2.5 业务中心 (Business Center)</h2>
+        <p>业务中心聚焦于短信营销与广告投放两大核心业务场景。</p>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span>短信发送 (SMS Sending)</div>
+            <p>短信营销活动管理模块，支持批量短信发送、发送状态追踪、送达率分析等功能。</p>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span>投放消耗 (Deployment Consumption)</div>
+            <p>广告投放消耗追踪模块，实时监控各渠道的广告投放花费与效果数据。</p>
+        </div>
+    </div>
+
+    <!-- 2.6 System Management -->
+    <div class="section" id="mod-sys">
+        <h2>2.6 系统管理 (System Management)</h2>
+        <p>系统管理模块提供完善的后台管理能力，基于 RBAC 模型实现精细化权限控制。</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>子模块</th>
+                    <th>功能描述</th>
+                    <th>核心能力</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>账号管理</strong></td>
+                    <td>用户账号的增删改查操作</td>
+                    <td>创建用户、分配角色、启/停用账号、重置密码</td>
+                </tr>
+                <tr>
+                    <td><strong>角色管理</strong></td>
+                    <td>基于角色的访问控制（RBAC）</td>
+                    <td>角色定义、权限分配、数据范围控制</td>
+                </tr>
+                <tr>
+                    <td><strong>菜单管理</strong></td>
+                    <td>动态菜单配置管理</td>
+                    <td>菜单增删改、排序调整、权限标识绑定</td>
+                </tr>
+                <tr>
+                    <td><strong>字典管理</strong></td>
+                    <td>系统字典/枚举值管理</td>
+                    <td>字典类型维护、字典数据维护、业务编码管理</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2.7 Report Export -->
+    <div class="section" id="mod-export">
+        <h2>2.7 报表导出 (Report Export)</h2>
+        <div class="module-card">
+            <div class="module-title"><span class="num">7</span>集中化报表导出管理</div>
+            <p>统一管理所有报表导出任务，支持任务队列、导出进度查看、历史导出记录管理等功能。用户可在此模块集中下载已生成的 Excel 报表文件。</p>
+        </div>
+    </div>
+
+    <!-- 2.8 Report Center -->
+    <div class="section" id="mod-report">
+        <h2>2.8 报表中心 (Report Center)</h2>
+        <p>报表中心是系统最核心的数据输出模块，包含自定义报表配置引擎和 <strong>100+ 预配置报表</strong>。</p>
+
+        <h3>2.8.1 自定义配置 (Custom Configuration)</h3>
+        <div class="highlight-box">
+            <p><strong>报表引擎核心功能：</strong></p>
+            <ul style="margin-top: 8px;">
+                <li><strong>创建报表</strong> - 从零创建全新的数据报表</li>
+                <li><strong>自定义列</strong> - 灵活配置报表展示列</li>
+                <li><strong>新增自定义列</strong> - 添加自定义计算列或衍生指标列</li>
+            </ul>
+        </div>
+
+        <h3>2.8.2 预配置报表（100+ 份）</h3>
+        <p>系统预置了覆盖多个业务场景的标准报表，按类型分为以下几大类：</p>
+
+        <!-- Detailed in next section -->
+        <div class="highlight-box success">
+            <p>预配置报表的详细分类与列表请参见下方 <a href="#report-detail"><strong>"三、预配置报表详情"</strong></a> 章节。</p>
+        </div>
+    </div>
+
+    <!-- 2.9 Submission Records -->
+    <div class="section" id="mod-submit">
+        <h2>2.9 提交记录 (Submission Records)</h2>
+        <p>提交记录模块完整追踪各类数据提交行为，并提供运营数据的计算触发功能。</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>子模块</th>
+                    <th>功能说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>业务提交</strong></td>
+                    <td>追踪业务数据的提交记录，包括提交人、提交时间、审核状态等</td>
+                </tr>
+                <tr>
+                    <td><strong>报表提交</strong></td>
+                    <td>追踪报表数据的提交记录，关联报表审核流程</td>
+                </tr>
+                <tr>
+                    <td><strong>渠道提交</strong></td>
+                    <td>追踪渠道数据的提交记录，确保各渠道数据及时提交</td>
+                </tr>
+                <tr>
+                    <td><strong>运营计算</strong></td>
+                    <td>触发并监控运营数据计算任务，实现数据的汇总、聚合与指标计算</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2.10 Number Quality -->
+    <div class="section" id="mod-quality">
+        <h2>2.10 号码质量 (Number Quality)</h2>
+        <p>号码质量模块用于管理短信营销场景中的手机号码数据质量。</p>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span>质量分析 (Quality Analysis)</div>
+            <p>分析手机号码的质量指标，包括有效率、活跃度、到达率等维度，帮助优化短信投放效果。</p>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span>垃圾号码库 (Spam Number Database)</div>
+            <p>维护垃圾号码/无效号码数据库，自动过滤低质量号码，降低短信发送成本，提高转化效率。</p>
+        </div>
+    </div>
+
+    <!-- Section 3: Pre-configured Reports Detail -->
+    <div class="section" id="report-detail">
+        <h2>三、预配置报表详情</h2>
+        <p>系统预配置了 <strong>100+ 份</strong>标准报表，覆盖月度汇总、数据核对、渠道核对、短信核对、充提差追踪等多个业务场景。</p>
+
+        <h3>3.1 月度汇总报表</h3>
+        <p>按月份维度汇总运营数据的报表：</p>
+        <div class="report-tags">
+            <span class="report-tag">天空5月总</span>
+            <span class="report-tag">天空3月</span>
+            <span class="report-tag">3月总消耗</span>
+            <span class="report-tag">月报(KK)</span>
+        </div>
+
+        <h3>3.2 核对报表</h3>
+        <p>用于多维度数据核对与校验的报表：</p>
+        <div class="report-tags">
+            <span class="report-tag">渠道数据表(kk)</span>
+            <span class="report-tag">大表汇总(kk)</span>
+            <span class="report-tag">核对(kk)</span>
+            <span class="report-tag">消耗汇总(KK)</span>
+            <span class="report-tag">数据核对(KK)</span>
+        </div>
+
+        <h3>3.3 双鱼座专用报表</h3>
+        <div class="report-tags">
+            <span class="report-tag">双鱼座专用报表</span>
+        </div>
+
+        <h3>3.4 A8 自投核对报表（按渠道）</h3>
+        <p>A8 平台自运营广告投放的渠道级核对报表：</p>
+        <div class="report-tags">
+            <span class="report-tag">a8jy</span>
+            <span class="report-tag">a8brc</span>
+            <span class="report-tag">a8dsp</span>
+            <span class="report-tag">a8a11</span>
+            <span class="report-tag">a8tx</span>
+            <span class="report-tag">a8777</span>
+            <span class="report-tag">a8hw</span>
+            <span class="report-tag">a8ytvn</span>
+            <span class="report-tag">a8ddvn</span>
+            <span class="report-tag">a8yt</span>
+            <span class="report-tag">a8yaya</span>
+            <span class="report-tag">a8tf</span>
+            <span class="report-tag">a8r1</span>
+            <span class="report-tag">a8gz</span>
+            <span class="report-tag">a8dudu</span>
+            <span class="report-tag">a8ddal</span>
+            <span class="report-tag">a8aa</span>
+            <span class="report-tag">a8aavn</span>
+            <span class="report-tag">a8chow</span>
+        </div>
+
+        <h3>3.5 A8 代投核对报表（按代理）</h3>
+        <p>A8 平台代理商投放的核对报表：</p>
+        <div class="report-tags">
+            <span class="report-tag">lion</span>
+            <span class="report-tag">林森</span>
+            <span class="report-tag">笑笑</span>
+            <span class="report-tag">楠禧</span>
+            <span class="report-tag">浪子</span>
+            <span class="report-tag">红发</span>
+            <span class="report-tag">佩奇</span>
+            <span class="report-tag">啊远</span>
+            <span class="report-tag">阿丁</span>
+        </div>
+
+        <h3>3.6 A8 短信核对报表（按短信渠道）</h3>
+        <p>A8 平台短信营销渠道的核对报表：</p>
+        <div class="report-tags">
+            <span class="report-tag">客维</span>
+            <span class="report-tag">jn</span>
+            <span class="report-tag">brc</span>
+            <span class="report-tag">丹尼</span>
+            <span class="report-tag">w2</span>
+            <span class="report-tag">chow</span>
+            <span class="report-tag">万亿</span>
+            <span class="report-tag">海王</span>
+            <span class="report-tag">乘风</span>
+            <span class="report-tag">777</span>
+            <span class="report-tag">一万</span>
+            <span class="report-tag">本尼</span>
+            <span class="report-tag">w</span>
+            <span class="report-tag">VN</span>
+            <span class="report-tag">DDDX</span>
+            <span class="report-tag">W3</span>
+        </div>
+
+        <h3>3.7 充提差报表（按月/半月周期）</h3>
+        <p>追踪充值与提现差额的周期性报表，覆盖 <strong>2025-05 至 2026-05</strong>，按半月（上半月/下半月）拆分：</p>
+        <div class="highlight-box warn">
+            <p><strong>时间跨度：</strong>2025年5月 - 2026年5月，共计约 25 期报表。每月拆分为上半月（1-15日）和下半月（16日-月末）两期。</p>
+        </div>
+
+        <h3>3.8 其他报表</h3>
+        <div class="report-tags">
+            <span class="report-tag">slotfun</span>
+            <span class="report-tag">b7开心果</span>
+            <span class="report-tag">4月开心果</span>
+        </div>
+    </div>
+
+    <!-- Section 4: Core Business Concepts -->
+    <div class="section" id="concepts">
+        <h2>四、核心业务概念</h2>
+        <p>以下为系统中涉及的关键业务术语及其含义说明：</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>术语</th>
+                    <th>英文/缩写</th>
+                    <th>含义说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>平台</strong></td>
+                    <td>Platform</td>
+                    <td>游戏运营平台，如 A8 等</td>
+                </tr>
+                <tr>
+                    <td><strong>产品</strong></td>
+                    <td>Product</td>
+                    <td>具体的游戏产品</td>
+                </tr>
+                <tr>
+                    <td><strong>总代号</strong></td>
+                    <td>Master Agent Code</td>
+                    <td>总代理的标识编码</td>
+                </tr>
+                <tr>
+                    <td><strong>渠道号</strong></td>
+                    <td>Channel Code</td>
+                    <td>推广渠道的标识编码</td>
+                </tr>
+                <tr>
+                    <td><strong>自投</strong></td>
+                    <td>Self-operated</td>
+                    <td>自主运营的广告投放</td>
+                </tr>
+                <tr>
+                    <td><strong>代投</strong></td>
+                    <td>Agent-operated</td>
+                    <td>代理商运营的广告投放</td>
+                </tr>
+                <tr>
+                    <td><strong>短信</strong></td>
+                    <td>SMS</td>
+                    <td>短信营销渠道</td>
+                </tr>
+                <tr>
+                    <td><strong>充提差</strong></td>
+                    <td>Deposit-Withdrawal Diff</td>
+                    <td>充值金额与提现金额的差值</td>
+                </tr>
+                <tr>
+                    <td><strong>充提比</strong></td>
+                    <td>Deposit-Withdrawal Ratio</td>
+                    <td>充值金额与提现金额的比率</td>
+                </tr>
+                <tr>
+                    <td><strong>首充转化率</strong></td>
+                    <td>First Deposit Conv. Rate</td>
+                    <td>首次充值用户占注册用户的比例</td>
+                </tr>
+                <tr>
+                    <td><strong>BM</strong></td>
+                    <td>Business Manager</td>
+                    <td>Facebook 广告商务管理平台</td>
+                </tr>
+                <tr>
+                    <td><strong>消耗(A)</strong></td>
+                    <td>Ad Spend</td>
+                    <td>广告投放消耗金额</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section 5: System Architecture -->
+    <div class="section" id="architecture">
+        <h2>五、系统架构</h2>
+
+        <div class="arch-diagram">
+            <div class="layer">
+                <div class="layer-title">[ 前端展示层 - Presentation Layer ]</div>
+                <div class="layer-items">Vue.js + Element UI | 深色主题 | 响应式布局 | Excel 导出</div>
+            </div>
+            <div style="text-align: center; color: #6366f1; font-size: 18px; margin: 4px 0;">|</div>
+            <div class="layer">
+                <div class="layer-title">[ 认证网关层 - Authentication Gateway ]</div>
+                <div class="layer-items">账号密码登录 | Google Authenticator 2FA | Google OAuth | Lark OAuth</div>
+            </div>
+            <div style="text-align: center; color: #6366f1; font-size: 18px; margin: 4px 0;">|</div>
+            <div class="layer">
+                <div class="layer-title">[ 业务逻辑层 - Business Logic Layer ]</div>
+                <div class="layer-items">
+                    运营中心 | 财务中心 | 审核中心 | 业务中心<br>
+                    报表引擎 | 提交管理 | 号码质量 | 系统管理
+                </div>
+            </div>
+            <div style="text-align: center; color: #6366f1; font-size: 18px; margin: 4px 0;">|</div>
+            <div class="layer">
+                <div class="layer-title">[ 数据处理层 - Data Processing Layer ]</div>
+                <div class="layer-items">实时数据聚合 | 自定义报表引擎 | 运营计算任务 | 定时调度</div>
+            </div>
+            <div style="text-align: center; color: #6366f1; font-size: 18px; margin: 4px 0;">|</div>
+            <div class="layer">
+                <div class="layer-title">[ 基础框架层 - Framework Layer ]</div>
+                <div class="layer-items">RuoYi (ruoyi.vip) | Java | Spring Boot | RBAC 权限模型</div>
+            </div>
+        </div>
+
+        <h3>关键技术特性</h3>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">报表引擎</div>
+                <div class="value">自定义报表构建器，支持灵活配置列与计算规则</div>
+            </div>
+            <div class="info-card">
+                <div class="label">权限模型</div>
+                <div class="value">RBAC 角色权限模型，支持菜单级 + 数据级权限控制</div>
+            </div>
+            <div class="info-card">
+                <div class="label">数据聚合</div>
+                <div class="value">实时运营数据聚合，支持多维度交叉分析</div>
+            </div>
+            <div class="info-card">
+                <div class="label">审核流程</div>
+                <div class="value">三级审核机制（业务/报表/渠道），保障数据质量</div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- end container -->
+
+<!-- Float Buttons -->
+<div class="float-buttons">
+    <a href="/html-pages/?project=zhishu" class="float-btn float-btn-home" title="返回项目主页">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </a>
+    <button class="float-btn float-btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+    <button class="float-btn float-btn-bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="到达底部">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </button>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="divider"></div>
+    <p>智数数据管理系统（ZynSIS）- 项目文档</p>
+    <p style="margin-top: 6px;">整理时间：2026-05-22</p>
+</div>
+
+</body>
+</html>

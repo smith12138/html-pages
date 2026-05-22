@@ -107,6 +107,21 @@
       "name": "智数数据管理",
       "description": "数据管理与运营分析平台",
       "color": "#3b82f6",
+      "pages": [
+        {
+          "file": "docs/智数数据管理/智数数据管理系统项目文档.html",
+          "title": "智数数据管理系统项目文档",
+          "category": "requirement",
+          "date": "2026-05-22",
+          "tags": []
+        }
+      ]
+    },
+    {
+      "id": "geo",
+      "name": "GEO内容发布",
+      "description": "SEO/GEO内容自动生成与多平台发布系统",
+      "color": "#2563eb",
       "pages": []
     }
   ]
