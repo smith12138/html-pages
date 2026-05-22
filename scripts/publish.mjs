@@ -26,7 +26,7 @@ const DOCS_DIR = resolve(ROOT_DIR, "docs");
 const PAGES_JSON = resolve(ROOT_DIR, "pages.json");
 const INDEX_HTML = resolve(ROOT_DIR, "index.html");
 const PAGES_URL = `https://${GITHUB_USER}.github.io/${GITHUB_REPO}`;
-const FAVICON_LINK = '<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">';
+const FAVICON_LINK = '<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">';
 
 mkdirSync(DOCS_DIR, { recursive: true });
 
