@@ -11,13 +11,19 @@
       "name": "流程文档",
       "icon": "flow",
       "description": "业务流程、SOP、操作规范"
+    },
+    {
+      "id": "feedback",
+      "name": "反馈汇总",
+      "icon": "feedback",
+      "description": "问题反馈、数据分析、汇总报告"
     }
   ],
   "pages": [
     {
       "file": "AI客服问题汇总报告_20260516.html",
       "title": "AI客服问题汇总报告",
-      "category": "requirement",
+      "category": "feedback",
       "date": "2026-05-16",
       "tags": [
         "AI客服",
@@ -27,7 +33,7 @@
     {
       "file": "智能客服SOP流程.html",
       "title": "智能客服SOP流程",
-      "category": "flow",
+      "category": "requirement",
       "date": "2026-05-22",
       "tags": [
         "智能客服",
