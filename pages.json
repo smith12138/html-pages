@@ -64,6 +64,13 @@
           "tags": []
         }
       ]
+    },
+    {
+      "id": "risk",
+      "name": "风控系统",
+      "description": "风控系统相关文档",
+      "color": "#ef4444",
+      "pages": []
     }
   ]
 }
