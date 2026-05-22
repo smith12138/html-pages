@@ -78,6 +78,13 @@
       "description": "AI广告投放管理平台",
       "color": "#d4a017",
       "pages": []
+    },
+    {
+      "id": "kunlun",
+      "name": "昆仑幻视",
+      "description": "AI视频与图像生成平台",
+      "color": "#0d7377",
+      "pages": []
     }
   ]
 }
