@@ -4,40 +4,51 @@
       "id": "requirement",
       "name": "需求文档",
       "icon": "doc",
-      "description": "产品需求、问题分析、数据报告"
+      "color": "#ff7d00",
+      "bg": "#fff7e8"
     },
     {
       "id": "flow",
       "name": "流程文档",
       "icon": "flow",
-      "description": "业务流程、SOP、操作规范"
+      "color": "#0fc6c2",
+      "bg": "#e8fffb"
     },
     {
       "id": "feedback",
       "name": "反馈汇总",
       "icon": "feedback",
-      "description": "问题反馈、数据分析、汇总报告"
+      "color": "#722ed1",
+      "bg": "#f3e8ff"
     }
   ],
-  "pages": [
+  "projects": [
     {
-      "file": "docs/AI客服问题汇总报告_20260516.html",
-      "title": "AI客服问题汇总报告",
-      "category": "feedback",
-      "date": "2026-05-16",
-      "tags": [
-        "AI客服",
-        "问题汇总"
-      ]
-    },
-    {
-      "file": "docs/智能客服SOP流程.html",
-      "title": "智能客服SOP流程",
-      "category": "requirement",
-      "date": "2026-05-22",
-      "tags": [
-        "智能客服",
-        "SOP"
+      "id": "ai-cs",
+      "name": "AI客服",
+      "description": "智能客服系统相关文档",
+      "color": "#6366f1",
+      "pages": [
+        {
+          "file": "docs/AI客服/AI客服问题汇总报告_20260516.html",
+          "title": "AI客服问题汇总报告",
+          "category": "feedback",
+          "date": "2026-05-16",
+          "tags": [
+            "AI客服",
+            "问题汇总"
+          ]
+        },
+        {
+          "file": "docs/AI客服/智能客服SOP流程.html",
+          "title": "智能客服SOP流程",
+          "category": "requirement",
+          "date": "2026-05-22",
+          "tags": [
+            "智能客服",
+            "SOP"
+          ]
+        }
       ]
     }
   ]
