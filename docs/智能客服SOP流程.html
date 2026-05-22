@@ -786,5 +786,35 @@ function az(){document.getElementById('fc-img').style.width=(1060*cs)+'px';docum
 (function(){var vp=document.getElementById('fc-vp'),dr=false,sx,sy,sl,st;vp.addEventListener('mousedown',function(e){dr=true;sx=e.pageX-vp.offsetLeft;sy=e.pageY-vp.offsetTop;sl=vp.scrollLeft;st=vp.scrollTop;vp.style.cursor='grabbing'});vp.addEventListener('mouseleave',function(){dr=false;vp.style.cursor='grab'});vp.addEventListener('mouseup',function(){dr=false;vp.style.cursor='grab'});vp.addEventListener('mousemove',function(e){if(!dr)return;e.preventDefault();vp.scrollLeft=sl-(e.pageX-vp.offsetLeft-sx);vp.scrollTop=st-(e.pageY-vp.offsetTop-sy)});vp.addEventListener('wheel',function(e){e.preventDefault();zc(e.deltaY>0?-0.1:0.1)},{passive:false})})();
 function fcFull(){var i=document.getElementById('fc-img');var o=document.createElement('div');o.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:#fff;z-index:10000;overflow:auto;padding:20px;cursor:zoom-out;';var c=i.cloneNode(true);c.style.width='100%';c.style.maxWidth='none';c.style.cursor='zoom-out';o.appendChild(c);o.addEventListener('click',function(){document.body.removeChild(o)});var h=document.createElement('div');h.textContent='点击任意位置关闭';h.style.cssText='position:fixed;top:16px;right:24px;background:rgba(0,0,0,.6);color:#fff;padding:6px 16px;border-radius:20px;font-size:13px;z-index:10001;';o.appendChild(h);document.body.appendChild(o)}
 </script>
+
+<!-- 浮动按钮组 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+@media(max-width:640px){.fab-group{right:14px;bottom:20px;gap:8px}.fab{width:38px;height:38px}.fab svg{width:16px;height:16px}}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+</script>
+
 </body>
 </html>
