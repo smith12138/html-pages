@@ -315,7 +315,7 @@
                         </div>
                         <div class="card-list">
                             ${catPages.map(p => `
-                                <a class="card ${p.category}" href="${encodeURIComponent(p.file)}">
+                                <a class="card ${p.category}" href="${p.file.split('/').map(s => encodeURIComponent(s)).join('/')}">
                                     <div class="card-title">${p.title}</div>
                                     <div class="card-meta">
                                         <span class="card-date">${p.date}</span>
