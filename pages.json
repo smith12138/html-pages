@@ -122,7 +122,15 @@
       "name": "GEO内容发布",
       "description": "SEO/GEO内容自动生成与多平台发布系统",
       "color": "#2563eb",
-      "pages": []
+      "pages": [
+        {
+          "file": "docs/GEO内容发布/GEO内容发布系统项目文档.html",
+          "title": "GEO内容发布系统项目文档",
+          "category": "requirement",
+          "date": "2026-05-22",
+          "tags": []
+        }
+      ]
     }
   ]
 }
