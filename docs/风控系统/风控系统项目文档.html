@@ -665,6 +665,15 @@
                 <a href="#fault" class="toc-l1">十三、容错与监控</a>
                 <a href="#ops" class="toc-l1">十四、运维指南</a>
             </div>
+            <div>
+                <a href="#frontend" class="toc-l1">十五、前端运营平台</a>
+                <a href="#frontend-nav" class="toc-l2">15.1 导航结构</a>
+                <a href="#frontend-cluster" class="toc-l2">15.2 聚类结果页</a>
+                <a href="#frontend-detail" class="toc-l2">15.3 聚类详情页</a>
+                <a href="#frontend-alerts" class="toc-l2">15.4 高危团伙页</a>
+                <a href="#frontend-users" class="toc-l2">15.5 用户管理页</a>
+                <a href="#frontend-api" class="toc-l2">15.6 API 响应结构</a>
+            </div>
         </div>
     </div>
 
@@ -2164,6 +2173,523 @@ find /home/ai-local2/risk_data/online/features/ -mtime +7 -name "*.parquet" -del
 <span class="comment"># 检查 Redis 缓存状态</span>
 redis-cli INFO memory
 redis-cli DBSIZE</div>
+    </div>
+
+    <!-- Section 15: Frontend Operations Platform -->
+    <div class="section" id="frontend">
+        <h2>十五、前端运营平台</h2>
+        <p>
+            系统配套了一套基于 <strong>Vue.js + Arco Design UI</strong> 框架构建的前端运营平台，部署地址为
+            <code>https://api-tj.aaoo-test.com/</code>，为运营人员提供聚类结果可视化、高危团伙审核、用户管理等功能。
+        </p>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">前端框架</div>
+                <div class="value">Vue.js + Arco Design</div>
+            </div>
+            <div class="info-card">
+                <div class="label">部署地址</div>
+                <div class="value"><a href="https://api-tj.aaoo-test.com/" target="_blank">https://api-tj.aaoo-test.com/</a></div>
+            </div>
+            <div class="info-card">
+                <div class="label">后端 API 前缀</div>
+                <div class="value">/risk-feature-api/api/v1/</div>
+            </div>
+            <div class="info-card">
+                <div class="label">支持平台</div>
+                <div class="value">TT (15 个产品)</div>
+            </div>
+        </div>
+
+        <h3 id="frontend-nav">15.1 导航结构</h3>
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span> 整体布局</div>
+            <ul>
+                <li><strong>左侧侧边栏：</strong>3 个菜单项 — 聚类结果、高危团伙、用户管理</li>
+                <li><strong>顶部导航栏：</strong>折叠按钮、面包屑导航、语言切换（简体中文/English）、深色模式切换、用户头像</li>
+                <li><strong>路由模式：</strong>Hash 路由（#/sankey/list、#/alerts/list、#/users/list）</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span> 支持产品列表 (TT 平台)</div>
+            <div class="columns-list">
+                <span class="col-tag">1XSPIN</span>
+                <span class="col-tag">7AA</span>
+                <span class="col-tag">7LUCK</span>
+                <span class="col-tag">7PG</span>
+                <span class="col-tag">7SS</span>
+                <span class="col-tag">7XX</span>
+                <span class="col-tag">B7</span>
+                <span class="col-tag">BRL77</span>
+                <span class="col-tag">BRLUCKY</span>
+                <span class="col-tag">BRSPIN</span>
+                <span class="col-tag">BRWINS</span>
+                <span class="col-tag">GANA7</span>
+                <span class="col-tag">NOVO7</span>
+                <span class="col-tag">SP7</span>
+                <span class="col-tag">VANA7</span>
+            </div>
+        </div>
+
+        <h3 id="frontend-cluster">15.2 聚类结果页 (Cluster Results)</h3>
+        <div class="highlight-box info">
+            <p><strong>路由：</strong><code>#/sankey/list</code> &nbsp;&nbsp;|&nbsp;&nbsp; <strong>API：</strong><code>GET /api/v1/summaries/clusters/list?platform=TT&amp;product={product}</code></p>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span> 页面功能</div>
+            <ul>
+                <li><strong>数据范围面板：</strong>显示当前 "TT &middot; {product} &middot; N 窗口" 信息，产品 Tab 按钮切换</li>
+                <li><strong>窗口列表表格：</strong>展示每个时间窗口的聚类结果入口</li>
+                <li><strong>行操作：</strong>"查看详情" 按钮跳转至聚类详情页</li>
+                <li><strong>分页：</strong>支持 10/20/50/100 条/页</li>
+            </ul>
+        </div>
+
+        <h4>窗口列表表格字段</h4>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>列名</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>窗口结束时间</td>
+                    <td>人类可读的时间格式 (as_of_time)</td>
+                </tr>
+                <tr>
+                    <td>窗口结束时间戳</td>
+                    <td>Unix 时间戳 (as_of_ts)</td>
+                </tr>
+                <tr>
+                    <td>结果文件路径</td>
+                    <td>聚类结果文件在服务器上的路径 (run_dir)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="frontend-detail">15.3 聚类详情页 (Cluster Detail)</h3>
+        <div class="highlight-box info">
+            <p><strong>路由：</strong><code>#/sankey/detail?as_of_ts=...&amp;platform=...&amp;product=...&amp;as_of_time=...</code></p>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span> 桑基图筛选控件</div>
+            <ul>
+                <li><strong>返回列表：</strong>顶部返回按钮</li>
+                <li><strong>行为步数 (max_steps)：</strong>滑块 2-50，默认 25</li>
+                <li><strong>最小用户数 (min_uid_count)：</strong>滑块 1-500，默认 10</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span> 5 个可视化面板</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>面板</th>
+                        <th>说明</th>
+                        <th>交互</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag tag-red">完整桑基图</span></td>
+                        <td>全局用户行为流转 Sankey 图</td>
+                        <td>受步数/最小用户数筛选</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-amber">简化桑基图</span></td>
+                        <td>6 类粗粒度简化 Sankey 图</td>
+                        <td>受步数/最小用户数筛选</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-blue">PCA 3D 散点</span></td>
+                        <td>用户嵌入 3D 散点图（按聚类着色）</td>
+                        <td>点击散点加载对应群体/用户摘要</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-green">用户摘要</span></td>
+                        <td>单个用户画像摘要信息</td>
+                        <td>输入 UID 或点击 3D 散点触发</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-purple">群体摘要</span></td>
+                        <td>团伙/群体统计摘要</td>
+                        <td>点击 3D 散点中的聚类加载</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>详情页调用的 API 端点</h4>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>方法</th>
+                    <th>路径</th>
+                    <th>参数</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/summaries/sankey</td>
+                    <td>as_of_ts, platform, product, top_n, max_steps, min_uid_count</td>
+                    <td>完整桑基图数据</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/summaries/sankey/simple</td>
+                    <td>as_of_ts, platform, product, top_n, max_steps, min_uid_count</td>
+                    <td>简化桑基图数据</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/summaries/pca3d</td>
+                    <td>as_of_ts, platform, product</td>
+                    <td>PCA 3D 降维坐标</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/summaries/groups</td>
+                    <td>as_of_ts, platform, product</td>
+                    <td>团伙摘要列表</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/summaries/user</td>
+                    <td>as_of_ts, platform, product, uid</td>
+                    <td>单用户摘要</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/summaries/sankey/by_cluster</td>
+                    <td>as_of_ts, platform, product, cluster_id, top_n, max_steps, min_uid_count</td>
+                    <td>按聚类筛选桑基图</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="frontend-alerts">15.4 高危团伙页 (High-risk Gangs)</h3>
+        <div class="highlight-box info">
+            <p><strong>路由：</strong><code>#/alerts/list</code> &nbsp;&nbsp;|&nbsp;&nbsp; <strong>API：</strong><code>GET /api/v1/summaries/cluster_risk_alerts</code></p>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span> 筛选条件</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>筛选项</th>
+                        <th>类型</th>
+                        <th>可选值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>平台 (Platform)</td>
+                        <td>下拉选择</td>
+                        <td>TT</td>
+                    </tr>
+                    <tr>
+                        <td>产品 (Product)</td>
+                        <td>下拉选择</td>
+                        <td>15 个产品</td>
+                    </tr>
+                    <tr>
+                        <td>风险等级 (Risk Level)</td>
+                        <td>下拉选择</td>
+                        <td>critical, high</td>
+                    </tr>
+                    <tr>
+                        <td>审核状态 (Review Status)</td>
+                        <td>下拉选择</td>
+                        <td>待审核, 审核中, 已审核, 已忽略</td>
+                    </tr>
+                    <tr>
+                        <td>时间范围 (Time Range)</td>
+                        <td>日期时间范围选择器</td>
+                        <td>start_as_of_ts ~ end_as_of_ts</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span> 结果表格字段</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>列名</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>告警记录 ID</td>
+                    </tr>
+                    <tr>
+                        <td>as_of_ts</td>
+                        <td>特征时间戳</td>
+                    </tr>
+                    <tr>
+                        <td>window_anchor_at</td>
+                        <td>窗口锚定时间</td>
+                    </tr>
+                    <tr>
+                        <td>platform</td>
+                        <td>平台标识</td>
+                    </tr>
+                    <tr>
+                        <td>product</td>
+                        <td>产品标识</td>
+                    </tr>
+                    <tr>
+                        <td>cluster_id</td>
+                        <td>聚类簇 ID</td>
+                    </tr>
+                    <tr>
+                        <td>cluster_member_count</td>
+                        <td>聚类成员数</td>
+                    </tr>
+                    <tr>
+                        <td>withdraw_member_count</td>
+                        <td>提现成员数</td>
+                    </tr>
+                    <tr>
+                        <td>risk_score</td>
+                        <td>风险评分 (0-100)</td>
+                    </tr>
+                    <tr>
+                        <td>risk_level</td>
+                        <td>风险等级 (critical/high)</td>
+                    </tr>
+                    <tr>
+                        <td>review_status</td>
+                        <td>审核状态</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 id="frontend-users">15.5 用户管理页 (User Management)</h3>
+        <div class="highlight-box info">
+            <p><strong>路由：</strong><code>#/users/list</code> &nbsp;&nbsp;|&nbsp;&nbsp; <strong>API：</strong><code>GET/POST/PATCH/DELETE /api/v1/users</code></p>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span> 页面功能</div>
+            <ul>
+                <li><strong>新建用户：</strong>顶部 "新建用户" 按钮，弹出创建对话框</li>
+                <li><strong>状态筛选：</strong>下拉过滤器按用户状态筛选</li>
+                <li><strong>用户表格：</strong>用户名、角色 (admin/user)、创建时间</li>
+                <li><strong>行操作：</strong>编辑按钮、删除按钮</li>
+                <li><strong>分页：</strong>支持 10/20/50/100 条/页</li>
+            </ul>
+        </div>
+
+        <h3 id="frontend-api">15.6 API 响应结构</h3>
+        <p>以下为前端实际调用的 API 响应结构说明（Base URL: <code>/risk-feature-api/api/v1/</code>）。</p>
+
+        <h4>products 响应</h4>
+        <div class="code-block">{
+  <span class="string">"root"</span>: <span class="string">"/path/to/data"</span>,
+  <span class="string">"exists"</span>: <span class="keyword">true</span>,
+  <span class="string">"platform_count"</span>: 1,
+  <span class="string">"items"</span>: [
+    {
+      <span class="string">"platform"</span>: <span class="string">"TT"</span>,
+      <span class="string">"products"</span>: [<span class="string">"1XSPIN"</span>, <span class="string">"7AA"</span>, <span class="string">"7LUCK"</span>, ...]
+    }
+  ]
+}</div>
+
+        <h4>clusters/list 响应</h4>
+        <div class="code-block">{
+  <span class="string">"platform"</span>: <span class="string">"TT"</span>,
+  <span class="string">"product"</span>: <span class="string">"7AA"</span>,
+  <span class="string">"page"</span>: 1,
+  <span class="string">"limit"</span>: 50,
+  <span class="string">"total_pages"</span>: 3,
+  <span class="string">"source"</span>: <span class="string">"postgresql"</span>,
+  <span class="string">"matched_total"</span>: 120,
+  <span class="string">"items"</span>: [
+    {
+      <span class="string">"platform"</span>: <span class="string">"TT"</span>,
+      <span class="string">"product"</span>: <span class="string">"7AA"</span>,
+      <span class="string">"window_count"</span>: 5,
+      <span class="string">"windows"</span>: [
+        {
+          <span class="string">"as_of_ts"</span>: 1716000000,
+          <span class="string">"as_of_time"</span>: <span class="string">"2026-05-18 12:00:00"</span>,
+          <span class="string">"as_of_date"</span>: <span class="string">"2026-05-18"</span>,
+          <span class="string">"has_groups"</span>: <span class="keyword">true</span>,
+          <span class="string">"meta"</span>: {
+            <span class="string">"run_dir"</span>: <span class="string">"/path/to/run"</span>,
+            <span class="string">"cluster_mode"</span>: <span class="string">"full"</span>,
+            <span class="string">"metrics_path"</span>: <span class="string">"metrics.json"</span>
+          }
+        }
+      ]
+    }
+  ]
+}</div>
+
+        <h4>cluster_risk_alerts 响应</h4>
+        <div class="code-block">{
+  <span class="string">"platform"</span>: <span class="string">"TT"</span>,
+  <span class="string">"product"</span>: <span class="string">"7AA"</span>,
+  <span class="string">"start_as_of_ts"</span>: 1715000000,
+  <span class="string">"end_as_of_ts"</span>: 1716000000,
+  <span class="string">"review_status"</span>: <span class="keyword">null</span>,
+  <span class="string">"risk_level"</span>: <span class="string">"critical"</span>,
+  <span class="string">"page"</span>: 1,
+  <span class="string">"limit"</span>: 50,
+  <span class="string">"total"</span>: 25,
+  <span class="string">"total_pages"</span>: 1,
+  <span class="string">"items"</span>: [
+    {
+      <span class="string">"id"</span>: 1,
+      <span class="string">"as_of_ts"</span>: 1716000000,
+      <span class="string">"window_anchor_at"</span>: <span class="string">"2026-05-18T12:00:00Z"</span>,
+      <span class="string">"platform"</span>: <span class="string">"TT"</span>,
+      <span class="string">"product"</span>: <span class="string">"7AA"</span>,
+      <span class="string">"cluster_id"</span>: 3,
+      <span class="string">"cluster_member_count"</span>: 12,
+      <span class="string">"withdraw_member_count"</span>: 8,
+      <span class="string">"risk_score"</span>: 85.5,
+      <span class="string">"risk_level"</span>: <span class="string">"critical"</span>,
+      <span class="string">"review_status"</span>: <span class="string">"pending"</span>,
+      <span class="string">"review_result"</span>: <span class="keyword">null</span>,
+      <span class="string">"reviewer"</span>: <span class="keyword">null</span>,
+      <span class="string">"remark"</span>: <span class="keyword">null</span>,
+      <span class="string">"created_at"</span>: <span class="string">"2026-05-18T12:05:00Z"</span>,
+      <span class="string">"updated_at"</span>: <span class="string">"2026-05-18T12:05:00Z"</span>
+    }
+  ]
+}</div>
+
+        <h4>groups 响应（团伙摘要）</h4>
+        <div class="code-block">{
+  <span class="string">"as_of_ts"</span>: 1716000000,
+  <span class="string">"platform"</span>: <span class="string">"TT"</span>,
+  <span class="string">"product"</span>: <span class="string">"7AA"</span>,
+  <span class="string">"group_by"</span>: <span class="string">"cluster_id"</span>,
+  <span class="string">"cluster_file"</span>: <span class="string">"/path/to/labels.parquet"</span>,
+  <span class="string">"total_groups"</span>: 15,
+  <span class="string">"schema"</span>: <span class="string">"summary_statistic_v1"</span>,
+  <span class="string">"items"</span>: [
+    {
+      <span class="string">"basic_info"</span>: {
+        <span class="string">"cluster_id"</span>: 3,
+        <span class="string">"cluster_member_count"</span>: 12,
+        <span class="string">"cluster_member_ratio"</span>: 0.05,
+        <span class="string">"cluster_member_uid_list"</span>: [<span class="string">"uid1"</span>, <span class="string">"uid2"</span>, ...]
+      },
+      <span class="string">"core_summary"</span>: {
+        <span class="string">"withdraw_overview"</span>: {...},
+        <span class="string">"behavior_path"</span>: {...},
+        <span class="string">"betting_rhythm"</span>: {...},
+        <span class="string">"stake_volatility"</span>: {...},
+        <span class="string">"game_strategy"</span>: {...},
+        <span class="string">"agent_channel"</span>: {...}
+      },
+      <span class="string">"risk"</span>: {
+        <span class="string">"risk_score"</span>: 85.5,
+        <span class="string">"risk_level"</span>: <span class="string">"critical"</span>,
+        <span class="string">"risk_breakdown"</span>: {
+          <span class="string">"withdraw_ratio_in_cluster"</span>: {<span class="string">"weight"</span>: 35, <span class="string">"value"</span>: 0.67},
+          <span class="string">"path_top1_withdraw"</span>: {<span class="string">"weight"</span>: 15, <span class="string">"value"</span>: 0.82},
+          <span class="string">"rhythm_top1"</span>: {<span class="string">"weight"</span>: 10, <span class="string">"value"</span>: 0.91},
+          <span class="string">"volatility_trend_top1"</span>: {<span class="string">"weight"</span>: 10, <span class="string">"value"</span>: 0.75},
+          <span class="string">"withdraw_gt_stake_in_withdraw_subset"</span>: {<span class="string">"weight"</span>: 10, <span class="string">"value"</span>: 0.60},
+          <span class="string">"game_switch_top1"</span>: {<span class="string">"weight"</span>: 10, <span class="string">"value"</span>: 0.88},
+          <span class="string">"agent_channel_top1"</span>: {<span class="string">"weight"</span>: 10, <span class="string">"value"</span>: 0.95}
+        }
+      }
+    }
+  ]
+}</div>
+
+        <h4>user 响应（用户摘要）</h4>
+        <div class="code-block">{
+  <span class="string">"as_of_ts"</span>: 1716000000,
+  <span class="string">"uid"</span>: <span class="string">"user_12345"</span>,
+  <span class="string">"platform"</span>: <span class="string">"TT"</span>,
+  <span class="string">"product"</span>: <span class="string">"7AA"</span>,
+  <span class="string">"cluster_id"</span>: 3,
+  <span class="string">"meta"</span>: {...},
+  <span class="string">"item"</span>: {
+    <span class="string">"basic_info"</span>: {
+      <span class="string">"uid"</span>: <span class="string">"user_12345"</span>,
+      <span class="string">"platform"</span>: <span class="string">"TT"</span>,
+      <span class="string">"product"</span>: <span class="string">"7AA"</span>,
+      <span class="string">"agent"</span>: <span class="string">"agent_001"</span>,
+      <span class="string">"channel"</span>: <span class="string">"organic"</span>,
+      <span class="string">"register_days"</span>: 45,
+      <span class="string">"first_deposit_days"</span>: 44,
+      <span class="string">"vip_level"</span>: 3,
+      <span class="string">"is_withdraw"</span>: <span class="keyword">true</span>
+    },
+    <span class="string">"core_summary"</span>: {
+      <span class="string">"behavior_path"</span>: {...},
+      <span class="string">"betting_rhythm"</span>: {...},
+      <span class="string">"stake_volatility"</span>: {...},
+      <span class="string">"game_strategy"</span>: {...},
+      <span class="string">"profile_affinity"</span>: {...}
+    },
+    <span class="string">"risk"</span>: {
+      <span class="string">"risk_score"</span>: 78.2,
+      <span class="string">"risk_level"</span>: <span class="string">"high"</span>
+    }
+  }
+}</div>
+
+        <h4>sankey 响应</h4>
+        <div class="code-block">{
+  <span class="string">"as_of_ts"</span>: 1716000000,
+  <span class="string">"platform"</span>: <span class="string">"TT"</span>,
+  <span class="string">"product"</span>: <span class="string">"7AA"</span>,
+  <span class="string">"max_steps"</span>: 25,
+  <span class="string">"min_uid_count"</span>: 10,
+  <span class="string">"total_edges"</span>: 350,
+  <span class="string">"items"</span>: [
+    {
+      <span class="string">"src_step"</span>: 1,
+      <span class="string">"dst_step"</span>: 2,
+      <span class="string">"src_event"</span>: <span class="string">"login"</span>,
+      <span class="string">"dst_event"</span>: <span class="string">"bet"</span>,
+      <span class="string">"edge_count"</span>: 150,
+      <span class="string">"uid_count"</span>: 45,
+      <span class="string">"uid_list"</span>: [<span class="string">"uid1"</span>, <span class="string">"uid2"</span>, ...]
+    }
+  ],
+  <span class="string">"node_items"</span>: [
+    {<span class="string">"step"</span>: 1, <span class="string">"event"</span>: <span class="string">"login"</span>, <span class="string">"uid_count"</span>: 200}
+  ],
+  <span class="string">"total_paths"</span>: 85,
+  <span class="string">"path_items"</span>: [...]
+}</div>
+
+        <h4>sankey/by_cluster 响应（附加字段）</h4>
+        <div class="code-block"><span class="comment">// 在 sankey 响应基础上增加以下字段：</span>
+{
+  ...sankey fields...,
+  <span class="string">"cluster_id"</span>: 3,
+  <span class="string">"cluster_member_uid_count_csv"</span>: <span class="string">"/path/to/uid_count.csv"</span>,
+  <span class="string">"cluster_member_uid_count_in_paths_parquet"</span>: <span class="string">"/path/to/paths.parquet"</span>
+}</div>
+
+        <div class="highlight-box success">
+            <p><strong>前端技术特性：</strong>支持简体中文/英文双语切换、深色/浅色主题切换、响应式布局。桑基图使用 ECharts 渲染，PCA 3D 散点使用 Plotly.js 渲染，支持交互式点击选取聚类查看详细信息。</p>
+        </div>
     </div>
 
 </div>

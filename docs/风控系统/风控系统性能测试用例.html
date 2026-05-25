@@ -16,7 +16,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .stat{flex:1;min-width:120px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
 .stat .num{font-size:28px;font-weight:700}.stat .label{font-size:11px;color:#6b7280;margin-top:2px}
 .c1 .num{color:#dc2626}.c2 .num{color:#ea580c}.c3 .num{color:#d97706}.c4 .num{color:#059669}.c5 .num{color:#2563eb}.c6 .num{color:#7c3aed}
-.c7 .num{color:#be185d}.c8 .num{color:#0891b2}.c9 .num{color:#4f46e5}.c10 .num{color:#065f46}.c11 .num{color:#92400e}.c12 .num{color:#6d28d9}.c13 .num{color:#991b1b}
+.c7 .num{color:#be185d}.c8 .num{color:#0891b2}.c9 .num{color:#4f46e5}.c10 .num{color:#065f46}.c11 .num{color:#92400e}.c12 .num{color:#6d28d9}.c13 .num{color:#991b1b}.c14 .num{color:#0d9488}
 .toc{background:#fff;border-radius:12px;padding:20px 24px;margin-bottom:28px;border:1px solid #e5e7eb;border-left:4px solid #dc2626}
 .toc h2{font-size:16px;color:#dc2626;margin-bottom:10px}
 .toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
@@ -78,6 +78,7 @@ ol.steps li{margin-bottom:3px}
 <div class="stat c11"><div class="num" id="s11">0</div><div class="label">文件I/O</div></div>
 <div class="stat c12"><div class="num" id="s12">0</div><div class="label">端到端链路</div></div>
 <div class="stat c13"><div class="num" id="s13">0</div><div class="label">资源与压力</div></div>
+<div class="stat c14"><div class="num" id="s14">0</div><div class="label">前端与API集成</div></div>
 </div>
 
 <div class="filter-bar" id="filterBar">
@@ -105,6 +106,7 @@ ol.steps li{margin-bottom:3px}
 <li><a href="#m11">11. 文件I/O性能</a><span class="cnt" id="mc11"></span></li>
 <li><a href="#m12">12. 端到端链路性能</a><span class="cnt" id="mc12"></span></li>
 <li><a href="#m13">13. 资源使用与压力测试</a><span class="cnt" id="mc13"></span></li>
+<li><a href="#m14">14. 前端与API集成性能</a><span class="cnt" id="mc14"></span></li>
 </ul>
 </div>
 
@@ -323,6 +325,26 @@ ol.steps li{margin-bottom:3px}
 </tbody></table>
 </div>
 
+<!-- ================================================================ -->
+<!-- M14: 前端与API集成性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m14">
+<div class="sec-head"><h2>14. 前端与API集成性能</h2><span class="cnt-badge" id="mb14"></span></div>
+<div class="sec-desc">前端页面加载、Sankey/PCA3D渲染、并发API请求、产品切换等实际使用场景性能验证</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P086</td><td><span class="tag tag-rt">响应时间</span></td><td>聚类列表页加载性能</td><td>验证 #/sankey/list 页面加载和API响应时间</td><td>前端已部署；后端 /products 和 /clusters/list 接口就绪；有多产品数据</td><td><ol class="steps"><li>浏览器导航到 #/sankey/list</li><li>Performance API 记录 /products 请求耗时</li><li>记录 /clusters/list 请求耗时</li><li>测量页面完全渲染时间 (DOMContentLoaded + 数据填充)</li><li>重复10次取p50/p95</li></ol></td><td class="expect"><strong>页面完全渲染 &lt; 2s；API p95 &lt; 500ms</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P087</td><td><span class="tag tag-rt">响应时间</span></td><td>完整Sankey渲染性能</td><td>验证 /summaries/sankey 大规模数据渲染性能</td><td>NOVO7产品数据就绪；/summaries/sankey 返回168 edges, 90 nodes, 1364 paths</td><td><ol class="steps"><li>进入Sankey详情页 (NOVO7产品)</li><li>记录 /summaries/sankey API响应时间</li><li>记录D3 Sankey图渲染完成时间 (从数据返回到SVG绑定完毕)</li><li>测量总交互可用时间</li><li>验证所有168条边和90个节点正确渲染</li></ol></td><td class="expect"><strong>API响应 &lt; 3s；Sankey渲染 &lt; 2s</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P088</td><td><span class="tag tag-rt">响应时间</span></td><td>简化Sankey渲染性能</td><td>验证 /summaries/sankey/simple 轻量渲染性能</td><td>后端 /summaries/sankey/simple 接口就绪；返回简化边/节点集合</td><td><ol class="steps"><li>请求 /summaries/sankey/simple</li><li>记录API响应时间</li><li>记录D3简化Sankey渲染时间</li><li>对比完整Sankey渲染时间差异</li></ol></td><td class="expect"><strong>API响应 &lt; 1s；D3渲染 &lt; 500ms</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P089</td><td><span class="tag tag-rt">响应时间</span></td><td>PCA 3D散点渲染性能</td><td>验证 /summaries/pca3d 大规模JSON和WebGL渲染性能</td><td>/summaries/pca3d 返回10K+数据点的3D坐标JSON；Three.js/WebGL环境就绪</td><td><ol class="steps"><li>请求 /summaries/pca3d 接口</li><li>记录API响应时间 (大JSON传输+解析)</li><li>记录Three.js/WebGL渲染10K+散点的时间</li><li>测量首次交互可用时间 (可旋转/缩放)</li><li>监控GPU内存占用</li></ol></td><td class="expect"><strong>API响应 &lt; 2s；Three.js/WebGL渲染 &lt; 3s (10K+点)</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P090</td><td><span class="tag tag-rt">响应时间</span></td><td>团伙摘要加载性能</td><td>验证 /summaries/groups 含大规模uid_list的响应性能</td><td>/summaries/groups 返回含78成员uid_list的团伙摘要数据</td><td><ol class="steps"><li>请求 /summaries/groups 接口</li><li>记录API响应时间</li><li>验证返回数据中uid_list (78成员) 完整</li><li>记录前端解析和渲染摘要卡片时间</li><li>重复20次统计p50/p95</li></ol></td><td class="expect"><strong>API响应 &lt; 1s</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P091</td><td><span class="tag tag-rt">响应时间</span></td><td>用户摘要查询性能</td><td>验证 /summaries/user 单UID查询延迟</td><td>/summaries/user 接口就绪；数据库有用户摘要数据</td><td><ol class="steps"><li>随机选取50个不同UID</li><li>逐一请求 /summaries/user?uid=xxx</li><li>记录每次请求p50/p95/p99延迟</li><li>验证返回字段完整性</li></ol></td><td class="expect"><strong>API p95 &lt; 300ms</strong></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P092</td><td><span class="tag tag-rt">响应时间</span></td><td>高危团伙查询性能</td><td>验证 /cluster_risk_alerts 分页查询和表格渲染性能</td><td>/cluster_risk_alerts 接口就绪；数据库有告警数据；分页参数 page_size=50</td><td><ol class="steps"><li>请求 /cluster_risk_alerts?page=1&amp;page_size=50</li><li>记录API响应时间</li><li>记录前端表格渲染50行数据耗时</li><li>测试翻页 (page=2,3,4) 响应时间</li><li>统计p50/p95</li></ol></td><td class="expect"><strong>API响应 &lt; 500ms；表格渲染 &lt; 200ms</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P093</td><td><span class="tag tag-rt">响应时间</span></td><td>Sankey按簇过滤性能</td><td>验证 /summaries/sankey/by_cluster 按cluster_id过滤的性能</td><td>/summaries/sankey/by_cluster 接口就绪；cluster_id=1 返回265条边</td><td><ol class="steps"><li>请求 /summaries/sankey/by_cluster?cluster_id=1</li><li>记录API响应时间</li><li>验证返回265条边数据完整</li><li>记录过滤后Sankey重新渲染时间</li><li>测试不同cluster_id的响应差异</li></ol></td><td class="expect"><strong>API响应 &lt; 2s</strong></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P094</td><td><span class="tag tag-rt">响应时间</span></td><td>前端并发API请求性能</td><td>验证详情页同时发起多个API调用的总完成时间</td><td>详情页同时请求: /summaries/sankey + /summaries/sankey/simple + /summaries/pca3d + /summaries/groups</td><td><ol class="steps"><li>进入产品详情页</li><li>Performance API 记录4个并发请求的各自发起和完成时间</li><li>计算全部请求完成的总耗时 (取最慢者)</li><li>验证浏览器并发连接数未超限</li><li>重复5次取平均</li></ol></td><td class="expect"><strong>4个并发API全部完成 &lt; 5s</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P095</td><td><span class="tag tag-rt">响应时间</span></td><td>产品切换响应性能</td><td>验证快速切换产品标签时数据重新加载性能</td><td>前端有15个产品标签；每个产品切换触发数据重新请求和渲染</td><td><ol class="steps"><li>依次快速点击15个产品标签</li><li>记录每次切换后数据加载+渲染完成时间</li><li>验证快速切换时无请求竞态 (race condition)</li><li>检查是否有请求取消/防抖机制</li><li>记录p50/p95切换响应时间</li></ol></td><td class="expect"><strong>单次标签切换 + 数据重载 &lt; 1s</strong></td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
 </div>
 
 <div class="footer">风控系统性能测试用例 v1.0 &middot; 整理时间：2026-05-25</div>
@@ -360,7 +382,7 @@ ol.steps li{margin-bottom:3px}
 // Stats count
 (function(){
     var total=0;
-    for(var i=1;i<=13;i++){
+    for(var i=1;i<=14;i++){
         var n=document.querySelectorAll('#m'+i+' tbody tr').length;
         document.getElementById('s'+i).textContent=n;
         document.getElementById('mc'+i).textContent=' ('+n+')';

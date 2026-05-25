@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>风控团伙系统流程图 - Risk Control Gang Detection System</title>
+    <link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b2e 30%, #4a1942 70%, #1a1a2e 100%);
+            color: #fff;
+            padding: 60px 40px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(239, 68, 68, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 50%, rgba(220, 38, 38, 0.1) 0%, transparent 60%);
+            animation: headerPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .header h1 span {
+            color: #f87171;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .header-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-meta .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+            display: inline-block;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-left: 4px solid #ef4444;
+        }
+
+        .toc h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 8px 24px;
+        }
+
+        .toc a {
+            color: #dc2626;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 6px 0;
+            display: block;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .toc a:hover {
+            color: #ef4444;
+            text-decoration: underline;
+        }
+
+        /* Section Cards */
+        .section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 36px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            font-size: 24px;
+            color: #1e293b;
+            margin-bottom: 8px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #fee2e2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 .num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #ef4444;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .section-desc {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* Flow Diagram Styles */
+        .flow-container {
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            min-width: 600px;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .flow-box {
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            border: 2px solid;
+            position: relative;
+            min-width: 120px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .flow-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .flow-box-sm {
+            padding: 8px 12px;
+            font-size: 12px;
+            min-width: 90px;
+        }
+
+        /* Box Colors */
+        .box-datasource { background: #DAE8FC; border-color: #6C8EBF; color: #1e3a5f; }
+        .box-feature { background: #D5E8D4; border-color: #82B366; color: #2d5a27; }
+        .box-storage { background: #FFF2CC; border-color: #D6B656; color: #5a4a1a; }
+        .box-model { background: #E1D5E7; border-color: #9673A6; color: #4a2d5e; }
+        .box-mq { background: #F8CECC; border-color: #B85450; color: #5a1a1a; }
+        .box-db { background: #D4E1F5; border-color: #5B7BA5; color: #1e3355; }
+        .box-api { background: #FFE6CC; border-color: #D79B00; color: #5a3d00; }
+        .box-process { background: #f1f5f9; border-color: #94a3b8; color: #334155; }
+        .box-highlight { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
+
+        /* Arrow connectors */
+        .arrow-down {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4px 0;
+        }
+
+        .arrow-down::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #64748b;
+        }
+
+        .arrow-down .arrow-line {
+            width: 2px;
+            height: 20px;
+            background: #64748b;
+            position: relative;
+        }
+
+        .arrow-down .arrow-label {
+            font-size: 11px;
+            color: #64748b;
+            padding: 2px 8px;
+            background: #f8fafc;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .arrow-right {
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+        }
+
+        .arrow-right::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid #64748b;
+        }
+
+        .arrow-right .arrow-line {
+            width: 20px;
+            height: 2px;
+            background: #64748b;
+        }
+
+        .arrow-right .arrow-label {
+            font-size: 10px;
+            color: #64748b;
+            position: absolute;
+            top: -14px;
+            white-space: nowrap;
+        }
+
+        /* Animated arrows */
+        @keyframes flowPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        .arrow-animated .arrow-line {
+            background: linear-gradient(90deg, #ef4444, #f97316, #ef4444);
+            background-size: 200% 100%;
+            animation: arrowFlow 2s linear infinite;
+        }
+
+        .arrow-animated.arrow-down .arrow-line {
+            background: linear-gradient(180deg, #ef4444, #f97316, #ef4444);
+            background-size: 100% 200%;
+            animation: arrowFlowV 2s linear infinite;
+        }
+
+        @keyframes arrowFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        @keyframes arrowFlowV {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 200%; }
+        }
+
+        /* Layer container */
+        .layer {
+            border: 2px dashed;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 8px 0;
+            width: 100%;
+            position: relative;
+        }
+
+        .layer-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #fff;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .layer-datasource { border-color: #6C8EBF; }
+        .layer-datasource .layer-label { color: #6C8EBF; }
+        .layer-feature { border-color: #82B366; }
+        .layer-feature .layer-label { color: #82B366; }
+        .layer-storage { border-color: #D6B656; }
+        .layer-storage .layer-label { color: #D6B656; }
+        .layer-model { border-color: #9673A6; }
+        .layer-model .layer-label { color: #9673A6; }
+        .layer-mq { border-color: #B85450; }
+        .layer-mq .layer-label { color: #B85450; }
+        .layer-api { border-color: #D79B00; }
+        .layer-api .layer-label { color: #D79B00; }
+
+        /* Grid layout for flows */
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            width: 100%;
+        }
+
+        .flow-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .flow-grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .flow-grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+        /* Step list */
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .step-list li:last-child { border-bottom: none; }
+
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #ef4444;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Pipeline horizontal */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            overflow-x: auto;
+            padding: 20px 10px;
+        }
+
+        .pipeline-step {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .pipeline-arrow {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .pipeline-arrow .pa-line {
+            width: 24px;
+            height: 2px;
+            background: #64748b;
+        }
+
+        .pipeline-arrow .pa-head {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 7px solid #64748b;
+        }
+
+        .pipeline-arrow.animated .pa-line {
+            background: linear-gradient(90deg, #ef4444, #f97316, #ef4444);
+            background-size: 200% 100%;
+            animation: arrowFlow 1.5s linear infinite;
+        }
+
+        .pipeline-arrow.animated .pa-head {
+            border-left-color: #ef4444;
+            animation: flowPulse 1.5s ease-in-out infinite;
+        }
+
+        /* Table styles */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        .info-table th {
+            background: #1e293b;
+            color: #fff;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .info-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-table tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        .info-table tr:hover td {
+            background: #fef2f2;
+        }
+
+        /* Tag/badge */
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .tag-red { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+        .tag-blue { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+        .tag-green { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+        .tag-yellow { background: #fefce8; color: #ca8a04; border: 1px solid #fef08a; }
+        .tag-purple { background: #faf5ff; color: #9333ea; border: 1px solid #e9d5ff; }
+
+        /* Tensor flow visualization */
+        .tensor-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .tensor-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tensor-box {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: "SF Mono", "Fira Code", monospace;
+            border: 1px solid;
+        }
+
+        /* Horizontal separator with label */
+        .sep-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .sep-label::before, .sep-label::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        /* Color legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Schema card */
+        .schema-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+            background: #fafbfc;
+        }
+
+        .schema-card h4 {
+            font-size: 14px;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .schema-card code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Risk score bar */
+        .risk-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+        }
+
+        .risk-bar-track {
+            flex: 1;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .risk-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .risk-bar-label {
+            font-size: 12px;
+            min-width: 30px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        /* Deploy topology */
+        .deploy-box {
+            border: 2px solid;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 12px 0;
+            position: relative;
+        }
+
+        .deploy-title {
+            position: absolute;
+            top: -12px;
+            left: 16px;
+            background: #fff;
+            padding: 0 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .deploy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Float Buttons */
+        .float-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .float-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .float-btn-home {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .float-btn-top {
+            background: #fff;
+            color: #ef4444;
+            border: 1px solid #e2e8f0;
+        }
+
+        .float-btn-bottom {
+            background: #fff;
+            color: #ef4444;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px 30px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .footer .divider {
+            width: 60px;
+            height: 2px;
+            background: #e2e8f0;
+            margin: 0 auto 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 40px 20px 36px; }
+            .header h1 { font-size: 28px; }
+            .section { padding: 24px 20px; }
+            .toc { padding: 24px 20px; }
+            .toc-grid { grid-template-columns: 1fr; }
+            .flow-grid-3, .flow-grid-4 { grid-template-columns: 1fr; }
+            .deploy-grid { grid-template-columns: 1fr; }
+            .float-buttons { bottom: 16px; right: 16px; }
+        }
+
+        /* Vertical flow with branches */
+        .vflow {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .vflow::before {
+            content: "";
+            position: absolute;
+            left: 18px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6);
+        }
+
+        .vflow-node {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+        }
+
+        .vflow-node::before {
+            content: "";
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #ef4444;
+        }
+
+        .vflow-node h4 {
+            font-size: 13px;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .vflow-node p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* MQ message card */
+        .mq-msg {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 8px 0;
+        }
+
+        .mq-msg .msg-topic {
+            font-weight: 700;
+            color: #dc2626;
+            font-size: 13px;
+        }
+
+        .mq-msg .msg-body {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="header-content">
+        <div class="header-badge">RISK CONTROL SYSTEM</div>
+        <h1>风控团伙系统<span>流程图</span></h1>
+        <p class="subtitle">Risk Control Gang Detection System - Flow Diagrams</p>
+        <div class="header-meta">
+            <span><span class="dot"></span>8 Key Flow Diagrams</span>
+            <span><span class="dot"></span>6-Layer Architecture</span>
+            <span><span class="dot"></span>3334 Feature Columns</span>
+            <span><span class="dot"></span>Mamba + KAN SSL Model</span>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h2>&#128209; 目录导航</h2>
+        <div class="toc-grid">
+            <a href="#flow1">1. 总体系统架构 (6-Layer)</a>
+            <a href="#flow2">2. 特征工程内部流水线</a>
+            <a href="#flow3">3. 窗口契约与Schema</a>
+            <a href="#flow4">4. GangModel张量流水线</a>
+            <a href="#flow5">5. 离线训练与聚类</a>
+            <a href="#flow6">6. 团伙可解释性与风险分</a>
+            <a href="#flow7">7. 部署拓扑与MQ消息</a>
+            <a href="#flow8">8. 数据模型与运维</a>
+        </div>
+    </div>
+
+    <!-- Color Legend -->
+    <div class="legend">
+        <div class="legend-item"><div class="legend-color" style="background:#DAE8FC"></div>数据源/缓存</div>
+        <div class="legend-item"><div class="legend-color" style="background:#D5E8D4"></div>risk_feature</div>
+        <div class="legend-item"><div class="legend-color" style="background:#FFF2CC"></div>存储产物</div>
+        <div class="legend-item"><div class="legend-color" style="background:#E1D5E7"></div>model_service</div>
+        <div class="legend-item"><div class="legend-color" style="background:#F8CECC"></div>RocketMQ</div>
+        <div class="legend-item"><div class="legend-color" style="background:#D4E1F5"></div>PostgreSQL</div>
+        <div class="legend-item"><div class="legend-color" style="background:#FFE6CC"></div>API/前端</div>
+    </div>
+
+    <!-- ==================== FLOW 1 ==================== -->
+    <div class="section" id="flow1">
+        <h2><span class="num">1</span> 总体系统架构</h2>
+        <p class="section-desc">Complete system with 6 layers: data collection, feature computation, storage, message bus, model service, and operations</p>
+
+        <div class="flow-container">
+            <div class="flow-diagram">
+
+                <!-- Layer 1: Data Collection -->
+                <div class="layer layer-datasource" style="margin-top:16px;">
+                    <span class="layer-label">&#9312; 数据采集层</span>
+                    <div class="flow-row" style="padding:12px 0;">
+                        <div class="flow-box box-datasource">
+                            <strong>StarRocks DWD</strong>
+                            <div style="font-size:11px;color:#64748b;">(read-only)</div>
+                        </div>
+                        <div class="pipeline-arrow animated">
+                            <div class="pa-line" style="width:40px;"></div>
+                            <div class="pa-head"></div>
+                        </div>
+                        <div class="flow-box box-datasource">
+                            <strong>Redis 热缓存</strong>
+                            <div style="font-size:11px;color:#64748b;">MessagePack分片 + watermark</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arrow down -->
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:24px;"></div>
+                </div>
+
+                <!-- Layer 2: Feature Computation -->
+                <div class="layer layer-feature">
+                    <span class="layer-label">&#9313; 特征计算 (risk_feature)</span>
+                    <div class="flow-row" style="padding:12px 0;gap:20px;">
+                        <div style="flex:1;">
+                            <div class="flow-box box-feature" style="width:100%;">
+                                <strong>实时 Worker</strong>
+                                <div style="font-size:11px;">300s/6h/2min分片</div>
+                            </div>
+                        </div>
+                        <div style="flex:1;">
+                            <div class="flow-box box-feature" style="width:100%;">
+                                <strong>离线特征生成</strong>
+                                <div style="font-size:11px;">120 x 6h windows</div>
+                            </div>
+                        </div>
+                        <div class="pipeline-arrow animated">
+                            <div class="pa-line" style="width:24px;"></div>
+                            <div class="pa-head"></div>
+                        </div>
+                        <div style="flex:1;">
+                            <div class="flow-box box-feature" style="width:100%;">
+                                <strong>features/* + assembler</strong>
+                                <div style="font-size:11px;">3334 columns</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arrow down -->
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:24px;"></div>
+                </div>
+
+                <!-- Layer 3: Storage -->
+                <div class="layer layer-storage">
+                    <span class="layer-label">&#9314; 存储产物</span>
+                    <div class="flow-grid flow-grid-3" style="padding:12px 0;">
+                        <div class="flow-box box-storage">
+                            <strong>在线特征 Parquet</strong>
+                        </div>
+                        <div class="flow-box box-storage">
+                            <strong>Explain 产物</strong>
+                            <div style="font-size:11px;">summary_features / user_paths / sankey</div>
+                        </div>
+                        <div class="flow-box box-storage">
+                            <strong>离线特征 Parquet</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arrow down -->
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:24px;"></div>
+                </div>
+
+                <!-- Message Bus -->
+                <div class="layer layer-mq">
+                    <span class="layer-label">&#128233; 消息总线 RocketMQ</span>
+                    <div class="flow-row" style="padding:12px 0;">
+                        <div class="flow-box box-mq">
+                            <strong>topic: risk_feature</strong>
+                            <div style="font-size:11px;">event: feature_generated</div>
+                        </div>
+                        <div style="display:flex;align-items:center;font-size:24px;color:#B85450;">&#8596;</div>
+                        <div class="flow-box box-mq">
+                            <strong>topic: risk_cluster</strong>
+                            <div style="font-size:11px;">event: cluster_completed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arrow down -->
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:24px;"></div>
+                </div>
+
+                <!-- Layer 4: Model Service -->
+                <div class="layer layer-model">
+                    <span class="layer-label">&#9315; 模型服务 (model_service)</span>
+                    <div class="pipeline" style="justify-content:center;">
+                        <div class="flow-box box-model flow-box-sm">消费者</div>
+                        <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                        <div class="flow-box box-model flow-box-sm">train.py<br><span style="font-size:10px;">GangModel<br>Mamba+KAN SSL</span></div>
+                        <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                        <div class="flow-box box-model flow-box-sm">cluster.py<br><span style="font-size:10px;">HDBSCAN</span></div>
+                        <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                        <div class="flow-box box-model flow-box-sm">run_dir 产物</div>
+                    </div>
+                </div>
+
+                <!-- Arrow down -->
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:24px;"></div>
+                </div>
+
+                <!-- Layer 5: Explainability -->
+                <div class="layer layer-feature">
+                    <span class="layer-label">&#9316; 团伙可解释性 (risk_feature消费者)</span>
+                    <div class="pipeline" style="justify-content:center;flex-wrap:wrap;">
+                        <div class="flow-box box-feature flow-box-sm">消费 cluster_completed</div>
+                        <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                        <div class="flow-box box-feature flow-box-sm">user_paths_full</div>
+                        <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                        <div class="flow-box box-feature flow-box-sm">cluster_summary</div>
+                        <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                        <div class="flow-box box-db flow-box-sm">PG索引</div>
+                        <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                        <div class="flow-box box-feature flow-box-sm">group_summaries</div>
+                        <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                        <div class="flow-box box-highlight flow-box-sm">risk_alert</div>
+                    </div>
+                </div>
+
+                <!-- Arrow down -->
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:24px;"></div>
+                </div>
+
+                <!-- Layer 6: Operations -->
+                <div class="layer layer-api">
+                    <span class="layer-label">&#9317; 运营服务</span>
+                    <div class="flow-row" style="padding:12px 0;">
+                        <div class="flow-box box-api">
+                            <strong>FastAPI /api/v1</strong>
+                        </div>
+                        <div class="pipeline-arrow animated"><div class="pa-line" style="width:40px;"></div><div class="pa-head"></div></div>
+                        <div class="flow-box box-api">
+                            <strong>运营前端 HTML</strong>
+                            <div style="font-size:11px;">聚类结果 / 高危团伙 / 用户管理</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FLOW 2 ==================== -->
+    <div class="section" id="flow2">
+        <h2><span class="num">2</span> 特征工程内部流水线</h2>
+        <p class="section-desc">IncrementalRunner 8 steps + Single user computation pipeline</p>
+
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">IncrementalRunner 8 Steps</h3>
+
+        <div class="flow-container">
+            <div class="vflow">
+                <div class="vflow-node" style="border-left:3px solid #82B366;">
+                    <h4>Step 1: _incremental_fetch</h4>
+                    <p>StarRocks DWD query &rarr; Write to Redis (MessagePack shards)</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #82B366;">
+                    <h4>Step 2: fetch_active_users_with_pp</h4>
+                    <p>Query 6h bet window, identify active users</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #82B366;">
+                    <h4>Step 3: fetch_user_profiles</h4>
+                    <p>Load user profile data from StarRocks</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #82B366;">
+                    <h4>Step 4: multiprocessing.Pool</h4>
+                    <p>Parallel computation: Redis MGET with DB fallback</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #82B366;">
+                    <h4>Step 5: split_outputs</h4>
+                    <p>Split by platform &times; product dimensions</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #FFF2CC;">
+                    <h4>Step 6: write_parquet/csv</h4>
+                    <p>Persist feature artifacts to disk</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #FFF2CC;">
+                    <h4>Step 7: _write_explain_artifacts</h4>
+                    <p>Generate explainability CSV/JSON artifacts</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #F8CECC;">
+                    <h4>Step 8: publish feature_generated</h4>
+                    <p>Send MQ message with split_outputs metadata</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sep-label">Single User Computation Pipeline</div>
+
+        <div class="flow-container">
+            <div class="pipeline" style="flex-wrap:wrap;justify-content:center;">
+                <div class="flow-box box-feature flow-box-sm">Top-K(5)</div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-feature flow-box-sm">Micro<br><span style="font-size:10px;">stake/fund/spectral</span></div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-feature flow-box-sm">Macro<br><span style="font-size:10px;">path/switch/unique</span></div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-feature flow-box-sm">Behavior<br><span style="font-size:10px;">seq/agg/ctx_hash</span></div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-feature flow-box-sm">Resonance</div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-highlight flow-box-sm">P1</div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-storage flow-box-sm">assemble_row<br><span style="font-size:10px;">3334 columns</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FLOW 3 ==================== -->
+    <div class="section" id="flow3">
+        <h2><span class="num">3</span> 窗口契约与Schema</h2>
+        <p class="section-desc">Window contracts, sliding subwindows, and feature schema definition</p>
+
+        <div class="flow-grid flow-grid-2" style="margin-bottom:20px;">
+            <div class="schema-card">
+                <h4>&#128339; 6h Lookback Window</h4>
+                <p style="font-size:13px;margin-top:8px;">Range: <code>[as_of - 6h, as_of)</code></p>
+                <div style="margin-top:12px;background:#e2e8f0;border-radius:6px;height:24px;position:relative;overflow:hidden;">
+                    <div style="position:absolute;left:0;top:0;height:100%;width:100%;background:linear-gradient(90deg,#22c55e 0%,#3b82f6 100%);opacity:0.6;"></div>
+                    <div style="position:absolute;left:10%;top:2px;font-size:10px;color:#fff;font-weight:600;">as_of - 6h</div>
+                    <div style="position:absolute;right:10%;top:2px;font-size:10px;color:#fff;font-weight:600;">as_of</div>
+                </div>
+            </div>
+            <div class="schema-card">
+                <h4>&#128200; 34 Sliding Subwindows</h4>
+                <p style="font-size:13px;margin-top:8px;">
+                    Width: <code>30min</code> | Stride: <code>10min</code> | k = 0...33
+                </p>
+                <div style="margin-top:12px;display:flex;gap:2px;flex-wrap:wrap;">
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.3;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.35;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.4;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.45;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.5;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.55;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.6;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.65;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.7;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.75;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.8;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.85;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.9;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.95;"></div>
+                    <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:1;"></div>
+                    <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:0.3;"></div>
+                    <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:0.4;"></div>
+                    <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:0.5;"></div>
+                    <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:0.6;"></div>
+                    <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:0.7;"></div>
+                    <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:0.8;"></div>
+                    <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:0.9;"></div>
+                    <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:1;"></div>
+                </div>
+                <p style="font-size:11px;color:#64748b;margin-top:6px;">34 overlapping windows across 6h range</p>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>&#128290; 180 x 2min Shards</h4>
+            <p style="font-size:13px;margin-top:4px;">6h / 2min = 180 shards for fine-grained temporal resolution</p>
+        </div>
+
+        <div class="sep-label">Schema v2.14 Structure</div>
+
+        <div class="flow-container">
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+                <div class="flow-box box-datasource" style="min-width:140px;">
+                    <strong>KEY_COLS (5)</strong>
+                    <div style="font-size:11px;">platform, product, user_id, as_of, version</div>
+                </div>
+                <div style="font-size:24px;color:#64748b;">+</div>
+                <div class="flow-box box-feature" style="min-width:140px;">
+                    <strong>FEATURE_COLS (3329)</strong>
+                </div>
+                <div style="font-size:24px;color:#64748b;">=</div>
+                <div class="flow-box box-highlight" style="min-width:100px;">
+                    <strong>3334 Total</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="sep-label">Feature Groups Order</div>
+
+        <div class="pipeline" style="justify-content:center;flex-wrap:wrap;">
+            <div class="flow-box box-process flow-box-sm">P0 masks</div>
+            <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+            <div class="flow-box box-feature flow-box-sm">Micro Top-K<br><span style="font-size:10px;">~2000+ cols</span></div>
+            <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+            <div class="flow-box box-feature flow-box-sm">Macro<br><span style="font-size:10px;">~500+ cols</span></div>
+            <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+            <div class="flow-box box-feature flow-box-sm">Behavior</div>
+            <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+            <div class="flow-box box-highlight flow-box-sm">P1</div>
+        </div>
+    </div>
+
+    <!-- ==================== FLOW 4 ==================== -->
+    <div class="section" id="flow4">
+        <h2><span class="num">4</span> GangModel 张量流水线</h2>
+        <p class="section-desc">FeaturePreprocessor to final embeddings through Mamba + KAN architecture</p>
+
+        <div class="flow-container">
+            <div class="flow-diagram">
+
+                <!-- Input: FeaturePreprocessor -->
+                <div class="flow-box box-datasource" style="width:100%;max-width:800px;">
+                    <strong>FeaturePreprocessor</strong>
+                    <div style="font-size:12px;margin-top:8px;">Raw 3334 columns &rarr; 6 structured tensors</div>
+                </div>
+
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:16px;"></div>
+                </div>
+
+                <!-- 6 Tensors -->
+                <div class="tensor-flow" style="width:100%;max-width:800px;">
+                    <div style="font-size:12px;font-weight:700;color:#1e293b;margin-bottom:4px;">6 Input Tensors:</div>
+                    <div class="tensor-row">
+                        <span class="tensor-box" style="background:#DAE8FC;border-color:#6C8EBF;">macro_path_ids [B, 170]</span>
+                        <span class="tensor-box" style="background:#D5E8D4;border-color:#82B366;">behav_global [B, 16]</span>
+                        <span class="tensor-box" style="background:#D5E8D4;border-color:#82B366;">behav_fine [B, 32]</span>
+                    </div>
+                    <div class="tensor-row">
+                        <span class="tensor-box" style="background:#FFF2CC;border-color:#D6B656;">cont [B, 2936]</span>
+                        <span class="tensor-box" style="background:#E1D5E7;border-color:#9673A6;">mask_topk [B, 5]</span>
+                        <span class="tensor-box" style="background:#E1D5E7;border-color:#9673A6;">mask_subwin [B, 170]</span>
+                    </div>
+                </div>
+
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:16px;"></div>
+                </div>
+
+                <!-- Embedders -->
+                <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;width:100%;max-width:800px;">
+                    <div class="flow-box box-model" style="flex:1;min-width:200px;">
+                        <strong>DiscreteEmbedder</strong>
+                        <div style="font-size:11px;">[B, 104]</div>
+                    </div>
+                    <div style="font-size:20px;color:#64748b;align-self:center;">+</div>
+                    <div class="flow-box box-model" style="flex:1;min-width:200px;">
+                        <strong>ContProjector</strong>
+                        <div style="font-size:11px;">[B, 256]</div>
+                    </div>
+                </div>
+
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:16px;"></div>
+                    <span class="arrow-label">Fuse [B, 1, 256]</span>
+                </div>
+
+                <!-- Mamba -->
+                <div class="flow-box box-model" style="width:100%;max-width:500px;">
+                    <strong>Mamba Block</strong>
+                    <div style="font-size:12px;margin-top:4px;">4 layers | d_inner = 512</div>
+                    <div style="font-size:11px;color:#64748b;">Output: h [B, 256]</div>
+                </div>
+
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:16px;"></div>
+                </div>
+
+                <!-- KAN -->
+                <div class="flow-box box-model" style="width:100%;max-width:500px;">
+                    <strong>KAN Head</strong>
+                    <div style="font-size:12px;margin-top:4px;">256 &rarr; 128 &rarr; 64</div>
+                    <div style="font-size:11px;color:#64748b;">Output: z [B, 64] + s [B, 1]</div>
+                </div>
+
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:16px;"></div>
+                </div>
+
+                <!-- Two branches -->
+                <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;width:100%;max-width:800px;">
+                    <div class="flow-box box-api" style="flex:1;min-width:280px;">
+                        <strong>Online Inference</strong>
+                        <div style="font-size:12px;margin-top:6px;">
+                            L2 norm &rarr; cosine &times; prototypes[K, 64]<br>
+                            &rarr; cluster_id or -1
+                        </div>
+                    </div>
+                    <div class="flow-box box-feature" style="flex:1;min-width:280px;">
+                        <strong>Training (SSL)</strong>
+                        <div style="font-size:12px;margin-top:6px;">
+                            2&times; augment &rarr; 2&times; forward<br>
+                            &rarr; InfoNCE + VICReg
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FLOW 5 ==================== -->
+    <div class="section" id="flow5">
+        <h2><span class="num">5</span> 离线训练与聚类</h2>
+        <p class="section-desc">Offline training pipeline from Parquet data to cluster assignments and prototypes</p>
+
+        <div class="flow-container">
+            <div class="flow-diagram">
+
+                <!-- Row 1 -->
+                <div class="pipeline" style="justify-content:center;flex-wrap:wrap;">
+                    <div class="flow-box box-storage flow-box-sm">Parquet</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-process flow-box-sm">split_by_time</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-datasource flow-box-sm">RowSnapshotDataset</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-process flow-box-sm">collate [B,1,&middot;]</div>
+                </div>
+
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:20px;"></div>
+                </div>
+
+                <!-- Row 2: Training -->
+                <div class="pipeline" style="justify-content:center;flex-wrap:wrap;">
+                    <div class="flow-box box-model flow-box-sm">2&times; augment</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-model flow-box-sm">forward</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-highlight flow-box-sm">gang_loss</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-model flow-box-sm">AdamW</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-storage flow-box-sm">checkpoint</div>
+                </div>
+
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:20px;"></div>
+                </div>
+
+                <!-- Row 3: Clustering -->
+                <div class="pipeline" style="justify-content:center;flex-wrap:wrap;">
+                    <div class="flow-box box-storage flow-box-sm">embedding.parquet</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-model flow-box-sm">HDBSCAN</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-model flow-box-sm">prototypes</div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="flow-box box-feature flow-box-sm">cluster_assignments</div>
+                </div>
+
+                <div class="arrow-down arrow-animated">
+                    <div class="arrow-line" style="height:20px;"></div>
+                </div>
+
+                <!-- Row 4: Outputs -->
+                <div class="flow-row" style="gap:16px;">
+                    <div class="flow-box box-storage">
+                        <strong>cluster_summaries</strong>
+                        <div style="font-size:11px;">Per-cluster statistics</div>
+                    </div>
+                    <div class="flow-box box-storage">
+                        <strong>user_summaries</strong>
+                        <div style="font-size:11px;">Per-user assignments</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FLOW 6 ==================== -->
+    <div class="section" id="flow6">
+        <h2><span class="num">6</span> 团伙可解释性与风险分</h2>
+        <p class="section-desc">Cluster explainability pipeline and risk scoring model</p>
+
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">5 Sequential Steps after cluster_completed</h3>
+
+        <div class="flow-container">
+            <div class="vflow">
+                <div class="vflow-node" style="border-left:3px solid #82B366;">
+                    <h4>Step 1: write_user_paths_full</h4>
+                    <p>Cross-snapshot stitching, max 30 windows per user path</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #82B366;">
+                    <h4>Step 2: build_cluster_summary_artifacts</h4>
+                    <p>Generate groups/users/sankey CSV files</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #5B7BA5;">
+                    <h4>Step 3: upsert_cluster_result_index</h4>
+                    <p>Write to PostgreSQL cluster_result_index table</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #82B366;">
+                    <h4>Step 4: write_group_summary_artifacts</h4>
+                    <p>Generate JSON files for API consumption</p>
+                </div>
+                <div class="vflow-node" style="border-left:3px solid #ef4444;">
+                    <h4>Step 5: persist_high_risk_clusters</h4>
+                    <p>Write to cluster_risk_alert table in PostgreSQL</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sep-label">Risk Score Model (Linear Weighted, 0-100)</div>
+
+        <div style="max-width:600px;margin:0 auto;">
+            <div class="risk-bar">
+                <span style="font-size:12px;min-width:180px;">withdraw_ratio_in_cluster</span>
+                <div class="risk-bar-track">
+                    <div class="risk-bar-fill" style="width:35%;background:#ef4444;"></div>
+                </div>
+                <span class="risk-bar-label" style="color:#ef4444;">35</span>
+            </div>
+            <div class="risk-bar">
+                <span style="font-size:12px;min-width:180px;">path_top1_withdraw</span>
+                <div class="risk-bar-track">
+                    <div class="risk-bar-fill" style="width:15%;background:#f97316;"></div>
+                </div>
+                <span class="risk-bar-label" style="color:#f97316;">15</span>
+            </div>
+            <div class="risk-bar">
+                <span style="font-size:12px;min-width:180px;">rhythm_top1</span>
+                <div class="risk-bar-track">
+                    <div class="risk-bar-fill" style="width:10%;background:#eab308;"></div>
+                </div>
+                <span class="risk-bar-label" style="color:#eab308;">10</span>
+            </div>
+            <div class="risk-bar">
+                <span style="font-size:12px;min-width:180px;">volatility_trend_top1</span>
+                <div class="risk-bar-track">
+                    <div class="risk-bar-fill" style="width:10%;background:#eab308;"></div>
+                </div>
+                <span class="risk-bar-label" style="color:#eab308;">10</span>
+            </div>
+            <div class="risk-bar">
+                <span style="font-size:12px;min-width:180px;">withdraw_gt_stake</span>
+                <div class="risk-bar-track">
+                    <div class="risk-bar-fill" style="width:10%;background:#22c55e;"></div>
+                </div>
+                <span class="risk-bar-label" style="color:#22c55e;">10</span>
+            </div>
+            <div class="risk-bar">
+                <span style="font-size:12px;min-width:180px;">game_switch_top1</span>
+                <div class="risk-bar-track">
+                    <div class="risk-bar-fill" style="width:10%;background:#3b82f6;"></div>
+                </div>
+                <span class="risk-bar-label" style="color:#3b82f6;">10</span>
+            </div>
+            <div class="risk-bar">
+                <span style="font-size:12px;min-width:180px;">agent_channel_top1</span>
+                <div class="risk-bar-track">
+                    <div class="risk-bar-fill" style="width:10%;background:#8b5cf6;"></div>
+                </div>
+                <span class="risk-bar-label" style="color:#8b5cf6;">10</span>
+            </div>
+        </div>
+
+        <div class="sep-label">Risk Levels</div>
+
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <div class="flow-box" style="background:#fef2f2;border-color:#ef4444;min-width:120px;">
+                <strong style="color:#dc2626;">CRITICAL</strong>
+                <div style="font-size:12px;color:#64748b;">&ge; 80</div>
+            </div>
+            <div class="flow-box" style="background:#fff7ed;border-color:#f97316;min-width:120px;">
+                <strong style="color:#ea580c;">HIGH</strong>
+                <div style="font-size:12px;color:#64748b;">&ge; 60</div>
+            </div>
+            <div class="flow-box" style="background:#fefce8;border-color:#eab308;min-width:120px;">
+                <strong style="color:#ca8a04;">MEDIUM</strong>
+                <div style="font-size:12px;color:#64748b;">&ge; 40</div>
+            </div>
+            <div class="flow-box" style="background:#f0fdf4;border-color:#22c55e;min-width:120px;">
+                <strong style="color:#16a34a;">LOW</strong>
+                <div style="font-size:12px;color:#64748b;">&lt; 40</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FLOW 7 ==================== -->
+    <div class="section" id="flow7">
+        <h2><span class="num">7</span> 部署拓扑与MQ消息</h2>
+        <p class="section-desc">Deployment topology on Ubuntu server with two services and shared storage</p>
+
+        <div class="deploy-grid">
+            <!-- risk_feature service -->
+            <div class="deploy-box" style="border-color:#82B366;">
+                <span class="deploy-title" style="color:#82B366;">risk_feature</span>
+                <div style="font-size:12px;color:#64748b;margin-bottom:12px;margin-top:4px;">/home/ai-local2/risk_feature</div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div class="flow-box box-feature flow-box-sm" style="width:100%;">Worker (IncrementalRunner)</div>
+                    <div class="flow-box box-feature flow-box-sm" style="width:100%;">Cluster Consumer</div>
+                    <div class="flow-box box-api flow-box-sm" style="width:100%;">API Server (:9696)</div>
+                </div>
+            </div>
+
+            <!-- model_service -->
+            <div class="deploy-box" style="border-color:#9673A6;">
+                <span class="deploy-title" style="color:#9673A6;">model_service</span>
+                <div style="font-size:12px;color:#64748b;margin-bottom:12px;margin-top:4px;">/home/ai-local2/model_service</div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div class="flow-box box-model flow-box-sm" style="width:100%;">MQ Consumer</div>
+                    <div class="flow-box box-model flow-box-sm" style="width:100%;">Train Pipeline</div>
+                    <div class="flow-box box-api flow-box-sm" style="width:100%;">API Server (:8000)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shared storage -->
+        <div class="deploy-box" style="border-color:#D6B656;margin-top:20px;">
+            <span class="deploy-title" style="color:#D6B656;">Shared Storage</span>
+            <div style="font-size:12px;color:#64748b;margin-bottom:12px;margin-top:4px;">/home/ai-local2/risk_data</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;padding-top:4px;">
+                <div class="flow-box box-storage flow-box-sm">offline/</div>
+                <div class="flow-box box-storage flow-box-sm">online/</div>
+                <div class="flow-box box-storage flow-box-sm">gang_discovery/</div>
+            </div>
+        </div>
+
+        <div class="sep-label">RocketMQ Message Definitions</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="mq-msg">
+                <div class="msg-topic">topic: risk_feature</div>
+                <div class="msg-body">
+                    event: "feature_generated"<br>
+                    payload: {<br>
+                    &nbsp;&nbsp;platform, product,<br>
+                    &nbsp;&nbsp;as_of, run_id,<br>
+                    &nbsp;&nbsp;split_outputs: [...]<br>
+                    }
+                </div>
+            </div>
+            <div class="mq-msg">
+                <div class="msg-topic">topic: risk_cluster</div>
+                <div class="msg-body">
+                    event: "cluster_completed"<br>
+                    payload: {<br>
+                    &nbsp;&nbsp;platform, product,<br>
+                    &nbsp;&nbsp;run_dir, n_clusters,<br>
+                    &nbsp;&nbsp;model_version<br>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="sep-label">Service Communication Flow</div>
+
+        <div class="flow-container">
+            <div class="pipeline" style="justify-content:center;flex-wrap:wrap;">
+                <div class="flow-box box-feature flow-box-sm">risk_feature<br>Worker</div>
+                <div class="pipeline-arrow animated"><div class="pa-line" style="width:30px;"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-mq flow-box-sm">feature_generated</div>
+                <div class="pipeline-arrow animated"><div class="pa-line" style="width:30px;"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-model flow-box-sm">model_service<br>Consumer</div>
+                <div class="pipeline-arrow animated"><div class="pa-line" style="width:30px;"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-mq flow-box-sm">cluster_completed</div>
+                <div class="pipeline-arrow animated"><div class="pa-line" style="width:30px;"></div><div class="pa-head"></div></div>
+                <div class="flow-box box-feature flow-box-sm">risk_feature<br>Cluster Consumer</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FLOW 8 ==================== -->
+    <div class="section" id="flow8">
+        <h2><span class="num">8</span> 数据模型与运维</h2>
+        <p class="section-desc">Database schemas, Redis patterns, file naming conventions, API routes, and frontend pages</p>
+
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">PostgreSQL Tables</h3>
+
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th>Table</th>
+                    <th>Purpose</th>
+                    <th>Key Columns</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">cluster_result_index</code></td>
+                    <td>Index of all clustering runs</td>
+                    <td>platform, product, run_id, n_clusters, as_of, status</td>
+                </tr>
+                <tr>
+                    <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">cluster_risk_alert</code></td>
+                    <td>High-risk cluster alerts</td>
+                    <td>cluster_id, risk_score, risk_level, factors_json</td>
+                </tr>
+                <tr>
+                    <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">api_users</code></td>
+                    <td>API authentication</td>
+                    <td>username, hashed_password, role, is_active</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">Redis Key Patterns</h3>
+
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th>Pattern</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">fg:v1:evt:{platform}:{shard_id}</code></td>
+                    <td>String (MessagePack)</td>
+                    <td>Event data shard</td>
+                </tr>
+                <tr>
+                    <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">fg:v1:evtuser:{platform}:{user_id}</code></td>
+                    <td>String (MessagePack)</td>
+                    <td>User-level event cache</td>
+                </tr>
+                <tr>
+                    <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">fg:v1:wm:{platform}</code></td>
+                    <td>String</td>
+                    <td>Watermark timestamp per platform</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">Output File Naming</h3>
+
+        <div class="schema-card">
+            <div style="font-family:monospace;font-size:12px;line-height:2;">
+                <div><span class="tag tag-green">online</span> features_{platform}_{product}_{as_of_iso}.parquet</div>
+                <div><span class="tag tag-blue">offline</span> offline_{platform}_{product}_{window_start}_{window_end}.parquet</div>
+                <div><span class="tag tag-yellow">explain</span> user_paths/{platform}_{product}_{run_id}.csv</div>
+                <div><span class="tag tag-yellow">explain</span> sankey/{platform}_{product}_{run_id}.csv</div>
+                <div><span class="tag tag-purple">model</span> gang_discovery/{platform}_{product}/{run_id}/</div>
+            </div>
+        </div>
+
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">FastAPI Routes</h3>
+
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag tag-green">GET</span></td>
+                    <td>/api/v1/clusters</td>
+                    <td>List clustering results</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-green">GET</span></td>
+                    <td>/api/v1/clusters/{run_id}</td>
+                    <td>Get cluster detail (Sankey + PCA3D + summary)</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-green">GET</span></td>
+                    <td>/api/v1/high-risk</td>
+                    <td>List high-risk clusters</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-green">GET</span></td>
+                    <td>/api/v1/high-risk/{cluster_id}</td>
+                    <td>Get high-risk cluster detail</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">POST</span></td>
+                    <td>/api/v1/auth/login</td>
+                    <td>User authentication</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-green">GET</span></td>
+                    <td>/api/v1/users</td>
+                    <td>List API users (admin)</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">POST</span></td>
+                    <td>/api/v1/users</td>
+                    <td>Create API user (admin)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">Frontend Pages</h3>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;">
+            <div class="flow-box box-api">
+                <strong>&#128202; 聚类结果</strong>
+                <div style="font-size:11px;margin-top:4px;">Cluster list with filters</div>
+            </div>
+            <div class="flow-box box-api">
+                <strong>&#128269; 聚类结果详情</strong>
+                <div style="font-size:11px;margin-top:4px;">Sankey + PCA3D + Summary</div>
+            </div>
+            <div class="flow-box box-highlight">
+                <strong>&#9888;&#65039; 高危团伙</strong>
+                <div style="font-size:11px;margin-top:4px;">Risk alerts dashboard</div>
+            </div>
+            <div class="flow-box box-api">
+                <strong>&#128100; 用户管理</strong>
+                <div style="font-size:11px;margin-top:4px;">API user CRUD</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Float Buttons -->
+<div class="float-buttons">
+    <a href="/html-pages/index.html" class="float-btn float-btn-home" title="回到首页">&#127968;</a>
+    <button class="float-btn float-btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">&#8593;</button>
+    <button class="float-btn float-btn-bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="回到底部">&#8595;</button>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="divider"></div>
+    <p>风控团伙系统流程图 - Risk Control Gang Detection System Flow Diagrams</p>
+    <p style="margin-top: 6px;">整理时间：2026-05-25</p>
+</div>
+
+</body>
+</html>

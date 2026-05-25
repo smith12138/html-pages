@@ -92,6 +92,7 @@ ol.steps li{margin-bottom:3px}
 <li><a href="#m10">10. API服务模块</a><span class="cnt" id="mc10"></span></li>
 <li><a href="#m11">11. 数据库操作</a><span class="cnt" id="mc11"></span></li>
 <li><a href="#m12">12. 部署与运维</a><span class="cnt" id="mc12"></span></li>
+<li><a href="#m13">13. 前端运营平台</a><span class="cnt" id="mc13"></span></li>
 </ul>
 </div>
 
@@ -315,6 +316,36 @@ ol.steps li{margin-bottom:3px}
 </tbody></table>
 </div>
 
+<!-- ================================================================ -->
+<!-- M13: 前端运营平台 -->
+<!-- ================================================================ -->
+<div class="sec" id="m13">
+<div class="sec-head"><h2>13. 前端运营平台</h2><span class="cnt-badge" id="mb13"></span></div>
+<div class="sec-desc">覆盖风控管理平台 Web UI 的页面功能、交互、数据展示验证</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F101</td><td><span class="tag tag-func">功能</span></td><td>聚类结果页面加载</td><td>前端服务已部署，用户已登录</td><td><ol class="steps"><li>访问 https://api-tj.aaoo-test.com/#/sankey/list</li><li>等待页面加载完成</li><li>检查页面顶部产品按钮区域</li><li>验证15个产品按钮全部渲染（1XSPIN, BRSPIN, BRBET7, NOVO7, TTBET, TTSPIN, TT7, PP7, PPSPIN, PGSOFT, JILI, EVO, VANA7等）</li></ol></td><td class="expect"><strong>页面正常加载，15个产品按钮全部显示</strong>，无404/500错误，Vue.js + Arco Design UI框架正常渲染</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F102</td><td><span class="tag tag-func">功能</span></td><td>产品切换</td><td>聚类结果列表页已加载</td><td><ol class="steps"><li>点击产品按钮"NOVO7"</li><li>观察表格数据刷新</li><li>验证表格展示NOVO7的聚类结果数据</li><li>切换到"TTBET"，验证数据更新为TTBET的数据</li></ol></td><td class="expect"><strong>切换产品后表格数据正确更新</strong>，当前选中产品按钮高亮，表格列数据与所选产品一致</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F103</td><td><span class="tag tag-func">功能</span></td><td>查看详情跳转</td><td>聚类结果列表有数据</td><td><ol class="steps"><li>在聚类结果列表中找到一条记录</li><li>点击该记录的"查看详情"按钮</li><li>验证URL跳转到详情页（含正确的路由参数）</li><li>验证详情页正常渲染</li></ol></td><td class="expect"><strong>点击后正确跳转到详情页</strong>，URL参数包含platform、product、window信息，详情页加载对应数据</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F104</td><td><span class="tag tag-func">功能</span></td><td>详情页桑基图加载</td><td>已进入聚类结果详情页</td><td><ol class="steps"><li>进入详情页后定位"完整桑基图"区域</li><li>等待桑基图数据加载和渲染</li><li>验证Sankey diagram SVG/Canvas元素存在</li><li>验证节点和连线正确绑定数据</li></ol></td><td class="expect"><strong>完整桑基图正确渲染</strong>，展示用户行为路径流向，节点宽度反映流量大小，连线颜色区分类别</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F105</td><td><span class="tag tag-func">功能</span></td><td>简化桑基图加载</td><td>已进入聚类结果详情页</td><td><ol class="steps"><li>切换到"简化桑基图"视图</li><li>验证桑基图重新渲染为6类别分类视图</li><li>确认6个分类节点正确展示</li><li>验证连线简化后数据聚合正确</li></ol></td><td class="expect"><strong>简化桑基图渲染6-category视图</strong>，行为路径聚合为6大类别，数据量与完整视图总量一致</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F106</td><td><span class="tag tag-func">功能</span></td><td>PCA 3D散点图加载</td><td>已进入聚类结果详情页</td><td><ol class="steps"><li>定位PCA 3D散点图区域</li><li>等待3D散点图渲染完成</li><li>验证散点图可交互（旋转、缩放）</li><li>验证数据点数量与聚类用户数一致</li></ol></td><td class="expect"><strong>PCA 3D散点图正确渲染</strong>，各聚类以不同颜色区分，支持鼠标拖拽旋转和滚轮缩放交互</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F107</td><td><span class="tag tag-func">功能</span></td><td>行为步数滑块调整</td><td>详情页桑基图已加载</td><td><ol class="steps"><li>找到"行为步数"滑块控件</li><li>将滑块从默认值调整到10</li><li>观察桑基图重新渲染</li><li>调整到最大值50和最小值2，验证渲染变化</li></ol></td><td class="expect"><strong>滑块调整后桑基图实时重新渲染</strong>，步数范围2-50有效，步数越大桑基图层级越深，数据正确更新</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F108</td><td><span class="tag tag-func">功能</span></td><td>最小用户数滑块调整</td><td>详情页桑基图已加载</td><td><ol class="steps"><li>找到"最小用户数"滑块控件</li><li>将滑块调整为较大值（如100）</li><li>观察桑基图过滤掉小群体路径</li><li>调回较小值（如1），验证更多路径显示</li></ol></td><td class="expect"><strong>滑块调整后桑基图按最小用户数过滤</strong>，范围1-500有效，值越大显示的路径越少（仅保留大群体），数据一致性正确</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F109</td><td><span class="tag tag-func">功能</span></td><td>用户摘要UID查询</td><td>详情页已加载，已知存在UID 1561446</td><td><ol class="steps"><li>在用户摘要查询区域输入UID: 1561446</li><li>点击查询或按回车</li><li>等待用户摘要数据返回</li><li>验证展示basic_info、core_summary、risk三个板块</li></ol></td><td class="expect"><strong>输入UID后正确展示用户摘要</strong>，包含basic_info（基本信息）、core_summary（核心摘要）、risk（风险评估）三个区块数据完整</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F110</td><td><span class="tag tag-func">功能</span></td><td>PCA点击加载用户摘要</td><td>PCA 3D散点图已渲染</td><td><ol class="steps"><li>在3D散点图中点击某个数据点</li><li>观察是否触发用户摘要加载</li><li>验证用户摘要面板出现并展示对应用户数据</li><li>验证加载的UID与点击的数据点一致</li></ol></td><td class="expect"><strong>点击散点后正确加载对应用户的摘要信息</strong>，用户摘要面板自动展开，数据与点击点的UID匹配</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F111</td><td><span class="tag tag-func">功能</span></td><td>PCA点击加载群体摘要</td><td>PCA 3D散点图已渲染</td><td><ol class="steps"><li>在3D散点图中点击某个数据点</li><li>观察是否触发群体摘要加载</li><li>验证群体摘要面板出现并展示该点所属聚类的群体信息</li><li>验证群体成员数、风险等级等字段正确</li></ol></td><td class="expect"><strong>点击散点后正确加载对应群体的摘要信息</strong>，展示该聚类群体的整体特征、成员数量、风险评级</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F112</td><td><span class="tag tag-func">功能</span></td><td>高危团伙平台选择</td><td>已导航到高危团伙页面</td><td><ol class="steps"><li>访问高危团伙页面</li><li>点击平台下拉框</li><li>选择"TT"平台</li><li>验证下拉框显示已选中"TT"</li></ol></td><td class="expect"><strong>平台下拉框正确展示可选平台列表</strong>，选择TT后下拉框显示选中状态，后续查询将使用该平台筛选</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F113</td><td><span class="tag tag-func">功能</span></td><td>高危团伙产品选择</td><td>已导航到高危团伙页面</td><td><ol class="steps"><li>点击产品下拉框</li><li>选择"NOVO7"产品</li><li>验证下拉框显示已选中"NOVO7"</li><li>验证产品选项与平台关联正确</li></ol></td><td class="expect"><strong>产品下拉框正确展示可选产品列表</strong>，选择NOVO7后显示选中状态，产品选项与所选平台一致</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F114</td><td><span class="tag tag-func">功能</span></td><td>高危团伙风险等级筛选</td><td>高危团伙页面已加载</td><td><ol class="steps"><li>点击风险等级下拉框</li><li>选择"critical"（极高风险）</li><li>验证筛选生效，仅显示critical等级</li><li>改选"high"（高风险），验证结果更新</li></ol></td><td class="expect"><strong>风险等级筛选正确过滤结果</strong>，选择critical仅展示极高风险团伙，选择high仅展示高风险团伙，结果数量与后端一致</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F115</td><td><span class="tag tag-func">功能</span></td><td>高危团伙审核状态筛选</td><td>高危团伙页面已加载</td><td><ol class="steps"><li>点击审核状态下拉框</li><li>选择"待审核"，验证筛选结果</li><li>切换到"审核中"，验证结果更新</li><li>分别测试"已审核"和"已忽略"状态筛选</li></ol></td><td class="expect"><strong>审核状态筛选正确过滤</strong>，四种状态（待审核/审核中/已审核/已忽略）各自独立筛选，结果与状态字段匹配</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F116</td><td><span class="tag tag-func">功能</span></td><td>高危团伙时间范围筛选</td><td>高危团伙页面已加载</td><td><ol class="steps"><li>点击时间范围选择器</li><li>设置开始时间和结束时间</li><li>验证查询参数包含start_as_of_ts和end_as_of_ts</li><li>验证结果仅展示该时间范围内的数据</li></ol></td><td class="expect"><strong>时间范围筛选正确传递参数</strong>，API请求携带start_as_of_ts和end_as_of_ts，返回结果均在所选时间范围内</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F117</td><td><span class="tag tag-func">功能</span></td><td>高危团伙查询按钮</td><td>已选择平台和产品</td><td><ol class="steps"><li>选择平台"TT"和产品"NOVO7"</li><li>点击"查询"按钮</li><li>等待API请求返回</li><li>验证结果表格展示对应的高危团伙数据</li></ol></td><td class="expect"><strong>点击查询后正确发起API请求并展示结果</strong>，表格显示团伙列表含风险等级、成员数、发现时间等字段，数据与筛选条件匹配</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F118</td><td><span class="tag tag-func">功能</span></td><td>用户管理列表</td><td>已登录管理员账号</td><td><ol class="steps"><li>导航到 #/users/list 页面</li><li>等待用户列表加载</li><li>验证页面展示用户表格</li><li>确认admin和morgan用户在列表中显示</li></ol></td><td class="expect"><strong>用户管理列表正确加载</strong>，展示系统用户（含admin、morgan），显示用户名、角色、创建时间等字段</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F119</td><td><span class="tag tag-func">功能</span></td><td>新建用户</td><td>已登录管理员账号，在用户管理页面</td><td><ol class="steps"><li>点击"新建用户"按钮</li><li>验证弹出新建用户表单</li><li>填写用户名、密码、角色等字段</li><li>验证表单校验规则（必填、格式）正确</li><li>注意：仅验证UI交互，不实际提交创建</li></ol></td><td class="expect"><strong>新建用户表单正确展示</strong>，包含用户名/密码/角色字段，表单校验生效（空值提示、格式校验），取消后不影响现有数据</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F120</td><td><span class="tag tag-func">功能</span></td><td>暗色模式切换</td><td>页面已加载，当前为亮色模式</td><td><ol class="steps"><li>找到暗色模式切换按钮（通常在页面头部）</li><li>点击切换到暗色模式</li><li>验证页面背景、文字颜色、组件主题变为暗色系</li><li>再次点击切回亮色模式，验证恢复</li></ol></td><td class="expect"><strong>暗色模式切换正常工作</strong>，切换后所有UI组件（表格、按钮、图表、导航）均适配暗色主题，无显示异常</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
 </div>
 
 <div class="footer">风控系统功能测试用例 v2.14 &middot; 整理时间：2026-05-25</div>
@@ -347,11 +378,11 @@ ol.steps li{margin-bottom:3px}
 (function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
 // Stats
 (function(){
-    var map={s1:['m1','m2'],s2:['m3'],s3:['m4','m5'],s4:['m6','m7'],s5:['m8','m9','m10'],s6:['m11','m12']};
+    var map={s1:['m1','m2'],s2:['m3'],s3:['m4','m5'],s4:['m6','m7'],s5:['m8','m9','m10'],s6:['m11','m12','m13']};
     var total=0;
     for(var k in map){var c=0;map[k].forEach(function(id){c+=document.querySelectorAll('#'+id+' tbody tr').length});document.getElementById(k).textContent=c;total+=c}
     document.getElementById('totalCases').textContent=total;
-    for(var i=1;i<=12;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;document.getElementById('mc'+i).textContent=' ('+n+')';document.getElementById('mb'+i).textContent=n+' 条'}
+    for(var i=1;i<=13;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;document.getElementById('mc'+i).textContent=' ('+n+')';document.getElementById('mb'+i).textContent=n+' 条'}
 })();
 // Filter
 (function(){var btns=document.querySelectorAll('.fbtn');btns.forEach(function(btn){btn.addEventListener('click',function(){btns.forEach(function(b){b.classList.remove('active')});btn.classList.add('active');var f=btn.dataset.f;document.querySelectorAll('.tc tbody tr').forEach(function(tr){if(f==='all'){tr.style.display='';return}var tag=tr.querySelector('.tag');if(!tag){tr.style.display='none';return}tr.style.display=tag.className.indexOf('tag-'+f)>=0?'':'none'})})})})();
