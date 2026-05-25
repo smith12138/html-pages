@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>风控系统前端流程图</title>
+    <link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b2e 30%, #4a1942 70%, #1a1a2e 100%);
+            color: #fff;
+            padding: 60px 40px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(239, 68, 68, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 50%, rgba(220, 38, 38, 0.1) 0%, transparent 60%);
+            animation: headerPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .header h1 span {
+            color: #f87171;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .header-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-meta .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+            display: inline-block;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-left: 4px solid #ef4444;
+        }
+
+        .toc h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 8px 24px;
+        }
+
+        .toc a {
+            color: #dc2626;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 6px 0;
+            display: block;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .toc a:hover {
+            color: #ef4444;
+            text-decoration: underline;
+        }
+
+        /* Section Cards */
+        .section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 36px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            font-size: 24px;
+            color: #1e293b;
+            margin-bottom: 8px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #fee2e2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 .num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #ef4444;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .section-desc {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* Flow Diagram Styles */
+        .flow-container {
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            min-width: 600px;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .flow-box {
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            border: 2px solid;
+            position: relative;
+            min-width: 120px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .flow-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .flow-box-sm {
+            padding: 8px 12px;
+            font-size: 12px;
+            min-width: 90px;
+        }
+
+        /* Context Colors for Frontend Pages */
+        .box-cluster { background: #EEF2FF; border-color: #6366F1; color: #3730A3; }
+        .box-alert { background: #FEF2F2; border-color: #EF4444; color: #991B1B; }
+        .box-user { background: #F0FDF4; border-color: #22C55E; color: #166534; }
+        .box-api { background: #FFF7ED; border-color: #F97316; color: #9A3412; }
+        .box-viz { background: #F5F3FF; border-color: #8B5CF6; color: #5B21B6; }
+        .box-nav { background: #F0F9FF; border-color: #0EA5E9; color: #0C4A6E; }
+        .box-action { background: #FEF9C3; border-color: #EAB308; color: #713F12; }
+        .box-start { background: #1e293b; border-color: #1e293b; color: #fff; }
+        .box-process { background: #f1f5f9; border-color: #94a3b8; color: #334155; }
+        .box-highlight { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
+
+        /* Arrow connectors */
+        .arrow-down {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4px 0;
+        }
+
+        .arrow-down::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #64748b;
+        }
+
+        .arrow-down .arrow-line {
+            width: 2px;
+            height: 20px;
+            background: #64748b;
+        }
+
+        .arrow-down .arrow-label {
+            font-size: 11px;
+            color: #64748b;
+            padding: 2px 8px;
+            background: #f8fafc;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .arrow-right {
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+        }
+
+        .arrow-right::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid #64748b;
+        }
+
+        .arrow-right .arrow-line {
+            width: 20px;
+            height: 2px;
+            background: #64748b;
+        }
+
+        /* Animated arrows */
+        @keyframes arrowFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        @keyframes arrowFlowV {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 200%; }
+        }
+
+        .arrow-animated .arrow-line {
+            background: linear-gradient(90deg, #ef4444, #f97316, #ef4444);
+            background-size: 200% 100%;
+            animation: arrowFlow 2s linear infinite;
+        }
+
+        .arrow-animated.arrow-down .arrow-line {
+            background: linear-gradient(180deg, #ef4444, #f97316, #ef4444);
+            background-size: 100% 200%;
+            animation: arrowFlowV 2s linear infinite;
+        }
+
+        /* Pipeline horizontal */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            overflow-x: auto;
+            padding: 20px 10px;
+        }
+
+        .pipeline-step {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .pipeline-arrow {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .pipeline-arrow .pa-line {
+            width: 24px;
+            height: 2px;
+            background: #64748b;
+        }
+
+        .pipeline-arrow .pa-head {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 7px solid #64748b;
+        }
+
+        .pipeline-arrow.animated .pa-line {
+            background: linear-gradient(90deg, #ef4444, #f97316, #ef4444);
+            background-size: 200% 100%;
+            animation: arrowFlow 1.5s linear infinite;
+        }
+
+        .pipeline-arrow.animated .pa-head {
+            border-left-color: #ef4444;
+        }
+
+        /* Layer container */
+        .layer {
+            border: 2px dashed;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 12px 0;
+            width: 100%;
+            position: relative;
+        }
+
+        .layer-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #fff;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .layer-cluster { border-color: #6366F1; }
+        .layer-cluster .layer-label { color: #6366F1; }
+        .layer-alert { border-color: #EF4444; }
+        .layer-alert .layer-label { color: #EF4444; }
+        .layer-user { border-color: #22C55E; }
+        .layer-user .layer-label { color: #22C55E; }
+        .layer-api { border-color: #F97316; }
+        .layer-api .layer-label { color: #F97316; }
+        .layer-viz { border-color: #8B5CF6; }
+        .layer-viz .layer-label { color: #8B5CF6; }
+
+        /* Grid layout for flows */
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            width: 100%;
+        }
+
+        .flow-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .flow-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .flow-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        /* Sequence Diagram Styles */
+        .sequence-diagram {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 16px 0;
+            background: #fafbfc;
+            overflow-x: auto;
+        }
+
+        .seq-header {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .seq-actor {
+            text-align: center;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            min-width: 100px;
+        }
+
+        .seq-row {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            position: relative;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .seq-row:last-child { border-bottom: none; }
+
+        .seq-msg {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .seq-msg-line {
+            flex: 1;
+            height: 2px;
+            background: #94a3b8;
+            position: relative;
+        }
+
+        .seq-msg-line::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 7px solid #94a3b8;
+        }
+
+        .seq-msg-label {
+            font-size: 11px;
+            color: #64748b;
+            white-space: nowrap;
+            font-family: "SF Mono", "Fira Code", monospace;
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* API Table */
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        .api-table th {
+            background: #1e293b;
+            color: #fff;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .api-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .api-table tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        .api-table tr:hover td {
+            background: #fef2f2;
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: "SF Mono", "Fira Code", monospace;
+        }
+
+        .method-get { background: #DCFCE7; color: #166534; }
+        .method-post { background: #FEF9C3; color: #713F12; }
+        .method-patch { background: #E0E7FF; color: #3730A3; }
+        .method-delete { background: #FEE2E2; color: #991B1B; }
+
+        /* Tag/badge */
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .tag-red { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+        .tag-blue { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+        .tag-green { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+        .tag-yellow { background: #fefce8; color: #ca8a04; border: 1px solid #fef08a; }
+        .tag-purple { background: #faf5ff; color: #9333ea; border: 1px solid #e9d5ff; }
+        .tag-indigo { background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; }
+
+        /* Color legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Vertical Flow */
+        .vflow {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .vflow::before {
+            content: "";
+            position: absolute;
+            left: 18px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6);
+        }
+
+        .vflow-node {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+        }
+
+        .vflow-node::before {
+            content: "";
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #ef4444;
+        }
+
+        .vflow-node h4 {
+            font-size: 13px;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .vflow-node p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Branch Rows */
+        .branch-container {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        .branch-item {
+            flex: 1;
+            min-width: 200px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            background: #fafbfc;
+        }
+
+        .branch-item h4 {
+            font-size: 13px;
+            color: #1e293b;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .branch-item ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .branch-item li {
+            font-size: 12px;
+            color: #64748b;
+            padding: 4px 0;
+            padding-left: 14px;
+            position: relative;
+        }
+
+        .branch-item li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #94a3b8;
+        }
+
+        /* Sub Section */
+        .subsection {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 16px 0;
+            background: #fafbfc;
+        }
+
+        .subsection h3 {
+            font-size: 16px;
+            color: #1e293b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subsection h3 .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* Interaction Card */
+        .interaction-card {
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 10px 0;
+            border-left: 4px solid;
+        }
+
+        .interaction-card h4 {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .interaction-card p, .interaction-card ul {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .interaction-card ul {
+            padding-left: 16px;
+            margin-top: 6px;
+        }
+
+        .interaction-card li {
+            padding: 2px 0;
+        }
+
+        .ic-indigo { background: #EEF2FF; border-color: #6366F1; }
+        .ic-indigo h4 { color: #3730A3; }
+        .ic-red { background: #FEF2F2; border-color: #EF4444; }
+        .ic-red h4 { color: #991B1B; }
+        .ic-green { background: #F0FDF4; border-color: #22C55E; }
+        .ic-green h4 { color: #166534; }
+        .ic-orange { background: #FFF7ED; border-color: #F97316; }
+        .ic-orange h4 { color: #9A3412; }
+        .ic-purple { background: #F5F3FF; border-color: #8B5CF6; }
+        .ic-purple h4 { color: #5B21B6; }
+
+        /* Float Buttons */
+        .float-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .float-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .float-btn-home {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .float-btn-top {
+            background: #fff;
+            color: #ef4444;
+            border: 1px solid #e2e8f0;
+        }
+
+        .float-btn-bottom {
+            background: #fff;
+            color: #ef4444;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px 30px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .footer .divider {
+            width: 60px;
+            height: 2px;
+            background: #e2e8f0;
+            margin: 0 auto 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 40px 20px 36px; }
+            .header h1 { font-size: 28px; }
+            .section { padding: 24px 20px; }
+            .toc { padding: 24px 20px; }
+            .toc-grid { grid-template-columns: 1fr; }
+            .flow-grid-3, .flow-grid-4 { grid-template-columns: 1fr; }
+            .float-buttons { bottom: 16px; right: 16px; }
+            .branch-container { flex-direction: column; }
+            .seq-header { flex-wrap: wrap; }
+        }
+
+        /* Page Nav Diagram */
+        .page-nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .page-nav-center {
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            text-align: center;
+            border: 3px solid;
+        }
+
+        .page-nav-branches {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .page-nav-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-nav-branch .branch-line {
+            width: 2px;
+            height: 24px;
+            background: #94a3b8;
+        }
+
+        .page-nav-branch .branch-arrow {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 7px solid #94a3b8;
+        }
+
+        /* Parallel API block */
+        .parallel-block {
+            border: 2px dashed #F97316;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 12px 0;
+            position: relative;
+            background: #FFFBF5;
+        }
+
+        .parallel-block .parallel-label {
+            position: absolute;
+            top: -10px;
+            left: 16px;
+            background: #FFF7ED;
+            padding: 0 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #F97316;
+            border: 1px solid #F97316;
+            border-radius: 4px;
+        }
+
+        .parallel-block .api-item {
+            font-size: 12px;
+            color: #64748b;
+            padding: 5px 0;
+            font-family: "SF Mono", "Fira Code", monospace;
+            border-bottom: 1px dotted #e2e8f0;
+        }
+
+        .parallel-block .api-item:last-child { border-bottom: none; }
+
+        /* Step indicators */
+        .step-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            background: #ef4444;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-right: 6px;
+        }
+
+        /* Horizontal pipeline with cards */
+        .h-pipeline {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            overflow-x: auto;
+            padding: 16px 8px;
+        }
+
+        .h-pipeline-item {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .h-pipeline-card {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            border: 2px solid;
+            min-width: 100px;
+        }
+
+        .h-pipeline-connector {
+            display: flex;
+            align-items: center;
+        }
+
+        .h-pipeline-connector .conn-line {
+            width: 20px;
+            height: 2px;
+            background: #64748b;
+        }
+
+        .h-pipeline-connector .conn-arrow {
+            width: 0;
+            height: 0;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 6px solid #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="header-content">
+        <div class="header-badge">FRONTEND</div>
+        <h1>风控系统<span>前端流程图</span></h1>
+        <p class="subtitle">Vue.js + Arco Design - 用户交互流程文档</p>
+        <div class="header-meta">
+            <span><span class="dot"></span>6 张交互流程图</span>
+            <span><span class="dot"></span>4 个核心页面</span>
+            <span><span class="dot"></span>15 个产品线</span>
+            <span><span class="dot"></span>3 大可视化组件</span>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h2>&#128209; 目录导航</h2>
+        <div class="toc-grid">
+            <a href="#flow1">1. 系统总体页面流程</a>
+            <a href="#flow2">2. 聚类结果查看流程</a>
+            <a href="#flow3">3. 高危团伙查询流程</a>
+            <a href="#flow4">4. 用户管理流程</a>
+            <a href="#flow5">5. API调用时序图</a>
+            <a href="#flow6">6. 数据可视化交互流程</a>
+        </div>
+    </div>
+
+    <!-- Color Legend -->
+    <div class="legend">
+        <div class="legend-item"><div class="legend-color" style="background:#EEF2FF"></div>聚类结果</div>
+        <div class="legend-item"><div class="legend-color" style="background:#FEF2F2"></div>高危团伙</div>
+        <div class="legend-item"><div class="legend-color" style="background:#F0FDF4"></div>用户管理</div>
+        <div class="legend-item"><div class="legend-color" style="background:#FFF7ED"></div>API层</div>
+        <div class="legend-item"><div class="legend-color" style="background:#F5F3FF"></div>可视化组件</div>
+        <div class="legend-item"><div class="legend-color" style="background:#F0F9FF"></div>导航/路由</div>
+    </div>
+
+    <!-- Section 1: System Page Flow -->
+    <div class="section" id="flow1">
+        <h2><span class="num">1</span>系统总体页面流程</h2>
+        <p class="section-desc">展示用户从登录到各功能页面的完整导航路径，基于 Vue Router hash 模式实现</p>
+
+        <div class="flow-container">
+            <div class="flow-diagram">
+                <!-- Login -->
+                <div class="flow-row">
+                    <div class="flow-box box-start">用户登录</div>
+                </div>
+                <div class="arrow-down arrow-animated"><div class="arrow-line" style="height:30px"></div><div class="arrow-label">认证成功</div></div>
+
+                <!-- Homepage -->
+                <div class="flow-row">
+                    <div class="flow-box box-nav" style="font-size:15px;font-weight:700;padding:16px 24px;">首页（聚类结果列表）<br><span style="font-size:11px;color:#64748b;font-weight:400">#/sankey/list</span></div>
+                </div>
+                <div class="arrow-down"><div class="arrow-line" style="height:20px"></div><div class="arrow-label">侧边栏导航</div></div>
+
+                <!-- Navigation branches -->
+                <div class="page-nav-branches" style="width:100%;">
+                    <div class="page-nav-branch">
+                        <div class="branch-line"></div>
+                        <div class="branch-arrow"></div>
+                        <div class="flow-box box-cluster">
+                            聚类结果列表<br>
+                            <span style="font-size:10px;opacity:0.7">#/sankey/list</span>
+                        </div>
+                    </div>
+                    <div class="page-nav-branch">
+                        <div class="branch-line"></div>
+                        <div class="branch-arrow"></div>
+                        <div class="flow-box box-cluster">
+                            聚类结果详情<br>
+                            <span style="font-size:10px;opacity:0.7">#/sankey/detail</span>
+                        </div>
+                    </div>
+                    <div class="page-nav-branch">
+                        <div class="branch-line"></div>
+                        <div class="branch-arrow"></div>
+                        <div class="flow-box box-alert">
+                            高危团伙<br>
+                            <span style="font-size:10px;opacity:0.7">#/alerts/list</span>
+                        </div>
+                    </div>
+                    <div class="page-nav-branch">
+                        <div class="branch-line"></div>
+                        <div class="branch-arrow"></div>
+                        <div class="flow-box box-user">
+                            用户管理<br>
+                            <span style="font-size:10px;opacity:0.7">#/users/list</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Route relationship -->
+        <div class="subsection" style="margin-top:24px;">
+            <h3><span class="dot" style="background:#0EA5E9"></span>路由关系说明</h3>
+            <div class="api-table" style="margin:0;">
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>路由路径</th>
+                            <th>页面名称</th>
+                            <th>功能描述</th>
+                            <th>权限要求</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>#/sankey/list</code></td>
+                            <td>聚类结果列表</td>
+                            <td>查看所有产品的聚类窗口数据</td>
+                            <td><span class="tag tag-green">普通用户</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>#/sankey/detail</code></td>
+                            <td>聚类结果详情</td>
+                            <td>查看桑基图、PCA散点、群体摘要</td>
+                            <td><span class="tag tag-green">普通用户</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>#/alerts/list</code></td>
+                            <td>高危团伙</td>
+                            <td>筛选查看高风险告警团伙</td>
+                            <td><span class="tag tag-green">普通用户</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>#/users/list</code></td>
+                            <td>用户管理</td>
+                            <td>管理系统用户账号</td>
+                            <td><span class="tag tag-red">管理员</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Cluster Result Viewing Flow -->
+    <div class="section" id="flow2">
+        <h2><span class="num">2</span>聚类结果查看流程</h2>
+        <p class="section-desc">从产品选择到详情页可视化的完整用户操作路径</p>
+
+        <!-- Main flow -->
+        <div class="flow-container">
+            <div class="pipeline">
+                <div class="pipeline-step"><div class="flow-box box-cluster">进入聚类结果页</div></div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="pipeline-step"><div class="flow-box box-cluster">查看产品列表<br><span style="font-size:10px;color:#64748b">15个产品按钮</span></div></div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="pipeline-step"><div class="flow-box box-action">选择产品</div></div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="pipeline-step"><div class="flow-box box-cluster">查看窗口列表<br><span style="font-size:10px;color:#64748b">时间/时间戳/路径</span></div></div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="pipeline-step"><div class="flow-box box-action">点击"查看详情"</div></div>
+                <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                <div class="pipeline-step"><div class="flow-box box-highlight">进入详情页</div></div>
+            </div>
+        </div>
+
+        <!-- Detail page internal flow -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#6366F1"></span>详情页内部交互流程</h3>
+
+            <!-- Parallel API loading -->
+            <div class="parallel-block">
+                <div class="parallel-label">并行加载 (4个API)</div>
+                <div class="api-item">GET /summaries/sankey - 桑基图完整数据</div>
+                <div class="api-item">GET /summaries/sankey/simple - 桑基图简化数据</div>
+                <div class="api-item">GET /summaries/pca3d - PCA 3D散点数据</div>
+                <div class="api-item">GET /summaries/groups - 群体分组数据</div>
+            </div>
+
+            <!-- User interactions in detail page -->
+            <div class="branch-container">
+                <div class="branch-item" style="border-color:#6366F1;">
+                    <h4 style="color:#6366F1;">调整桑基图参数</h4>
+                    <ul>
+                        <li>行为步数滑块 (2-50)</li>
+                        <li>最小用户数滑块 (1-500)</li>
+                        <li>参数变化 → 重新请求API</li>
+                        <li>D3.js 重新渲染桑基图</li>
+                    </ul>
+                </div>
+                <div class="branch-item" style="border-color:#8B5CF6;">
+                    <h4 style="color:#8B5CF6;">PCA 3D交互</h4>
+                    <ul>
+                        <li>点击3D散点</li>
+                        <li>获取对应UID</li>
+                        <li>加载用户摘要</li>
+                        <li>加载群体摘要</li>
+                    </ul>
+                </div>
+                <div class="branch-item" style="border-color:#F97316;">
+                    <h4 style="color:#F97316;">UID查询</h4>
+                    <ul>
+                        <li>输入用户UID</li>
+                        <li>查询用户摘要接口</li>
+                        <li>展示摘要结果</li>
+                    </ul>
+                </div>
+                <div class="branch-item" style="border-color:#94a3b8;">
+                    <h4 style="color:#64748b;">返回操作</h4>
+                    <ul>
+                        <li>点击返回列表</li>
+                        <li>回到聚类结果列表页</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual flow of detail page -->
+        <div class="flow-container" style="margin-top:16px;">
+            <div class="flow-diagram">
+                <div class="flow-row">
+                    <div class="flow-box box-cluster" style="font-weight:700;">详情页加载完成</div>
+                </div>
+                <div class="arrow-down arrow-animated"><div class="arrow-line" style="height:24px"></div></div>
+                <div class="flow-row" style="gap:20px;">
+                    <div class="flow-box flow-box-sm box-viz">桑基图渲染</div>
+                    <div class="flow-box flow-box-sm box-viz">PCA 3D渲染</div>
+                    <div class="flow-box flow-box-sm box-cluster">群体列表渲染</div>
+                </div>
+                <div class="arrow-down"><div class="arrow-line" style="height:20px"></div><div class="arrow-label">用户交互</div></div>
+                <div class="flow-row" style="gap:20px;">
+                    <div class="flow-box flow-box-sm box-action">调参重渲染</div>
+                    <div class="flow-box flow-box-sm box-action">点击散点</div>
+                    <div class="flow-box flow-box-sm box-action">输入UID</div>
+                </div>
+                <div class="arrow-down"><div class="arrow-line" style="height:20px"></div><div class="arrow-label">数据更新</div></div>
+                <div class="flow-row">
+                    <div class="flow-box box-api">重新请求API → 更新可视化面板</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: Alert Query Flow -->
+    <div class="section" id="flow3">
+        <h2><span class="num">3</span>高危团伙查询流程</h2>
+        <p class="section-desc">高危团伙页的筛选查询和操作流程</p>
+
+        <!-- Query flow -->
+        <div class="flow-container">
+            <div class="flow-diagram">
+                <div class="flow-row">
+                    <div class="flow-box box-alert" style="font-weight:700;">进入高危团伙页</div>
+                </div>
+                <div class="arrow-down arrow-animated"><div class="arrow-line" style="height:24px"></div></div>
+
+                <!-- Filter options -->
+                <div class="layer layer-alert" style="max-width:700px;">
+                    <div class="layer-label">筛选条件区域</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:10px;padding-top:8px;">
+                        <div class="flow-box flow-box-sm box-alert">选择平台<br><span style="font-size:10px">TT</span></div>
+                        <div class="flow-box flow-box-sm box-alert">选择产品<br><span style="font-size:10px">15选1</span></div>
+                        <div class="flow-box flow-box-sm box-action">风险等级<br><span style="font-size:10px">critical/high</span></div>
+                        <div class="flow-box flow-box-sm box-action">审核状态<br><span style="font-size:10px">待审核/审核中/已审核/已忽略</span></div>
+                        <div class="flow-box flow-box-sm box-action">时间范围<br><span style="font-size:10px">可选</span></div>
+                    </div>
+                </div>
+
+                <div class="arrow-down arrow-animated"><div class="arrow-line" style="height:24px"></div><div class="arrow-label">点击查询</div></div>
+
+                <!-- Results -->
+                <div class="flow-row">
+                    <div class="flow-box box-alert" style="padding:16px 24px;">
+                        显示告警列表<br>
+                        <span style="font-size:11px;color:#64748b;">团伙ID | 成员数 | 提现成员数 | 风险分 | 风险等级 | 审核状态</span>
+                    </div>
+                </div>
+
+                <div class="arrow-down"><div class="arrow-line" style="height:20px"></div><div class="arrow-label">查看详情</div></div>
+
+                <div class="flow-row">
+                    <div class="flow-box box-cluster">跳转到对应聚类详情页<br><span style="font-size:10px;color:#64748b;">#/sankey/detail?...</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert list fields -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#EF4444"></span>告警列表字段说明</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>说明</th>
+                        <th>类型</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>团伙ID</td><td>聚类生成的唯一标识</td><td><span class="tag tag-blue">标识符</span></td></tr>
+                    <tr><td>成员数</td><td>团伙中包含的用户总数</td><td><span class="tag tag-green">数值</span></td></tr>
+                    <tr><td>提现成员数</td><td>有提现行为的成员数量</td><td><span class="tag tag-green">数值</span></td></tr>
+                    <tr><td>风险分</td><td>综合风险评分 (0-100)</td><td><span class="tag tag-yellow">评分</span></td></tr>
+                    <tr><td>风险等级</td><td>critical / high</td><td><span class="tag tag-red">枚举</span></td></tr>
+                    <tr><td>审核状态</td><td>待审核/审核中/已审核/已忽略</td><td><span class="tag tag-purple">枚举</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Filter pipeline -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#EF4444"></span>筛选必填与可选标记</h3>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <div class="interaction-card ic-red">
+                    <h4>必填项</h4>
+                    <ul>
+                        <li>平台选择（默认 TT）</li>
+                        <li>产品选择（15个产品之一）</li>
+                    </ul>
+                </div>
+                <div class="interaction-card ic-orange">
+                    <h4>可选项</h4>
+                    <ul>
+                        <li>风险等级筛选</li>
+                        <li>审核状态筛选</li>
+                        <li>时间范围选择</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4: User Management Flow -->
+    <div class="section" id="flow4">
+        <h2><span class="num">4</span>用户管理流程</h2>
+        <p class="section-desc">系统用户的增删改查操作流程（需管理员权限）</p>
+
+        <!-- Entry -->
+        <div class="flow-container">
+            <div class="flow-diagram">
+                <div class="flow-row">
+                    <div class="flow-box box-user" style="font-weight:700;">进入用户管理页</div>
+                </div>
+                <div class="arrow-down arrow-animated"><div class="arrow-line" style="height:24px"></div></div>
+                <div class="flow-row">
+                    <div class="flow-box box-user">查看用户列表<br><span style="font-size:10px;color:#64748b;">用户名 | 角色 | 创建时间</span></div>
+                </div>
+                <div class="arrow-down"><div class="arrow-line" style="height:20px"></div><div class="arrow-label">用户操作</div></div>
+            </div>
+        </div>
+
+        <!-- CRUD branches -->
+        <div class="branch-container">
+            <div class="branch-item" style="border-color:#22C55E;border-width:2px;">
+                <h4 style="color:#166534;">新建用户</h4>
+                <ul>
+                    <li>点击"新建用户"按钮</li>
+                    <li>弹出表单对话框</li>
+                    <li>填写用户名</li>
+                    <li>填写密码</li>
+                    <li>选择角色</li>
+                    <li>提交 → POST /users</li>
+                    <li>列表自动刷新</li>
+                </ul>
+            </div>
+            <div class="branch-item" style="border-color:#3B82F6;border-width:2px;">
+                <h4 style="color:#1D4ED8;">编辑用户</h4>
+                <ul>
+                    <li>点击编辑按钮</li>
+                    <li>弹出编辑表单</li>
+                    <li>修改用户信息</li>
+                    <li>保存 → PATCH /users/{id}</li>
+                    <li>列表自动刷新</li>
+                </ul>
+            </div>
+            <div class="branch-item" style="border-color:#EF4444;border-width:2px;">
+                <h4 style="color:#991B1B;">删除用户</h4>
+                <ul>
+                    <li>点击删除按钮</li>
+                    <li>弹出确认对话框</li>
+                    <li>确认删除</li>
+                    <li>DELETE /users/{id}</li>
+                    <li>需 admin 权限</li>
+                    <li>列表自动刷新</li>
+                </ul>
+            </div>
+            <div class="branch-item" style="border-color:#F97316;border-width:2px;">
+                <h4 style="color:#9A3412;">状态筛选</h4>
+                <ul>
+                    <li>选择筛选条件</li>
+                    <li>列表实时更新</li>
+                    <li>前端过滤显示</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Visual flow -->
+        <div class="flow-container" style="margin-top:16px;">
+            <div class="flow-diagram">
+                <div class="flow-row" style="gap:16px;">
+                    <div class="flow-box flow-box-sm box-action">新建用户</div>
+                    <div class="flow-box flow-box-sm box-action">编辑用户</div>
+                    <div class="flow-box flow-box-sm box-action">删除用户</div>
+                </div>
+                <div class="arrow-down"><div class="arrow-line" style="height:20px"></div></div>
+                <div class="flow-row">
+                    <div class="flow-box box-api">调用后端API</div>
+                </div>
+                <div class="arrow-down"><div class="arrow-line" style="height:20px"></div></div>
+                <div class="flow-row">
+                    <div class="flow-box box-user">刷新列表展示最新数据</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 5: API Sequence Diagram -->
+    <div class="section" id="flow5">
+        <h2><span class="num">5</span>API调用时序图</h2>
+        <p class="section-desc">前端页面与后端API的交互时序，展示各页面的接口调用关系</p>
+
+        <!-- Cluster List Page APIs -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#6366F1"></span>聚类结果列表页</h3>
+            <div class="sequence-diagram">
+                <div class="seq-header">
+                    <div class="seq-actor box-nav" style="border:2px solid #0EA5E9;">前端页面</div>
+                    <div class="seq-actor box-api" style="border:2px solid #F97316;">后端API</div>
+                </div>
+                <div class="seq-row">
+                    <span class="step-circle">1</span>
+                    <span style="font-size:12px;min-width:80px;color:#334155;">页面加载</span>
+                    <div class="seq-msg-line"></div>
+                    <span class="seq-msg-label">GET /products</span>
+                </div>
+                <div class="seq-row">
+                    <span class="step-circle">2</span>
+                    <span style="font-size:12px;min-width:80px;color:#334155;">选择产品</span>
+                    <div class="seq-msg-line"></div>
+                    <span class="seq-msg-label">GET /summaries/clusters/list?platform=TT&product=XXX</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cluster Detail Page APIs -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#8B5CF6"></span>聚类详情页（并行请求）</h3>
+            <div class="sequence-diagram">
+                <div class="seq-header">
+                    <div class="seq-actor box-nav" style="border:2px solid #0EA5E9;">前端页面</div>
+                    <div class="seq-actor box-api" style="border:2px solid #F97316;">后端API</div>
+                </div>
+                <div class="parallel-block" style="margin:12px 0;">
+                    <div class="parallel-label">并行请求</div>
+                    <div class="seq-row">
+                        <span class="step-circle">1</span>
+                        <span style="font-size:12px;min-width:80px;color:#334155;">桑基图数据</span>
+                        <div class="seq-msg-line"></div>
+                        <span class="seq-msg-label">GET /summaries/sankey?as_of_ts=...&platform=...&product=...&top_n=1000&max_steps=25&min_uid_count=10</span>
+                    </div>
+                    <div class="seq-row">
+                        <span class="step-circle">2</span>
+                        <span style="font-size:12px;min-width:80px;color:#334155;">简化桑基图</span>
+                        <div class="seq-msg-line"></div>
+                        <span class="seq-msg-label">GET /summaries/sankey/simple（同参数）</span>
+                    </div>
+                    <div class="seq-row">
+                        <span class="step-circle">3</span>
+                        <span style="font-size:12px;min-width:80px;color:#334155;">PCA散点</span>
+                        <div class="seq-msg-line"></div>
+                        <span class="seq-msg-label">GET /summaries/pca3d?as_of_ts=...&platform=...&product=...</span>
+                    </div>
+                    <div class="seq-row">
+                        <span class="step-circle">4</span>
+                        <span style="font-size:12px;min-width:80px;color:#334155;">群体数据</span>
+                        <div class="seq-msg-line"></div>
+                        <span class="seq-msg-label">GET /summaries/groups?as_of_ts=...&platform=...&product=...</span>
+                    </div>
+                </div>
+                <div style="border-top:1px dashed #e2e8f0;margin:12px 0;padding-top:12px;">
+                    <p style="font-size:11px;color:#94a3b8;margin-bottom:8px;">用户交互触发</p>
+                    <div class="seq-row">
+                        <span class="step-circle" style="background:#F97316;">5</span>
+                        <span style="font-size:12px;min-width:80px;color:#334155;">查询用户</span>
+                        <div class="seq-msg-line"></div>
+                        <span class="seq-msg-label">GET /summaries/user?...&uid=...</span>
+                    </div>
+                    <div class="seq-row">
+                        <span class="step-circle" style="background:#F97316;">6</span>
+                        <span style="font-size:12px;min-width:80px;color:#334155;">群体桑基图</span>
+                        <div class="seq-msg-line"></div>
+                        <span class="seq-msg-label">GET /summaries/sankey/by_cluster?...&cluster_id=...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Page APIs -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#EF4444"></span>高危团伙页</h3>
+            <div class="sequence-diagram">
+                <div class="seq-header">
+                    <div class="seq-actor box-nav" style="border:2px solid #0EA5E9;">前端页面</div>
+                    <div class="seq-actor box-api" style="border:2px solid #F97316;">后端API</div>
+                </div>
+                <div class="seq-row">
+                    <span class="step-circle" style="background:#EF4444;">1</span>
+                    <span style="font-size:12px;min-width:80px;color:#334155;">查询告警</span>
+                    <div class="seq-msg-line"></div>
+                    <span class="seq-msg-label">GET /summaries/cluster_risk_alerts?platform=...&product=...&page=1&limit=50&risk_level=...&review_status=...&start_as_of_ts=...&end_as_of_ts=...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Management APIs -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#22C55E"></span>用户管理页</h3>
+            <div class="sequence-diagram">
+                <div class="seq-header">
+                    <div class="seq-actor box-nav" style="border:2px solid #0EA5E9;">前端页面</div>
+                    <div class="seq-actor box-api" style="border:2px solid #F97316;">后端API</div>
+                </div>
+                <div class="seq-row">
+                    <span class="step-circle" style="background:#22C55E;">1</span>
+                    <span style="font-size:12px;min-width:80px;color:#334155;">获取列表</span>
+                    <div class="seq-msg-line"></div>
+                    <span class="seq-msg-label"><span class="method-badge method-get">GET</span> /users</span>
+                </div>
+                <div class="seq-row">
+                    <span class="step-circle" style="background:#22C55E;">2</span>
+                    <span style="font-size:12px;min-width:80px;color:#334155;">新建用户</span>
+                    <div class="seq-msg-line"></div>
+                    <span class="seq-msg-label"><span class="method-badge method-post">POST</span> /users</span>
+                </div>
+                <div class="seq-row">
+                    <span class="step-circle" style="background:#22C55E;">3</span>
+                    <span style="font-size:12px;min-width:80px;color:#334155;">编辑用户</span>
+                    <div class="seq-msg-line"></div>
+                    <span class="seq-msg-label"><span class="method-badge method-patch">PATCH</span> /users/{id}</span>
+                </div>
+                <div class="seq-row">
+                    <span class="step-circle" style="background:#22C55E;">4</span>
+                    <span style="font-size:12px;min-width:80px;color:#334155;">删除用户</span>
+                    <div class="seq-msg-line"></div>
+                    <span class="seq-msg-label"><span class="method-badge method-delete">DELETE</span> /users/{id}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full API Reference Table -->
+        <div class="subsection" style="margin-top:20px;">
+            <h3><span class="dot" style="background:#F97316"></span>完整API接口汇总</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>方法</th>
+                        <th>接口路径</th>
+                        <th>所属页面</th>
+                        <th>触发条件</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/products</code></td>
+                        <td><span class="tag tag-indigo">聚类列表</span></td>
+                        <td>页面加载</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/summaries/clusters/list</code></td>
+                        <td><span class="tag tag-indigo">聚类列表</span></td>
+                        <td>选择产品</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/summaries/sankey</code></td>
+                        <td><span class="tag tag-purple">聚类详情</span></td>
+                        <td>页面加载/调参</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/summaries/sankey/simple</code></td>
+                        <td><span class="tag tag-purple">聚类详情</span></td>
+                        <td>页面加载/调参</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/summaries/pca3d</code></td>
+                        <td><span class="tag tag-purple">聚类详情</span></td>
+                        <td>页面加载</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/summaries/groups</code></td>
+                        <td><span class="tag tag-purple">聚类详情</span></td>
+                        <td>页面加载</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/summaries/user</code></td>
+                        <td><span class="tag tag-purple">聚类详情</span></td>
+                        <td>用户输入UID/点击散点</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/summaries/sankey/by_cluster</code></td>
+                        <td><span class="tag tag-purple">聚类详情</span></td>
+                        <td>点击群体散点</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/summaries/cluster_risk_alerts</code></td>
+                        <td><span class="tag tag-red">高危团伙</span></td>
+                        <td>查询操作</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code>/users</code></td>
+                        <td><span class="tag tag-green">用户管理</span></td>
+                        <td>页面加载</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-post">POST</span></td>
+                        <td><code>/users</code></td>
+                        <td><span class="tag tag-green">用户管理</span></td>
+                        <td>新建用户提交</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-patch">PATCH</span></td>
+                        <td><code>/users/{id}</code></td>
+                        <td><span class="tag tag-green">用户管理</span></td>
+                        <td>编辑用户保存</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-delete">DELETE</span></td>
+                        <td><code>/users/{id}</code></td>
+                        <td><span class="tag tag-green">用户管理</span></td>
+                        <td>删除用户确认</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 6: Data Visualization Interaction Flow -->
+    <div class="section" id="flow6">
+        <h2><span class="num">6</span>数据可视化交互流程</h2>
+        <p class="section-desc">三大可视化组件（桑基图、PCA 3D散点、群体摘要）的用户交互细节</p>
+
+        <!-- Sankey -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#6366F1"></span>桑基图（Sankey）交互流程</h3>
+            <div class="interaction-card ic-indigo">
+                <h4>渲染引擎：D3.js</h4>
+                <p>展示用户行为路径的流向关系图</p>
+            </div>
+            <div class="flow-container">
+                <div class="flow-diagram">
+                    <div class="flow-row" style="gap:16px;">
+                        <div class="flow-box box-viz">用户调整"行为步数"滑块<br><span style="font-size:10px">(max_steps: 2~50)</span></div>
+                        <div class="flow-box box-viz">用户调整"最小用户数"滑块<br><span style="font-size:10px">(min_uid_count: 1~500)</span></div>
+                    </div>
+                    <div class="arrow-down arrow-animated"><div class="arrow-line" style="height:24px"></div><div class="arrow-label">参数变化</div></div>
+                    <div class="flow-row">
+                        <div class="flow-box box-api">前端重新请求 API<br><span style="font-size:10px">GET /summaries/sankey（新参数）</span></div>
+                    </div>
+                    <div class="arrow-down arrow-animated"><div class="arrow-line" style="height:24px"></div><div class="arrow-label">数据返回</div></div>
+                    <div class="flow-row">
+                        <div class="flow-box box-viz">D3.js 重新渲染桑基图<br><span style="font-size:10px">过滤后的节点与链接</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;">
+                <div class="interaction-card ic-purple" style="flex:1;min-width:200px;">
+                    <h4>行为步数参数</h4>
+                    <ul>
+                        <li>控制桑基图展示的行为深度</li>
+                        <li>范围：2 至 50 步</li>
+                        <li>默认值：25</li>
+                        <li>值越大路径越长越详细</li>
+                    </ul>
+                </div>
+                <div class="interaction-card ic-purple" style="flex:1;min-width:200px;">
+                    <h4>最小用户数参数</h4>
+                    <ul>
+                        <li>过滤低频行为路径</li>
+                        <li>范围：1 至 500</li>
+                        <li>默认值：10</li>
+                        <li>值越大显示的路径越少越主要</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PCA 3D -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#8B5CF6"></span>PCA 3D散点图交互流程</h3>
+            <div class="interaction-card ic-purple">
+                <h4>渲染引擎：Three.js / WebGL</h4>
+                <p>三维空间展示用户聚类分布</p>
+            </div>
+            <div class="flow-container">
+                <div class="pipeline">
+                    <div class="pipeline-step"><div class="flow-box flow-box-sm box-api">加载 pca3d.json</div></div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="pipeline-step"><div class="flow-box flow-box-sm box-viz">Three.js/WebGL<br>渲染3D散点</div></div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="pipeline-step"><div class="flow-box flow-box-sm box-action">用户旋转/缩放</div></div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="pipeline-step"><div class="flow-box flow-box-sm box-action">用户点击某点</div></div>
+                    <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
+                    <div class="pipeline-step"><div class="flow-box flow-box-sm box-cluster">获取 uid</div></div>
+                </div>
+            </div>
+
+            <div class="arrow-down arrow-animated" style="margin:0 auto;"><div class="arrow-line" style="height:24px"></div><div class="arrow-label">请求摘要数据</div></div>
+
+            <div class="flow-container" style="padding-top:12px;">
+                <div class="flow-diagram">
+                    <div class="flow-row" style="gap:16px;">
+                        <div class="flow-box box-api">请求用户摘要<br><span style="font-size:10px">GET /summaries/user?uid=...</span></div>
+                        <div class="flow-box box-api">请求群体摘要<br><span style="font-size:10px">GET /summaries/sankey/by_cluster</span></div>
+                    </div>
+                    <div class="arrow-down"><div class="arrow-line" style="height:20px"></div></div>
+                    <div class="flow-row">
+                        <div class="flow-box box-viz" style="padding:14px 20px;">右侧面板展示摘要信息</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Summary -->
+        <div class="subsection">
+            <h3><span class="dot" style="background:#22C55E"></span>群体摘要展示结构</h3>
+            <div class="interaction-card ic-green">
+                <h4>点击散点或群体后展示的摘要面板内容</h4>
+            </div>
+
+            <div class="branch-container">
+                <div class="branch-item" style="border-color:#6366F1;border-width:2px;background:#EEF2FF;">
+                    <h4 style="color:#3730A3;">basic_info 基本信息</h4>
+                    <ul>
+                        <li>簇ID (cluster_id)</li>
+                        <li>成员数 (member_count)</li>
+                        <li>成员占比 (member_ratio)</li>
+                    </ul>
+                </div>
+                <div class="branch-item" style="border-color:#8B5CF6;border-width:2px;background:#F5F3FF;">
+                    <h4 style="color:#5B21B6;">core_summary 核心摘要</h4>
+                    <ul>
+                        <li>提现概览</li>
+                        <li>行为路径</li>
+                        <li>投注节奏</li>
+                        <li>波动趋势</li>
+                        <li>游戏策略</li>
+                        <li>渠道分布</li>
+                    </ul>
+                </div>
+                <div class="branch-item" style="border-color:#EF4444;border-width:2px;background:#FEF2F2;">
+                    <h4 style="color:#991B1B;">risk 风险评估</h4>
+                    <ul>
+                        <li>风险分 (risk_score)</li>
+                        <li>风险等级 (risk_level)</li>
+                        <li>7项风险分解：
+                            <ul style="padding-left:12px;margin-top:4px;">
+                                <li>行为一致性</li>
+                                <li>提现模式</li>
+                                <li>注册特征</li>
+                                <li>设备关联</li>
+                                <li>IP关联</li>
+                                <li>投注异常</li>
+                                <li>时间规律</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Visual rendering of summary panel -->
+            <div class="flow-container" style="margin-top:16px;">
+                <div class="flow-diagram">
+                    <div class="flow-row">
+                        <div class="flow-box box-action">用户点击散点/群体</div>
+                    </div>
+                    <div class="arrow-down arrow-animated"><div class="arrow-line" style="height:24px"></div></div>
+                    <div class="flow-row" style="gap:12px;">
+                        <div class="flow-box flow-box-sm box-cluster">basic_info</div>
+                        <div class="flow-box flow-box-sm box-viz">core_summary</div>
+                        <div class="flow-box flow-box-sm box-alert">risk</div>
+                    </div>
+                    <div class="arrow-down"><div class="arrow-line" style="height:20px"></div></div>
+                    <div class="flow-row">
+                        <div class="flow-box box-viz">右侧摘要面板完整渲染</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visualization tech stack summary -->
+        <div class="subsection" style="margin-top:16px;">
+            <h3><span class="dot" style="background:#F97316"></span>可视化技术栈总览</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>组件</th>
+                        <th>渲染技术</th>
+                        <th>数据源</th>
+                        <th>交互方式</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag tag-indigo">桑基图</span></td>
+                        <td>D3.js SVG</td>
+                        <td>/summaries/sankey</td>
+                        <td>滑块调参、节点悬浮</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-purple">PCA 3D散点</span></td>
+                        <td>Three.js / WebGL</td>
+                        <td>/summaries/pca3d</td>
+                        <td>旋转、缩放、点击选点</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-green">群体摘要</span></td>
+                        <td>Vue.js 组件</td>
+                        <td>/summaries/groups + /summaries/user</td>
+                        <td>面板展示、折叠展开</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Float Buttons -->
+<div class="float-buttons">
+    <a href="/docs/风控系统/" class="float-btn float-btn-home" title="返回目录">&#8962;</a>
+    <a href="#" class="float-btn float-btn-top" title="回到顶部">&#8593;</a>
+    <a href="#flow6" class="float-btn float-btn-bottom" title="到底部">&#8595;</a>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="divider"></div>
+    <p>风控管理平台 - 前端用户交互流程文档</p>
+    <p>技术栈：Vue.js + Arco Design + D3.js + Three.js</p>
+    <p style="margin-top:8px;">整理时间：2026-05-25</p>
+</div>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>风控团伙系统流程图 - Risk Control Gang Detection System</title>
+    <title>风控团伙系统流程图</title>
     <link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
     <style>
         * {
@@ -19,7 +19,7 @@
             line-height: 1.8;
         }
 
-        /* Header */
+        /* 顶部标题 */
         .header {
             background: linear-gradient(135deg, #1a1a2e 0%, #2d1b2e 30%, #4a1942 70%, #1a1a2e 100%);
             color: #fff;
@@ -63,7 +63,6 @@
             font-size: 13px;
             letter-spacing: 2px;
             margin-bottom: 20px;
-            text-transform: uppercase;
         }
 
         .header h1 {
@@ -106,14 +105,14 @@
             display: inline-block;
         }
 
-        /* Main Container */
+        /* 主容器 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px 80px;
         }
 
-        /* Table of Contents */
+        /* 目录导航 */
         .toc {
             background: #fff;
             border-radius: 12px;
@@ -153,7 +152,7 @@
             text-decoration: underline;
         }
 
-        /* Section Cards */
+        /* 章节卡片 */
         .section {
             background: #fff;
             border-radius: 12px;
@@ -193,7 +192,7 @@
             margin-bottom: 24px;
         }
 
-        /* Flow Diagram Styles */
+        /* 流程图样式 */
         .flow-container {
             overflow-x: auto;
             padding: 20px 0;
@@ -239,7 +238,7 @@
             min-width: 90px;
         }
 
-        /* Box Colors */
+        /* 方框颜色 */
         .box-datasource { background: #DAE8FC; border-color: #6C8EBF; color: #1e3a5f; }
         .box-feature { background: #D5E8D4; border-color: #82B366; color: #2d5a27; }
         .box-storage { background: #FFF2CC; border-color: #D6B656; color: #5a4a1a; }
@@ -250,7 +249,7 @@
         .box-process { background: #f1f5f9; border-color: #94a3b8; color: #334155; }
         .box-highlight { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
 
-        /* Arrow connectors */
+        /* 箭头连接器 */
         .arrow-down {
             display: flex;
             flex-direction: column;
@@ -312,7 +311,7 @@
             white-space: nowrap;
         }
 
-        /* Animated arrows */
+        /* 动画箭头 */
         @keyframes flowPulse {
             0%, 100% { opacity: 0.4; }
             50% { opacity: 1; }
@@ -340,7 +339,7 @@
             100% { background-position: 0% 200%; }
         }
 
-        /* Layer container */
+        /* 层容器 */
         .layer {
             border: 2px dashed;
             border-radius: 12px;
@@ -374,7 +373,7 @@
         .layer-api { border-color: #D79B00; }
         .layer-api .layer-label { color: #D79B00; }
 
-        /* Grid layout for flows */
+        /* 流程网格布局 */
         .flow-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -386,7 +385,7 @@
         .flow-grid-4 { grid-template-columns: repeat(4, 1fr); }
         .flow-grid-2 { grid-template-columns: repeat(2, 1fr); }
 
-        /* Step list */
+        /* 步骤列表 */
         .step-list {
             list-style: none;
             padding: 0;
@@ -416,7 +415,7 @@
             flex-shrink: 0;
         }
 
-        /* Pipeline horizontal */
+        /* 水平流水线 */
         .pipeline {
             display: flex;
             align-items: center;
@@ -462,7 +461,7 @@
             animation: flowPulse 1.5s ease-in-out infinite;
         }
 
-        /* Table styles */
+        /* 表格样式 */
         .info-table {
             width: 100%;
             border-collapse: collapse;
@@ -491,7 +490,7 @@
             background: #fef2f2;
         }
 
-        /* Tag/badge */
+        /* 标签 */
         .tag {
             display: inline-block;
             padding: 2px 8px;
@@ -507,7 +506,7 @@
         .tag-yellow { background: #fefce8; color: #ca8a04; border: 1px solid #fef08a; }
         .tag-purple { background: #faf5ff; color: #9333ea; border: 1px solid #e9d5ff; }
 
-        /* Tensor flow visualization */
+        /* 张量流可视化 */
         .tensor-flow {
             display: flex;
             flex-direction: column;
@@ -534,7 +533,7 @@
             border: 1px solid;
         }
 
-        /* Horizontal separator with label */
+        /* 带标签的水平分隔线 */
         .sep-label {
             display: flex;
             align-items: center;
@@ -551,7 +550,7 @@
             background: #e2e8f0;
         }
 
-        /* Color legend */
+        /* 颜色图例 */
         .legend {
             display: flex;
             flex-wrap: wrap;
@@ -576,7 +575,7 @@
             border: 1px solid rgba(0,0,0,0.1);
         }
 
-        /* Schema card */
+        /* 契约卡片 */
         .schema-card {
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -599,7 +598,7 @@
             font-size: 12px;
         }
 
-        /* Risk score bar */
+        /* 风险评分条 */
         .risk-bar {
             display: flex;
             align-items: center;
@@ -628,7 +627,7 @@
             font-weight: 600;
         }
 
-        /* Deploy topology */
+        /* 部署拓扑 */
         .deploy-box {
             border: 2px solid;
             border-radius: 12px;
@@ -653,7 +652,7 @@
             gap: 16px;
         }
 
-        /* Float Buttons */
+        /* 浮动按钮 */
         .float-buttons {
             position: fixed;
             bottom: 30px;
@@ -701,7 +700,7 @@
             border: 1px solid #e2e8f0;
         }
 
-        /* Footer */
+        /* 页脚 */
         .footer {
             text-align: center;
             padding: 40px 20px 30px;
@@ -716,7 +715,7 @@
             margin: 0 auto 16px;
         }
 
-        /* Responsive */
+        /* 响应式 */
         @media (max-width: 768px) {
             .header { padding: 40px 20px 36px; }
             .header h1 { font-size: 28px; }
@@ -728,7 +727,7 @@
             .float-buttons { bottom: 16px; right: 16px; }
         }
 
-        /* Vertical flow with branches */
+        /* 带分支的垂直流程 */
         .vflow {
             position: relative;
             padding-left: 40px;
@@ -778,7 +777,7 @@
             color: #64748b;
         }
 
-        /* MQ message card */
+        /* MQ 消息卡片 */
         .mq-msg {
             background: #fef2f2;
             border: 1px solid #fecaca;
@@ -806,14 +805,14 @@
 <!-- Header -->
 <div class="header">
     <div class="header-content">
-        <div class="header-badge">RISK CONTROL SYSTEM</div>
+        <div class="header-badge">风控系统</div>
         <h1>风控团伙系统<span>流程图</span></h1>
-        <p class="subtitle">Risk Control Gang Detection System - Flow Diagrams</p>
+        <p class="subtitle">团伙检测系统 - 全流程架构图</p>
         <div class="header-meta">
-            <span><span class="dot"></span>8 Key Flow Diagrams</span>
-            <span><span class="dot"></span>6-Layer Architecture</span>
-            <span><span class="dot"></span>3334 Feature Columns</span>
-            <span><span class="dot"></span>Mamba + KAN SSL Model</span>
+            <span><span class="dot"></span>8 张核心流程图</span>
+            <span><span class="dot"></span>6 层架构</span>
+            <span><span class="dot"></span>3334 特征列</span>
+            <span><span class="dot"></span>Mamba + KAN 自监督模型</span>
         </div>
     </div>
 </div>
@@ -825,10 +824,10 @@
     <div class="toc">
         <h2>&#128209; 目录导航</h2>
         <div class="toc-grid">
-            <a href="#flow1">1. 总体系统架构 (6-Layer)</a>
+            <a href="#flow1">1. 总体系统架构 (6层)</a>
             <a href="#flow2">2. 特征工程内部流水线</a>
             <a href="#flow3">3. 窗口契约与Schema</a>
-            <a href="#flow4">4. GangModel张量流水线</a>
+            <a href="#flow4">4. GangModel 张量流水线</a>
             <a href="#flow5">5. 离线训练与聚类</a>
             <a href="#flow6">6. 团伙可解释性与风险分</a>
             <a href="#flow7">7. 部署拓扑与MQ消息</a>
@@ -850,7 +849,7 @@
     <!-- ==================== FLOW 1 ==================== -->
     <div class="section" id="flow1">
         <h2><span class="num">1</span> 总体系统架构</h2>
-        <p class="section-desc">Complete system with 6 layers: data collection, feature computation, storage, message bus, model service, and operations</p>
+        <p class="section-desc">完整系统包含 6 层：数据采集、特征计算、存储产物、消息总线、模型服务、运营服务</p>
 
         <div class="flow-container">
             <div class="flow-diagram">
@@ -861,7 +860,7 @@
                     <div class="flow-row" style="padding:12px 0;">
                         <div class="flow-box box-datasource">
                             <strong>StarRocks DWD</strong>
-                            <div style="font-size:11px;color:#64748b;">(read-only)</div>
+                            <div style="font-size:11px;color:#64748b;">(只读)</div>
                         </div>
                         <div class="pipeline-arrow animated">
                             <div class="pa-line" style="width:40px;"></div>
@@ -869,7 +868,7 @@
                         </div>
                         <div class="flow-box box-datasource">
                             <strong>Redis 热缓存</strong>
-                            <div style="font-size:11px;color:#64748b;">MessagePack分片 + watermark</div>
+                            <div style="font-size:11px;color:#64748b;">MessagePack 分片 + 水位线</div>
                         </div>
                     </div>
                 </div>
@@ -885,14 +884,14 @@
                     <div class="flow-row" style="padding:12px 0;gap:20px;">
                         <div style="flex:1;">
                             <div class="flow-box box-feature" style="width:100%;">
-                                <strong>实时 Worker</strong>
+                                <strong>实时工作进程</strong>
                                 <div style="font-size:11px;">300s/6h/2min分片</div>
                             </div>
                         </div>
                         <div style="flex:1;">
                             <div class="flow-box box-feature" style="width:100%;">
                                 <strong>离线特征生成</strong>
-                                <div style="font-size:11px;">120 x 6h windows</div>
+                                <div style="font-size:11px;">120 x 6h 窗口</div>
                             </div>
                         </div>
                         <div class="pipeline-arrow animated">
@@ -901,8 +900,8 @@
                         </div>
                         <div style="flex:1;">
                             <div class="flow-box box-feature" style="width:100%;">
-                                <strong>features/* + assembler</strong>
-                                <div style="font-size:11px;">3334 columns</div>
+                                <strong>features/* + 组装器</strong>
+                                <div style="font-size:11px;">3334 列</div>
                             </div>
                         </div>
                     </div>
@@ -921,7 +920,7 @@
                             <strong>在线特征 Parquet</strong>
                         </div>
                         <div class="flow-box box-storage">
-                            <strong>Explain 产物</strong>
+                            <strong>可解释性产物</strong>
                             <div style="font-size:11px;">summary_features / user_paths / sankey</div>
                         </div>
                         <div class="flow-box box-storage">
@@ -962,7 +961,7 @@
                     <div class="pipeline" style="justify-content:center;">
                         <div class="flow-box box-model flow-box-sm">消费者</div>
                         <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                        <div class="flow-box box-model flow-box-sm">train.py<br><span style="font-size:10px;">GangModel<br>Mamba+KAN SSL</span></div>
+                        <div class="flow-box box-model flow-box-sm">train.py<br><span style="font-size:10px;">GangModel<br>Mamba+KAN 自监督</span></div>
                         <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
                         <div class="flow-box box-model flow-box-sm">cluster.py<br><span style="font-size:10px;">HDBSCAN</span></div>
                         <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
@@ -1020,64 +1019,64 @@
     <!-- ==================== FLOW 2 ==================== -->
     <div class="section" id="flow2">
         <h2><span class="num">2</span> 特征工程内部流水线</h2>
-        <p class="section-desc">IncrementalRunner 8 steps + Single user computation pipeline</p>
+        <p class="section-desc">IncrementalRunner 8 步骤 + 单用户计算流水线</p>
 
-        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">IncrementalRunner 8 Steps</h3>
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">IncrementalRunner 8 步骤</h3>
 
         <div class="flow-container">
             <div class="vflow">
                 <div class="vflow-node" style="border-left:3px solid #82B366;">
-                    <h4>Step 1: _incremental_fetch</h4>
-                    <p>StarRocks DWD query &rarr; Write to Redis (MessagePack shards)</p>
+                    <h4>步骤 1: _incremental_fetch</h4>
+                    <p>StarRocks DWD 查询 &rarr; 写入 Redis (MessagePack 分片)</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #82B366;">
-                    <h4>Step 2: fetch_active_users_with_pp</h4>
-                    <p>Query 6h bet window, identify active users</p>
+                    <h4>步骤 2: fetch_active_users_with_pp</h4>
+                    <p>查询 6h 投注窗口，识别活跃用户</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #82B366;">
-                    <h4>Step 3: fetch_user_profiles</h4>
-                    <p>Load user profile data from StarRocks</p>
+                    <h4>步骤 3: fetch_user_profiles</h4>
+                    <p>从 StarRocks 加载用户画像数据</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #82B366;">
-                    <h4>Step 4: multiprocessing.Pool</h4>
-                    <p>Parallel computation: Redis MGET with DB fallback</p>
+                    <h4>步骤 4: multiprocessing.Pool</h4>
+                    <p>并行计算：Redis MGET 兜底数据库查询</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #82B366;">
-                    <h4>Step 5: split_outputs</h4>
-                    <p>Split by platform &times; product dimensions</p>
+                    <h4>步骤 5: split_outputs</h4>
+                    <p>按平台 &times; 产品维度拆分</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #FFF2CC;">
-                    <h4>Step 6: write_parquet/csv</h4>
-                    <p>Persist feature artifacts to disk</p>
+                    <h4>步骤 6: write_parquet/csv</h4>
+                    <p>持久化特征产物到磁盘</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #FFF2CC;">
-                    <h4>Step 7: _write_explain_artifacts</h4>
-                    <p>Generate explainability CSV/JSON artifacts</p>
+                    <h4>步骤 7: _write_explain_artifacts</h4>
+                    <p>生成可解释性 CSV/JSON 产物</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #F8CECC;">
-                    <h4>Step 8: publish feature_generated</h4>
-                    <p>Send MQ message with split_outputs metadata</p>
+                    <h4>步骤 8: publish feature_generated</h4>
+                    <p>发送 MQ 消息，附带 split_outputs 元数据</p>
                 </div>
             </div>
         </div>
 
-        <div class="sep-label">Single User Computation Pipeline</div>
+        <div class="sep-label">单用户计算流水线</div>
 
         <div class="flow-container">
             <div class="pipeline" style="flex-wrap:wrap;justify-content:center;">
                 <div class="flow-box box-feature flow-box-sm">Top-K(5)</div>
                 <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                <div class="flow-box box-feature flow-box-sm">Micro<br><span style="font-size:10px;">stake/fund/spectral</span></div>
+                <div class="flow-box box-feature flow-box-sm">微观特征<br><span style="font-size:10px;">stake/fund/spectral</span></div>
                 <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                <div class="flow-box box-feature flow-box-sm">Macro<br><span style="font-size:10px;">path/switch/unique</span></div>
+                <div class="flow-box box-feature flow-box-sm">宏观特征<br><span style="font-size:10px;">path/switch/unique</span></div>
                 <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                <div class="flow-box box-feature flow-box-sm">Behavior<br><span style="font-size:10px;">seq/agg/ctx_hash</span></div>
+                <div class="flow-box box-feature flow-box-sm">行为特征<br><span style="font-size:10px;">seq/agg/ctx_hash</span></div>
                 <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                <div class="flow-box box-feature flow-box-sm">Resonance</div>
+                <div class="flow-box box-feature flow-box-sm">共振特征</div>
                 <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
                 <div class="flow-box box-highlight flow-box-sm">P1</div>
                 <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                <div class="flow-box box-storage flow-box-sm">assemble_row<br><span style="font-size:10px;">3334 columns</span></div>
+                <div class="flow-box box-storage flow-box-sm">assemble_row<br><span style="font-size:10px;">3334 列</span></div>
             </div>
         </div>
     </div>
@@ -1085,12 +1084,12 @@
     <!-- ==================== FLOW 3 ==================== -->
     <div class="section" id="flow3">
         <h2><span class="num">3</span> 窗口契约与Schema</h2>
-        <p class="section-desc">Window contracts, sliding subwindows, and feature schema definition</p>
+        <p class="section-desc">窗口契约、滑动子窗口、特征列契约定义</p>
 
         <div class="flow-grid flow-grid-2" style="margin-bottom:20px;">
             <div class="schema-card">
-                <h4>&#128339; 6h Lookback Window</h4>
-                <p style="font-size:13px;margin-top:8px;">Range: <code>[as_of - 6h, as_of)</code></p>
+                <h4>&#128339; 6h 回溯窗口</h4>
+                <p style="font-size:13px;margin-top:8px;">范围: <code>[as_of - 6h, as_of)</code></p>
                 <div style="margin-top:12px;background:#e2e8f0;border-radius:6px;height:24px;position:relative;overflow:hidden;">
                     <div style="position:absolute;left:0;top:0;height:100%;width:100%;background:linear-gradient(90deg,#22c55e 0%,#3b82f6 100%);opacity:0.6;"></div>
                     <div style="position:absolute;left:10%;top:2px;font-size:10px;color:#fff;font-weight:600;">as_of - 6h</div>
@@ -1098,9 +1097,9 @@
                 </div>
             </div>
             <div class="schema-card">
-                <h4>&#128200; 34 Sliding Subwindows</h4>
+                <h4>&#128200; 34 个滑动子窗口</h4>
                 <p style="font-size:13px;margin-top:8px;">
-                    Width: <code>30min</code> | Stride: <code>10min</code> | k = 0...33
+                    窗口宽度: <code>30min</code> | 步长: <code>10min</code> | k = 0...33
                 </p>
                 <div style="margin-top:12px;display:flex;gap:2px;flex-wrap:wrap;">
                     <div style="width:16px;height:12px;background:#3b82f6;border-radius:2px;opacity:0.3;"></div>
@@ -1127,16 +1126,16 @@
                     <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:0.9;"></div>
                     <div style="width:16px;height:12px;background:#ef4444;border-radius:2px;opacity:1;"></div>
                 </div>
-                <p style="font-size:11px;color:#64748b;margin-top:6px;">34 overlapping windows across 6h range</p>
+                <p style="font-size:11px;color:#64748b;margin-top:6px;">6h 范围内 34 个重叠窗口</p>
             </div>
         </div>
 
         <div class="schema-card">
-            <h4>&#128290; 180 x 2min Shards</h4>
-            <p style="font-size:13px;margin-top:4px;">6h / 2min = 180 shards for fine-grained temporal resolution</p>
+            <h4>&#128290; 180 x 2min 分片</h4>
+            <p style="font-size:13px;margin-top:4px;">6h / 2min = 180 个分片，用于细粒度时间分辨率</p>
         </div>
 
-        <div class="sep-label">Schema v2.14 Structure</div>
+        <div class="sep-label">特征列契约 v2.14 结构</div>
 
         <div class="flow-container">
             <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
@@ -1150,21 +1149,21 @@
                 </div>
                 <div style="font-size:24px;color:#64748b;">=</div>
                 <div class="flow-box box-highlight" style="min-width:100px;">
-                    <strong>3334 Total</strong>
+                    <strong>共 3334 列</strong>
                 </div>
             </div>
         </div>
 
-        <div class="sep-label">Feature Groups Order</div>
+        <div class="sep-label">特征组顺序</div>
 
         <div class="pipeline" style="justify-content:center;flex-wrap:wrap;">
-            <div class="flow-box box-process flow-box-sm">P0 masks</div>
+            <div class="flow-box box-process flow-box-sm">P0 掩码</div>
             <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-            <div class="flow-box box-feature flow-box-sm">Micro Top-K<br><span style="font-size:10px;">~2000+ cols</span></div>
+            <div class="flow-box box-feature flow-box-sm">微观 Top-K<br><span style="font-size:10px;">~2000+ 列</span></div>
             <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-            <div class="flow-box box-feature flow-box-sm">Macro<br><span style="font-size:10px;">~500+ cols</span></div>
+            <div class="flow-box box-feature flow-box-sm">宏观<br><span style="font-size:10px;">~500+ 列</span></div>
             <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-            <div class="flow-box box-feature flow-box-sm">Behavior</div>
+            <div class="flow-box box-feature flow-box-sm">行为</div>
             <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
             <div class="flow-box box-highlight flow-box-sm">P1</div>
         </div>
@@ -1173,7 +1172,7 @@
     <!-- ==================== FLOW 4 ==================== -->
     <div class="section" id="flow4">
         <h2><span class="num">4</span> GangModel 张量流水线</h2>
-        <p class="section-desc">FeaturePreprocessor to final embeddings through Mamba + KAN architecture</p>
+        <p class="section-desc">从 FeaturePreprocessor 到最终嵌入向量的 Mamba + KAN 架构</p>
 
         <div class="flow-container">
             <div class="flow-diagram">
@@ -1181,7 +1180,7 @@
                 <!-- Input: FeaturePreprocessor -->
                 <div class="flow-box box-datasource" style="width:100%;max-width:800px;">
                     <strong>FeaturePreprocessor</strong>
-                    <div style="font-size:12px;margin-top:8px;">Raw 3334 columns &rarr; 6 structured tensors</div>
+                    <div style="font-size:12px;margin-top:8px;">原始 3334 列 &rarr; 6 个结构化张量</div>
                 </div>
 
                 <div class="arrow-down arrow-animated">
@@ -1190,7 +1189,7 @@
 
                 <!-- 6 Tensors -->
                 <div class="tensor-flow" style="width:100%;max-width:800px;">
-                    <div style="font-size:12px;font-weight:700;color:#1e293b;margin-bottom:4px;">6 Input Tensors:</div>
+                    <div style="font-size:12px;font-weight:700;color:#1e293b;margin-bottom:4px;">6 个输入张量:</div>
                     <div class="tensor-row">
                         <span class="tensor-box" style="background:#DAE8FC;border-color:#6C8EBF;">macro_path_ids [B, 170]</span>
                         <span class="tensor-box" style="background:#D5E8D4;border-color:#82B366;">behav_global [B, 16]</span>
@@ -1222,14 +1221,14 @@
 
                 <div class="arrow-down arrow-animated">
                     <div class="arrow-line" style="height:16px;"></div>
-                    <span class="arrow-label">Fuse [B, 1, 256]</span>
+                    <span class="arrow-label">融合 [B, 1, 256]</span>
                 </div>
 
                 <!-- Mamba -->
                 <div class="flow-box box-model" style="width:100%;max-width:500px;">
                     <strong>Mamba Block</strong>
-                    <div style="font-size:12px;margin-top:4px;">4 layers | d_inner = 512</div>
-                    <div style="font-size:11px;color:#64748b;">Output: h [B, 256]</div>
+                    <div style="font-size:12px;margin-top:4px;">4 层 | d_inner = 512</div>
+                    <div style="font-size:11px;color:#64748b;">输出: h [B, 256]</div>
                 </div>
 
                 <div class="arrow-down arrow-animated">
@@ -1240,7 +1239,7 @@
                 <div class="flow-box box-model" style="width:100%;max-width:500px;">
                     <strong>KAN Head</strong>
                     <div style="font-size:12px;margin-top:4px;">256 &rarr; 128 &rarr; 64</div>
-                    <div style="font-size:11px;color:#64748b;">Output: z [B, 64] + s [B, 1]</div>
+                    <div style="font-size:11px;color:#64748b;">输出: z [B, 64] + s [B, 1]</div>
                 </div>
 
                 <div class="arrow-down arrow-animated">
@@ -1250,16 +1249,16 @@
                 <!-- Two branches -->
                 <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;width:100%;max-width:800px;">
                     <div class="flow-box box-api" style="flex:1;min-width:280px;">
-                        <strong>Online Inference</strong>
+                        <strong>在线推理</strong>
                         <div style="font-size:12px;margin-top:6px;">
-                            L2 norm &rarr; cosine &times; prototypes[K, 64]<br>
-                            &rarr; cluster_id or -1
+                            L2 归一化 &rarr; 余弦相似度 &times; prototypes[K, 64]<br>
+                            &rarr; cluster_id 或 -1
                         </div>
                     </div>
                     <div class="flow-box box-feature" style="flex:1;min-width:280px;">
-                        <strong>Training (SSL)</strong>
+                        <strong>训练 (自监督)</strong>
                         <div style="font-size:12px;margin-top:6px;">
-                            2&times; augment &rarr; 2&times; forward<br>
+                            2&times; 数据增强 &rarr; 2&times; 前向传播<br>
                             &rarr; InfoNCE + VICReg
                         </div>
                     </div>
@@ -1272,7 +1271,7 @@
     <!-- ==================== FLOW 5 ==================== -->
     <div class="section" id="flow5">
         <h2><span class="num">5</span> 离线训练与聚类</h2>
-        <p class="section-desc">Offline training pipeline from Parquet data to cluster assignments and prototypes</p>
+        <p class="section-desc">离线训练流水线：从 Parquet 数据到聚类分配与原型向量</p>
 
         <div class="flow-container">
             <div class="flow-diagram">
@@ -1294,15 +1293,15 @@
 
                 <!-- Row 2: Training -->
                 <div class="pipeline" style="justify-content:center;flex-wrap:wrap;">
-                    <div class="flow-box box-model flow-box-sm">2&times; augment</div>
+                    <div class="flow-box box-model flow-box-sm">2&times; 数据增强</div>
                     <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                    <div class="flow-box box-model flow-box-sm">forward</div>
+                    <div class="flow-box box-model flow-box-sm">前向传播</div>
                     <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
                     <div class="flow-box box-highlight flow-box-sm">gang_loss</div>
                     <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
                     <div class="flow-box box-model flow-box-sm">AdamW</div>
                     <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                    <div class="flow-box box-storage flow-box-sm">checkpoint</div>
+                    <div class="flow-box box-storage flow-box-sm">检查点</div>
                 </div>
 
                 <div class="arrow-down arrow-animated">
@@ -1315,9 +1314,9 @@
                     <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
                     <div class="flow-box box-model flow-box-sm">HDBSCAN</div>
                     <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                    <div class="flow-box box-model flow-box-sm">prototypes</div>
+                    <div class="flow-box box-model flow-box-sm">原型向量</div>
                     <div class="pipeline-arrow animated"><div class="pa-line"></div><div class="pa-head"></div></div>
-                    <div class="flow-box box-feature flow-box-sm">cluster_assignments</div>
+                    <div class="flow-box box-feature flow-box-sm">聚类分配</div>
                 </div>
 
                 <div class="arrow-down arrow-animated">
@@ -1328,11 +1327,11 @@
                 <div class="flow-row" style="gap:16px;">
                     <div class="flow-box box-storage">
                         <strong>cluster_summaries</strong>
-                        <div style="font-size:11px;">Per-cluster statistics</div>
+                        <div style="font-size:11px;">每个聚类的统计信息</div>
                     </div>
                     <div class="flow-box box-storage">
                         <strong>user_summaries</strong>
-                        <div style="font-size:11px;">Per-user assignments</div>
+                        <div style="font-size:11px;">每个用户的分配信息</div>
                     </div>
                 </div>
 
@@ -1343,36 +1342,36 @@
     <!-- ==================== FLOW 6 ==================== -->
     <div class="section" id="flow6">
         <h2><span class="num">6</span> 团伙可解释性与风险分</h2>
-        <p class="section-desc">Cluster explainability pipeline and risk scoring model</p>
+        <p class="section-desc">聚类可解释性流水线与风险评分模型</p>
 
-        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">5 Sequential Steps after cluster_completed</h3>
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">cluster_completed 后的 5 个顺序步骤</h3>
 
         <div class="flow-container">
             <div class="vflow">
                 <div class="vflow-node" style="border-left:3px solid #82B366;">
-                    <h4>Step 1: write_user_paths_full</h4>
-                    <p>Cross-snapshot stitching, max 30 windows per user path</p>
+                    <h4>步骤 1: write_user_paths_full</h4>
+                    <p>跨快照拼接，每条用户路径最多 30 个窗口</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #82B366;">
-                    <h4>Step 2: build_cluster_summary_artifacts</h4>
-                    <p>Generate groups/users/sankey CSV files</p>
+                    <h4>步骤 2: build_cluster_summary_artifacts</h4>
+                    <p>生成 groups/users/sankey CSV 文件</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #5B7BA5;">
-                    <h4>Step 3: upsert_cluster_result_index</h4>
-                    <p>Write to PostgreSQL cluster_result_index table</p>
+                    <h4>步骤 3: upsert_cluster_result_index</h4>
+                    <p>写入 PostgreSQL cluster_result_index 表</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #82B366;">
-                    <h4>Step 4: write_group_summary_artifacts</h4>
-                    <p>Generate JSON files for API consumption</p>
+                    <h4>步骤 4: write_group_summary_artifacts</h4>
+                    <p>生成供 API 消费的 JSON 文件</p>
                 </div>
                 <div class="vflow-node" style="border-left:3px solid #ef4444;">
-                    <h4>Step 5: persist_high_risk_clusters</h4>
-                    <p>Write to cluster_risk_alert table in PostgreSQL</p>
+                    <h4>步骤 5: persist_high_risk_clusters</h4>
+                    <p>写入 PostgreSQL cluster_risk_alert 表</p>
                 </div>
             </div>
         </div>
 
-        <div class="sep-label">Risk Score Model (Linear Weighted, 0-100)</div>
+        <div class="sep-label">风险评分模型 (线性加权, 0-100)</div>
 
         <div style="max-width:600px;margin:0 auto;">
             <div class="risk-bar">
@@ -1426,23 +1425,23 @@
             </div>
         </div>
 
-        <div class="sep-label">Risk Levels</div>
+        <div class="sep-label">风险等级</div>
 
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
             <div class="flow-box" style="background:#fef2f2;border-color:#ef4444;min-width:120px;">
-                <strong style="color:#dc2626;">CRITICAL</strong>
+                <strong style="color:#dc2626;">极高危</strong>
                 <div style="font-size:12px;color:#64748b;">&ge; 80</div>
             </div>
             <div class="flow-box" style="background:#fff7ed;border-color:#f97316;min-width:120px;">
-                <strong style="color:#ea580c;">HIGH</strong>
+                <strong style="color:#ea580c;">高危</strong>
                 <div style="font-size:12px;color:#64748b;">&ge; 60</div>
             </div>
             <div class="flow-box" style="background:#fefce8;border-color:#eab308;min-width:120px;">
-                <strong style="color:#ca8a04;">MEDIUM</strong>
+                <strong style="color:#ca8a04;">中危</strong>
                 <div style="font-size:12px;color:#64748b;">&ge; 40</div>
             </div>
             <div class="flow-box" style="background:#f0fdf4;border-color:#22c55e;min-width:120px;">
-                <strong style="color:#16a34a;">LOW</strong>
+                <strong style="color:#16a34a;">低危</strong>
                 <div style="font-size:12px;color:#64748b;">&lt; 40</div>
             </div>
         </div>
@@ -1451,7 +1450,7 @@
     <!-- ==================== FLOW 7 ==================== -->
     <div class="section" id="flow7">
         <h2><span class="num">7</span> 部署拓扑与MQ消息</h2>
-        <p class="section-desc">Deployment topology on Ubuntu server with two services and shared storage</p>
+        <p class="section-desc">Ubuntu 服务器上的部署拓扑：两个服务与共享存储</p>
 
         <div class="deploy-grid">
             <!-- risk_feature service -->
@@ -1459,9 +1458,9 @@
                 <span class="deploy-title" style="color:#82B366;">risk_feature</span>
                 <div style="font-size:12px;color:#64748b;margin-bottom:12px;margin-top:4px;">/home/ai-local2/risk_feature</div>
                 <div style="display:flex;flex-direction:column;gap:8px;">
-                    <div class="flow-box box-feature flow-box-sm" style="width:100%;">Worker (IncrementalRunner)</div>
-                    <div class="flow-box box-feature flow-box-sm" style="width:100%;">Cluster Consumer</div>
-                    <div class="flow-box box-api flow-box-sm" style="width:100%;">API Server (:9696)</div>
+                    <div class="flow-box box-feature flow-box-sm" style="width:100%;">工作进程 (IncrementalRunner)</div>
+                    <div class="flow-box box-feature flow-box-sm" style="width:100%;">聚类消费者</div>
+                    <div class="flow-box box-api flow-box-sm" style="width:100%;">API 服务 (:9696)</div>
                 </div>
             </div>
 
@@ -1470,16 +1469,16 @@
                 <span class="deploy-title" style="color:#9673A6;">model_service</span>
                 <div style="font-size:12px;color:#64748b;margin-bottom:12px;margin-top:4px;">/home/ai-local2/model_service</div>
                 <div style="display:flex;flex-direction:column;gap:8px;">
-                    <div class="flow-box box-model flow-box-sm" style="width:100%;">MQ Consumer</div>
-                    <div class="flow-box box-model flow-box-sm" style="width:100%;">Train Pipeline</div>
-                    <div class="flow-box box-api flow-box-sm" style="width:100%;">API Server (:8000)</div>
+                    <div class="flow-box box-model flow-box-sm" style="width:100%;">MQ 消费者</div>
+                    <div class="flow-box box-model flow-box-sm" style="width:100%;">训练流水线</div>
+                    <div class="flow-box box-api flow-box-sm" style="width:100%;">API 服务 (:8000)</div>
                 </div>
             </div>
         </div>
 
         <!-- Shared storage -->
         <div class="deploy-box" style="border-color:#D6B656;margin-top:20px;">
-            <span class="deploy-title" style="color:#D6B656;">Shared Storage</span>
+            <span class="deploy-title" style="color:#D6B656;">共享存储</span>
             <div style="font-size:12px;color:#64748b;margin-bottom:12px;margin-top:4px;">/home/ai-local2/risk_data</div>
             <div style="display:flex;gap:12px;flex-wrap:wrap;padding-top:4px;">
                 <div class="flow-box box-storage flow-box-sm">offline/</div>
@@ -1488,7 +1487,7 @@
             </div>
         </div>
 
-        <div class="sep-label">RocketMQ Message Definitions</div>
+        <div class="sep-label">RocketMQ 消息定义</div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div class="mq-msg">
@@ -1515,19 +1514,19 @@
             </div>
         </div>
 
-        <div class="sep-label">Service Communication Flow</div>
+        <div class="sep-label">服务通信流程</div>
 
         <div class="flow-container">
             <div class="pipeline" style="justify-content:center;flex-wrap:wrap;">
-                <div class="flow-box box-feature flow-box-sm">risk_feature<br>Worker</div>
+                <div class="flow-box box-feature flow-box-sm">risk_feature<br>工作进程</div>
                 <div class="pipeline-arrow animated"><div class="pa-line" style="width:30px;"></div><div class="pa-head"></div></div>
                 <div class="flow-box box-mq flow-box-sm">feature_generated</div>
                 <div class="pipeline-arrow animated"><div class="pa-line" style="width:30px;"></div><div class="pa-head"></div></div>
-                <div class="flow-box box-model flow-box-sm">model_service<br>Consumer</div>
+                <div class="flow-box box-model flow-box-sm">model_service<br>消费者</div>
                 <div class="pipeline-arrow animated"><div class="pa-line" style="width:30px;"></div><div class="pa-head"></div></div>
                 <div class="flow-box box-mq flow-box-sm">cluster_completed</div>
                 <div class="pipeline-arrow animated"><div class="pa-line" style="width:30px;"></div><div class="pa-head"></div></div>
-                <div class="flow-box box-feature flow-box-sm">risk_feature<br>Cluster Consumer</div>
+                <div class="flow-box box-feature flow-box-sm">risk_feature<br>聚类消费者</div>
             </div>
         </div>
     </div>
@@ -1535,145 +1534,145 @@
     <!-- ==================== FLOW 8 ==================== -->
     <div class="section" id="flow8">
         <h2><span class="num">8</span> 数据模型与运维</h2>
-        <p class="section-desc">Database schemas, Redis patterns, file naming conventions, API routes, and frontend pages</p>
+        <p class="section-desc">数据库表结构、Redis 键模式、文件命名规范、API 路由、前端页面</p>
 
-        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">PostgreSQL Tables</h3>
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">PostgreSQL 数据表</h3>
 
         <table class="info-table">
             <thead>
                 <tr>
-                    <th>Table</th>
-                    <th>Purpose</th>
-                    <th>Key Columns</th>
+                    <th>表名</th>
+                    <th>用途</th>
+                    <th>关键列</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">cluster_result_index</code></td>
-                    <td>Index of all clustering runs</td>
+                    <td>所有聚类运行的索引</td>
                     <td>platform, product, run_id, n_clusters, as_of, status</td>
                 </tr>
                 <tr>
                     <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">cluster_risk_alert</code></td>
-                    <td>High-risk cluster alerts</td>
+                    <td>高危聚类告警</td>
                     <td>cluster_id, risk_score, risk_level, factors_json</td>
                 </tr>
                 <tr>
                     <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">api_users</code></td>
-                    <td>API authentication</td>
+                    <td>API 认证</td>
                     <td>username, hashed_password, role, is_active</td>
                 </tr>
             </tbody>
         </table>
 
-        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">Redis Key Patterns</h3>
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">Redis 键模式</h3>
 
         <table class="info-table">
             <thead>
                 <tr>
-                    <th>Pattern</th>
-                    <th>Type</th>
-                    <th>Description</th>
+                    <th>模式</th>
+                    <th>类型</th>
+                    <th>描述</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">fg:v1:evt:{platform}:{shard_id}</code></td>
                     <td>String (MessagePack)</td>
-                    <td>Event data shard</td>
+                    <td>事件数据分片</td>
                 </tr>
                 <tr>
                     <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">fg:v1:evtuser:{platform}:{user_id}</code></td>
                     <td>String (MessagePack)</td>
-                    <td>User-level event cache</td>
+                    <td>用户级事件缓存</td>
                 </tr>
                 <tr>
                     <td><code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px;">fg:v1:wm:{platform}</code></td>
                     <td>String</td>
-                    <td>Watermark timestamp per platform</td>
+                    <td>每个平台的水位线时间戳</td>
                 </tr>
             </tbody>
         </table>
 
-        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">Output File Naming</h3>
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">输出文件命名</h3>
 
         <div class="schema-card">
             <div style="font-family:monospace;font-size:12px;line-height:2;">
-                <div><span class="tag tag-green">online</span> features_{platform}_{product}_{as_of_iso}.parquet</div>
-                <div><span class="tag tag-blue">offline</span> offline_{platform}_{product}_{window_start}_{window_end}.parquet</div>
-                <div><span class="tag tag-yellow">explain</span> user_paths/{platform}_{product}_{run_id}.csv</div>
-                <div><span class="tag tag-yellow">explain</span> sankey/{platform}_{product}_{run_id}.csv</div>
-                <div><span class="tag tag-purple">model</span> gang_discovery/{platform}_{product}/{run_id}/</div>
+                <div><span class="tag tag-green">在线</span> features_{platform}_{product}_{as_of_iso}.parquet</div>
+                <div><span class="tag tag-blue">离线</span> offline_{platform}_{product}_{window_start}_{window_end}.parquet</div>
+                <div><span class="tag tag-yellow">解释</span> user_paths/{platform}_{product}_{run_id}.csv</div>
+                <div><span class="tag tag-yellow">解释</span> sankey/{platform}_{product}_{run_id}.csv</div>
+                <div><span class="tag tag-purple">模型</span> gang_discovery/{platform}_{product}/{run_id}/</div>
             </div>
         </div>
 
-        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">FastAPI Routes</h3>
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">FastAPI 路由</h3>
 
         <table class="info-table">
             <thead>
                 <tr>
-                    <th>Method</th>
-                    <th>Endpoint</th>
-                    <th>Description</th>
+                    <th>方法</th>
+                    <th>端点</th>
+                    <th>描述</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><span class="tag tag-green">GET</span></td>
                     <td>/api/v1/clusters</td>
-                    <td>List clustering results</td>
+                    <td>获取聚类结果列表</td>
                 </tr>
                 <tr>
                     <td><span class="tag tag-green">GET</span></td>
                     <td>/api/v1/clusters/{run_id}</td>
-                    <td>Get cluster detail (Sankey + PCA3D + summary)</td>
+                    <td>获取聚类详情 (Sankey + PCA3D + 摘要)</td>
                 </tr>
                 <tr>
                     <td><span class="tag tag-green">GET</span></td>
                     <td>/api/v1/high-risk</td>
-                    <td>List high-risk clusters</td>
+                    <td>获取高危聚类列表</td>
                 </tr>
                 <tr>
                     <td><span class="tag tag-green">GET</span></td>
                     <td>/api/v1/high-risk/{cluster_id}</td>
-                    <td>Get high-risk cluster detail</td>
+                    <td>获取高危聚类详情</td>
                 </tr>
                 <tr>
                     <td><span class="tag tag-blue">POST</span></td>
                     <td>/api/v1/auth/login</td>
-                    <td>User authentication</td>
+                    <td>用户认证登录</td>
                 </tr>
                 <tr>
                     <td><span class="tag tag-green">GET</span></td>
                     <td>/api/v1/users</td>
-                    <td>List API users (admin)</td>
+                    <td>获取 API 用户列表 (管理员)</td>
                 </tr>
                 <tr>
                     <td><span class="tag tag-blue">POST</span></td>
                     <td>/api/v1/users</td>
-                    <td>Create API user (admin)</td>
+                    <td>创建 API 用户 (管理员)</td>
                 </tr>
             </tbody>
         </table>
 
-        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">Frontend Pages</h3>
+        <h3 style="font-size:16px;color:#1e293b;margin:20px 0 12px;">前端页面</h3>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;">
             <div class="flow-box box-api">
                 <strong>&#128202; 聚类结果</strong>
-                <div style="font-size:11px;margin-top:4px;">Cluster list with filters</div>
+                <div style="font-size:11px;margin-top:4px;">聚类列表与筛选</div>
             </div>
             <div class="flow-box box-api">
                 <strong>&#128269; 聚类结果详情</strong>
-                <div style="font-size:11px;margin-top:4px;">Sankey + PCA3D + Summary</div>
+                <div style="font-size:11px;margin-top:4px;">Sankey + PCA3D + 摘要</div>
             </div>
             <div class="flow-box box-highlight">
                 <strong>&#9888;&#65039; 高危团伙</strong>
-                <div style="font-size:11px;margin-top:4px;">Risk alerts dashboard</div>
+                <div style="font-size:11px;margin-top:4px;">风险告警面板</div>
             </div>
             <div class="flow-box box-api">
                 <strong>&#128100; 用户管理</strong>
-                <div style="font-size:11px;margin-top:4px;">API user CRUD</div>
+                <div style="font-size:11px;margin-top:4px;">API 用户增删改查</div>
             </div>
         </div>
 
@@ -1691,7 +1690,7 @@
 <!-- Footer -->
 <div class="footer">
     <div class="divider"></div>
-    <p>风控团伙系统流程图 - Risk Control Gang Detection System Flow Diagrams</p>
+    <p>风控团伙系统流程图</p>
     <p style="margin-top: 6px;">整理时间：2026-05-25</p>
 </div>
 
