@@ -737,52 +737,16 @@
         .ic-purple h4 { color: #5B21B6; }
 
         /* Float Buttons */
-        .float-buttons {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1000;
-        }
-
-        .float-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-decoration: none;
-        }
-
-        .float-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-        }
-
-        .float-btn-home {
-            background: #ef4444;
-            color: #fff;
-        }
-
-        .float-btn-top {
-            background: #fff;
-            color: #ef4444;
-            border: 1px solid #e2e8f0;
-        }
-
-        .float-btn-bottom {
-            background: #fff;
-            color: #ef4444;
-            border: 1px solid #e2e8f0;
-        }
+        .fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+        .fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75;text-decoration:none}
+        .fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+        .fab svg{width:18px;height:18px}
+        .fab-back{background:#fff;color:#555}
+        .fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+        .fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
+        .fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+        .fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+        .fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
 
         /* Footer */
         .footer {
@@ -807,7 +771,7 @@
             .toc { padding: 24px 20px; }
             .toc-grid { grid-template-columns: 1fr; }
             .flow-grid-3, .flow-grid-4 { grid-template-columns: 1fr; }
-            .float-buttons { bottom: 16px; right: 16px; }
+            .fab-group{right:14px;bottom:20px;gap:8px}.fab{width:38px;height:38px}.fab svg{width:16px;height:16px}
             .branch-container { flex-direction: column; }
             .seq-header { flex-wrap: wrap; }
         }
@@ -1789,12 +1753,21 @@
 
 </div>
 
-<!-- Float Buttons -->
-<div class="float-buttons">
-    <a href="/docs/风控系统/" class="float-btn float-btn-home" title="返回目录">&#8962;</a>
-    <a href="#" class="float-btn float-btn-top" title="回到顶部">&#8593;</a>
-    <a href="#flow6" class="float-btn float-btn-bottom" title="到底部">&#8595;</a>
+<!-- 浮动按钮组 -->
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/?project=risk" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
 </div>
+<script>
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+</script>
 
 <!-- Footer -->
 <div class="footer">
