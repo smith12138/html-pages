@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>风控系统 - 项目文档</title>
+    <link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b2e 30%, #4a1942 70%, #1a1a2e 100%);
+            color: #fff;
+            padding: 60px 40px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(239, 68, 68, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 50%, rgba(220, 38, 38, 0.1) 0%, transparent 60%);
+            animation: headerPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .header h1 span {
+            color: #f87171;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .header-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-meta .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+            display: inline-block;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-left: 4px solid #ef4444;
+        }
+
+        .toc h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc h2::before {
+            content: "\1F4D1";
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 8px 24px;
+        }
+
+        .toc a {
+            color: #dc2626;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 4px 0;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: #ef4444;
+            text-decoration: underline;
+        }
+
+        .toc a.toc-l1 { font-weight: 600; font-size: 15px; color: #1e293b; margin-top: 6px; }
+        .toc a.toc-l2 { padding-left: 18px; }
+
+        /* Section Card */
+        .section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 36px 40px;
+            margin-bottom: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            font-size: 24px;
+            color: #1e293b;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            font-size: 19px;
+            color: #334155;
+            margin: 24px 0 12px;
+            padding-left: 14px;
+            border-left: 3px solid #ef4444;
+        }
+
+        .section h4 {
+            font-size: 16px;
+            color: #475569;
+            margin: 18px 0 8px;
+            font-weight: 600;
+        }
+
+        .section p {
+            color: #475569;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .section ul, .section ol {
+            padding-left: 22px;
+            margin-bottom: 14px;
+        }
+
+        .section li {
+            color: #475569;
+            font-size: 14.5px;
+            margin-bottom: 5px;
+        }
+
+        .section li strong {
+            color: #334155;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 18px 22px;
+        }
+
+        .info-card .label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .info-card .value {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .info-card .value a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        /* Module Card */
+        .module-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 14px 0;
+        }
+
+        .module-card .module-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .module-card .module-title .num {
+            background: #ef4444;
+            color: #fff;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .module-card p, .module-card li {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Data Table Style */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13.5px;
+        }
+
+        .data-table thead th {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .data-table thead th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .data-table thead th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .data-table tbody td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f1f5f9;
+        }
+
+        .data-table tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 8px;
+        }
+
+        .data-table tbody tr:last-child td:last-child {
+            border-radius: 0 0 8px 0;
+        }
+
+        /* Badge / Tag */
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .tag-red { background: #fef2f2; color: #dc2626; }
+        .tag-green { background: #ecfdf5; color: #047857; }
+        .tag-amber { background: #fffbeb; color: #b45309; }
+        .tag-blue { background: #eff6ff; color: #1d4ed8; }
+        .tag-indigo { background: #eef2ff; color: #4338ca; }
+        .tag-slate { background: #f1f5f9; color: #475569; }
+        .tag-purple { background: #faf5ff; color: #7c3aed; }
+
+        /* Report Tags Container */
+        .report-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 16px;
+        }
+
+        .report-tag {
+            display: inline-block;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: "SF Mono", "Fira Code", monospace;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .highlight-box.warn {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-color: #fde68a;
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border-color: #a7f3d0;
+        }
+
+        .highlight-box.info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-color: #93c5fd;
+        }
+
+        .highlight-box p {
+            font-size: 14px;
+            color: #334155;
+        }
+
+        /* Architecture Diagram */
+        .arch-diagram {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            color: #e2e8f0;
+            font-family: "SF Mono", "Fira Code", Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .arch-diagram .layer {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin: 10px 0;
+        }
+
+        .arch-diagram .layer-title {
+            color: #f87171;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .arch-diagram .layer-items {
+            color: #94a3b8;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 22px 26px;
+            margin: 14px 0;
+            color: #e2e8f0;
+            font-family: "SF Mono", "Fira Code", Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .code-block .comment { color: #64748b; }
+        .code-block .keyword { color: #f87171; }
+        .code-block .string { color: #34d399; }
+        .code-block .folder { color: #fbbf24; }
+        .code-block .file { color: #94a3b8; }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: #fff;
+            border: 2px solid #ef4444;
+            border-radius: 8px;
+            padding: 10px 18px;
+            margin: 6px 4px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .flow-arrow {
+            display: inline-block;
+            color: #ef4444;
+            font-size: 18px;
+            margin: 0 4px;
+            vertical-align: middle;
+        }
+
+        /* Columns Overview */
+        .columns-scroll {
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+
+        .columns-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0;
+        }
+
+        .col-tag {
+            background: #1e293b;
+            color: #fca5a5;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: "SF Mono", monospace;
+            white-space: nowrap;
+        }
+
+        /* Float Buttons */
+        .float-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .float-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .float-btn-home {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .float-btn-top {
+            background: #fff;
+            color: #ef4444;
+            border: 1px solid #e2e8f0;
+        }
+
+        .float-btn-bottom {
+            background: #fff;
+            color: #ef4444;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px 30px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .footer .divider {
+            width: 60px;
+            height: 2px;
+            background: #e2e8f0;
+            margin: 0 auto 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 40px 20px 36px; }
+            .header h1 { font-size: 28px; }
+            .section { padding: 24px 20px; }
+            .toc { padding: 24px 20px; }
+            .toc-grid { grid-template-columns: 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+            .header-meta { flex-direction: column; gap: 8px; align-items: center; }
+            .float-buttons { bottom: 16px; right: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="header-content">
+        <div class="header-badge">Risk Control System</div>
+        <h1><span>风控</span>系统</h1>
+        <div class="subtitle">User Behavior Feature Engineering + Gang Explainability for Gambling Risk Scenarios</div>
+        <div class="header-meta">
+            <span><span class="dot"></span>Schema v2.14 / 3334 columns</span>
+            <span><span class="dot"></span>Python 3.12+ / FastAPI</span>
+            <span><span class="dot"></span>Mamba + KAN Model</span>
+            <span><span class="dot"></span>双服务架构</span>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+
+    <!-- Table of Contents -->
+    <div class="toc" id="toc">
+        <h2>目录导航</h2>
+        <div class="toc-grid">
+            <div>
+                <a href="#overview" class="toc-l1">一、项目概述</a>
+                <a href="#overview-objectives" class="toc-l2">1.1 项目目标</a>
+                <a href="#overview-tech" class="toc-l2">1.2 技术栈</a>
+                <a href="#overview-env" class="toc-l2">1.3 运行环境</a>
+            </div>
+            <div>
+                <a href="#architecture" class="toc-l1">二、系统架构</a>
+                <a href="#arch-overall" class="toc-l2">2.1 整体架构图</a>
+                <a href="#arch-dual" class="toc-l2">2.2 双链路设计</a>
+            </div>
+            <div>
+                <a href="#structure" class="toc-l1">三、项目结构</a>
+                <a href="#struct-risk" class="toc-l2">3.1 risk_feature 服务</a>
+                <a href="#struct-model" class="toc-l2">3.2 model_service 服务</a>
+            </div>
+            <div>
+                <a href="#dataflow" class="toc-l1">四、数据流设计</a>
+                <a href="#dataflow-realtime" class="toc-l2">4.1 实时链路</a>
+                <a href="#dataflow-offline" class="toc-l2">4.2 离线链路</a>
+                <a href="#dataflow-storage" class="toc-l2">4.3 存储格式</a>
+            </div>
+            <div>
+                <a href="#features" class="toc-l1">五、特征工程</a>
+                <a href="#feat-window" class="toc-l2">5.1 时间窗口设计</a>
+                <a href="#feat-schema" class="toc-l2">5.2 Schema v2.14</a>
+                <a href="#feat-groups" class="toc-l2">5.3 特征分组</a>
+                <a href="#feat-paths" class="toc-l2">5.4 用户路径</a>
+            </div>
+            <div>
+                <a href="#model" class="toc-l1">六、模型架构</a>
+                <a href="#model-gang" class="toc-l2">6.1 GangModel 总览</a>
+                <a href="#model-components" class="toc-l2">6.2 组件详解</a>
+                <a href="#model-training" class="toc-l2">6.3 训练策略</a>
+            </div>
+            <div>
+                <a href="#explain" class="toc-l1">七、团伙可解释性</a>
+                <a href="#explain-summary" class="toc-l2">7.1 聚类摘要</a>
+                <a href="#explain-risk" class="toc-l2">7.2 风险评分</a>
+                <a href="#explain-sankey" class="toc-l2">7.3 桑基图</a>
+            </div>
+            <div>
+                <a href="#mq" class="toc-l1">八、消息队列</a>
+                <a href="#mq-topics" class="toc-l2">8.1 Topic 设计</a>
+                <a href="#mq-payloads" class="toc-l2">8.2 消息体结构</a>
+            </div>
+            <div>
+                <a href="#api" class="toc-l1">九、API 服务</a>
+                <a href="#api-auth" class="toc-l2">9.1 认证接口</a>
+                <a href="#api-data" class="toc-l2">9.2 数据接口</a>
+            </div>
+            <div>
+                <a href="#database" class="toc-l1">十、数据库设计</a>
+                <a href="#db-tables" class="toc-l2">10.1 PostgreSQL 表</a>
+            </div>
+            <div>
+                <a href="#deploy" class="toc-l1">十一、部署架构</a>
+                <a href="#deploy-docker" class="toc-l2">11.1 Docker Compose</a>
+                <a href="#deploy-systemd" class="toc-l2">11.2 Systemd 服务</a>
+            </div>
+            <div>
+                <a href="#config" class="toc-l1">十二、配置管理</a>
+                <a href="#fault" class="toc-l1">十三、容错与监控</a>
+                <a href="#ops" class="toc-l1">十四、运维指南</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1: Project Overview -->
+    <div class="section" id="overview">
+        <h2>一、项目概述</h2>
+        <p>
+            <strong>风控系统</strong>是一套面向博彩/风控场景的<strong>用户行为特征工程 + 团伙可解释性</strong>系统。
+            系统由两大核心服务组成：<code>risk_feature</code>（特征工程 + 团伙可解释性）和 <code>model_service</code>（离线训练 + 消费推理聚类）。
+            通过实时与离线双链路协同，实现从原始用户行为数据到团伙聚类、风险告警的全链路处理。
+        </p>
+
+        <h3 id="overview-objectives">1.1 项目目标</h3>
+        <ul>
+            <li><strong>实时特征计算：</strong>每 5 分钟增量拉取 StarRocks 数据，写入 Redis 热缓存，对活跃用户在 6h 窗口内重算特征</li>
+            <li><strong>离线特征生成：</strong>批量生成历史 6h 快照供模型训练（120 windows x 6h）</li>
+            <li><strong>可解释性产品：</strong>生成 summary_features、user_paths、sankey_edges 解释表</li>
+            <li><strong>团伙摘要：</strong>聚类完成后通过 MQ Consumer 预计算团伙/用户摘要、风险评分</li>
+            <li><strong>运营 API：</strong>FastAPI 暴露桑基图、摘要、PCA-3D、风险告警、平台产品列表</li>
+        </ul>
+
+        <h3 id="overview-tech">1.2 技术栈</h3>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">编程语言</div>
+                <div class="value">Python 3.12+</div>
+            </div>
+            <div class="info-card">
+                <div class="label">数据源</div>
+                <div class="value">StarRocks (DWD 表, 只读)</div>
+            </div>
+            <div class="info-card">
+                <div class="label">缓存层</div>
+                <div class="value">Redis (MessagePack 编码事件分片)</div>
+            </div>
+            <div class="info-card">
+                <div class="label">消息队列</div>
+                <div class="value">RocketMQ</div>
+            </div>
+            <div class="info-card">
+                <div class="label">元数据 & 告警</div>
+                <div class="value">PostgreSQL</div>
+            </div>
+            <div class="info-card">
+                <div class="label">特征存储</div>
+                <div class="value">Parquet / CSV (PyArrow)</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Web 框架</div>
+                <div class="value">FastAPI + Uvicorn</div>
+            </div>
+            <div class="info-card">
+                <div class="label">部署方式</div>
+                <div class="value">Docker Compose + Systemd</div>
+            </div>
+            <div class="info-card">
+                <div class="label">模型架构</div>
+                <div class="value">GangModel (Mamba + KAN)</div>
+            </div>
+            <div class="info-card">
+                <div class="label">聚类算法</div>
+                <div class="value">HDBSCAN</div>
+            </div>
+            <div class="info-card">
+                <div class="label">特征 Schema</div>
+                <div class="value">v2.14 / 3334 列</div>
+            </div>
+            <div class="info-card">
+                <div class="label">服务端口</div>
+                <div class="value">risk_feature: 9696</div>
+            </div>
+        </div>
+
+        <h3 id="overview-env">1.3 运行环境</h3>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">服务器</div>
+                <div class="value">Ubuntu 远程服务器</div>
+            </div>
+            <div class="info-card">
+                <div class="label">部署路径</div>
+                <div class="value">/home/ai-local2/</div>
+            </div>
+            <div class="info-card">
+                <div class="label">数据目录</div>
+                <div class="value">risk_data/{offline,online,gang_discovery}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: System Architecture -->
+    <div class="section" id="architecture">
+        <h2>二、系统架构</h2>
+
+        <h3 id="arch-overall">2.1 整体架构图</h3>
+        <div class="arch-diagram">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            风控系统 - 整体架构                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────┐     ┌──────────────┐     ┌─────────────────────────────┐  │
+│  │  StarRocks  │────▶│  Redis Cache │────▶│     risk_feature Service    │  │
+│  │  (DWD 表)   │     │ (2min shards)│     │                             │  │
+│  └─────────────┘     └──────────────┘     │  ┌─────────┐ ┌───────────┐ │  │
+│                                           │  │ Worker  │ │  FastAPI  │ │  │
+│                                           │  │ (5min)  │ │  (9696)   │ │  │
+│                                           │  └────┬────┘ └─────┬─────┘ │  │
+│                                           └───────┼─────────────┼───────┘  │
+│                                                   │             │          │
+│                                                   ▼             │          │
+│  ┌─────────────────────────────────────────────────────┐        │          │
+│  │              Feature Storage Layer                   │        │          │
+│  │  Parquet (features) + CSV (explain) + JSON (paths)  │        │          │
+│  └────────────────────────┬────────────────────────────┘        │          │
+│                           │                                     │          │
+│                           ▼ RocketMQ: feature_generated          │          │
+│  ┌─────────────────────────────────────────────────────┐        │          │
+│  │            model_service Service                     │        │          │
+│  │                                                     │        │          │
+│  │  ┌──────────┐  ┌──────────┐  ┌────────────────┐   │        │          │
+│  │  │ Consumer │  │ GangModel│  │   HDBSCAN      │   │        │          │
+│  │  │  (MQ)    │──│ (Mamba+  │──│  Clustering    │   │        │          │
+│  │  │          │  │   KAN)   │  │                │   │        │          │
+│  │  └──────────┘  └──────────┘  └───────┬────────┘   │        │          │
+│  └───────────────────────────────────────┼────────────┘        │          │
+│                                          │                     │          │
+│                                          ▼ RocketMQ: cluster_completed    │
+│  ┌─────────────────────────────────────────────────────┐       │          │
+│  │          risk_feature Cluster Consumer               │       │          │
+│  │  Gang Summary + User Summary + Risk Alerts           │───────┘          │
+│  └────────────────────────┬────────────────────────────┘                   │
+│                           │                                                │
+│                           ▼                                                │
+│  ┌─────────────────────────────────────────────────────┐                   │
+│  │              PostgreSQL                              │                   │
+│  │  cluster_result_index | cluster_risk_alert          │                   │
+│  │  api_users                                          │                   │
+│  └─────────────────────────────────────────────────────┘                   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘</div>
+
+        <h3 id="arch-dual">2.2 双链路设计</h3>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">A</span> 实时链路 (Real-time Pipeline)</div>
+            <ul>
+                <li><strong>触发频率：</strong>每 5 分钟</li>
+                <li><strong>数据拉取：</strong>增量从 StarRocks 拉取最新 2min shard，写入 Redis（MessagePack 编码）</li>
+                <li><strong>特征计算：</strong>对 6h 窗口内的活跃用户重新计算全量特征</li>
+                <li><strong>输出：</strong>Parquet 文件 + explain 产出 (summary_features, user_paths, sankey_edges)</li>
+                <li><strong>后续：</strong>通过 RocketMQ 发送 feature_generated 消息通知 model_service</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">B</span> 离线链路 (Offline Pipeline)</div>
+            <ul>
+                <li><strong>触发方式：</strong>手动脚本 (gen_features_offline)</li>
+                <li><strong>生成范围：</strong>120 个历史窗口 x 6h 快照</li>
+                <li><strong>用途：</strong>供模型训练使用的标准化特征数据集</li>
+                <li><strong>输出目录：</strong>risk_data/offline/</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Section 3: Project Structure -->
+    <div class="section" id="structure">
+        <h2>三、项目结构</h2>
+
+        <h3 id="struct-risk">3.1 risk_feature 服务</h3>
+        <p>特征工程 + 可解释性 + 运营 API 服务</p>
+        <div class="code-block"><span class="folder">risk_feature/</span>
+├── <span class="folder">app/</span>                        <span class="comment"># FastAPI 应用: CORS, GZip, Redis warmup</span>
+│   └── <span class="folder">api/v1/</span>                 <span class="comment"># API 路由</span>
+│       ├── <span class="file">login.py</span>            <span class="comment"># JWT 认证</span>
+│       ├── <span class="file">users.py</span>            <span class="comment"># API 用户管理</span>
+│       ├── <span class="file">product.py</span>          <span class="comment"># 平台产品目录</span>
+│       └── <span class="file">summary.py</span>          <span class="comment"># 摘要/桑基/PCA接口</span>
+├── <span class="folder">core/</span>                       <span class="comment"># 核心配置</span>
+│   ├── <span class="file">config.py</span>              <span class="comment"># 全局配置</span>
+│   ├── <span class="file">window.py</span>              <span class="comment"># 时间窗口逻辑</span>
+│   ├── <span class="file">schema_registry.py</span>     <span class="comment"># Schema v2.14 定义</span>
+│   └── <span class="file">logger.py</span>              <span class="comment"># 日志配置</span>
+├── <span class="folder">data/</span>                       <span class="comment"># 数据层</span>
+│   ├── <span class="file">starrocks.py</span>           <span class="comment"># StarRocks 读取</span>
+│   ├── <span class="file">redis_cache.py</span>         <span class="comment"># Redis 缓存 (2min shards)</span>
+│   ├── <span class="file">rocketmq.py</span>            <span class="comment"># MQ 客户端</span>
+│   ├── <span class="file">cluster_builders.py</span>    <span class="comment"># 聚类结果构建</span>
+│   └── <span class="file">group_summary.py</span>       <span class="comment"># 团伙摘要计算</span>
+├── <span class="folder">features/</span>                   <span class="comment"># 特征计算核心</span>
+│   ├── <span class="file">assembler.py</span>           <span class="comment"># 特征组装器</span>
+│   ├── <span class="file">topk.py</span>                <span class="comment"># Top-K 游戏槽位</span>
+│   ├── <span class="folder">micro/</span>                 <span class="comment"># 微观特征 (~2000+ cols)</span>
+│   ├── <span class="folder">macro/</span>                 <span class="comment"># 宏观特征 (~500+ cols)</span>
+│   ├── <span class="folder">behavior/</span>              <span class="comment"># 行为特征 (seq+agg+ctx_hash)</span>
+│   ├── <span class="file">resonance.py</span>           <span class="comment"># 共振特征</span>
+│   └── <span class="file">p1.py</span>                  <span class="comment"># P1 风险标量</span>
+├── <span class="folder">sink/</span>                       <span class="comment"># 输出层</span>
+│   ├── <span class="file">parquet_sink.py</span>        <span class="comment"># Parquet 写入</span>
+│   └── <span class="file">csv_sink.py</span>            <span class="comment"># CSV 写入</span>
+├── <span class="folder">worker/</span>                     <span class="comment"># 工作进程</span>
+│   └── <span class="file">incremental_runner.py</span>  <span class="comment"># 增量计算主循环 (multiprocessing)</span>
+├── <span class="folder">scripts/</span>                    <span class="comment"># 脚本入口</span>
+│   ├── <span class="file">gen_features_offline.py</span> <span class="comment"># 离线特征生成</span>
+│   ├── <span class="file">mq_consumer.py</span>         <span class="comment"># 聚类消费者</span>
+│   ├── <span class="file">mq_producer.py</span>         <span class="comment"># 特征生产者</span>
+│   ├── <span class="file">cold_start.py</span>          <span class="comment"># 冷启动数据加载</span>
+│   └── <span class="file">verify.py</span>              <span class="comment"># 数据校验</span>
+├── <span class="folder">html/</span>                       <span class="comment"># 运营前端</span>
+└── <span class="file">docker-compose.yml</span>         <span class="comment"># 容器编排</span></div>
+
+        <h3 id="struct-model">3.2 model_service 服务</h3>
+        <p>离线训练 + 推理聚类服务</p>
+        <div class="code-block"><span class="folder">model_service/</span>
+├── <span class="folder">gang/</span>                       <span class="comment"># 团伙模型核心</span>
+│   ├── <span class="folder">models/</span>                 <span class="comment"># 模型定义</span>
+│   │   ├── <span class="file">gang_model.py</span>      <span class="comment"># GangModel 主体</span>
+│   │   ├── <span class="folder">mamba_pytorch/</span>     <span class="comment"># Mamba 编码器库</span>
+│   │   └── <span class="folder">kan_pytorch/</span>       <span class="comment"># KAN 网络库</span>
+│   ├── <span class="folder">features/</span>               <span class="comment"># 特征预处理</span>
+│   │   └── <span class="file">preprocessor.py</span>    <span class="comment"># RobustScaler + Discrete Embedding</span>
+│   ├── <span class="folder">data/</span>                   <span class="comment"># 数据加载</span>
+│   │   ├── <span class="file">snapshot_dataset.py</span> <span class="comment"># 快照数据集</span>
+│   │   └── <span class="file">collate.py</span>         <span class="comment"># Batch 整理函数</span>
+│   ├── <span class="folder">training/</span>               <span class="comment"># 训练模块</span>
+│   │   ├── <span class="file">trainer.py</span>         <span class="comment"># 训练主循环</span>
+│   │   ├── <span class="file">losses.py</span>          <span class="comment"># InfoNCE + VICReg</span>
+│   │   └── <span class="file">train_config.py</span>    <span class="comment"># 训练配置</span>
+│   ├── <span class="folder">cluster/</span>                <span class="comment"># 聚类模块</span>
+│   │   ├── <span class="file">hdbscan_runner.py</span>  <span class="comment"># HDBSCAN 执行</span>
+│   │   └── <span class="file">confidence.py</span>      <span class="comment"># 置信度评估</span>
+│   ├── <span class="folder">eval/</span>                   <span class="comment"># 评估模块</span>
+│   │   └── <span class="file">metrics.py</span>         <span class="comment"># Jaccard + Embedding Stability</span>
+│   ├── <span class="folder">explain/</span>                <span class="comment"># 解释模块</span>
+│   │   ├── <span class="file">cluster_summary.py</span> <span class="comment"># 聚类摘要</span>
+│   │   └── <span class="file">user_summary.py</span>    <span class="comment"># 用户摘要</span>
+│   └── <span class="folder">schema/</span>                 <span class="comment"># Schema 定义</span>
+│       └── <span class="file">registry.py</span>        <span class="comment"># 注册表</span>
+├── <span class="folder">scripts/</span>                    <span class="comment"># 脚本入口</span>
+│   ├── <span class="file">train.py</span>               <span class="comment"># 模型训练</span>
+│   ├── <span class="file">cluster.py</span>             <span class="comment"># 全量聚类</span>
+│   ├── <span class="file">cluster_filtered.py</span>    <span class="comment"># 过滤聚类</span>
+│   ├── <span class="file">evaluate.py</span>            <span class="comment"># 模型评估</span>
+│   ├── <span class="file">mq_consumer.py</span>         <span class="comment"># 特征消费者</span>
+│   └── <span class="file">mq_producer.py</span>         <span class="comment"># 聚类生产者</span>
+├── <span class="folder">app/</span>                        <span class="comment"># FastAPI 骨架</span>
+│   ├── <span class="file">healthz.py</span>             <span class="comment"># 健康检查</span>
+│   ├── <span class="file">readyz.py</span>              <span class="comment"># 就绪检查</span>
+│   └── <span class="file">meta.py</span>                <span class="comment"># 元信息</span>
+└── <span class="folder">core/</span>                       <span class="comment"># 核心模块</span>
+    ├── <span class="file">config.py</span>              <span class="comment"># 配置</span>
+    └── <span class="file">rocketmq_client.py</span>     <span class="comment"># RocketMQ 客户端</span></div>
+    </div>
+
+    <!-- Section 4: Data Flow -->
+    <div class="section" id="dataflow">
+        <h2>四、数据流设计</h2>
+
+        <h3 id="dataflow-realtime">4.1 实时链路数据流</h3>
+        <div class="flow-diagram">
+            <span class="flow-step">StarRocks DWD</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">Redis 2min Shards</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">Feature Worker (5min)</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">Parquet + Explain</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">RocketMQ</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">Model Consumer</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">HDBSCAN</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">RocketMQ</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">Cluster Consumer</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">PostgreSQL Alerts</span>
+        </div>
+
+        <div class="highlight-box">
+            <p><strong>Redis 缓存策略：</strong>每条用户事件以 MessagePack 编码，按 2 分钟分片存储。6h lookback 窗口意味着最多缓存 180 个分片/用户。Worker 每 5 分钟拉取增量数据，仅重算活跃用户的特征。</p>
+        </div>
+
+        <h3 id="dataflow-offline">4.2 离线链路数据流</h3>
+        <div class="flow-diagram">
+            <span class="flow-step">StarRocks 历史数据</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">gen_features_offline</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">120 x 6h Snapshots</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">Parquet (training set)</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-step">Model Training</span>
+        </div>
+
+        <h3 id="dataflow-storage">4.3 存储格式说明</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>存储类型</th>
+                    <th>格式</th>
+                    <th>用途</th>
+                    <th>位置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>特征矩阵</td>
+                    <td>Parquet (PyArrow)</td>
+                    <td>3334 列特征数据，供模型训练/推理</td>
+                    <td>risk_data/{offline,online}/features/</td>
+                </tr>
+                <tr>
+                    <td>解释产出</td>
+                    <td>CSV</td>
+                    <td>summary_features, sankey_edges</td>
+                    <td>risk_data/{offline,online}/explain/</td>
+                </tr>
+                <tr>
+                    <td>用户路径</td>
+                    <td>JSON</td>
+                    <td>user_paths, user_paths_full</td>
+                    <td>risk_data/{offline,online}/explain/</td>
+                </tr>
+                <tr>
+                    <td>聚类结果</td>
+                    <td>Parquet + JSON</td>
+                    <td>聚类标签、PCA-3D、metrics</td>
+                    <td>risk_data/gang_discovery/</td>
+                </tr>
+                <tr>
+                    <td>团伙摘要</td>
+                    <td>JSON</td>
+                    <td>group_summary, user_summary</td>
+                    <td>risk_data/gang_discovery/summaries/</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section 5: Feature Engineering -->
+    <div class="section" id="features">
+        <h2>五、特征工程</h2>
+
+        <h3 id="feat-window">5.1 时间窗口设计</h3>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">回看窗口</div>
+                <div class="value">6 小时 (Lookback)</div>
+            </div>
+            <div class="info-card">
+                <div class="label">子窗口宽度</div>
+                <div class="value">30 分钟 (Subwindow)</div>
+            </div>
+            <div class="info-card">
+                <div class="label">滑动步长</div>
+                <div class="value">10 分钟 (Stride)</div>
+            </div>
+            <div class="info-card">
+                <div class="label">子窗口数量</div>
+                <div class="value">34 个 (Subwindows)</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Top-K 游戏槽位</div>
+                <div class="value">5 个 Game Slots</div>
+            </div>
+            <div class="info-card">
+                <div class="label">实时触发间隔</div>
+                <div class="value">5 分钟</div>
+            </div>
+        </div>
+
+        <div class="highlight-box info">
+            <p><strong>窗口计算逻辑：</strong>6h = 360min，子窗口 30min，步长 10min。从窗口起始每 10min 移动一次子窗口起点，共 (360 - 30) / 10 + 1 = 34 个子窗口。每个子窗口覆盖 30min 内的用户行为事件。</p>
+        </div>
+
+        <h3 id="feat-schema">5.2 Schema v2.14</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>类别</th>
+                    <th>列数</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag tag-red">Key Columns</span></td>
+                    <td>5</td>
+                    <td>user_id, platform, product, as_of_ts, window_id</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-amber">Feature Columns</span></td>
+                    <td>3329</td>
+                    <td>所有计算特征</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>3334</strong></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="feat-groups">5.3 特征分组</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>分组</th>
+                    <th>列数 (约)</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag tag-slate">P0 Masks</span></td>
+                    <td>~20</td>
+                    <td>子窗口活跃掩码、数据质量标记</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">Micro Top-K</span></td>
+                    <td>~2000+</td>
+                    <td>每个 Top-K 游戏槽位的微观统计 (5 slots x 34 subwindows x ~12 features)</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-indigo">Macro</span></td>
+                    <td>~500+</td>
+                    <td>跨游戏聚合统计、全局趋势指标</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-purple">Behavior</span></td>
+                    <td>~600+</td>
+                    <td>序列特征 (seq) + 聚合特征 (agg) + 上下文哈希 (ctx_hash)</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-red">P1 Risk Scalars</span></td>
+                    <td>~50+</td>
+                    <td>高级风险标量：提现比率、波动性、节奏异常</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="feat-paths">5.4 用户路径 (User Paths)</h3>
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span> user_paths (单窗口路径)</div>
+            <p>记录用户在单个 6h 窗口内的行为 token 链。每个 token 编码了用户的关键行为节点（如登录、投注、提现、游戏切换），形成时序行为序列。</p>
+        </div>
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span> user_paths_full (跨窗口拼接)</div>
+            <p>跨快照拼接，最多回溯 30 个历史窗口，构建用户长期行为轨迹。用于捕捉跨天、跨周期的行为模式演变。</p>
+        </div>
+    </div>
+
+    <!-- Section 6: Model Architecture -->
+    <div class="section" id="model">
+        <h2>六、模型架构</h2>
+
+        <h3 id="model-gang">6.1 GangModel 总览</h3>
+        <p>GangModel 采用 <strong>Mamba 编码器 + KAN 投影头</strong> 的自监督架构，通过对比学习（InfoNCE + VICReg）学习用户行为嵌入表示，随后使用 HDBSCAN 进行团伙聚类。</p>
+
+        <div class="arch-diagram">
+┌──────────────────────────────────────────────────────────────────────┐
+│                        GangModel Architecture                        │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  Input Features (3329 cols)                                          │
+│       │                                                              │
+│       ├── Discrete Features ──▶ DiscreteEmbedder                    │
+│       │   macro_path: 5 slots × 34 cols → 5×16 = 80               │
+│       │   behav embeddings → 24                                      │
+│       │   Total: [B, T, 104]                                        │
+│       │                                                              │
+│       └── Continuous Features ──▶ ContProjector                     │
+│           Linear(2936 → 256) + LayerNorm                            │
+│           mask_subwin applied                                        │
+│           Output: [B, T, 256]                                       │
+│                                                                      │
+│  Fuse Layer                                                          │
+│       Linear(360 → 256) + LayerNorm + pos_embed                    │
+│       Input: cat([B,T,104], [B,T,256]) = [B, T, 360]              │
+│       Output: [B, T, 256]                                           │
+│                                                                      │
+│  Mamba Encoder                                                       │
+│       4 layers, d_state=16, expand=2 (d_inner=512)                  │
+│       Masked mean pooling → h [B, 256]                              │
+│                                                                      │
+│  ┌──────────────────────┐  ┌─────────────────────────┐             │
+│  │   KAN Head           │  │   Risk Score Head       │             │
+│  │   Spline KAN         │  │   Linear(256→1)        │             │
+│  │   256→128→64        │  │   + Sigmoid             │             │
+│  │   → z [B, 64]       │  │   → s [B, 1]           │             │
+│  └──────────────────────┘  └─────────────────────────┘             │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘</div>
+
+        <h3 id="model-components">6.2 组件详解</h3>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span> DiscreteEmbedder</div>
+            <ul>
+                <li><strong>macro_path：</strong>5 个 Top-K 游戏槽位 x 34 个离散特征列 → 每组通过 Embedding(vocab, 16) 映射 → 5 x 16 = 80 维</li>
+                <li><strong>behav embeddings：</strong>行为类别特征嵌入 → 24 维</li>
+                <li><strong>输出：</strong>[Batch, T=34, 104]</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span> ContProjector</div>
+            <ul>
+                <li><strong>输入：</strong>2936 维连续特征（扣除 Key cols 和离散特征后的连续列）</li>
+                <li><strong>结构：</strong>Linear(2936 → 256) + LayerNorm</li>
+                <li><strong>mask_subwin：</strong>根据 P0 mask 屏蔽无效子窗口</li>
+                <li><strong>输出：</strong>[Batch, T=34, 256]</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">3</span> Fuse Layer</div>
+            <ul>
+                <li><strong>拼接：</strong>cat(DiscreteEmbedder output, ContProjector output) → [B, T, 360]</li>
+                <li><strong>投影：</strong>Linear(360 → 256) + LayerNorm</li>
+                <li><strong>位置编码：</strong>可学习 positional embedding 加入</li>
+                <li><strong>输出：</strong>[Batch, T=34, 256]</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">4</span> Mamba Encoder</div>
+            <ul>
+                <li><strong>层数：</strong>4 layers</li>
+                <li><strong>状态维度：</strong>d_state = 16</li>
+                <li><strong>扩展因子：</strong>expand = 2 (d_inner = 512)</li>
+                <li><strong>池化：</strong>Masked mean pooling (排除无效子窗口)</li>
+                <li><strong>输出：</strong>h [Batch, 256] — 用户全局表示向量</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">5</span> KAN Head (Spline KAN)</div>
+            <ul>
+                <li><strong>结构：</strong>256 → 128 → 64 (Spline basis functions)</li>
+                <li><strong>输出：</strong>z [Batch, 64] — 用于聚类的低维嵌入</li>
+                <li><strong>用途：</strong>HDBSCAN 对 z 向量进行团伙聚类</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">6</span> Risk Score Head</div>
+            <ul>
+                <li><strong>结构：</strong>Linear(256 → 1) + Sigmoid</li>
+                <li><strong>输出：</strong>s [Batch, 1] — 个体风险概率分数</li>
+            </ul>
+        </div>
+
+        <h3 id="model-training">6.3 训练策略</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>参数</th>
+                    <th>值</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>训练方式</td>
+                    <td>SSL (自监督学习)</td>
+                    <td>无需人工标注</td>
+                </tr>
+                <tr>
+                    <td>对比学习</td>
+                    <td>Two Augmented Views</td>
+                    <td>对同一样本生成两个增强视图</td>
+                </tr>
+                <tr>
+                    <td>损失函数</td>
+                    <td>InfoNCE + VICReg</td>
+                    <td>对比损失 + 方差-不变性-协方差正则</td>
+                </tr>
+                <tr>
+                    <td>Batch Size</td>
+                    <td>4096</td>
+                    <td>大批量对比学习</td>
+                </tr>
+                <tr>
+                    <td>评估指标</td>
+                    <td>Jaccard + Embedding Stability</td>
+                    <td>聚类稳定性评估</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box warn">
+            <p><strong>InfoNCE：</strong>最大化同一用户不同增强视图的相似度，最小化不同用户间的相似度。<br><strong>VICReg：</strong>Variance（保持特征方差）+ Invariance（增强不变性）+ Covariance（去相关性），防止表示坍缩。</p>
+        </div>
+    </div>
+
+    <!-- Section 7: Gang Explainability -->
+    <div class="section" id="explain">
+        <h2>七、团伙可解释性</h2>
+
+        <h3 id="explain-summary">7.1 聚类摘要</h3>
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span> cluster_summary (聚类层摘要)</div>
+            <p>每个聚类簇的统计概览：成员数量、平均风险分数、主要行为模式、核心游戏偏好、提现特征分布。</p>
+        </div>
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span> user_summary (用户层摘要)</div>
+            <p>单个用户在其所属团伙中的画像：个体风险分数、与团伙均值偏差、行为路径特征、关键异常指标。</p>
+        </div>
+        <div class="module-card">
+            <div class="module-title"><span class="num">3</span> summary_features (摘要特征表)</div>
+            <p>聚合后的解释性特征表，包含团伙级和用户级的关键指标切片，供运营人员直观理解。</p>
+        </div>
+
+        <h3 id="explain-risk">7.2 团伙风险评分</h3>
+        <p>对聚类中的<strong>提现成员子集</strong>进行线性加权评分，范围 0-100。</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>指标</th>
+                    <th>权重</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>withdraw_ratio_in_cluster</td>
+                    <td><strong>35</strong></td>
+                    <td>聚类内提现成员占比</td>
+                </tr>
+                <tr>
+                    <td>path_top1_withdraw</td>
+                    <td><strong>15</strong></td>
+                    <td>最频繁行为路径中提现占比</td>
+                </tr>
+                <tr>
+                    <td>rhythm_top1</td>
+                    <td><strong>10</strong></td>
+                    <td>操作节奏异常度 (Top-1)</td>
+                </tr>
+                <tr>
+                    <td>volatility_trend_top1</td>
+                    <td><strong>10</strong></td>
+                    <td>波动趋势异常度 (Top-1)</td>
+                </tr>
+                <tr>
+                    <td>withdraw_gt_stake</td>
+                    <td><strong>10</strong></td>
+                    <td>提现金额超过投注金额的比率</td>
+                </tr>
+                <tr>
+                    <td>game_switch_top1</td>
+                    <td><strong>10</strong></td>
+                    <td>游戏切换频率异常度</td>
+                </tr>
+                <tr>
+                    <td>agent_channel_top1</td>
+                    <td><strong>10</strong></td>
+                    <td>代理渠道集中度</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box">
+            <p><strong>风险等级划分：</strong></p>
+            <p>
+                <span class="tag tag-red">Critical (&ge;80)</span>&nbsp;
+                <span class="tag tag-amber">High (&ge;60)</span>&nbsp;
+                <span class="tag tag-blue">Medium (&ge;40)</span>&nbsp;
+                <span class="tag tag-green">Low (&lt;40)</span>
+            </p>
+        </div>
+
+        <h3 id="explain-sankey">7.3 桑基图 (Sankey)</h3>
+        <ul>
+            <li><strong>Global Sankey：</strong>全局用户行为流转图，展示从不同行为节点到最终状态的流量分布</li>
+            <li><strong>Simple Sankey（6 类粗粒度）：</strong>将行为归类为 6 大类别的简化流转图</li>
+            <li><strong>Cluster Sankey：</strong>按聚类 ID 筛选，展示特定团伙内的行为流转模式</li>
+        </ul>
+    </div>
+
+    <!-- Section 8: Message Queue -->
+    <div class="section" id="mq">
+        <h2>八、消息队列</h2>
+
+        <h3 id="mq-topics">8.1 Topic 设计</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>方向</th>
+                    <th>Topic</th>
+                    <th>事件类型</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>risk_feature &rarr; model_service</td>
+                    <td><code>risk_feature</code></td>
+                    <td>feature_generated</td>
+                    <td>特征生成完成，通知模型服务启动推理</td>
+                </tr>
+                <tr>
+                    <td>model_service &rarr; risk_feature</td>
+                    <td><code>risk_cluster</code></td>
+                    <td>cluster_completed</td>
+                    <td>聚类完成，通知风控服务计算摘要</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="mq-payloads">8.2 消息体结构</h3>
+
+        <h4>feature_generated 消息</h4>
+        <div class="code-block">{
+  <span class="string">"event"</span>: <span class="string">"feature_generated"</span>,
+  <span class="string">"as_of_ts"</span>: <span class="string">"2026-05-25T14:30:00Z"</span>,
+  <span class="string">"platform"</span>: <span class="string">"platform_a"</span>,
+  <span class="string">"product"</span>: <span class="string">"slots"</span>,
+  <span class="string">"feature_file_path"</span>: <span class="string">"/risk_data/online/features/2026-05-25_14-30.parquet"</span>,
+  <span class="string">"split_outputs"</span>: {
+    <span class="string">"micro"</span>: <span class="string">"..."</span>,
+    <span class="string">"macro"</span>: <span class="string">"..."</span>,
+    <span class="string">"behavior"</span>: <span class="string">"..."</span>
+  },
+  <span class="string">"explain_paths"</span>: {
+    <span class="string">"summary_features"</span>: <span class="string">"..."</span>,
+    <span class="string">"user_paths"</span>: <span class="string">"..."</span>,
+    <span class="string">"sankey_edges"</span>: <span class="string">"..."</span>
+  }
+}</div>
+
+        <h4>cluster_completed 消息</h4>
+        <div class="code-block">{
+  <span class="string">"event"</span>: <span class="string">"cluster_completed"</span>,
+  <span class="string">"as_of_ts"</span>: <span class="string">"2026-05-25T14:35:00Z"</span>,
+  <span class="string">"platform"</span>: <span class="string">"platform_a"</span>,
+  <span class="string">"product"</span>: <span class="string">"slots"</span>,
+  <span class="string">"run_dir"</span>: <span class="string">"/risk_data/gang_discovery/runs/2026-05-25_14-35/"</span>,
+  <span class="string">"cluster_file_paths"</span>: [<span class="string">"labels.parquet"</span>, <span class="string">"embeddings.parquet"</span>],
+  <span class="string">"metrics_path"</span>: <span class="string">"metrics.json"</span>,
+  <span class="string">"cluster_figure_paths"</span>: [<span class="string">"cluster_dist.png"</span>, <span class="string">"silhouette.png"</span>],
+  <span class="string">"pca3d_json_paths"</span>: [<span class="string">"pca3d.json"</span>],
+  <span class="string">"cluster_mode"</span>: <span class="string">"full"</span>
+}</div>
+    </div>
+
+    <!-- Section 9: API Service -->
+    <div class="section" id="api">
+        <h2>九、API 服务</h2>
+        <p>risk_feature 服务通过 FastAPI 暴露 RESTful API，端口 <strong>9696</strong>，支持 JWT 认证、CORS、GZip 压缩。</p>
+
+        <h3 id="api-auth">9.1 认证接口</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>方法</th>
+                    <th>路径</th>
+                    <th>说明</th>
+                    <th>权限</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag tag-green">POST</span></td>
+                    <td>/api/v1/auth/login</td>
+                    <td>JWT 登录，返回 access_token</td>
+                    <td>公开</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/auth/me</td>
+                    <td>获取当前登录用户信息</td>
+                    <td>认证</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="api-data">9.2 数据接口</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>方法</th>
+                    <th>路径</th>
+                    <th>说明</th>
+                    <th>权限</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/products</td>
+                    <td>平台/产品目录扫描，列出所有可用 platform-product 组合</td>
+                    <td>认证</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/users</td>
+                    <td>API 用户管理（仅 admin）</td>
+                    <td>Admin</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/summaries/sankey</td>
+                    <td>全局桑基图数据（nodes + links）</td>
+                    <td>认证</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/summaries/sankey/simple</td>
+                    <td>6 类粗粒度桑基图</td>
+                    <td>认证</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/summaries/sankey/by_cluster</td>
+                    <td>按 cluster_id 筛选的桑基图</td>
+                    <td>认证</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/summaries/user</td>
+                    <td>单用户摘要信息</td>
+                    <td>认证</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/summaries/groups</td>
+                    <td>团伙摘要列表</td>
+                    <td>认证</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/summaries/clusters/list</td>
+                    <td>聚类窗口列表（历史聚类记录）</td>
+                    <td>认证</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/summaries/cluster_risk_alerts</td>
+                    <td>PG 高风险告警记录</td>
+                    <td>认证</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-blue">GET</span></td>
+                    <td>/api/v1/summaries/pca3d</td>
+                    <td>PCA 3D 降维可视化数据</td>
+                    <td>认证</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box success">
+            <p><strong>API 特性：</strong>所有数据接口均支持 <code>platform</code> 和 <code>product</code> 查询参数过滤。响应开启 GZip 压缩，大型 JSON 响应（如 PCA-3D）体积压缩率可达 80%+。</p>
+        </div>
+    </div>
+
+    <!-- Section 10: Database Design -->
+    <div class="section" id="database">
+        <h2>十、数据库设计</h2>
+
+        <h3 id="db-tables">10.1 PostgreSQL 表结构</h3>
+
+        <h4>cluster_result_index（聚类结果索引）</h4>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>字段</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>SERIAL PRIMARY KEY</td>
+                    <td>自增主键</td>
+                </tr>
+                <tr>
+                    <td>as_of_ts</td>
+                    <td>TIMESTAMP</td>
+                    <td>特征时间戳</td>
+                </tr>
+                <tr>
+                    <td>platform</td>
+                    <td>VARCHAR</td>
+                    <td>平台标识</td>
+                </tr>
+                <tr>
+                    <td>product</td>
+                    <td>VARCHAR</td>
+                    <td>产品标识</td>
+                </tr>
+                <tr>
+                    <td>run_dir</td>
+                    <td>TEXT</td>
+                    <td>聚类运行目录路径</td>
+                </tr>
+                <tr>
+                    <td>cluster_file_paths</td>
+                    <td>JSONB</td>
+                    <td>聚类文件路径列表</td>
+                </tr>
+                <tr>
+                    <td>metrics_path</td>
+                    <td>TEXT</td>
+                    <td>评估指标文件路径</td>
+                </tr>
+                <tr>
+                    <td>cluster_mode</td>
+                    <td>VARCHAR</td>
+                    <td>聚类模式 (full/filtered)</td>
+                </tr>
+                <tr>
+                    <td>created_at</td>
+                    <td>TIMESTAMP</td>
+                    <td>创建时间</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>cluster_risk_alert（高风险团伙告警）</h4>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>字段</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>SERIAL PRIMARY KEY</td>
+                    <td>自增主键</td>
+                </tr>
+                <tr>
+                    <td>as_of_ts</td>
+                    <td>TIMESTAMP</td>
+                    <td>聚类时间戳</td>
+                </tr>
+                <tr>
+                    <td>platform</td>
+                    <td>VARCHAR</td>
+                    <td>平台标识</td>
+                </tr>
+                <tr>
+                    <td>product</td>
+                    <td>VARCHAR</td>
+                    <td>产品标识</td>
+                </tr>
+                <tr>
+                    <td>cluster_id</td>
+                    <td>INTEGER</td>
+                    <td>聚类簇 ID</td>
+                </tr>
+                <tr>
+                    <td>risk_score</td>
+                    <td>FLOAT</td>
+                    <td>风险评分 (0-100)</td>
+                </tr>
+                <tr>
+                    <td>risk_level</td>
+                    <td>VARCHAR</td>
+                    <td>风险等级 (critical/high/medium/low)</td>
+                </tr>
+                <tr>
+                    <td>member_count</td>
+                    <td>INTEGER</td>
+                    <td>成员数量</td>
+                </tr>
+                <tr>
+                    <td>summary_json</td>
+                    <td>JSONB</td>
+                    <td>团伙摘要 JSON</td>
+                </tr>
+                <tr>
+                    <td>reviewed</td>
+                    <td>BOOLEAN</td>
+                    <td>是否已人工审核</td>
+                </tr>
+                <tr>
+                    <td>reviewer_notes</td>
+                    <td>TEXT</td>
+                    <td>审核备注</td>
+                </tr>
+                <tr>
+                    <td>created_at</td>
+                    <td>TIMESTAMP</td>
+                    <td>告警生成时间</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>api_users（API 用户表）</h4>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>字段</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>SERIAL PRIMARY KEY</td>
+                    <td>自增主键</td>
+                </tr>
+                <tr>
+                    <td>username</td>
+                    <td>VARCHAR UNIQUE</td>
+                    <td>用户名</td>
+                </tr>
+                <tr>
+                    <td>password_hash</td>
+                    <td>VARCHAR</td>
+                    <td>bcrypt 加密密码</td>
+                </tr>
+                <tr>
+                    <td>role</td>
+                    <td>VARCHAR</td>
+                    <td>角色 (admin/user)</td>
+                </tr>
+                <tr>
+                    <td>is_active</td>
+                    <td>BOOLEAN</td>
+                    <td>是否启用</td>
+                </tr>
+                <tr>
+                    <td>created_at</td>
+                    <td>TIMESTAMP</td>
+                    <td>创建时间</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section 11: Deployment -->
+    <div class="section" id="deploy">
+        <h2>十一、部署架构</h2>
+
+        <h3 id="deploy-docker">11.1 Docker Compose 编排</h3>
+        <p>系统使用 Docker Compose 进行容器化部署，risk_feature 服务包含多个容器角色：</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>服务</th>
+                    <th>容器角色</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>risk_feature</td>
+                    <td>worker</td>
+                    <td>IncrementalRunner - 每 5 分钟增量特征计算</td>
+                </tr>
+                <tr>
+                    <td>risk_feature</td>
+                    <td>cluster_consumer</td>
+                    <td>MQ Consumer - 聚类结果消费、摘要计算、告警写入</td>
+                </tr>
+                <tr>
+                    <td>risk_feature</td>
+                    <td>api</td>
+                    <td>FastAPI + Uvicorn (port 9696)</td>
+                </tr>
+                <tr>
+                    <td>model_service</td>
+                    <td>consumer</td>
+                    <td>MQ Consumer - 特征消费、模型推理、聚类执行</td>
+                </tr>
+                <tr>
+                    <td>model_service</td>
+                    <td>api</td>
+                    <td>FastAPI 骨架 (healthz/readyz/meta)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="deploy-systemd">11.2 Systemd 服务</h3>
+        <div class="code-block"><span class="comment"># /etc/systemd/system/risk_feature_worker.service</span>
+[Unit]
+Description=Risk Feature Worker
+After=network.target redis.service postgresql.service
+
+[Service]
+Type=simple
+User=ai-local2
+WorkingDirectory=/home/ai-local2/risk_feature
+ExecStart=/home/ai-local2/risk_feature/.venv/bin/python -m worker.incremental_runner
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target</div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Systemd Service</th>
+                    <th>对应进程</th>
+                    <th>作用</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>risk_feature_worker</td>
+                    <td>IncrementalRunner</td>
+                    <td>实时特征计算主进程</td>
+                </tr>
+                <tr>
+                    <td>risk_feature_cluster_consumer</td>
+                    <td>mq_consumer.py</td>
+                    <td>聚类结果消费，摘要 + 告警</td>
+                </tr>
+                <tr>
+                    <td>model_service_consumer</td>
+                    <td>mq_consumer.py</td>
+                    <td>特征消费，模型推理 + HDBSCAN</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>目录约定</h4>
+        <div class="code-block"><span class="folder">/home/ai-local2/</span>
+├── <span class="folder">risk_feature/</span>           <span class="comment"># risk_feature 服务代码</span>
+├── <span class="folder">model_service/</span>          <span class="comment"># model_service 服务代码</span>
+└── <span class="folder">risk_data/</span>              <span class="comment"># 数据目录</span>
+    ├── <span class="folder">offline/</span>            <span class="comment"># 离线训练特征</span>
+    │   ├── <span class="folder">features/</span>      <span class="comment"># Parquet 特征文件</span>
+    │   └── <span class="folder">explain/</span>       <span class="comment"># 离线解释产出</span>
+    ├── <span class="folder">online/</span>             <span class="comment"># 实时特征</span>
+    │   ├── <span class="folder">features/</span>      <span class="comment"># Parquet 特征文件</span>
+    │   └── <span class="folder">explain/</span>       <span class="comment"># 实时解释产出</span>
+    └── <span class="folder">gang_discovery/</span>     <span class="comment"># 聚类结果</span>
+        ├── <span class="folder">runs/</span>          <span class="comment"># 每次聚类运行目录</span>
+        └── <span class="folder">summaries/</span>     <span class="comment"># 团伙/用户摘要</span></div>
+    </div>
+
+    <!-- Section 12: Configuration -->
+    <div class="section" id="config">
+        <h2>十二、配置管理</h2>
+
+        <p>系统配置集中管理在各服务的 <code>core/config.py</code> 中，支持环境变量覆盖。</p>
+
+        <h3>12.1 risk_feature 核心配置</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>配置项</th>
+                    <th>默认值</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>STARROCKS_HOST</td>
+                    <td>-</td>
+                    <td>StarRocks 连接地址</td>
+                </tr>
+                <tr>
+                    <td>REDIS_URL</td>
+                    <td>redis://localhost:6379</td>
+                    <td>Redis 连接地址</td>
+                </tr>
+                <tr>
+                    <td>POSTGRES_DSN</td>
+                    <td>-</td>
+                    <td>PostgreSQL 连接字符串</td>
+                </tr>
+                <tr>
+                    <td>ROCKETMQ_NAMESRV</td>
+                    <td>-</td>
+                    <td>RocketMQ NameServer 地址</td>
+                </tr>
+                <tr>
+                    <td>WORKER_INTERVAL_SEC</td>
+                    <td>300</td>
+                    <td>Worker 运行间隔（秒）</td>
+                </tr>
+                <tr>
+                    <td>LOOKBACK_HOURS</td>
+                    <td>6</td>
+                    <td>特征回看窗口（小时）</td>
+                </tr>
+                <tr>
+                    <td>SUBWINDOW_WIDTH_MIN</td>
+                    <td>30</td>
+                    <td>子窗口宽度（分钟）</td>
+                </tr>
+                <tr>
+                    <td>STRIDE_MIN</td>
+                    <td>10</td>
+                    <td>滑动步长（分钟）</td>
+                </tr>
+                <tr>
+                    <td>TOPK_GAMES</td>
+                    <td>5</td>
+                    <td>Top-K 游戏槽位数</td>
+                </tr>
+                <tr>
+                    <td>REDIS_SHARD_SEC</td>
+                    <td>120</td>
+                    <td>Redis 分片时长（秒）</td>
+                </tr>
+                <tr>
+                    <td>API_PORT</td>
+                    <td>9696</td>
+                    <td>API 服务端口</td>
+                </tr>
+                <tr>
+                    <td>JWT_SECRET</td>
+                    <td>-</td>
+                    <td>JWT 签名密钥</td>
+                </tr>
+                <tr>
+                    <td>DATA_ROOT</td>
+                    <td>/home/ai-local2/risk_data</td>
+                    <td>数据根目录</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>12.2 model_service 核心配置</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>配置项</th>
+                    <th>默认值</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MODEL_CHECKPOINT_PATH</td>
+                    <td>-</td>
+                    <td>模型权重文件路径</td>
+                </tr>
+                <tr>
+                    <td>HDBSCAN_MIN_CLUSTER_SIZE</td>
+                    <td>5</td>
+                    <td>HDBSCAN 最小聚类大小</td>
+                </tr>
+                <tr>
+                    <td>HDBSCAN_MIN_SAMPLES</td>
+                    <td>3</td>
+                    <td>HDBSCAN 最小样本数</td>
+                </tr>
+                <tr>
+                    <td>BATCH_SIZE</td>
+                    <td>4096</td>
+                    <td>推理/训练 batch 大小</td>
+                </tr>
+                <tr>
+                    <td>MAMBA_LAYERS</td>
+                    <td>4</td>
+                    <td>Mamba 编码器层数</td>
+                </tr>
+                <tr>
+                    <td>MAMBA_D_STATE</td>
+                    <td>16</td>
+                    <td>Mamba 状态维度</td>
+                </tr>
+                <tr>
+                    <td>MAMBA_EXPAND</td>
+                    <td>2</td>
+                    <td>Mamba 扩展因子</td>
+                </tr>
+                <tr>
+                    <td>KAN_DIMS</td>
+                    <td>[256, 128, 64]</td>
+                    <td>KAN 头维度序列</td>
+                </tr>
+                <tr>
+                    <td>ROCKETMQ_NAMESRV</td>
+                    <td>-</td>
+                    <td>RocketMQ NameServer 地址</td>
+                </tr>
+                <tr>
+                    <td>ROCKETMQ_TOPIC_PUBLISH</td>
+                    <td>risk_cluster</td>
+                    <td>发布 Topic</td>
+                </tr>
+                <tr>
+                    <td>ROCKETMQ_TOPIC_SUBSCRIBE</td>
+                    <td>risk_feature</td>
+                    <td>订阅 Topic</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section 13: Fault Tolerance -->
+    <div class="section" id="fault">
+        <h2>十三、容错与监控</h2>
+
+        <h3>13.1 容错机制</h3>
+        <div class="module-card">
+            <div class="module-title"><span class="num">1</span> 重试机制 (Retry)</div>
+            <ul>
+                <li><strong>StarRocks 查询：</strong>指数退避重试，最大 3 次，超时 30s/次</li>
+                <li><strong>Redis 操作：</strong>连接池 + 自动重连，写入失败静默跳过（不影响主流程）</li>
+                <li><strong>RocketMQ：</strong>消费失败自动 requeue，最大重试 5 次后进入死信队列</li>
+                <li><strong>PostgreSQL：</strong>连接池管理，事务级重试</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">2</span> 降级策略 (Fallback)</div>
+            <ul>
+                <li><strong>Redis 不可用：</strong>Worker 降级为直接从 StarRocks 全量拉取（性能下降但不停服）</li>
+                <li><strong>MQ 不可用：</strong>特征文件写入本地，待 MQ 恢复后通过 mq_producer 脚本补发</li>
+                <li><strong>模型推理超时：</strong>返回上一次有效聚类结果</li>
+            </ul>
+        </div>
+
+        <div class="module-card">
+            <div class="module-title"><span class="num">3</span> 水位线 (Watermark)</div>
+            <ul>
+                <li><strong>Worker Watermark：</strong>记录最后成功处理的 as_of_ts，重启后从水位线继续</li>
+                <li><strong>Consumer Offset：</strong>RocketMQ consumer offset 持久化，确保不丢消息</li>
+                <li><strong>数据完整性：</strong>Parquet 写入采用原子重命名（write tmp + rename），避免读取不完整文件</li>
+            </ul>
+        </div>
+
+        <h3>13.2 监控与日志</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>监控维度</th>
+                    <th>实现方式</th>
+                    <th>告警条件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Worker 心跳</td>
+                    <td>Systemd watchdog + 日志时间戳</td>
+                    <td>超过 15min 无新日志</td>
+                </tr>
+                <tr>
+                    <td>特征延迟</td>
+                    <td>as_of_ts 与当前时间差</td>
+                    <td>延迟超过 30min</td>
+                </tr>
+                <tr>
+                    <td>聚类质量</td>
+                    <td>metrics.json 中 silhouette_score</td>
+                    <td>得分低于 0.2</td>
+                </tr>
+                <tr>
+                    <td>MQ 消费延迟</td>
+                    <td>Consumer lag 监控</td>
+                    <td>积压超过 10 条</td>
+                </tr>
+                <tr>
+                    <td>API 健康</td>
+                    <td>/healthz + /readyz 端点</td>
+                    <td>连续 3 次检查失败</td>
+                </tr>
+                <tr>
+                    <td>磁盘使用</td>
+                    <td>risk_data 目录大小监控</td>
+                    <td>使用率超过 80%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section 14: Operations Guide -->
+    <div class="section" id="ops">
+        <h2>十四、运维指南</h2>
+
+        <h3>14.1 冷启动流程</h3>
+        <div class="highlight-box info">
+            <p><strong>场景：</strong>首次部署或 Redis 数据丢失后，需要重建缓存和特征基线。</p>
+        </div>
+        <ol>
+            <li><strong>执行冷启动脚本：</strong><code>python -m scripts.cold_start</code>
+                <ul>
+                    <li>从 StarRocks 拉取最近 6h 的全量事件数据</li>
+                    <li>写入 Redis 缓存（按 2min 分片）</li>
+                    <li>预热完成后 Worker 可正常增量运行</li>
+                </ul>
+            </li>
+            <li><strong>验证数据完整性：</strong><code>python -m scripts.verify</code>
+                <ul>
+                    <li>检查 Redis 中各 platform-product 的分片覆盖率</li>
+                    <li>校验特征列数是否符合 Schema v2.14 (3334 列)</li>
+                </ul>
+            </li>
+            <li><strong>启动 Worker：</strong><code>systemctl start risk_feature_worker</code></li>
+            <li><strong>启动 Consumer：</strong><code>systemctl start risk_feature_cluster_consumer</code></li>
+        </ol>
+
+        <h3>14.2 离线训练流程</h3>
+        <ol>
+            <li><strong>生成离线特征：</strong>
+                <div class="code-block">python -m scripts.gen_features_offline \
+    --start-date 2026-04-01 \
+    --end-date 2026-05-01 \
+    --platform platform_a \
+    --product slots</div>
+            </li>
+            <li><strong>执行模型训练：</strong>
+                <div class="code-block">python -m scripts.train \
+    --data-dir /home/ai-local2/risk_data/offline/features/ \
+    --epochs 100 \
+    --batch-size 4096</div>
+            </li>
+            <li><strong>评估模型：</strong>
+                <div class="code-block">python -m scripts.evaluate \
+    --checkpoint /home/ai-local2/model_service/checkpoints/latest.pt</div>
+            </li>
+            <li><strong>执行聚类测试：</strong>
+                <div class="code-block">python -m scripts.cluster \
+    --checkpoint /home/ai-local2/model_service/checkpoints/latest.pt \
+    --feature-file /home/ai-local2/risk_data/online/features/latest.parquet</div>
+            </li>
+        </ol>
+
+        <h3>14.3 常见故障排查</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>故障现象</th>
+                    <th>可能原因</th>
+                    <th>排查步骤</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Worker 无输出</td>
+                    <td>StarRocks 连接失败 / Redis 不可达</td>
+                    <td>检查网络连通性，查看 worker 日志中的连接错误</td>
+                </tr>
+                <tr>
+                    <td>特征列数不匹配</td>
+                    <td>Schema 版本不一致</td>
+                    <td>确认 schema_registry.py 版本，运行 verify 脚本</td>
+                </tr>
+                <tr>
+                    <td>聚类结果全为噪声(-1)</td>
+                    <td>HDBSCAN 参数不适配 / 数据量不足</td>
+                    <td>检查 min_cluster_size，确认输入数据行数 > 100</td>
+                </tr>
+                <tr>
+                    <td>MQ 消费停滞</td>
+                    <td>Consumer 进程崩溃 / 死信积压</td>
+                    <td>检查 systemd 状态，查看 RocketMQ 控制台 consumer lag</td>
+                </tr>
+                <tr>
+                    <td>API 响应慢</td>
+                    <td>大量 Parquet 文件扫描 / PG 查询慢</td>
+                    <td>检查 products 目录文件数，优化 PG 索引</td>
+                </tr>
+                <tr>
+                    <td>Redis 内存持续增长</td>
+                    <td>TTL 未设置 / 过期分片未清理</td>
+                    <td>检查 Redis INFO memory，确认分片 TTL 配置</td>
+                </tr>
+                <tr>
+                    <td>风险告警未触发</td>
+                    <td>cluster_consumer 未运行 / PG 连接失败</td>
+                    <td>检查 consumer 日志，验证 PG 表写入权限</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>14.4 日常运维命令</h3>
+        <div class="code-block"><span class="comment"># 查看服务状态</span>
+systemctl status risk_feature_worker
+systemctl status risk_feature_cluster_consumer
+systemctl status model_service_consumer
+
+<span class="comment"># 查看实时日志</span>
+journalctl -u risk_feature_worker -f
+journalctl -u risk_feature_cluster_consumer -f
+
+<span class="comment"># 重启服务</span>
+systemctl restart risk_feature_worker
+
+<span class="comment"># 手动补发 MQ 消息</span>
+python -m scripts.mq_producer --feature-file /path/to/feature.parquet
+
+<span class="comment"># 清理过期数据（保留最近 7 天）</span>
+find /home/ai-local2/risk_data/online/features/ -mtime +7 -name "*.parquet" -delete
+
+<span class="comment"># 检查 Redis 缓存状态</span>
+redis-cli INFO memory
+redis-cli DBSIZE</div>
+    </div>
+
+</div>
+
+<!-- Float Buttons -->
+<div class="float-buttons">
+    <a href="/html-pages/index.html" class="float-btn float-btn-home" title="回到首页">&#127968;</a>
+    <button class="float-btn float-btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">&#8593;</button>
+    <button class="float-btn float-btn-bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="回到底部">&#8595;</button>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="divider"></div>
+    <p>风控系统项目文档 - Risk Control System Documentation</p>
+    <p style="margin-top: 6px;">整理时间：2026-05-25</p>
+</div>
+
+</body>
+</html>

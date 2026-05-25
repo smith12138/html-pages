@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风控系统接口测试用例</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1320px;margin:0 auto}
+.header{background:linear-gradient(135deg,#b91c1c,#7f1d1d);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:28px}
+.header h1{font-size:24px;margin-bottom:6px}.header .sub{font-size:14px;opacity:.85;margin-bottom:14px}
+.header .meta{display:flex;gap:24px;font-size:13px;opacity:.7;flex-wrap:wrap}
+.stats{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.stat{flex:1;min-width:120px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+.stat .num{font-size:30px;font-weight:700}.stat .label{font-size:12px;color:#6b7280;margin-top:2px}
+.c1 .num{color:#2563eb}.c2 .num{color:#dc2626}.c3 .num{color:#d97706}.c4 .num{color:#059669}.c5 .num{color:#7c3aed}.c6 .num{color:#0d9488}
+.toc{background:#fff;border-radius:12px;padding:20px 24px;margin-bottom:28px;border:1px solid #e5e7eb;border-left:4px solid #b91c1c}
+.toc h2{font-size:16px;color:#b91c1c;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.toc .cnt{color:#9ca3af;font-size:12px;margin-left:4px}
+.sec{background:#fff;border-radius:12px;margin-bottom:24px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:18px 24px 12px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head h2{font-size:17px;font-weight:700;flex:1}.sec-head .cnt-badge{font-size:12px;color:#b91c1c;background:#fef2f2;padding:3px 10px;border-radius:8px;font-weight:600}
+.sec-desc{font-size:12px;color:#6b7280;padding:0 24px 12px}
+.tc{width:100%;border-collapse:collapse;font-size:13px}
+.tc th{background:#f9fafb;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap;position:sticky;top:0;z-index:1}
+.tc td{padding:10px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top;line-height:1.6}
+.tc tr:hover{background:#fafbfc}
+.tc .id{color:#b91c1c;font-weight:600;white-space:nowrap;width:80px}
+.prio{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.p0{background:#fef2f2;color:#dc2626}.p1{background:#fef3c7;color:#d97706}.p2{background:#ecfdf5;color:#059669}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;margin-right:3px;font-weight:600}
+.tag-pos{background:#eef2ff;color:#2563eb}
+.tag-val{background:#fef3c7;color:#d97706}
+.tag-auth{background:#f3e8ff;color:#7c3aed}
+.tag-bnd{background:#fefce8;color:#a16207}
+.tag-err{background:#fef2f2;color:#dc2626}
+.tag-con{background:#f0fdfa;color:#0d9488}
+ol.steps{margin:0;padding-left:18px;font-size:12px;color:#374151}
+ol.steps li{margin-bottom:3px}
+.expect{font-size:12px;color:#374151}
+.expect strong{color:#059669}
+.expect .warn{color:#dc2626}
+code{background:#f3f4f6;padding:1px 5px;border-radius:3px;font-size:11px;color:#b91c1c;font-family:"SF Mono","Fira Code",monospace}
+.filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.fbtn{padding:5px 14px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer;font-weight:500;transition:all .15s}
+.fbtn:hover{border-color:#b91c1c;color:#b91c1c}.fbtn.active{background:#b91c1c;border-color:#b91c1c;color:#fff}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px;margin-top:20px}
+@media(max-width:768px){body{padding:12px}.stats{flex-direction:column}.tc{display:block;overflow-x:auto}.toc ul{columns:1}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+<h1>风控系统 — 接口测试用例</h1>
+<div class="sub">覆盖 REST API、消息队列、数据库接口的完整验证</div>
+<div class="meta">
+<span>版本：v1.0</span>
+<span>整理时间：2026-05-25</span>
+<span>接口总数：<strong>21</strong></span>
+<span>用例总数：<strong id="totalCases">0</strong></span>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat c1"><div class="num" id="s1">0</div><div class="label">正向测试</div></div>
+<div class="stat c2"><div class="num" id="s2">0</div><div class="label">参数校验</div></div>
+<div class="stat c3"><div class="num" id="s3">0</div><div class="label">权限测试</div></div>
+<div class="stat c4"><div class="num" id="s4">0</div><div class="label">边界测试</div></div>
+<div class="stat c5"><div class="num" id="s5">0</div><div class="label">异常测试</div></div>
+<div class="stat c6"><div class="num" id="s6">0</div><div class="label">并发测试</div></div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+<button class="fbtn active" data-f="all">全部</button>
+<button class="fbtn" data-f="pos">正向</button>
+<button class="fbtn" data-f="val">参数</button>
+<button class="fbtn" data-f="auth">权限</button>
+<button class="fbtn" data-f="bnd">边界</button>
+<button class="fbtn" data-f="err">异常</button>
+<button class="fbtn" data-f="con">并发</button>
+</div>
+
+<div class="toc">
+<h2>接口模块目录</h2>
+<ul>
+<li><a href="#m1">1. 认证 - 登录 (POST /auth/login)</a><span class="cnt" id="mc1"></span></li>
+<li><a href="#m2">2. 认证 - 当前用户 (GET /auth/me)</a><span class="cnt" id="mc2"></span></li>
+<li><a href="#m3">3. 产品列表 (GET /products)</a><span class="cnt" id="mc3"></span></li>
+<li><a href="#m4">4. 用户管理 (CRUD /users)</a><span class="cnt" id="mc4"></span></li>
+<li><a href="#m5">5. Sankey全局 (GET /summaries/sankey)</a><span class="cnt" id="mc5"></span></li>
+<li><a href="#m6">6. Sankey简化 (GET /summaries/sankey/simple)</a><span class="cnt" id="mc6"></span></li>
+<li><a href="#m7">7. Sankey按团伙 (GET /summaries/sankey/by_cluster)</a><span class="cnt" id="mc7"></span></li>
+<li><a href="#m8">8. 用户画像 (GET /summaries/user)</a><span class="cnt" id="mc8"></span></li>
+<li><a href="#m9">9. 团伙概览 (GET /summaries/groups)</a><span class="cnt" id="mc9"></span></li>
+<li><a href="#m10">10. 聚类列表 (GET /summaries/clusters/list)</a><span class="cnt" id="mc10"></span></li>
+<li><a href="#m11">11. 高危告警 (GET /summaries/cluster_risk_alerts)</a><span class="cnt" id="mc11"></span></li>
+<li><a href="#m12">12. PCA3D (GET /summaries/pca3d)</a><span class="cnt" id="mc12"></span></li>
+<li><a href="#m13">13. model_service 健康检测</a><span class="cnt" id="mc13"></span></li>
+<li><a href="#m14">14. model_service PCA3D (GET /cluster/pca3d)</a><span class="cnt" id="mc14"></span></li>
+<li><a href="#m15">15. MQ - feature_generated 消息</a><span class="cnt" id="mc15"></span></li>
+<li><a href="#m16">16. MQ - cluster_completed 消息</a><span class="cnt" id="mc16"></span></li>
+<li><a href="#m17">17. DB - cluster_result_index</a><span class="cnt" id="mc17"></span></li>
+<li><a href="#m18">18. DB - cluster_risk_alert</a><span class="cnt" id="mc18"></span></li>
+<li><a href="#m19">19. DB - api_users</a><span class="cnt" id="mc19"></span></li>
+</ul>
+</div>
+
+<!-- ================================================================ -->
+<!-- M1: POST /api/v1/auth/login -->
+<!-- ================================================================ -->
+<div class="sec" id="m1">
+<div class="sec-head"><h2>1. 认证 - 登录 POST /api/v1/auth/login</h2><span class="cnt-badge" id="mb1"></span></div>
+<div class="sec-desc">JWT认证入口，bcrypt校验密码，token有效期180分钟</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A001</td><td><span class="tag tag-pos">正向</span></td><td>admin用户正常登录</td><td><code>POST /api/v1/auth/login</code><br>Body: <code>{"username":"admin","password":"Admin@123"}</code></td><td><ol class="steps"><li>发送POST请求，Content-Type: application/json</li><li>传入已注册的admin账户凭据</li><li>验证响应体</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应包含 <code>{"access_token":"eyJ...","token_type":"bearer"}</code>；token为有效JWT，包含sub/role/exp字段</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A002</td><td><span class="tag tag-pos">正向</span></td><td>普通user角色登录</td><td><code>POST /api/v1/auth/login</code><br>Body: <code>{"username":"viewer","password":"View@456"}</code></td><td><ol class="steps"><li>使用role=user的账户凭据登录</li><li>解码返回的JWT</li></ol></td><td class="expect"><strong>HTTP 200</strong>；JWT payload中 <code>role="user"</code>；token在180分钟内有效</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A003</td><td><span class="tag tag-val">参数</span></td><td>缺少username字段</td><td><code>POST /api/v1/auth/login</code><br>Body: <code>{"password":"Admin@123"}</code></td><td><ol class="steps"><li>发送请求，body中不包含username字段</li><li>验证响应</li></ol></td><td class="expect"><strong>HTTP 422</strong>；响应包含 validation error，提示 username 为必填字段</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A004</td><td><span class="tag tag-val">参数</span></td><td>缺少password字段</td><td><code>POST /api/v1/auth/login</code><br>Body: <code>{"username":"admin"}</code></td><td><ol class="steps"><li>发送请求，body中不包含password字段</li><li>验证响应</li></ol></td><td class="expect"><strong>HTTP 422</strong>；响应包含 validation error，提示 password 为必填字段</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A005</td><td><span class="tag tag-val">参数</span></td><td>用户名不存在</td><td><code>POST /api/v1/auth/login</code><br>Body: <code>{"username":"nonexist","password":"any"}</code></td><td><ol class="steps"><li>使用数据库中不存在的用户名登录</li><li>验证响应</li></ol></td><td class="expect"><strong>HTTP 401</strong>；响应 <code>{"detail":"用户名或密码错误"}</code>；<span class="warn">不能泄露"用户不存在"的具体信息</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A006</td><td><span class="tag tag-val">参数</span></td><td>密码错误</td><td><code>POST /api/v1/auth/login</code><br>Body: <code>{"username":"admin","password":"wrong"}</code></td><td><ol class="steps"><li>使用正确用户名+错误密码登录</li><li>验证响应</li></ol></td><td class="expect"><strong>HTTP 401</strong>；响应 <code>{"detail":"用户名或密码错误"}</code>；错误信息与用户名不存在时一致</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A007</td><td><span class="tag tag-val">参数</span></td><td>空body请求</td><td><code>POST /api/v1/auth/login</code><br>Body: <code>{}</code></td><td><ol class="steps"><li>发送空JSON body</li><li>验证响应</li></ol></td><td class="expect"><strong>HTTP 422</strong>；返回字段校验错误列表</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A008</td><td><span class="tag tag-bnd">边界</span></td><td>token过期验证</td><td>使用已生成超过180分钟的token</td><td><ol class="steps"><li>获取一个JWT token</li><li>等待180分钟（或手动修改系统时间/mock）</li><li>使用过期token访问受保护接口</li></ol></td><td class="expect"><strong>HTTP 401</strong>；响应提示token已过期</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A009</td><td><span class="tag tag-err">异常</span></td><td>非JSON格式body</td><td><code>POST /api/v1/auth/login</code><br>Body: <code>username=admin&amp;password=123</code></td><td><ol class="steps"><li>发送form-urlencoded格式body</li><li>Content-Type设置为application/x-www-form-urlencoded</li></ol></td><td class="expect"><strong>HTTP 422</strong>；提示请求体格式错误</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A010</td><td><span class="tag tag-con">并发</span></td><td>并发登录同一账户</td><td>同时发起50个login请求，使用相同凭据</td><td><ol class="steps"><li>使用并发工具同时发送50个登录请求</li><li>收集所有响应</li><li>验证每个响应的token不同</li></ol></td><td class="expect"><strong>全部HTTP 200</strong>；每次返回独立token；不出现500错误或死锁</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M2: GET /api/v1/auth/me -->
+<!-- ================================================================ -->
+<div class="sec" id="m2">
+<div class="sec-head"><h2>2. 认证 - 当前用户 GET /api/v1/auth/me</h2><span class="cnt-badge" id="mb2"></span></div>
+<div class="sec-desc">获取当前登录用户信息，需Bearer Token认证</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A011</td><td><span class="tag tag-pos">正向</span></td><td>有效token获取用户信息</td><td><code>GET /api/v1/auth/me</code><br>Header: <code>Authorization: Bearer {valid_token}</code></td><td><ol class="steps"><li>先通过login获取有效token</li><li>在Header中携带Authorization</li><li>发送GET请求</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应包含 <code>{"id":1,"username":"admin","role":"admin","created_at":"..."}</code>；不返回password_hash</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A012</td><td><span class="tag tag-auth">权限</span></td><td>无Authorization头</td><td><code>GET /api/v1/auth/me</code><br>无Header</td><td><ol class="steps"><li>不携带任何认证头信息</li><li>直接发送GET请求</li></ol></td><td class="expect"><strong>HTTP 401</strong>；响应 <code>{"detail":"Not authenticated"}</code></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A013</td><td><span class="tag tag-auth">权限</span></td><td>无效token格式</td><td><code>GET /api/v1/auth/me</code><br>Header: <code>Authorization: Bearer invalid_string</code></td><td><ol class="steps"><li>携带非JWT格式的字符串作为token</li><li>发送GET请求</li></ol></td><td class="expect"><strong>HTTP 401</strong>；提示token无效</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A014</td><td><span class="tag tag-auth">权限</span></td><td>篡改JWT签名</td><td><code>GET /api/v1/auth/me</code><br>Header: 使用修改过payload但未重新签名的token</td><td><ol class="steps"><li>获取有效token</li><li>修改JWT payload中的role为admin</li><li>不重新签名，直接使用</li></ol></td><td class="expect"><strong>HTTP 401</strong>；JWT签名验证失败；<span class="warn">不能被越权</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A015</td><td><span class="tag tag-auth">权限</span></td><td>Bearer前缀拼写错误</td><td><code>GET /api/v1/auth/me</code><br>Header: <code>Authorization: bearer {token}</code> (小写b)</td><td><ol class="steps"><li>使用小写"bearer"前缀</li><li>发送GET请求</li></ol></td><td class="expect"><strong>HTTP 200 或 401</strong>；根据实现确认是否大小写敏感（FastAPI OAuth2默认大小写敏感）</td><td><span class="prio p2">P2</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M3: GET /api/v1/products -->
+<!-- ================================================================ -->
+<div class="sec" id="m3">
+<div class="sec-head"><h2>3. 产品列表 GET /api/v1/products</h2><span class="cnt-badge" id="mb3"></span></div>
+<div class="sec-desc">扫描 gang_discovery/cluster_result/platform=*/product=* 目录返回平台产品列表</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A016</td><td><span class="tag tag-pos">正向</span></td><td>正常获取产品列表</td><td><code>GET /api/v1/products</code><br>Header: Bearer token</td><td><ol class="steps"><li>携带有效token发送GET请求</li><li>验证响应结构</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应为数组，每项包含 <code>{"platform":"xxx","product":"yyy"}</code></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A017</td><td><span class="tag tag-bnd">边界</span></td><td>无聚类结果目录时</td><td><code>GET /api/v1/products</code><br>cluster_result目录为空</td><td><ol class="steps"><li>确保cluster_result目录下无platform子目录</li><li>发送GET请求</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回空数组 <code>[]</code>；不报500</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A018</td><td><span class="tag tag-auth">权限</span></td><td>未认证访问产品列表</td><td><code>GET /api/v1/products</code><br>无Header</td><td><ol class="steps"><li>不携带token直接访问</li></ol></td><td class="expect"><strong>HTTP 401</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A019</td><td><span class="tag tag-err">异常</span></td><td>磁盘路径不可达</td><td><code>GET /api/v1/products</code><br>配置的base_path不存在</td><td><ol class="steps"><li>修改配置使base_path指向不存在的路径</li><li>发送GET请求</li></ol></td><td class="expect"><strong>HTTP 500 或 200(空)</strong>；有错误日志记录；不暴露内部路径给客户端</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M4: CRUD /api/v1/users -->
+<!-- ================================================================ -->
+<div class="sec" id="m4">
+<div class="sec-head"><h2>4. 用户管理 CRUD /api/v1/users</h2><span class="cnt-badge" id="mb4"></span></div>
+<div class="sec-desc">API用户增删改查，写操作需admin角色，密码bcrypt存储</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A020</td><td><span class="tag tag-pos">正向</span></td><td>admin创建用户</td><td><code>POST /api/v1/users</code><br>Body: <code>{"username":"newuser","password":"Pass@789","role":"user"}</code></td><td><ol class="steps"><li>使用admin token发送POST</li><li>验证响应</li><li>验证数据库中password为bcrypt hash</li></ol></td><td class="expect"><strong>HTTP 201</strong>；响应包含新用户id/username/role；<span class="warn">不返回password明文或hash</span>；DB中密码为$2b$开头的bcrypt</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A021</td><td><span class="tag tag-pos">正向</span></td><td>admin查询用户列表</td><td><code>GET /api/v1/users</code><br>Header: admin token</td><td><ol class="steps"><li>使用admin token发送GET</li><li>验证返回所有用户</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回用户数组；每个用户不包含password_hash字段</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A022</td><td><span class="tag tag-pos">正向</span></td><td>admin修改用户角色</td><td><code>PATCH /api/v1/users/{id}</code><br>Body: <code>{"role":"admin"}</code></td><td><ol class="steps"><li>使用admin token发送PATCH</li><li>将user角色改为admin</li><li>验证修改生效</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应中role已更新；使用该用户重新登录后JWT role为admin</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A023</td><td><span class="tag tag-pos">正向</span></td><td>admin删除用户</td><td><code>DELETE /api/v1/users/{id}</code><br>Header: admin token</td><td><ol class="steps"><li>使用admin token发送DELETE</li><li>尝试用被删用户登录</li></ol></td><td class="expect"><strong>HTTP 200/204</strong>；被删用户无法再登录（401）</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A024</td><td><span class="tag tag-auth">权限</span></td><td>user角色尝试创建用户</td><td><code>POST /api/v1/users</code><br>Header: user role token</td><td><ol class="steps"><li>使用role=user的token尝试创建新用户</li></ol></td><td class="expect"><strong>HTTP 403</strong>；提示权限不足</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A025</td><td><span class="tag tag-auth">权限</span></td><td>user角色尝试删除用户</td><td><code>DELETE /api/v1/users/{id}</code><br>Header: user role token</td><td><ol class="steps"><li>使用role=user的token尝试删除</li></ol></td><td class="expect"><strong>HTTP 403</strong>；提示权限不足；数据未被删除</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A026</td><td><span class="tag tag-val">参数</span></td><td>创建重复用户名</td><td><code>POST /api/v1/users</code><br>Body: 使用已存在的username</td><td><ol class="steps"><li>尝试创建与已有用户相同username的新用户</li></ol></td><td class="expect"><strong>HTTP 409/400</strong>；提示用户名已存在</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A027</td><td><span class="tag tag-val">参数</span></td><td>删除不存在的用户ID</td><td><code>DELETE /api/v1/users/99999</code></td><td><ol class="steps"><li>使用admin token删除不存在的用户ID</li></ol></td><td class="expect"><strong>HTTP 404</strong>；提示用户不存在</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A028</td><td><span class="tag tag-bnd">边界</span></td><td>密码包含特殊字符</td><td><code>POST /api/v1/users</code><br>Body: password含 <code>!@#$%^&*()</code></td><td><ol class="steps"><li>创建用户，密码为复杂特殊字符组合</li><li>使用该密码登录</li></ol></td><td class="expect"><strong>HTTP 201</strong>创建成功；使用特殊字符密码可正常登录</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A029</td><td><span class="tag tag-con">并发</span></td><td>并发创建相同用户名</td><td>同时发起10个POST请求创建同一username</td><td><ol class="steps"><li>并发发送10个创建用户请求（相同username）</li><li>收集所有响应</li></ol></td><td class="expect">仅1个成功(201)，其余返回409/400；数据库中只有一条记录；无脏数据</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M5: GET /api/v1/summaries/sankey -->
+<!-- ================================================================ -->
+<div class="sec" id="m5">
+<div class="sec-head"><h2>5. Sankey全局 GET /api/v1/summaries/sankey</h2><span class="cnt-badge" id="mb5"></span></div>
+<div class="sec-desc">读取user_paths_full，返回全局Sankey图边数据</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A030</td><td><span class="tag tag-pos">正向</span></td><td>正常获取Sankey数据</td><td><code>GET /api/v1/summaries/sankey?platform=A8&amp;product=sport&amp;as_of_ts=2026-05-20</code></td><td><ol class="steps"><li>携带有效token和完整参数</li><li>发送GET请求</li><li>验证响应结构</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应包含edges数组，每项有 <code>{"source":"...","target":"...","value":N}</code></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A031</td><td><span class="tag tag-val">参数</span></td><td>缺少platform参数</td><td><code>GET /api/v1/summaries/sankey?product=sport&amp;as_of_ts=2026-05-20</code></td><td><ol class="steps"><li>不传platform参数</li><li>发送GET请求</li></ol></td><td class="expect"><strong>HTTP 422</strong>；提示platform为必填</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A032</td><td><span class="tag tag-val">参数</span></td><td>as_of_ts格式错误</td><td><code>GET /api/v1/summaries/sankey?platform=A8&amp;product=sport&amp;as_of_ts=not-a-date</code></td><td><ol class="steps"><li>传入非日期格式的as_of_ts</li></ol></td><td class="expect"><strong>HTTP 422</strong>；提示日期格式不正确</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A033</td><td><span class="tag tag-bnd">边界</span></td><td>无对应数据的platform</td><td><code>GET /api/v1/summaries/sankey?platform=NONEXIST&amp;product=x&amp;as_of_ts=2026-05-20</code></td><td><ol class="steps"><li>传入不存在的platform值</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回空edges数组 <code>{"edges":[]}</code> 或 <strong>HTTP 404</strong></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A034</td><td><span class="tag tag-err">异常</span></td><td>user_paths_full文件损坏</td><td>模拟底层parquet文件损坏</td><td><ol class="steps"><li>替换user_paths_full文件为损坏内容</li><li>发送正常请求</li></ol></td><td class="expect"><strong>HTTP 500</strong>；有error日志；响应不暴露堆栈信息</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M6: GET /api/v1/summaries/sankey/simple -->
+<!-- ================================================================ -->
+<div class="sec" id="m6">
+<div class="sec-head"><h2>6. Sankey简化 GET /api/v1/summaries/sankey/simple</h2><span class="cnt-badge" id="mb6"></span></div>
+<div class="sec-desc">6类粗粒度Sankey图数据</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A035</td><td><span class="tag tag-pos">正向</span></td><td>正常获取简化Sankey</td><td><code>GET /api/v1/summaries/sankey/simple?platform=A8&amp;product=sport&amp;as_of_ts=2026-05-20</code></td><td><ol class="steps"><li>携带有效参数发送请求</li><li>验证返回的分类数量</li></ol></td><td class="expect"><strong>HTTP 200</strong>；edges中的source/target值归属于6个粗粒度分类</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A036</td><td><span class="tag tag-bnd">边界</span></td><td>数据量为零时的响应</td><td><code>GET /api/v1/summaries/sankey/simple?platform=A8&amp;product=empty&amp;as_of_ts=2020-01-01</code></td><td><ol class="steps"><li>使用无数据的历史时间戳</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回空edges；前端不因空数据崩溃</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A037</td><td><span class="tag tag-auth">权限</span></td><td>过期token访问</td><td><code>GET /api/v1/summaries/sankey/simple</code><br>Header: 使用过期token</td><td><ol class="steps"><li>使用已过期的JWT token</li></ol></td><td class="expect"><strong>HTTP 401</strong></td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M7: GET /api/v1/summaries/sankey/by_cluster -->
+<!-- ================================================================ -->
+<div class="sec" id="m7">
+<div class="sec-head"><h2>7. Sankey按团伙 GET /api/v1/summaries/sankey/by_cluster</h2><span class="cnt-badge" id="mb7"></span></div>
+<div class="sec-desc">按cluster_id过滤的Sankey数据</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A038</td><td><span class="tag tag-pos">正向</span></td><td>指定cluster_id获取Sankey</td><td><code>GET /api/v1/summaries/sankey/by_cluster?platform=A8&amp;product=sport&amp;as_of_ts=2026-05-20&amp;cluster_id=3</code></td><td><ol class="steps"><li>传入有效的cluster_id</li><li>验证返回数据仅包含该团伙用户的路径</li></ol></td><td class="expect"><strong>HTTP 200</strong>；edges数据仅来自cluster_id=3的用户子集</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A039</td><td><span class="tag tag-val">参数</span></td><td>缺少cluster_id</td><td><code>GET /api/v1/summaries/sankey/by_cluster?platform=A8&amp;product=sport&amp;as_of_ts=2026-05-20</code></td><td><ol class="steps"><li>不传cluster_id参数</li></ol></td><td class="expect"><strong>HTTP 422</strong>；提示cluster_id必填</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A040</td><td><span class="tag tag-bnd">边界</span></td><td>cluster_id不存在</td><td><code>GET /api/v1/summaries/sankey/by_cluster?platform=A8&amp;product=sport&amp;as_of_ts=2026-05-20&amp;cluster_id=99999</code></td><td><ol class="steps"><li>传入数据中不存在的cluster_id</li></ol></td><td class="expect"><strong>HTTP 200</strong>返回空edges 或 <strong>HTTP 404</strong></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A041</td><td><span class="tag tag-val">参数</span></td><td>cluster_id为负数</td><td><code>...&amp;cluster_id=-1</code></td><td><ol class="steps"><li>传入负数cluster_id</li></ol></td><td class="expect"><strong>HTTP 422</strong>；参数校验失败</td><td><span class="prio p2">P2</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M8: GET /api/v1/summaries/user -->
+<!-- ================================================================ -->
+<div class="sec" id="m8">
+<div class="sec-head"><h2>8. 用户画像 GET /api/v1/summaries/user</h2><span class="cnt-badge" id="mb8"></span></div>
+<div class="sec-desc">返回summary_statistic_v1，包含basic_info、core_summary、risk(含risk_breakdown)</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A042</td><td><span class="tag tag-pos">正向</span></td><td>正常获取用户画像</td><td><code>GET /api/v1/summaries/user?platform=A8&amp;product=sport&amp;uid=U12345&amp;as_of_ts=2026-05-20</code></td><td><ol class="steps"><li>传入有效的platform、product、uid、as_of_ts</li><li>验证响应结构</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应包含 <code>{"basic_info":{...},"core_summary":{...},"risk":{"score":0.85,"level":"high","risk_breakdown":[...]}}</code></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A043</td><td><span class="tag tag-val">参数</span></td><td>缺少uid参数</td><td><code>GET /api/v1/summaries/user?platform=A8&amp;product=sport&amp;as_of_ts=2026-05-20</code></td><td><ol class="steps"><li>不传uid参数</li></ol></td><td class="expect"><strong>HTTP 422</strong>；提示uid必填</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A044</td><td><span class="tag tag-bnd">边界</span></td><td>uid不存在</td><td><code>...&amp;uid=NONEXIST_USER</code></td><td><ol class="steps"><li>传入数据中不存在的uid</li></ol></td><td class="expect"><strong>HTTP 404</strong>；提示用户未找到</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A045</td><td><span class="tag tag-bnd">边界</span></td><td>uid含特殊字符</td><td><code>...&amp;uid=../../../etc/passwd</code></td><td><ol class="steps"><li>传入路径穿越字符作为uid</li></ol></td><td class="expect"><strong>HTTP 400/422</strong>；<span class="warn">不发生路径穿越读取系统文件</span>；安全过滤生效</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A046</td><td><span class="tag tag-err">异常</span></td><td>数据文件缺失</td><td>删除对应summary文件后请求</td><td><ol class="steps"><li>模拟summary_statistic_v1文件不存在</li><li>发送正常请求</li></ol></td><td class="expect"><strong>HTTP 404 或 500</strong>；有友好错误信息</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M9: GET /api/v1/summaries/groups -->
+<!-- ================================================================ -->
+<div class="sec" id="m9">
+<div class="sec-head"><h2>9. 团伙概览 GET /api/v1/summaries/groups</h2><span class="cnt-badge" id="mb9"></span></div>
+<div class="sec-desc">优先读取预生成JSON文件，返回团伙摘要及风险评分</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A047</td><td><span class="tag tag-pos">正向</span></td><td>正常获取团伙概览(有预生成文件)</td><td><code>GET /api/v1/summaries/groups?platform=A8&amp;product=sport&amp;as_of_ts=2026-05-20</code></td><td><ol class="steps"><li>确保预生成JSON文件存在</li><li>发送GET请求</li><li>验证响应包含risk_score</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应包含groups数组，每项有 <code>cluster_id, member_count, risk_score, risk_level, summary</code></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A048</td><td><span class="tag tag-pos">正向</span></td><td>预生成文件不存在时降级</td><td>删除预生成JSON，保留原始数据</td><td><ol class="steps"><li>删除预生成JSON文件</li><li>发送相同请求</li><li>验证仍能返回数据(可能实时计算)</li></ol></td><td class="expect"><strong>HTTP 200</strong>；仍返回团伙数据（降级逻辑）或 <strong>HTTP 404</strong>（明确无数据）</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A049</td><td><span class="tag tag-bnd">边界</span></td><td>大量团伙数据性能</td><td>platform下有100+个cluster</td><td><ol class="steps"><li>模拟100+个cluster的预生成数据</li><li>发送请求并测量响应时间</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应时间 &lt; 3s；返回完整数据不截断</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A050</td><td><span class="tag tag-con">并发</span></td><td>并发读取团伙概览</td><td>同时50个请求读取相同platform+product</td><td><ol class="steps"><li>使用并发工具同时发送50个GET请求</li><li>验证所有响应一致</li></ol></td><td class="expect">所有请求返回<strong>HTTP 200</strong>且数据一致；无文件锁冲突</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M10: GET /api/v1/summaries/clusters/list -->
+<!-- ================================================================ -->
+<div class="sec" id="m10">
+<div class="sec-head"><h2>10. 聚类列表 GET /api/v1/summaries/clusters/list</h2><span class="cnt-badge" id="mb10"></span></div>
+<div class="sec-desc">PG优先，降级到磁盘扫描；返回cluster窗口列表</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A051</td><td><span class="tag tag-pos">正向</span></td><td>PG有数据时正常返回</td><td><code>GET /api/v1/summaries/clusters/list?platform=A8&amp;product=sport</code></td><td><ol class="steps"><li>确保PostgreSQL cluster_result_index有对应记录</li><li>发送GET请求</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回数组，每项含 <code>{"as_of_ts":"...","run_dir":"...","created_at":"..."}</code>；按时间倒序</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A052</td><td><span class="tag tag-pos">正向</span></td><td>PG无数据降级磁盘扫描</td><td>清空PG中该platform+product记录</td><td><ol class="steps"><li>清空cluster_result_index中对应记录</li><li>确保磁盘有cluster_result目录</li><li>发送请求</li></ol></td><td class="expect"><strong>HTTP 200</strong>；从磁盘扫描获取列表；响应格式一致</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A053</td><td><span class="tag tag-val">参数</span></td><td>缺少platform参数</td><td><code>GET /api/v1/summaries/clusters/list?product=sport</code></td><td><ol class="steps"><li>不传platform参数</li></ol></td><td class="expect"><strong>HTTP 422</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A054</td><td><span class="tag tag-err">异常</span></td><td>PG连接失败降级</td><td>模拟PostgreSQL连接超时</td><td><ol class="steps"><li>临时断开PG连接</li><li>发送请求</li><li>验证是否降级到磁盘扫描</li></ol></td><td class="expect"><strong>HTTP 200</strong>（降级成功）或 <strong>HTTP 503</strong>（明确服务不可用）；有告警日志</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A055</td><td><span class="tag tag-bnd">边界</span></td><td>platform+product无任何数据</td><td><code>...?platform=NEW&amp;product=new_prod</code></td><td><ol class="steps"><li>使用从未有过数据的platform+product</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回空数组 <code>[]</code></td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M11: GET /api/v1/summaries/cluster_risk_alerts -->
+<!-- ================================================================ -->
+<div class="sec" id="m11">
+<div class="sec-head"><h2>11. 高危告警 GET /api/v1/summaries/cluster_risk_alerts</h2><span class="cnt-badge" id="mb11"></span></div>
+<div class="sec-desc">从PostgreSQL读取高危团伙告警，platform和product为必传</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A056</td><td><span class="tag tag-pos">正向</span></td><td>正常获取风险告警</td><td><code>GET /api/v1/summaries/cluster_risk_alerts?platform=A8&amp;product=sport</code></td><td><ol class="steps"><li>确保cluster_risk_alert表有数据</li><li>发送GET请求</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回alerts数组，每项含 <code>cluster_id, risk_score, risk_level, review_status, as_of_ts</code></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A057</td><td><span class="tag tag-val">参数</span></td><td>缺少platform(必传)</td><td><code>GET /api/v1/summaries/cluster_risk_alerts?product=sport</code></td><td><ol class="steps"><li>不传platform参数</li></ol></td><td class="expect"><strong>HTTP 422</strong>；明确提示platform为必填</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A058</td><td><span class="tag tag-val">参数</span></td><td>缺少product(必传)</td><td><code>GET /api/v1/summaries/cluster_risk_alerts?platform=A8</code></td><td><ol class="steps"><li>不传product参数</li></ol></td><td class="expect"><strong>HTTP 422</strong>；明确提示product为必填</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A059</td><td><span class="tag tag-bnd">边界</span></td><td>无告警数据</td><td><code>...?platform=CLEAN&amp;product=safe</code></td><td><ol class="steps"><li>查询一个无风险告警的platform+product</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回空数组 <code>[]</code></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A060</td><td><span class="tag tag-err">异常</span></td><td>数据库查询超时</td><td>模拟PG慢查询(10s+)</td><td><ol class="steps"><li>模拟PostgreSQL查询超时</li><li>发送请求</li></ol></td><td class="expect"><strong>HTTP 504/500</strong>；超时后返回错误而非无限等待；有超时日志</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M12: GET /api/v1/summaries/pca3d -->
+<!-- ================================================================ -->
+<div class="sec" id="m12">
+<div class="sec-head"><h2>12. PCA3D GET /api/v1/summaries/pca3d</h2><span class="cnt-badge" id="mb12"></span></div>
+<div class="sec-desc">返回pca3d.json文件流</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A061</td><td><span class="tag tag-pos">正向</span></td><td>正常获取PCA3D文件流</td><td><code>GET /api/v1/summaries/pca3d?platform=A8&amp;product=sport&amp;as_of_ts=2026-05-20</code></td><td><ol class="steps"><li>确保pca3d.json文件存在</li><li>发送GET请求</li><li>验证Content-Type</li></ol></td><td class="expect"><strong>HTTP 200</strong>；Content-Type: application/json；响应体为有效JSON，包含点云坐标数据</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A062</td><td><span class="tag tag-bnd">边界</span></td><td>pca3d.json文件不存在</td><td>请求无PCA3D数据的时间窗口</td><td><ol class="steps"><li>使用无数据的as_of_ts值</li></ol></td><td class="expect"><strong>HTTP 404</strong>；明确提示文件不存在</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A063</td><td><span class="tag tag-bnd">边界</span></td><td>大文件流式传输</td><td>pca3d.json文件 > 50MB</td><td><ol class="steps"><li>准备一个50MB+的pca3d.json</li><li>发送GET请求</li><li>验证流式传输</li></ol></td><td class="expect"><strong>HTTP 200</strong>；支持流式响应；客户端能完整接收；不OOM</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A064</td><td><span class="tag tag-err">异常</span></td><td>文件读取权限不足</td><td>模拟pca3d.json文件无读取权限</td><td><ol class="steps"><li>将文件权限设为000</li><li>发送请求</li></ol></td><td class="expect"><strong>HTTP 500</strong>；有错误日志；<span class="warn">不暴露文件系统路径</span></td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M13: model_service 健康检测 -->
+<!-- ================================================================ -->
+<div class="sec" id="m13">
+<div class="sec-head"><h2>13. model_service 健康检测</h2><span class="cnt-badge" id="mb13"></span></div>
+<div class="sec-desc">GET /healthz, /readyz, /meta (port 8000)</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A065</td><td><span class="tag tag-pos">正向</span></td><td>healthz健康检查</td><td><code>GET http://localhost:8000/healthz</code></td><td><ol class="steps"><li>发送GET请求到/healthz</li><li>不需要认证</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应 <code>{"status":"ok"}</code></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A066</td><td><span class="tag tag-pos">正向</span></td><td>readyz就绪检查</td><td><code>GET http://localhost:8000/readyz</code></td><td><ol class="steps"><li>发送GET请求到/readyz</li><li>验证服务是否准备就绪</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应 <code>{"status":"ready"}</code>；所有依赖检查通过</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A067</td><td><span class="tag tag-pos">正向</span></td><td>meta元数据获取</td><td><code>GET http://localhost:8000/meta</code></td><td><ol class="steps"><li>发送GET请求到/meta</li><li>验证返回元数据</li></ol></td><td class="expect"><strong>HTTP 200</strong>；响应包含 <code>{"service":"model_service","version":"...","uptime":...}</code></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A068</td><td><span class="tag tag-err">异常</span></td><td>服务未就绪时readyz</td><td>在服务启动中（模型加载中）请求/readyz</td><td><ol class="steps"><li>在服务启动过程中立即发送/readyz请求</li></ol></td><td class="expect"><strong>HTTP 503</strong>；响应 <code>{"status":"not_ready","reason":"..."}</code></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A069</td><td><span class="tag tag-con">并发</span></td><td>高频healthz探测</td><td>每秒100次 GET /healthz</td><td><ol class="steps"><li>模拟K8s高频探活：每秒100次请求</li><li>持续60秒</li></ol></td><td class="expect">所有请求<strong>HTTP 200</strong>；响应时间 &lt; 50ms；不影响主服务</td><td><span class="prio p2">P2</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M14: GET /cluster/pca3d (model_service) -->
+<!-- ================================================================ -->
+<div class="sec" id="m14">
+<div class="sec-head"><h2>14. model_service PCA3D GET /cluster/pca3d</h2><span class="cnt-badge" id="mb14"></span></div>
+<div class="sec-desc">Params: pca_path 或 (run_dir + optional file_id)；返回PCA3D点云JSON</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A070</td><td><span class="tag tag-pos">正向</span></td><td>通过pca_path获取</td><td><code>GET http://localhost:8000/cluster/pca3d?pca_path=/data/pca3d.json</code></td><td><ol class="steps"><li>传入有效的pca_path绝对路径</li><li>发送GET请求</li></ol></td><td class="expect"><strong>HTTP 200</strong>；Content-Type: application/json；返回PCA3D点云数据</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A071</td><td><span class="tag tag-pos">正向</span></td><td>通过run_dir获取</td><td><code>GET http://localhost:8000/cluster/pca3d?run_dir=/data/runs/20260520</code></td><td><ol class="steps"><li>传入有效的run_dir（不带file_id）</li><li>服务自动定位pca3d文件</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回该run_dir下的pca3d数据</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A072</td><td><span class="tag tag-pos">正向</span></td><td>通过run_dir+file_id获取</td><td><code>GET http://localhost:8000/cluster/pca3d?run_dir=/data/runs/20260520&amp;file_id=cluster_0</code></td><td><ol class="steps"><li>传入run_dir和指定file_id</li></ol></td><td class="expect"><strong>HTTP 200</strong>；返回指定file_id对应的pca3d数据</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A073</td><td><span class="tag tag-val">参数</span></td><td>pca_path和run_dir都不传</td><td><code>GET http://localhost:8000/cluster/pca3d</code></td><td><ol class="steps"><li>不传任何路径参数</li></ol></td><td class="expect"><strong>HTTP 422</strong>；提示需提供pca_path或run_dir</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A074</td><td><span class="tag tag-bnd">边界</span></td><td>路径穿越攻击</td><td><code>?pca_path=../../../etc/passwd</code></td><td><ol class="steps"><li>传入路径穿越字符</li></ol></td><td class="expect"><strong>HTTP 400/403</strong>；<span class="warn">绝不读取系统敏感文件</span>；路径白名单或沙盒校验生效</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A075</td><td><span class="tag tag-err">异常</span></td><td>文件不存在</td><td><code>?pca_path=/data/nonexist.json</code></td><td><ol class="steps"><li>传入不存在的文件路径</li></ol></td><td class="expect"><strong>HTTP 404</strong>；提示文件不存在；不暴露详细路径</td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M15: MQ - feature_generated -->
+<!-- ================================================================ -->
+<div class="sec" id="m15">
+<div class="sec-head"><h2>15. MQ - feature_generated 消息</h2><span class="cnt-badge" id="mb15"></span></div>
+<div class="sec-desc">Topic: risk_feature, Tag: feature_generated; 特征工程完成通知消息</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A076</td><td><span class="tag tag-pos">正向</span></td><td>标准消息生产与消费</td><td>Topic: <code>risk_feature</code><br>Tag: <code>feature_generated</code><br>完整envelope + payload</td><td><ol class="steps"><li>构造标准消息：envelope含event_type/schema_version/event_time</li><li>payload含job_id/trace_id/as_of_ts/platform/product/feature_file_path/split_outputs/explain_paths</li><li>发送到RocketMQ</li><li>消费端验证</li></ol></td><td class="expect">消费端成功接收；payload解析正确；split_outputs中每项含platform/product/records/parquet_path/csv_path/feature_file_path</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A077</td><td><span class="tag tag-val">参数</span></td><td>payload缺少job_id字段</td><td>发送payload中无job_id的消息</td><td><ol class="steps"><li>构造消息移除job_id字段</li><li>发送并观察消费端行为</li></ol></td><td class="expect">消费端<strong>拒绝消息</strong>或<strong>记录错误日志</strong>进入死信队列；不影响其他正常消息消费</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A078</td><td><span class="tag tag-val">参数</span></td><td>schema_version不兼容</td><td>发送schema_version=99.0的消息</td><td><ol class="steps"><li>将schema_version设为不支持的版本</li><li>发送并观察消费端</li></ol></td><td class="expect">消费端检测版本不兼容，<strong>不处理消息</strong>，记录告警日志</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A079</td><td><span class="tag tag-bnd">边界</span></td><td>split_outputs为空数组</td><td>payload中split_outputs=[]</td><td><ol class="steps"><li>构造split_outputs为空数组的消息</li><li>发送并验证消费端行为</li></ol></td><td class="expect">消费端正确处理空split_outputs；不报NPE/空指针；记录警告"无分片输出"</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A080</td><td><span class="tag tag-err">异常</span></td><td>消息体非JSON格式</td><td>发送纯文本消息体</td><td><ol class="steps"><li>向risk_feature topic发送非JSON的消息体"hello"</li><li>观察消费端</li></ol></td><td class="expect">消费端<strong>不崩溃</strong>；消息进入死信队列；记录解析错误日志</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A081</td><td><span class="tag tag-con">并发</span></td><td>批量消息并发消费</td><td>同时发送100条feature_generated消息</td><td><ol class="steps"><li>短时间内发送100条消息</li><li>验证全部消费完成</li></ol></td><td class="expect">100条消息全部被正确消费；无消息丢失；处理顺序无依赖</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M16: MQ - cluster_completed -->
+<!-- ================================================================ -->
+<div class="sec" id="m16">
+<div class="sec-head"><h2>16. MQ - cluster_completed 消息</h2><span class="cnt-badge" id="mb16"></span></div>
+<div class="sec-desc">Topic: risk_cluster, Tag: cluster_completed; 聚类完成通知</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A082</td><td><span class="tag tag-pos">正向</span></td><td>标准cluster_completed消费</td><td>Topic: <code>risk_cluster</code><br>Tag: <code>cluster_completed</code><br>完整payload含run_dir等</td><td><ol class="steps"><li>构造完整消息：payload含job_id/trace_id/as_of_ts/platform/product/run_dir/cluster_file_paths/metrics_path/cluster_figure_paths/pca3d_json_paths/cluster_mode/fixed_mcs</li><li>发送到RocketMQ</li><li>验证消费端触发后续流程</li></ol></td><td class="expect">消费端成功接收；触发cluster_result_index的upsert写入；触发risk_alert计算</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A083</td><td><span class="tag tag-val">参数</span></td><td>cluster_file_paths为空</td><td>payload中cluster_file_paths=[]</td><td><ol class="steps"><li>构造cluster_file_paths为空数组</li><li>发送消息</li></ol></td><td class="expect">消费端记录警告；仍执行cluster_result_index写入（run_dir有效）；不触发文件读取</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A084</td><td><span class="tag tag-bnd">边界</span></td><td>重复消息幂等性</td><td>同一job_id的消息发送两次</td><td><ol class="steps"><li>发送一条cluster_completed消息</li><li>等待处理完成</li><li>再次发送相同job_id的消息</li></ol></td><td class="expect">cluster_result_index表为<strong>upsert</strong>，不产生重复记录；处理幂等</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A085</td><td><span class="tag tag-err">异常</span></td><td>run_dir路径不存在</td><td>payload中run_dir指向不存在的路径</td><td><ol class="steps"><li>设置run_dir为不存在的目录</li><li>发送消息</li><li>观察消费端行为</li></ol></td><td class="expect">消费端记录错误但<strong>不崩溃</strong>；cluster_result_index可能仍写入（记录路径信息）；后续读取时返回404</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A086</td><td><span class="tag tag-err">异常</span></td><td>消费端处理超时</td><td>模拟消费端处理耗时超过消费超时时间</td><td><ol class="steps"><li>mock消费端处理逻辑，使其sleep超过MQ ACK超时</li><li>观察消息是否重投</li></ol></td><td class="expect">消息被重新投递；消费端有<strong>幂等保护</strong>不重复处理</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M17: DB - cluster_result_index -->
+<!-- ================================================================ -->
+<div class="sec" id="m17">
+<div class="sec-head"><h2>17. DB - cluster_result_index 表</h2><span class="cnt-badge" id="mb17"></span></div>
+<div class="sec-desc">字段: as_of_ts, platform, product, run_dir, created_at; 操作: INSERT(upsert), SELECT</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A087</td><td><span class="tag tag-pos">正向</span></td><td>正常INSERT新记录</td><td>SQL: <code>INSERT INTO cluster_result_index(as_of_ts,platform,product,run_dir) VALUES(...)</code></td><td><ol class="steps"><li>插入一条新的as_of_ts+platform+product组合</li><li>验证created_at自动填充</li></ol></td><td class="expect">INSERT成功；created_at为当前时间；数据可通过SELECT查询到</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A088</td><td><span class="tag tag-pos">正向</span></td><td>Upsert更新run_dir</td><td>ON CONFLICT DO UPDATE SET run_dir=...</td><td><ol class="steps"><li>插入已存在的as_of_ts+platform+product组合</li><li>run_dir值不同</li><li>验证upsert行为</li></ol></td><td class="expect">run_dir被更新为新值；无重复记录；created_at保持不变或更新（按实现）</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A089</td><td><span class="tag tag-pos">正向</span></td><td>SELECT按platform+product查询</td><td><code>SELECT * FROM cluster_result_index WHERE platform='A8' AND product='sport' ORDER BY as_of_ts DESC</code></td><td><ol class="steps"><li>执行带条件的SELECT</li><li>验证返回结果排序</li></ol></td><td class="expect">返回该platform+product的所有记录；按as_of_ts倒序排列</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A090</td><td><span class="tag tag-bnd">边界</span></td><td>run_dir超长字符串</td><td>run_dir为1024字符的路径</td><td><ol class="steps"><li>插入run_dir为超长路径字符串</li></ol></td><td class="expect">成功插入（如字段允许）或返回字段长度超限错误；不导致截断后数据不可用</td><td><span class="prio p2">P2</span></td></tr>
+<tr><td class="id">TC-A091</td><td><span class="tag tag-con">并发</span></td><td>并发upsert同一键</td><td>10个线程同时upsert相同as_of_ts+platform+product</td><td><ol class="steps"><li>并发执行10个upsert（不同run_dir）</li><li>最终查询结果</li></ol></td><td class="expect">无死锁；最终只有一条记录；run_dir为最后成功写入的值</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M18: DB - cluster_risk_alert -->
+<!-- ================================================================ -->
+<div class="sec" id="m18">
+<div class="sec-head"><h2>18. DB - cluster_risk_alert 表</h2><span class="cnt-badge" id="mb18"></span></div>
+<div class="sec-desc">字段: as_of_ts, platform, product, cluster_id, risk_score, risk_level, review_status; 操作: INSERT batch, SELECT</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A092</td><td><span class="tag tag-pos">正向</span></td><td>批量INSERT告警记录</td><td>INSERT多条(10条)cluster_risk_alert</td><td><ol class="steps"><li>构造10条风险告警数据</li><li>使用batch INSERT</li><li>验证全部写入成功</li></ol></td><td class="expect">10条全部INSERT成功；每条可独立查询；risk_score精度保留</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A093</td><td><span class="tag tag-pos">正向</span></td><td>按过滤条件SELECT</td><td><code>SELECT * WHERE platform='A8' AND product='sport' AND risk_level='high'</code></td><td><ol class="steps"><li>查询指定条件的告警</li><li>验证过滤正确</li></ol></td><td class="expect">仅返回risk_level='high'的记录；不包含medium/low级别</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A094</td><td><span class="tag tag-val">参数</span></td><td>risk_score超出[0,1]范围</td><td>INSERT risk_score=1.5 或 risk_score=-0.1</td><td><ol class="steps"><li>尝试插入超出范围的risk_score</li></ol></td><td class="expect">数据库约束拒绝或应用层校验拒绝；不存入非法score值</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A095</td><td><span class="tag tag-val">参数</span></td><td>risk_level非法枚举值</td><td>INSERT risk_level='critical'（非high/medium/low）</td><td><ol class="steps"><li>插入非法枚举值</li></ol></td><td class="expect">拒绝插入或约束报错</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A096</td><td><span class="tag tag-bnd">边界</span></td><td>review_status状态流转</td><td>UPDATE review_status从pending到reviewed</td><td><ol class="steps"><li>插入review_status='pending'</li><li>更新为'reviewed'</li><li>验证状态变更</li></ol></td><td class="expect">状态更新成功；可追溯变更时间</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A097</td><td><span class="tag tag-con">并发</span></td><td>大批量INSERT性能</td><td>单次batch INSERT 1000条记录</td><td><ol class="steps"><li>构造1000条告警数据</li><li>batch INSERT并计时</li></ol></td><td class="expect">INSERT完成时间 &lt; 5s；无timeout；全部数据正确写入</td><td><span class="prio p2">P2</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M19: DB - api_users -->
+<!-- ================================================================ -->
+<div class="sec" id="m19">
+<div class="sec-head"><h2>19. DB - api_users 表</h2><span class="cnt-badge" id="mb19"></span></div>
+<div class="sec-desc">字段: id, username, password_hash, role, created_at; 操作: CRUD, bcrypt验证</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>请求方式/参数</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-A098</td><td><span class="tag tag-pos">正向</span></td><td>INSERT用户密码bcrypt存储</td><td>INSERT api_users, password明文经bcrypt后存储</td><td><ol class="steps"><li>应用层接收明文密码"Test@123"</li><li>bcrypt hash后INSERT到password_hash字段</li><li>查询DB验证hash格式</li></ol></td><td class="expect">password_hash以 <code>$2b$</code> 开头；长度60字符；明文密码不出现在DB中</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A099</td><td><span class="tag tag-pos">正向</span></td><td>bcrypt验证密码正确性</td><td>使用bcrypt.verify比对明文与hash</td><td><ol class="steps"><li>从DB取出password_hash</li><li>用bcrypt.checkpw验证原始密码</li><li>用错误密码验证</li></ol></td><td class="expect">正确密码返回True；错误密码返回False；验证耗时约100-300ms（bcrypt特性）</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A100</td><td><span class="tag tag-val">参数</span></td><td>username唯一约束</td><td>INSERT相同username</td><td><ol class="steps"><li>插入username='admin'</li><li>再次插入username='admin'</li></ol></td><td class="expect">第二次INSERT失败；PG返回unique_violation错误</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-A101</td><td><span class="tag tag-val">参数</span></td><td>role字段仅允许admin/user</td><td>INSERT role='superadmin'</td><td><ol class="steps"><li>尝试插入非法角色值</li></ol></td><td class="expect">约束检查失败；拒绝插入</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A102</td><td><span class="tag tag-bnd">边界</span></td><td>删除用户后token仍有效窗口</td><td>删除用户后，使用其之前获取的token</td><td><ol class="steps"><li>用户A登录获取token</li><li>admin删除用户A</li><li>立即使用用户A的token访问/auth/me</li></ol></td><td class="expect">理想：<strong>HTTP 401</strong>（实时校验用户是否存在）；或 <strong>HTTP 200</strong>直到token过期（JWT无状态特性）；需明确系统行为</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-A103</td><td><span class="tag tag-err">异常</span></td><td>password_hash字段被篡改</td><td>直接UPDATE password_hash为非bcrypt格式字符串</td><td><ol class="steps"><li>直接修改DB中某用户的password_hash为"hacked"</li><li>使用任何密码尝试登录</li></ol></td><td class="expect">登录失败（bcrypt比对异常应被捕获）；<span class="warn">不返回500堆栈</span>；返回401</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+</div>
+
+<div class="footer">风控系统接口测试用例 v1.0 &middot; 整理时间：2026-05-25</div>
+
+<!-- 浮动按钮 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#b91c1c,#991b1b);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){
+    var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');
+    function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}
+    window.addEventListener('scroll',ck,{passive:true});ck();
+})();
+// Stats count
+(function(){
+    var tags={s1:'tag-pos',s2:'tag-val',s3:'tag-auth',s4:'tag-bnd',s5:'tag-err',s6:'tag-con'};
+    var total=0;
+    for(var k in tags){
+        var c=document.querySelectorAll('.'+tags[k]).length;
+        document.getElementById(k).textContent=c;
+        total+=c;
+    }
+    document.getElementById('totalCases').textContent=total;
+    for(var i=1;i<=19;i++){
+        var el=document.getElementById('m'+i);
+        if(!el) continue;
+        var n=el.querySelectorAll('tbody tr').length;
+        var mcEl=document.getElementById('mc'+i);
+        var mbEl=document.getElementById('mb'+i);
+        if(mcEl) mcEl.textContent=' ('+n+')';
+        if(mbEl) mbEl.textContent=n+' 条';
+    }
+})();
+// Filter
+(function(){
+    var btns=document.querySelectorAll('.fbtn');
+    btns.forEach(function(btn){
+        btn.addEventListener('click',function(){
+            btns.forEach(function(b){b.classList.remove('active')});
+            btn.classList.add('active');
+            var f=btn.dataset.f;
+            document.querySelectorAll('.tc tbody tr').forEach(function(tr){
+                if(f==='all'){tr.style.display='';return}
+                var tag=tr.querySelector('.tag');
+                tr.style.display=tag&&tag.className.indexOf('tag-'+f)>=0?'':'none';
+            });
+        });
+    });
+})();
+</script>
+</body>
+</html>

@@ -70,7 +70,49 @@
       "name": "风控系统",
       "description": "风控系统相关文档",
       "color": "#ef4444",
-      "pages": []
+      "pages": [
+        {
+          "file": "docs/风控系统/风控系统项目文档.html",
+          "title": "风控系统项目文档",
+          "category": "requirement",
+          "date": "2026-05-25",
+          "tags": [
+            "特征工程",
+            "团伙检测",
+            "风控"
+          ]
+        },
+        {
+          "file": "docs/风控系统/风控系统功能测试用例.html",
+          "title": "风控系统功能测试用例",
+          "category": "testcase",
+          "date": "2026-05-25",
+          "tags": [
+            "功能测试",
+            "风控"
+          ]
+        },
+        {
+          "file": "docs/风控系统/风控系统接口测试用例.html",
+          "title": "风控系统接口测试用例",
+          "category": "testcase",
+          "date": "2026-05-25",
+          "tags": [
+            "接口测试",
+            "API"
+          ]
+        },
+        {
+          "file": "docs/风控系统/风控系统性能测试用例.html",
+          "title": "风控系统性能测试用例",
+          "category": "testcase",
+          "date": "2026-05-25",
+          "tags": [
+            "性能测试",
+            "压力测试"
+          ]
+        }
+      ]
     },
     {
       "id": "piscipient",

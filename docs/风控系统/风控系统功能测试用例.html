@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风控系统功能测试用例</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1260px;margin:0 auto}
+.header{background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:28px}
+.header h1{font-size:24px;margin-bottom:6px}.header .sub{font-size:14px;opacity:.85;margin-bottom:14px}
+.header .meta{display:flex;gap:24px;font-size:13px;opacity:.7;flex-wrap:wrap}
+.stats{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.stat{flex:1;min-width:120px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+.stat .num{font-size:30px;font-weight:700}.stat .label{font-size:12px;color:#6b7280;margin-top:2px}
+.c1 .num{color:#dc2626}.c2 .num{color:#2563eb}.c3 .num{color:#d97706}.c4 .num{color:#059669}.c5 .num{color:#7c3aed}.c6 .num{color:#0891b2}
+.toc{background:#fff;border-radius:12px;padding:20px 24px;margin-bottom:28px;border:1px solid #e5e7eb;border-left:4px solid #dc2626}
+.toc h2{font-size:16px;color:#dc2626;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.toc .cnt{color:#9ca3af;font-size:12px;margin-left:4px}
+.sec{background:#fff;border-radius:12px;margin-bottom:24px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:18px 24px 12px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head h2{font-size:17px;font-weight:700;flex:1}.sec-head .cnt-badge{font-size:12px;color:#dc2626;background:#fef2f2;padding:3px 10px;border-radius:8px;font-weight:600}
+.sec-desc{font-size:12px;color:#6b7280;padding:0 24px 12px}
+.flow-ref{font-size:11px;color:#9ca3af;padding:4px 24px 12px;border-bottom:1px solid #f3f4f6;font-style:italic}
+.tc{width:100%;border-collapse:collapse;font-size:13px}
+.tc th{background:#f9fafb;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap;position:sticky;top:0;z-index:1}
+.tc td{padding:10px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top;line-height:1.6}
+.tc tr:hover{background:#fafbfc}
+.tc .id{color:#dc2626;font-weight:600;white-space:nowrap;width:72px}
+.prio{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.p0{background:#fef2f2;color:#dc2626}.p1{background:#fef3c7;color:#d97706}.p2{background:#ecfdf5;color:#059669}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;margin-right:3px;font-weight:600}
+.tag-func{background:#eef2ff;color:#6366f1}.tag-edge{background:#fef3c7;color:#d97706}.tag-exc{background:#fef2f2;color:#dc2626}.tag-reg{background:#f0fdf4;color:#15803d}
+ol.steps{margin:0;padding-left:18px;font-size:12px;color:#374151}
+ol.steps li{margin-bottom:3px}
+.expect{font-size:12px;color:#374151}
+.expect strong{color:#059669}
+.expect .warn{color:#dc2626}
+.filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.fbtn{padding:5px 14px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer;font-weight:500;transition:all .15s}
+.fbtn:hover{border-color:#dc2626;color:#dc2626}.fbtn.active{background:#dc2626;border-color:#dc2626;color:#fff}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px;margin-top:20px}
+@media(max-width:768px){body{padding:12px}.stats{flex-direction:column}.tc{display:block;overflow-x:auto}.toc ul{columns:1}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+<h1>风控系统 — 功能测试用例</h1>
+<div class="sub">基于 risk_feature + model_service 双服务架构，覆盖数据采集、特征计算、模型训练、聚类、消息队列、API等全链路功能测试</div>
+<div class="meta">
+<span>系统：团伙识别风控系统</span>
+<span>版本：v2.14</span>
+<span>整理时间：2026-05-25</span>
+<span>用例总数：<strong id="totalCases">0</strong></span>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat c1"><div class="num" id="s1">0</div><div class="label">数据采集/缓存</div></div>
+<div class="stat c2"><div class="num" id="s2">0</div><div class="label">特征计算</div></div>
+<div class="stat c3"><div class="num" id="s3">0</div><div class="label">Worker/离线</div></div>
+<div class="stat c4"><div class="num" id="s4">0</div><div class="label">模型/聚类</div></div>
+<div class="stat c5"><div class="num" id="s5">0</div><div class="label">MQ/摘要/API</div></div>
+<div class="stat c6"><div class="num" id="s6">0</div><div class="label">DB/部署</div></div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+<button class="fbtn active" data-f="all">全部</button>
+<button class="fbtn" data-f="func">功能</button>
+<button class="fbtn" data-f="edge">边界</button>
+<button class="fbtn" data-f="exc">异常</button>
+<button class="fbtn" data-f="reg">回归</button>
+</div>
+
+<div class="toc">
+<h2>测试模块目录</h2>
+<ul>
+<li><a href="#m1">1. 数据采集模块</a><span class="cnt" id="mc1"></span></li>
+<li><a href="#m2">2. Redis缓存管理</a><span class="cnt" id="mc2"></span></li>
+<li><a href="#m3">3. 特征计算模块</a><span class="cnt" id="mc3"></span></li>
+<li><a href="#m4">4. 实时Worker</a><span class="cnt" id="mc4"></span></li>
+<li><a href="#m5">5. 离线特征生成</a><span class="cnt" id="mc5"></span></li>
+<li><a href="#m6">6. 模型训练</a><span class="cnt" id="mc6"></span></li>
+<li><a href="#m7">7. 聚类模块</a><span class="cnt" id="mc7"></span></li>
+<li><a href="#m8">8. 消息队列</a><span class="cnt" id="mc8"></span></li>
+<li><a href="#m9">9. 团伙摘要生成</a><span class="cnt" id="mc9"></span></li>
+<li><a href="#m10">10. API服务模块</a><span class="cnt" id="mc10"></span></li>
+<li><a href="#m11">11. 数据库操作</a><span class="cnt" id="mc11"></span></li>
+<li><a href="#m12">12. 部署与运维</a><span class="cnt" id="mc12"></span></li>
+</ul>
+</div>
+
+<!-- ================================================================ -->
+<!-- M1: 数据采集模块 -->
+<!-- ================================================================ -->
+<div class="sec" id="m1">
+<div class="sec-head"><h2>1. 数据采集模块</h2><span class="cnt-badge" id="mb1"></span></div>
+<div class="flow-ref">数据流：StarRocks → 2min分片查询 → MessagePack编码 → Redis写入 | Watermark管理</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F001</td><td><span class="tag tag-func">功能</span></td><td>正常2min分片查询StarRocks</td><td>StarRocks服务可用，6h回溯窗口内有数据</td><td><ol class="steps"><li>启动数据采集任务</li><li>观察SQL查询日志，确认时间范围按2min分片</li><li>验证查询起始时间=上次watermark，结束时间=起始+2min</li><li>确认分片数量=ceil((now-watermark)/2min)</li></ol></td><td class="expect"><strong>查询按2min精确分片</strong>，每个分片独立执行SQL，返回该时间段内所有下注事件记录</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F002</td><td><span class="tag tag-func">功能</span></td><td>并发分片获取(SR_MAX_CONCURRENCY=45)</td><td>待采集分片数>45</td><td><ol class="steps"><li>设置SR_MAX_CONCURRENCY=45</li><li>触发数据采集</li><li>监控并发连接数</li><li>确认同时运行的查询不超过45</li></ol></td><td class="expect"><strong>并发数严格不超过45</strong>，使用信号量/连接池控制，所有分片最终均完成采集</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F003</td><td><span class="tag tag-func">功能</span></td><td>Redis写入MessagePack编码</td><td>StarRocks查询返回有效数据</td><td><ol class="steps"><li>执行一次数据采集</li><li>使用redis-cli GET获取写入的key</li><li>对value进行MessagePack解码</li><li>验证解码后的数据结构与原始查询结果一致</li></ol></td><td class="expect"><strong>数据以MessagePack格式写入Redis</strong>，解码后字段完整，数值精度无损失，列表/字典结构正确</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F004</td><td><span class="tag tag-func">功能</span></td><td>Watermark更新机制</td><td>已完成一次采集</td><td><ol class="steps"><li>记录采集前watermark值</li><li>执行一轮完整采集（所有分片成功）</li><li>读取采集后watermark值</li><li>验证watermark = 本轮最后一个分片的结束时间</li></ol></td><td class="expect"><strong>Watermark更新为最新采集时间点</strong>，下次采集从此时间继续，不重复不遗漏</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F005</td><td><span class="tag tag-func">功能</span></td><td>事件类型(etype)分片采集</td><td>StarRocks中存在多种etype数据</td><td><ol class="steps"><li>配置需要采集的etype列表</li><li>启动采集任务</li><li>验证每种etype独立生成分片查询</li><li>确认不同etype的数据写入对应的Redis key空间</li></ol></td><td class="expect"><strong>按etype独立分片采集</strong>，各etype数据互不干扰，可独立回溯</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F006</td><td><span class="tag tag-edge">边界</span></td><td>StarRocks连接超时重试</td><td>模拟StarRocks响应延迟>30s</td><td><ol class="steps"><li>设置网络延迟模拟StarRocks超时</li><li>触发数据采集</li><li>观察重试日志</li><li>恢复网络后确认采集最终成功</li></ol></td><td class="expect"><strong>超时后按配置重试</strong>（默认3次），重试间隔指数退避，最终成功或记录明确错误，watermark不推进</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F007</td><td><span class="tag tag-exc">异常</span></td><td>StarRocks查询返回空结果</td><td>指定时间段内无任何事件</td><td><ol class="steps"><li>确保某2min分片内StarRocks无数据</li><li>执行该分片的采集</li><li>检查Redis是否写入空值</li><li>检查watermark是否正常推进</li></ol></td><td class="expect"><strong>空分片不写入Redis</strong>（或写入空列表标记），watermark正常推进到该分片结束时间，不阻塞后续分片</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F008</td><td><span class="tag tag-exc">异常</span></td><td>部分分片失败不影响整体</td><td>模拟第3/45个分片查询失败</td><td><ol class="steps"><li>模拟某个分片SQL执行异常</li><li>观察其他分片是否继续执行</li><li>检查失败分片的错误记录</li><li>验证watermark只推进到连续成功的最后分片</li></ol></td><td class="expect"><strong>失败分片记录错误日志</strong>，其他分片正常完成。<span class="warn">Watermark只推进到连续成功的最后位置</span>，下次从失败点重新采集</td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M2: Redis缓存管理 -->
+<!-- ================================================================ -->
+<div class="sec" id="m2">
+<div class="sec-head"><h2>2. Redis缓存管理</h2><span class="cnt-badge" id="mb2"></span></div>
+<div class="flow-ref">Key空间: fg:v1:evt:{etype}:{shard_ts} | fg:v1:evtuser:{uid}:{etype} | fg:v1:wm:{etype}</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F009</td><td><span class="tag tag-func">功能</span></td><td>Key命名空间规范验证</td><td>数据采集已写入Redis</td><td><ol class="steps"><li>使用SCAN命令遍历所有fg:v1:*前缀的key</li><li>验证evt key格式: fg:v1:evt:{etype}:{shard_ts}</li><li>验证evtuser key格式: fg:v1:evtuser:{uid}:{etype}</li><li>验证wm key格式: fg:v1:wm:{etype}</li></ol></td><td class="expect"><strong>所有key严格符合命名规范</strong>，无拼写错误、无非法字符，shard_ts为Unix时间戳格式</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F010</td><td><span class="tag tag-func">功能</span></td><td>MGET批量读取事件数据</td><td>Redis中已存在多个evt key</td><td><ol class="steps"><li>构造一批key列表（20个有效key）</li><li>调用MGET批量获取</li><li>验证返回结果数量=20</li><li>逐一MessagePack解码验证数据完整性</li></ol></td><td class="expect"><strong>MGET一次性返回所有key的值</strong>，不存在的key返回nil，性能优于逐个GET</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F011</td><td><span class="tag tag-func">功能</span></td><td>冷启动脚本执行</td><td>Redis为空（全新环境）</td><td><ol class="steps"><li>执行冷启动脚本</li><li>确认脚本回溯6h窗口从StarRocks全量加载</li><li>验证watermark初始化为(当前时间-6h)</li><li>验证所有etype的事件数据已写入Redis</li></ol></td><td class="expect"><strong>冷启动完成后Redis含完整6h数据</strong>，watermark正确初始化，后续增量采集可从此继续</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F012</td><td><span class="tag tag-func">功能</span></td><td>Watermark读写原子性</td><td>并发场景</td><td><ol class="steps"><li>模拟两个worker同时完成采集</li><li>两者同时尝试更新同一etype的watermark</li><li>验证最终watermark值的正确性</li></ol></td><td class="expect"><strong>使用Redis原子操作(如WATCH/MULTI或Lua脚本)</strong>确保watermark不被错误覆盖，取最大值</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F013</td><td><span class="tag tag-edge">边界</span></td><td>Cache miss降级到内存事件</td><td>部分Redis key已过期</td><td><ol class="steps"><li>手动删除Redis中某用户的evt key</li><li>触发该用户的特征计算</li><li>观察日志是否fallback到内存中的事件缓存</li><li>验证计算结果是否使用了fallback数据</li></ol></td><td class="expect"><strong>Cache miss时从内存事件缓存获取数据</strong>，特征计算不中断，日志记录fallback事件</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F014</td><td><span class="tag tag-exc">异常</span></td><td>Redis连接中断恢复</td><td>Redis服务重启</td><td><ol class="steps"><li>正常运行采集任务</li><li>重启Redis服务</li><li>观察采集服务是否自动重连</li><li>重连后验证数据一致性</li></ol></td><td class="expect"><strong>服务自动重连Redis</strong>，连接池自动恢复。<span class="warn">重连期间的数据写入需重试或暂存</span>，不丢失数据</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F015</td><td><span class="tag tag-edge">边界</span></td><td>6h窗口外数据自动淘汰</td><td>Redis中存在超过6h的历史数据</td><td><ol class="steps"><li>写入一条7h前的事件数据到Redis</li><li>等待TTL到期或手动触发清理</li><li>验证该key已被移除</li><li>确认6h内的数据仍存在</li></ol></td><td class="expect"><strong>超过6h的事件数据自动清除</strong>（通过TTL），Redis内存占用稳定，6h内数据完整</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M3: 特征计算模块 -->
+<!-- ================================================================ -->
+<div class="sec" id="m3">
+<div class="sec-head"><h2>3. 特征计算模块</h2><span class="cnt-badge" id="mb3"></span></div>
+<div class="flow-ref">Schema v2.14: 5 key列 + 3329 feature列 = 3334总列 | Top-K game slot + 微观/宏观/行为/共振/P1特征</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F016</td><td><span class="tag tag-func">功能</span></td><td>Top-K游戏槽位选择</td><td>用户在6h内有多款游戏下注记录</td><td><ol class="steps"><li>获取用户6h窗口内所有下注事件</li><li>按游戏ID统计下注次数/金额</li><li>选取Top-K(默认K=10)游戏</li><li>验证选出的游戏ID与预期一致</li></ol></td><td class="expect"><strong>Top-K按下注频次/金额排序选取</strong>，不足K个时用0填充剩余slot，多于K个时截断</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F017</td><td><span class="tag tag-func">功能</span></td><td>微观特征-下注统计计算</td><td>用户有有效下注事件</td><td><ol class="steps"><li>输入用户6h窗口下注事件列表</li><li>计算stake统计: mean/std/max/min/median/skew/kurtosis</li><li>验证每个统计值与手工计算一致</li><li>确认空值处理（全0填充）</li></ol></td><td class="expect"><strong>stake统计值精确计算</strong>，浮点精度至少6位有效数字，无NaN/Inf输出</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F018</td><td><span class="tag tag-func">功能</span></td><td>微观特征-资金闭环检测</td><td>用户有充值和提现记录</td><td><ol class="steps"><li>收集用户6h内的充值/提现/下注流水</li><li>计算资金闭环指标（充提比、流水倍数等）</li><li>验证闭环分数计算逻辑</li><li>边界值：纯充值无提现、纯提现无充值</li></ol></td><td class="expect"><strong>资金闭环指标正确反映充提行为模式</strong>，纯充值时提现比=0，纯提现时充值比=0</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F019</td><td><span class="tag tag-func">功能</span></td><td>微观特征-频谱/小波分析</td><td>用户有≥32个时序下注点</td><td><ol class="steps"><li>构造用户时序下注序列</li><li>执行FFT频谱分析，提取主频/能量分布</li><li>执行小波变换，提取多尺度特征</li><li>验证输出维度与schema一致</li></ol></td><td class="expect"><strong>频谱特征反映下注周期性</strong>，小波特征捕获多尺度时间模式，输出维度固定且无NaN</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F020</td><td><span class="tag tag-func">功能</span></td><td>宏观特征-路径/切换/唯一游戏</td><td>用户在多款游戏间有切换行为</td><td><ol class="steps"><li>提取用户游戏切换序列</li><li>计算path特征（游戏路径长度、环路数）</li><li>计算switch特征（切换频率、平均停留时间）</li><li>计算unique_games（去重游戏数）</li></ol></td><td class="expect"><strong>宏观特征准确描述用户游戏浏览模式</strong>，单游戏用户path=1/switch=0，多游戏用户值递增</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F021</td><td><span class="tag tag-func">功能</span></td><td>行为特征-序列/聚合/上下文哈希</td><td>用户有完整行为序列</td><td><ol class="steps"><li>构建用户行为序列（按时间排序）</li><li>计算序列特征（n-gram、transition matrix）</li><li>计算聚合特征（行为类型分布）</li><li>计算context hash（行为上下文指纹）</li></ol></td><td class="expect"><strong>行为特征捕获用户操作模式</strong>，context hash对相似行为产生相近哈希值，输出维度固定</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F022</td><td><span class="tag tag-func">功能</span></td><td>共振特征(微观x宏观交叉)</td><td>微观和宏观特征均已计算完成</td><td><ol class="steps"><li>获取已计算的微观特征向量</li><li>获取已计算的宏观特征向量</li><li>执行交叉乘积/交互计算</li><li>验证输出维度=micro_dim * macro_dim（或指定组合）</li></ol></td><td class="expect"><strong>共振特征正确反映微观宏观的交互关系</strong>，输出维度与schema定义一致</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F023</td><td><span class="tag tag-func">功能</span></td><td>P1风险标量计算</td><td>用户特征向量已就绪</td><td><ol class="steps"><li>根据P1规则计算风险标量</li><li>验证标量值范围在合理区间</li><li>对已知风险用户验证P1值偏高</li><li>对正常用户验证P1值偏低</li></ol></td><td class="expect"><strong>P1标量正确标记高风险特征</strong>，与历史标注数据相关性>0.7</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F024</td><td><span class="tag tag-func">功能</span></td><td>Schema v2.14合规性(3334列)</td><td>特征计算全流程完成</td><td><ol class="steps"><li>对一个用户执行完整特征计算</li><li>获取输出的特征行</li><li>验证总列数=3334（5 key + 3329 feature）</li><li>验证列名与schema定义文件完全一致</li><li>验证数据类型（float32/int64等）符合定义</li></ol></td><td class="expect"><strong>输出严格3334列</strong>，列名/列序/数据类型完全匹配schema v2.14定义，无多余列或缺失列</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F025</td><td><span class="tag tag-func">功能</span></td><td>Assembler平坦行拼装</td><td>各子模块特征计算完毕</td><td><ol class="steps"><li>收集Top-K、微观、宏观、行为、共振、P1所有子特征</li><li>调用Assembler将所有子特征拼装为一行</li><li>验证拼装后长度=3334</li><li>验证key列（uid, platform, product, window_start, window_end）正确</li></ol></td><td class="expect"><strong>Assembler正确拼装所有子特征为单行</strong>，顺序与schema一致，key列值正确填充</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F026</td><td><span class="tag tag-edge">边界</span></td><td>用户仅有1条下注记录</td><td>用户在6h内只有1条下注</td><td><ol class="steps"><li>输入仅含1条下注事件的用户数据</li><li>执行完整特征计算</li><li>验证统计特征（std/skew/kurtosis）的处理</li><li>验证Top-K填充逻辑</li></ol></td><td class="expect"><strong>单条记录时std=0, skew=0, kurtosis=0</strong>（或预设默认值），Top-K仅填1个slot其余为0，不报错</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F027</td><td><span class="tag tag-exc">异常</span></td><td>特征计算中出现NaN/Inf</td><td>除法分母为0的边界场景</td><td><ol class="steps"><li>构造会导致除0的输入数据（如所有stake相同导致std=0再除以std）</li><li>执行特征计算</li><li>检查输出中是否存在NaN或Inf</li></ol></td><td class="expect"><strong>输出中无NaN/Inf</strong>，所有可能除0的计算有保护（如eps=1e-8），异常值替换为0或安全默认值</td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M4: 实时Worker -->
+<!-- ================================================================ -->
+<div class="sec" id="m4">
+<div class="sec-head"><h2>4. 实时Worker</h2><span class="cnt-badge" id="mb4"></span></div>
+<div class="flow-ref">IncrementalRunner: 300s循环 → 活跃用户检测(6h) → 多进程计算 → Explain生成 → MQ发布</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F028</td><td><span class="tag tag-func">功能</span></td><td>IncrementalRunner 300s循环执行</td><td>Worker服务已启动</td><td><ol class="steps"><li>启动Worker进程</li><li>观察日志记录循环开始时间</li><li>等待两个完整周期（>600s）</li><li>验证两次执行间隔约为300s</li></ol></td><td class="expect"><strong>Worker严格每300s执行一轮</strong>，上轮完成后等待剩余时间，不累积延迟</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F029</td><td><span class="tag tag-func">功能</span></td><td>单次运行模式(--once)</td><td>Worker可执行</td><td><ol class="steps"><li>使用--once参数启动Worker</li><li>等待一轮计算完成</li><li>验证进程自动退出</li><li>检查退出码=0</li></ol></td><td class="expect"><strong>--once模式下Worker执行一轮后正常退出</strong>，不进入循环，适用于调试和手动触发</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F030</td><td><span class="tag tag-func">功能</span></td><td>活跃用户检测(6h下注窗口)</td><td>Redis中有近6h的用户事件</td><td><ol class="steps"><li>Worker开始新一轮计算</li><li>从Redis获取6h窗口内有下注事件的用户列表</li><li>验证仅包含6h内有下注的用户</li><li>确认6h前最后活跃的用户不在列表中</li></ol></td><td class="expect"><strong>仅6h内有下注行为的用户被选为活跃用户</strong>，非活跃用户不消耗计算资源</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F031</td><td><span class="tag tag-func">功能</span></td><td>多进程池分块计算</td><td>活跃用户数>100</td><td><ol class="steps"><li>配置进程池大小=4</li><li>活跃用户列表=500人</li><li>验证用户被均匀分为4块（或按chunk_size分块）</li><li>观察4个子进程并行执行</li><li>验证所有500人的特征均计算完成</li></ol></td><td class="expect"><strong>用户均匀分配到多进程</strong>，各进程独立计算无数据竞争，最终结果合并完整</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F032</td><td><span class="tag tag-func">功能</span></td><td>Explain产物生成</td><td>特征计算完成</td><td><ol class="steps"><li>完成一轮特征计算</li><li>检查输出目录中的explain产物文件</li><li>验证summary_features文件包含特征摘要</li><li>验证user_paths文件包含用户路径数据</li><li>验证sankey_edges文件包含桑基图边数据</li></ol></td><td class="expect"><strong>三类explain产物均生成</strong>：summary_features(CSV)、user_paths(CSV)、sankey_edges(CSV)，内容非空且格式正确</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F033</td><td><span class="tag tag-func">功能</span></td><td>MQ发布feature_generated消息</td><td>特征计算和explain产物均完成</td><td><ol class="steps"><li>完成一轮完整计算</li><li>监听RocketMQ feature_generated topic</li><li>验证消息payload包含：platform, product, window, output_path</li><li>验证消息发送时间在计算完成后立即</li></ol></td><td class="expect"><strong>计算完成后发布feature_generated消息</strong>，payload包含完整元数据，下游model_service可正确消费</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F034</td><td><span class="tag tag-func">功能</span></td><td>Fallback标记机制</td><td>部分用户特征计算失败</td><td><ol class="steps"><li>模拟某用户特征计算异常（如数据不完整）</li><li>验证该用户被标记fallback flag</li><li>验证其他用户不受影响</li><li>检查输出中fallback用户的特征值处理</li></ol></td><td class="expect"><strong>失败用户标记fallback=true</strong>，使用安全默认特征值，不影响整批输出，日志记录原因</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F035</td><td><span class="tag tag-edge">边界</span></td><td>单轮超时处理(>300s)</td><td>活跃用户极多导致计算时间>300s</td><td><ol class="steps"><li>模拟大量活跃用户使计算超过300s</li><li>观察当前轮是否完整执行完毕</li><li>验证下一轮在当前轮完成后立即开始</li><li>确认不会出现两轮并发</li></ol></td><td class="expect"><strong>当前轮完整执行不中断</strong>，下一轮立即开始（跳过等待），不存在两轮重叠执行</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M5: 离线特征生成 -->
+<!-- ================================================================ -->
+<div class="sec" id="m5">
+<div class="sec-head"><h2>5. 离线特征生成</h2><span class="cnt-badge" id="mb5"></span></div>
+<div class="flow-ref">默认120窗口 x 6h步长 | Resume断点续传 | Fork多进程(CoW) | 不读写Redis</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F036</td><td><span class="tag tag-func">功能</span></td><td>默认120窗口x6h步长生成</td><td>StarRocks中有≥30天历史数据</td><td><ol class="steps"><li>执行离线特征生成（默认参数）</li><li>验证生成窗口数=120</li><li>验证每个窗口间隔=6h</li><li>验证总覆盖时间=120*6h=30天</li></ol></td><td class="expect"><strong>生成120个独立的6h窗口特征文件</strong>，时间连续无重叠，覆盖最近30天</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F037</td><td><span class="tag tag-func">功能</span></td><td>Resume断点续传</td><td>之前已生成60/120个窗口文件</td><td><ol class="steps"><li>确认已有60个parquet文件</li><li>重新启动离线生成任务</li><li>验证从第61个窗口开始继续</li><li>验证最终生成完整120个文件</li></ol></td><td class="expect"><strong>Resume从最新parquet时间戳之后继续</strong>，不重复计算已有窗口，最终文件完整</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F038</td><td><span class="tag tag-func">功能</span></td><td>不读写Redis验证</td><td>离线模式运行中</td><td><ol class="steps"><li>启动离线生成任务</li><li>使用Redis MONITOR命令监控所有请求</li><li>验证整个离线过程无Redis读写操作</li><li>确认数据直接从StarRocks获取</li></ol></td><td class="expect"><strong>离线模式完全不触碰Redis</strong>，所有数据来源为StarRocks直查，不影响在线Redis缓存</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F039</td><td><span class="tag tag-func">功能</span></td><td>Fork多进程CoW共享内存</td><td>系统内存充足</td><td><ol class="steps"><li>启动离线生成（多进程模式）</li><li>监控各子进程内存使用(RSS vs PSS)</li><li>验证fork后子进程共享父进程只读数据</li><li>确认实际内存使用远小于 进程数*单进程内存</li></ol></td><td class="expect"><strong>CoW模式下子进程共享只读数据段</strong>，总内存使用增长<50%（相比单进程），非线性增长</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F040</td><td><span class="tag tag-func">功能</span></td><td>输出文件命名规范</td><td>离线生成完成</td><td><ol class="steps"><li>查看输出目录中的parquet文件</li><li>验证文件名格式：{platform}_{product}_{window_start}_{window_end}.parquet</li><li>确认时间戳格式一致（ISO或Unix）</li><li>验证文件按时间排序可得到正确窗口序列</li></ol></td><td class="expect"><strong>文件命名严格按规范</strong>，可通过文件名解析出完整元数据，排序后时间连续</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F041</td><td><span class="tag tag-func">功能</span></td><td>自定义as-of/windows参数</td><td>需要指定特定时间范围</td><td><ol class="steps"><li>指定--as-of="2026-05-20T00:00:00" --windows=24</li><li>执行离线生成</li><li>验证起始窗口从as-of时间往前推</li><li>验证生成窗口数=24</li></ol></td><td class="expect"><strong>自定义参数生效</strong>，as-of指定锚定时间，windows指定窗口数量，覆盖默认值</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F042</td><td><span class="tag tag-exc">异常</span></td><td>磁盘空间不足时优雅降级</td><td>磁盘剩余空间<1GB</td><td><ol class="steps"><li>模拟磁盘空间接近满</li><li>启动离线生成</li><li>观察写入parquet时的错误处理</li><li>验证已写入的文件完整性</li></ol></td><td class="expect"><strong>磁盘满时抛出明确错误</strong>，已成功写入的文件不损坏，支持下次resume继续</td><td><span class="prio p2">P2</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M6: 模型训练 -->
+<!-- ================================================================ -->
+<div class="sec" id="m6">
+<div class="sec-head"><h2>6. 模型训练</h2><span class="cnt-badge" id="mb6"></span></div>
+<div class="flow-ref">GangModel(Mamba+KAN) | SSL: InfoNCE+VICReg | RowSnapshotDataset | 时间切分Train/Val | Checkpoint+EarlyStopping</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F043</td><td><span class="tag tag-func">功能</span></td><td>数据加载(RowSnapshotDataset)</td><td>离线parquet文件已生成</td><td><ol class="steps"><li>初始化RowSnapshotDataset，指向parquet目录</li><li>验证多parquet文件自动concat</li><li>验证__len__返回总行数</li><li>验证__getitem__返回正确shape的tensor</li></ol></td><td class="expect"><strong>Dataset正确加载所有parquet</strong>，tensor shape=(3329,)（仅feature列），dtype=float32</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F044</td><td><span class="tag tag-func">功能</span></td><td>Train/Val按时间切分</td><td>多窗口parquet文件就绪</td><td><ol class="steps"><li>计算每个parquet文件的中位时间戳</li><li>按时间排序所有文件</li><li>前80%文件→Train集，后20%→Val集</li><li>验证Train/Val无时间重叠</li></ol></td><td class="expect"><strong>按文件中位时间戳切分</strong>，Train全在Val之前，无数据泄露，比例约80/20</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F045</td><td><span class="tag tag-func">功能</span></td><td>数据增强-连续特征噪声/Dropout</td><td>训练数据加载完成</td><td><ol class="steps"><li>对同一样本应用augmentation两次</li><li>验证连续特征被加入高斯噪声</li><li>验证部分连续特征被随机dropout(置0)</li><li>两次增强结果不同（随机性）</li></ol></td><td class="expect"><strong>增强后样本与原样本不同但相近</strong>，噪声幅度在配置范围内，dropout比例符合设定</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F046</td><td><span class="tag tag-func">功能</span></td><td>数据增强-离散特征随机丢弃</td><td>训练数据含离散特征</td><td><ol class="steps"><li>标记离散特征列索引</li><li>对样本执行离散增强</li><li>验证部分离散列被随机置为默认值/0</li><li>未被丢弃的离散列值不变</li></ol></td><td class="expect"><strong>离散特征以配置概率被随机丢弃</strong>，丢弃后值为0或-1（missing token），保持稀疏性</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F047</td><td><span class="tag tag-func">功能</span></td><td>Forward pass shape验证</td><td>模型已初始化</td><td><ol class="steps"><li>构造batch input: shape=(batch_size, 3329)</li><li>执行model.forward()</li><li>验证Mamba层输出shape</li><li>验证KAN层输出shape</li><li>验证最终embedding shape=(batch_size, embed_dim)</li></ol></td><td class="expect"><strong>各层输出shape正确</strong>：Mamba→(B, seq_len, d_model), KAN→(B, embed_dim)，无维度错误</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F048</td><td><span class="tag tag-func">功能</span></td><td>Loss计算(InfoNCE+VICReg)</td><td>两个增强视图的embedding已生成</td><td><ol class="steps"><li>生成anchor embedding和positive embedding</li><li>计算InfoNCE loss（对比损失）</li><li>计算VICReg loss（方差+不变性+协方差）</li><li>验证total_loss = alpha*InfoNCE + beta*VICReg</li><li>验证loss值合理（非0非Inf）</li></ol></td><td class="expect"><strong>InfoNCE鼓励正对相似/负对分离，VICReg防止表示坍缩</strong>。初始loss值在合理范围，随训练下降</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F049</td><td><span class="tag tag-func">功能</span></td><td>Checkpoint保存与恢复</td><td>训练进行中</td><td><ol class="steps"><li>训练10个epoch</li><li>验证每N个epoch保存checkpoint</li><li>加载最新checkpoint</li><li>继续训练，验证loss从断点继续下降</li></ol></td><td class="expect"><strong>Checkpoint含model_state_dict, optimizer_state, epoch, best_metric</strong>，恢复后训练无缝继续</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F050</td><td><span class="tag tag-func">功能</span></td><td>Early stopping(val_cos_sim)</td><td>训练中验证指标开始下降</td><td><ol class="steps"><li>配置patience=10</li><li>模拟val_cos_sim连续10个epoch不提升</li><li>验证训练在第patience个epoch后停止</li><li>验证保存的是best model而非最后model</li></ol></td><td class="expect"><strong>连续patience轮val_cos_sim不提升时停止训练</strong>，保存best_val_cos_sim对应的模型参数</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F051</td><td><span class="tag tag-func">功能</span></td><td>Config YAML与CLI覆盖合并</td><td>存在config.yaml配置文件</td><td><ol class="steps"><li>config.yaml中设置lr=0.001, batch_size=256</li><li>CLI传入--lr=0.0005</li><li>验证最终config中lr=0.0005（CLI覆盖）</li><li>验证batch_size=256（YAML保留）</li></ol></td><td class="expect"><strong>CLI参数优先级>YAML配置</strong>，未指定的CLI参数使用YAML默认值，支持嵌套配置覆盖</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F052</td><td><span class="tag tag-func">功能</span></td><td>Model pointer更新(latest_model.json)</td><td>训练完成</td><td><ol class="steps"><li>训练完成后检查latest_model.json</li><li>验证JSON包含：model_path, train_time, metrics, config_hash</li><li>验证model_path指向实际存在的checkpoint文件</li><li>验证metrics含val_cos_sim等关键指标</li></ol></td><td class="expect"><strong>latest_model.json正确指向最新最优模型</strong>，下游聚类服务可通过此文件定位模型</td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M7: 聚类模块 -->
+<!-- ================================================================ -->
+<div class="sec" id="m7">
+<div class="sec-head"><h2>7. 聚类模块</h2><span class="cnt-badge" id="mb7"></span></div>
+<div class="flow-ref">HDBSCAN on L2-normalized embeddings | Per-window/Global | Prototype | Confidence(isotonic) | Metrics JSON</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F053</td><td><span class="tag tag-func">功能</span></td><td>HDBSCAN在L2归一化embedding上聚类</td><td>模型推理完成，embedding已生成</td><td><ol class="steps"><li>加载用户embedding矩阵</li><li>执行L2归一化: emb / ||emb||</li><li>验证归一化后每行L2范数=1.0</li><li>执行HDBSCAN聚类</li><li>验证输出cluster labels（含-1噪声点）</li></ol></td><td class="expect"><strong>L2归一化后HDBSCAN产生有意义的簇</strong>，噪声点比例<30%，簇数量在合理范围</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F054</td><td><span class="tag tag-func">功能</span></td><td>Per-window独立聚类</td><td>多窗口embedding就绪</td><td><ol class="steps"><li>选取单个6h窗口的embedding</li><li>对该窗口独立执行HDBSCAN</li><li>验证聚类结果仅基于该窗口数据</li><li>对相邻窗口分别聚类，比较结果差异</li></ol></td><td class="expect"><strong>每个窗口独立聚类</strong>，不同窗口可能产生不同cluster数量，label编号独立于其他窗口</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F055</td><td><span class="tag tag-func">功能</span></td><td>Global全局聚类</td><td>所有窗口embedding已合并</td><td><ol class="steps"><li>将所有窗口embedding concat</li><li>执行全局HDBSCAN</li><li>验证可识别跨窗口持续存在的团伙</li><li>对比per-window结果的差异</li></ol></td><td class="expect"><strong>全局聚类识别持续性团伙</strong>，跨多窗口稳定存在的用户群被聚为同一cluster</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F056</td><td><span class="tag tag-func">功能</span></td><td>Prototype计算(簇均值向量)</td><td>聚类完成</td><td><ol class="steps"><li>获取每个cluster的成员embedding</li><li>计算簇均值作为prototype</li><li>验证prototype维度=embed_dim</li><li>验证prototype与成员的平均距离<阈值</li></ol></td><td class="expect"><strong>Prototype为簇内所有成员的均值向量</strong>，可代表该团伙的典型行为模式</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F057</td><td><span class="tag tag-func">功能</span></td><td>Confidence评分(复合+等温校准)</td><td>HDBSCAN输出含membership probabilities</td><td><ol class="steps"><li>获取HDBSCAN的membership probability</li><li>计算复合confidence score（含密度、距离、稳定性）</li><li>应用isotonic calibration校准</li><li>验证最终confidence范围[0,1]</li></ol></td><td class="expect"><strong>经isotonic calibration后confidence值校准到真实概率</strong>，高confidence样本确实属于对应簇</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F058</td><td><span class="tag tag-func">功能</span></td><td>Cluster assignments输出格式</td><td>聚类完成</td><td><ol class="steps"><li>获取聚类结果输出</li><li>验证包含字段：uid, cluster_id, confidence, window_id</li><li>验证每个uid在每个window只有一个cluster_id</li><li>验证noise点cluster_id=-1</li></ol></td><td class="expect"><strong>输出结构化CSV/Parquet</strong>，每行一个user-window-cluster映射，confidence值附带，格式可被下游直接消费</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F059</td><td><span class="tag tag-func">功能</span></td><td>Metrics JSON生成</td><td>聚类完成</td><td><ol class="steps"><li>聚类完成后检查metrics输出文件</li><li>验证包含：n_clusters, noise_ratio, silhouette_score, DBCV</li><li>验证指标值合理性</li><li>验证JSON格式可解析</li></ol></td><td class="expect"><strong>Metrics JSON完整记录聚类质量</strong>，silhouette_score>0表示有效聚类，可用于监控聚类质量退化</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F060</td><td><span class="tag tag-edge">边界</span></td><td>用户数过少(<min_cluster_size)</td><td>某窗口活跃用户<5人</td><td><ol class="steps"><li>输入仅3个用户的embedding</li><li>执行HDBSCAN（min_cluster_size=5）</li><li>验证结果处理</li></ol></td><td class="expect"><strong>用户数<min_cluster_size时所有点标为噪声(-1)</strong>，不崩溃，输出有效的空聚类结果</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M8: 消息队列 -->
+<!-- ================================================================ -->
+<div class="sec" id="m8">
+<div class="sec-head"><h2>8. 消息队列</h2><span class="cnt-badge" id="mb8"></span></div>
+<div class="flow-ref">RocketMQ: feature_generated → model_service消费 | cluster_completed → risk_feature消费 | invisible_sec≥900</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F061</td><td><span class="tag tag-func">功能</span></td><td>feature_generated消息发布</td><td>risk_feature计算完成一轮</td><td><ol class="steps"><li>risk_feature完成特征计算</li><li>验证发布消息到feature_generated topic</li><li>验证payload: {platform, product, window_start, window_end, output_dir, schema_version}</li></ol></td><td class="expect"><strong>消息成功发布到RocketMQ</strong>，payload字段完整，schema_version="v2.14"</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F062</td><td><span class="tag tag-func">功能</span></td><td>feature_generated消息消费</td><td>model_service已订阅feature_generated</td><td><ol class="steps"><li>model_service启动消费者</li><li>risk_feature发布一条feature_generated消息</li><li>验证model_service收到消息</li><li>验证消费后ACK成功</li><li>验证触发模型推理/聚类流程</li></ol></td><td class="expect"><strong>model_service正确消费消息并触发后续流程</strong>，消费延迟<5s，ACK后消息不重复投递</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F063</td><td><span class="tag tag-func">功能</span></td><td>cluster_completed消息发布</td><td>model_service聚类完成</td><td><ol class="steps"><li>聚类流程完成</li><li>验证发布消息到cluster_completed topic</li><li>验证每个platform+product组合只发一条消息</li><li>验证payload: {platform, product, cluster_dir, n_clusters, metrics}</li></ol></td><td class="expect"><strong>单条消息per platform+product</strong>，不重复发送，payload含完整聚类元数据</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F064</td><td><span class="tag tag-func">功能</span></td><td>cluster_completed消息消费</td><td>risk_feature已订阅cluster_completed</td><td><ol class="steps"><li>risk_feature启动消费者</li><li>model_service发布cluster_completed消息</li><li>验证risk_feature收到消息</li><li>验证触发团伙摘要生成流程</li></ol></td><td class="expect"><strong>risk_feature正确消费并生成团伙摘要</strong>，消费→摘要生成全链路通畅</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F065</td><td><span class="tag tag-func">功能</span></td><td>Payload schema验证</td><td>消息发布前</td><td><ol class="steps"><li>构造缺少必填字段的payload</li><li>尝试发布消息</li><li>验证schema验证拦截非法payload</li><li>构造完整payload验证通过</li></ol></td><td class="expect"><strong>缺少必填字段时发布失败并抛出ValidationError</strong>，不会发出格式错误的消息</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F066</td><td><span class="tag tag-func">功能</span></td><td>split_outputs按platform/product分割</td><td>多平台多产品的特征数据</td><td><ol class="steps"><li>一轮计算涵盖3个platform x 2个product</li><li>验证输出按platform/product独立目录存储</li><li>验证每个组合发送独立的MQ消息</li></ol></td><td class="expect"><strong>每个platform+product组合独立输出和通知</strong>，下游可按需消费特定组合</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F067</td><td><span class="tag tag-func">功能</span></td><td>invisible_sec>=900防超时重投</td><td>消费端处理时间可能较长</td><td><ol class="steps"><li>发布消息时设置invisible_sec=900</li><li>消费端开始处理（模拟耗时800s）</li><li>验证800s内消息不被重新投递</li><li>验证消费端ACK后消息最终确认</li></ol></td><td class="expect"><strong>invisible_sec=900保证15分钟内不重投</strong>，避免长耗时任务导致消息重复消费</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F068</td><td><span class="tag tag-exc">异常</span></td><td>消费端异常时消息重投</td><td>消费端处理中崩溃</td><td><ol class="steps"><li>消费端收到消息后模拟crash（不ACK）</li><li>等待invisible_sec超时</li><li>验证消息被重新投递到其他消费者</li><li>验证重投消息内容完整不变</li></ol></td><td class="expect"><strong>超时未ACK的消息自动重投</strong>，保证at-least-once语义，消息内容不丢失不损坏</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M9: 团伙摘要生成 -->
+<!-- ================================================================ -->
+<div class="sec" id="m9">
+<div class="sec-head"><h2>9. 团伙摘要生成</h2><span class="cnt-badge" id="mb9"></span></div>
+<div class="flow-ref">user_paths跨快照拼接(30窗口) | cluster_summary | PG upsert | risk_score加权(0-100) | cluster_risk_alert</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F069</td><td><span class="tag tag-func">功能</span></td><td>user_paths_full跨快照拼接(30窗口)</td><td>至少30个窗口的user_paths数据存在</td><td><ol class="steps"><li>加载最近30个窗口的user_paths文件</li><li>按uid进行跨窗口拼接</li><li>验证同一用户的路径按时间顺序排列</li><li>验证最终输出包含用户完整30窗口路径</li></ol></td><td class="expect"><strong>跨30个窗口拼接用户完整行为路径</strong>，时间有序，可展示用户长期游戏偏好变化</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F070</td><td><span class="tag tag-func">功能</span></td><td>cluster_summary_artifacts生成</td><td>聚类结果和explain数据就绪</td><td><ol class="steps"><li>触发摘要生成流程</li><li>验证输出groups.csv（团伙信息）</li><li>验证输出users.csv（用户-团伙映射）</li><li>验证输出sankey_edges.csv（桑基图边数据）</li></ol></td><td class="expect"><strong>三个CSV文件均生成</strong>，groups.csv含cluster_id/size/risk_score，users.csv含uid/cluster_id，sankey含source/target/value</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F071</td><td><span class="tag tag-func">功能</span></td><td>PG cluster_result_index upsert</td><td>摘要数据已生成</td><td><ol class="steps"><li>执行PG写入</li><li>验证cluster_result_index表插入新记录</li><li>重复执行（相同platform+product+window）</li><li>验证执行upsert（更新而非重复插入）</li></ol></td><td class="expect"><strong>首次INSERT，重复执行时UPDATE</strong>，基于(platform, product, window_start)唯一键，数据最终一致</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F072</td><td><span class="tag tag-func">功能</span></td><td>group_summary_artifacts预计算JSON</td><td>聚类摘要数据就绪</td><td><ol class="steps"><li>生成团伙摘要</li><li>验证生成预计算的JSON文件</li><li>验证JSON包含每个group的详细信息</li><li>验证API可直接读取该JSON无需重新计算</li></ol></td><td class="expect"><strong>预计算JSON加速API响应</strong>，包含group_id/members/risk_score/top_games/behavior_summary</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F073</td><td><span class="tag tag-func">功能</span></td><td>高风险团伙持久化(cluster_risk_alert)</td><td>存在risk_score>阈值的团伙</td><td><ol class="steps"><li>计算所有团伙risk_score</li><li>筛选score>70的高风险团伙</li><li>写入cluster_risk_alert表</li><li>验证包含：cluster_id, platform, product, risk_score, alert_time, member_count</li></ol></td><td class="expect"><strong>高风险团伙自动写入告警表</strong>，可供运营人员查询，包含足够上下文信息</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F074</td><td><span class="tag tag-func">功能</span></td><td>Risk score加权计算(0-100)</td><td>团伙特征数据就绪</td><td><ol class="steps"><li>获取团伙各维度指标（密度、规模、资金异常度、行为一致性等）</li><li>按线性加权公式计算risk_score</li><li>验证score范围严格在[0,100]</li><li>验证高风险团伙score>70，低风险<30</li></ol></td><td class="expect"><strong>Risk score = sum(weight_i * metric_i)，线性加权，裁剪到[0,100]</strong>。权重可配置，结果可解释</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F075</td><td><span class="tag tag-edge">边界</span></td><td>新窗口无新团伙时处理</td><td>最新窗口聚类结果与上一窗口完全一致</td><td><ol class="steps"><li>最新窗口聚类结果无新增cluster</li><li>触发摘要生成</li><li>验证是否更新已有记录的时间戳</li><li>验证不产生重复告警</li></ol></td><td class="expect"><strong>无新团伙时仅更新existing记录的last_seen时间</strong>，不重复生成告警，不遗漏更新</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M10: API服务模块 -->
+<!-- ================================================================ -->
+<div class="sec" id="m10">
+<div class="sec-head"><h2>10. API服务模块</h2><span class="cnt-badge" id="mb10"></span></div>
+<div class="flow-ref">FastAPI | JWT认证 | Sankey/PCA-3D/摘要/告警 | CORS+GZip | Admin权限控制</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F076</td><td><span class="tag tag-func">功能</span></td><td>JWT登录认证</td><td>api_users表有注册用户</td><td><ol class="steps"><li>POST /auth/login body: {username, password}</li><li>验证返回access_token</li><li>解析JWT payload含：sub(uid), role, exp</li><li>使用token访问受保护接口成功</li></ol></td><td class="expect"><strong>正确凭证返回JWT token</strong>，token有效期合理（如2h），含用户角色信息</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F077</td><td><span class="tag tag-exc">异常</span></td><td>JWT无效/过期token拒绝</td><td>有一个已过期的token</td><td><ol class="steps"><li>使用过期token访问/api/clusters</li><li>验证返回401 Unauthorized</li><li>使用篡改的token访问</li><li>验证返回401</li><li>不携带token访问</li><li>验证返回401</li></ol></td><td class="expect"><strong>无效/过期/缺失token均返回401</strong>，响应body含error_code和message，不泄露内部信息</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F078</td><td><span class="tag tag-func">功能</span></td><td>Product catalog扫描</td><td>系统已配置多平台多产品</td><td><ol class="steps"><li>GET /api/products（带有效token）</li><li>验证返回所有已配置的platform+product列表</li><li>验证每项含：platform, product, last_update, status</li></ol></td><td class="expect"><strong>返回完整产品目录</strong>，动态扫描实际存在的数据，状态反映最新计算时间</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F079</td><td><span class="tag tag-func">功能</span></td><td>Sankey全局端点</td><td>sankey_edges数据已生成</td><td><ol class="steps"><li>GET /api/sankey/global?platform=X&product=Y</li><li>验证返回完整桑基图数据</li><li>验证nodes和links结构正确</li><li>验证数据来源于最新窗口</li></ol></td><td class="expect"><strong>返回全局桑基图JSON</strong>，nodes含游戏名和用户组，links含source/target/value，可直接渲染</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F080</td><td><span class="tag tag-func">功能</span></td><td>Sankey按簇查询</td><td>聚类结果存在</td><td><ol class="steps"><li>GET /api/sankey/by_cluster?platform=X&product=Y&cluster_id=3</li><li>验证返回仅该cluster的桑基图</li><li>验证所有nodes/links均属于cluster_id=3</li></ol></td><td class="expect"><strong>过滤返回指定cluster的桑基数据</strong>，不混入其他cluster的边，支持单团伙行为分析</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F081</td><td><span class="tag tag-func">功能</span></td><td>User summary查询</td><td>用户特征数据存在</td><td><ol class="steps"><li>GET /api/users/{uid}/summary?platform=X&product=Y</li><li>验证返回该用户的特征摘要</li><li>验证包含：cluster_id, risk_score, top_games, behavior_label</li></ol></td><td class="expect"><strong>返回单用户完整摘要</strong>，含所属团伙、风险分数、行为标签，响应时间<200ms</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F082</td><td><span class="tag tag-func">功能</span></td><td>Group summaries(优先读预生成JSON)</td><td>预计算JSON已存在</td><td><ol class="steps"><li>GET /api/groups?platform=X&product=Y</li><li>验证优先从预计算JSON文件读取</li><li>删除JSON文件后重新请求</li><li>验证fallback到实时计算</li></ol></td><td class="expect"><strong>优先读取预生成JSON（<50ms响应）</strong>，JSON不存在时fallback到实时计算（<2s），结果一致</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F083</td><td><span class="tag tag-func">功能</span></td><td>Cluster list(PG优先/磁盘fallback)</td><td>PG有cluster_result_index数据</td><td><ol class="steps"><li>GET /api/clusters?platform=X&product=Y</li><li>验证从PG cluster_result_index获取</li><li>模拟PG不可用</li><li>验证fallback到磁盘目录扫描</li></ol></td><td class="expect"><strong>PG优先，磁盘fallback</strong>。PG响应快速，fallback时扫描parquet文件目录获取cluster列表</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F084</td><td><span class="tag tag-func">功能</span></td><td>Risk alerts查询(platform+product必填)</td><td>cluster_risk_alert表有数据</td><td><ol class="steps"><li>GET /api/alerts?platform=X&product=Y</li><li>验证返回该平台产品的告警列表</li><li>GET /api/alerts（不带platform/product）</li><li>验证返回400 Bad Request</li></ol></td><td class="expect"><strong>platform+product为必填参数</strong>，缺失时返回400，正常时返回告警列表按时间倒序</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F085</td><td><span class="tag tag-func">功能</span></td><td>PCA-3D文件流式返回</td><td>PCA降维后的3D坐标文件存在</td><td><ol class="steps"><li>GET /api/pca3d?platform=X&product=Y</li><li>验证返回StreamingResponse</li><li>验证Content-Type为application/json或对应格式</li><li>验证数据包含x/y/z坐标和cluster_id</li></ol></td><td class="expect"><strong>流式返回PCA-3D数据</strong>，支持前端3D可视化渲染，大文件不OOM</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F086</td><td><span class="tag tag-func">功能</span></td><td>CORS和GZip中间件</td><td>API服务运行中</td><td><ol class="steps"><li>从不同Origin发送OPTIONS预检请求</li><li>验证CORS headers正确（Access-Control-Allow-Origin等）</li><li>发送Accept-Encoding: gzip的请求</li><li>验证响应Content-Encoding: gzip</li></ol></td><td class="expect"><strong>CORS允许配置的域名跨域访问</strong>，GZip压缩响应体>1KB的数据，减少传输量</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F087</td><td><span class="tag tag-func">功能</span></td><td>Admin-only操作权限控制</td><td>存在admin和普通user角色</td><td><ol class="steps"><li>以普通user token访问 POST /api/admin/retrain</li><li>验证返回403 Forbidden</li><li>以admin token访问同一接口</li><li>验证返回200成功</li></ol></td><td class="expect"><strong>Admin接口仅admin角色可访问</strong>，普通用户403，角色验证在middleware层统一处理</td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M11: 数据库操作 -->
+<!-- ================================================================ -->
+<div class="sec" id="m11">
+<div class="sec-head"><h2>11. 数据库操作</h2><span class="cnt-badge" id="mb11"></span></div>
+<div class="flow-ref">PostgreSQL: cluster_result_index | cluster_risk_alert | api_users(bcrypt) | Role-based access</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F088</td><td><span class="tag tag-func">功能</span></td><td>cluster_result_index CRUD</td><td>PG数据库已初始化</td><td><ol class="steps"><li>INSERT一条新记录(platform=A, product=B, window_start=T)</li><li>SELECT验证插入成功</li><li>UPDATE该记录的n_clusters字段</li><li>SELECT验证更新成功</li><li>DELETE该记录</li><li>SELECT验证删除成功</li></ol></td><td class="expect"><strong>CRUD操作均正常</strong>，唯一键约束(platform+product+window_start)生效，违反时报错</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F089</td><td><span class="tag tag-func">功能</span></td><td>cluster_risk_alert插入与查询</td><td>PG数据库就绪</td><td><ol class="steps"><li>INSERT高风险告警记录</li><li>按platform+product查询</li><li>验证返回结果按alert_time倒序</li><li>按risk_score范围过滤查询</li></ol></td><td class="expect"><strong>告警记录正确持久化</strong>，支持按平台/产品/时间/分数多维查询，索引覆盖常用查询</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F090</td><td><span class="tag tag-func">功能</span></td><td>api_users CRUD(bcrypt密码)</td><td>PG数据库就绪</td><td><ol class="steps"><li>创建用户: username=test, password=plain_text</li><li>验证存储的password为bcrypt哈希（$2b$开头）</li><li>使用正确密码验证→成功</li><li>使用错误密码验证→失败</li><li>更新密码，验证新密码可用旧密码不可用</li></ol></td><td class="expect"><strong>密码以bcrypt存储，明文不落库</strong>。验证时compare hash，支持密码更新，旧密码立即失效</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F091</td><td><span class="tag tag-func">功能</span></td><td>Role-based access(admin/user)</td><td>存在admin和user两种角色</td><td><ol class="steps"><li>创建admin角色用户</li><li>创建user角色用户</li><li>验证角色字段正确存储</li><li>通过API验证admin可访问管理接口</li><li>验证user无法访问管理接口</li></ol></td><td class="expect"><strong>角色正确存储并在认证时返回</strong>，API层通过JWT中的role字段做权限判断</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F092</td><td><span class="tag tag-edge">边界</span></td><td>并发写入冲突处理</td><td>两个进程同时写入同一条记录</td><td><ol class="steps"><li>两个进程同时尝试INSERT相同唯一键的记录</li><li>验证一个成功一个收到唯一键冲突错误</li><li>使用ON CONFLICT DO UPDATE测试</li><li>验证两个进程最终数据一致</li></ol></td><td class="expect"><strong>唯一键冲突时不丢数据</strong>，ON CONFLICT DO UPDATE保证最终一致性，无死锁</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M12: 部署与运维 -->
+<!-- ================================================================ -->
+<div class="sec" id="m12">
+<div class="sec-head"><h2>12. 部署与运维</h2><span class="cnt-badge" id="mb12"></span></div>
+<div class="flow-ref">Docker Compose | 冷启动 | Systemd | ENV切换(dev/test/prod) | Model pointer完整性</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-F093</td><td><span class="tag tag-func">功能</span></td><td>Docker Compose全服务启动</td><td>Docker环境就绪，镜像已构建</td><td><ol class="steps"><li>执行docker-compose up -d</li><li>验证risk_feature服务启动（健康检查通过）</li><li>验证model_service服务启动</li><li>验证Redis/PostgreSQL/RocketMQ依赖服务启动</li><li>验证服务间网络互通</li></ol></td><td class="expect"><strong>所有服务在60s内启动完成</strong>，健康检查全部通过，服务间可正常通信</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F094</td><td><span class="tag tag-func">功能</span></td><td>冷启动完整流程</td><td>全新环境，无历史数据</td><td><ol class="steps"><li>启动所有基础服务</li><li>执行冷启动脚本（Redis预热6h数据）</li><li>启动risk_feature Worker</li><li>验证第一轮计算正常完成</li><li>验证feature_generated消息发出</li><li>验证model_service正常消费</li></ol></td><td class="expect"><strong>冷启动后全链路通畅</strong>：数据预热→特征计算→MQ通知→模型推理→聚类→摘要生成</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F095</td><td><span class="tag tag-func">功能</span></td><td>Systemd服务管理</td><td>systemd unit file已部署</td><td><ol class="steps"><li>systemctl start risk-feature-worker</li><li>验证服务状态active(running)</li><li>systemctl stop risk-feature-worker</li><li>验证服务优雅停止（完成当前轮）</li><li>systemctl restart risk-feature-worker</li><li>验证重启后正常运行</li></ol></td><td class="expect"><strong>Systemd管理服务生命周期</strong>，stop发送SIGTERM允许优雅退出，restart后自动恢复运行</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F096</td><td><span class="tag tag-func">功能</span></td><td>Config ENV切换(dev/test/prod)</td><td>三套环境配置文件就绪</td><td><ol class="steps"><li>设置ENV=dev，启动服务</li><li>验证连接dev的Redis/PG/StarRocks</li><li>设置ENV=prod，重启服务</li><li>验证连接prod的各组件</li><li>验证prod配置的并发数/超时等参数与dev不同</li></ol></td><td class="expect"><strong>ENV变量控制配置加载</strong>，dev/test/prod各自独立配置，切换无需改代码</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-F097</td><td><span class="tag tag-func">功能</span></td><td>Model pointer完整性检查</td><td>latest_model.json存在</td><td><ol class="steps"><li>读取latest_model.json</li><li>验证model_path指向的文件实际存在</li><li>加载该checkpoint验证可反序列化</li><li>模拟model_path指向不存在的文件</li><li>验证启动时检测到并报错</li></ol></td><td class="expect"><strong>启动时验证model pointer有效性</strong>，文件不存在时拒绝启动并报明确错误，防止推理使用错误模型</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F098</td><td><span class="tag tag-exc">异常</span></td><td>依赖服务不可用时启动行为</td><td>Redis/PG未启动</td><td><ol class="steps"><li>在Redis未启动时启动risk_feature</li><li>观察启动日志和行为</li><li>在PG未启动时启动model_service</li><li>观察启动日志和行为</li></ol></td><td class="expect"><strong>依赖不可用时服务不静默失败</strong>，记录明确错误日志，重试连接或快速失败，不进入假运行状态</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F099</td><td><span class="tag tag-reg">回归</span></td><td>服务重启后状态恢复</td><td>服务运行中有数据产出</td><td><ol class="steps"><li>Worker正常运行产出数据</li><li>强制kill -9 Worker进程</li><li>重新启动Worker</li><li>验证从watermark继续（不丢失不重复）</li><li>验证输出目录已有文件不被覆盖</li></ol></td><td class="expect"><strong>异常重启后状态完整恢复</strong>：从watermark继续采集，不重复计算已有窗口，数据无丢失</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-F100</td><td><span class="tag tag-reg">回归</span></td><td>Schema版本升级兼容性</td><td>存在旧版本(v2.13)的parquet文件</td><td><ol class="steps"><li>升级系统到schema v2.14</li><li>验证能读取v2.13的parquet文件</li><li>验证新计算输出为v2.14格式</li><li>验证模型能同时处理两个版本的数据</li></ol></td><td class="expect"><strong>向后兼容旧版本schema</strong>，新增列填默认值，删除列忽略，不影响已有数据的使用</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+</div>
+
+<div class="footer">风控系统功能测试用例 v2.14 &middot; 整理时间：2026-05-25</div>
+
+<!-- 浮动按钮 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/?project=risk-control" title="返回项目">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+// Stats
+(function(){
+    var map={s1:['m1','m2'],s2:['m3'],s3:['m4','m5'],s4:['m6','m7'],s5:['m8','m9','m10'],s6:['m11','m12']};
+    var total=0;
+    for(var k in map){var c=0;map[k].forEach(function(id){c+=document.querySelectorAll('#'+id+' tbody tr').length});document.getElementById(k).textContent=c;total+=c}
+    document.getElementById('totalCases').textContent=total;
+    for(var i=1;i<=12;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;document.getElementById('mc'+i).textContent=' ('+n+')';document.getElementById('mb'+i).textContent=n+' 条'}
+})();
+// Filter
+(function(){var btns=document.querySelectorAll('.fbtn');btns.forEach(function(btn){btn.addEventListener('click',function(){btns.forEach(function(b){b.classList.remove('active')});btn.classList.add('active');var f=btn.dataset.f;document.querySelectorAll('.tc tbody tr').forEach(function(tr){if(f==='all'){tr.style.display='';return}var tag=tr.querySelector('.tag');if(!tag){tr.style.display='none';return}tr.style.display=tag.className.indexOf('tag-'+f)>=0?'':'none'})})})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风控系统性能测试用例</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1360px;margin:0 auto}
+.header{background:linear-gradient(135deg,#991b1b,#450a0a);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:28px}
+.header h1{font-size:24px;margin-bottom:6px}.header .sub{font-size:14px;opacity:.85;margin-bottom:14px}
+.header .meta{display:flex;gap:24px;font-size:13px;opacity:.7;flex-wrap:wrap}
+.stats{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.stat{flex:1;min-width:120px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+.stat .num{font-size:28px;font-weight:700}.stat .label{font-size:11px;color:#6b7280;margin-top:2px}
+.c1 .num{color:#dc2626}.c2 .num{color:#ea580c}.c3 .num{color:#d97706}.c4 .num{color:#059669}.c5 .num{color:#2563eb}.c6 .num{color:#7c3aed}
+.c7 .num{color:#be185d}.c8 .num{color:#0891b2}.c9 .num{color:#4f46e5}.c10 .num{color:#065f46}.c11 .num{color:#92400e}.c12 .num{color:#6d28d9}.c13 .num{color:#991b1b}
+.toc{background:#fff;border-radius:12px;padding:20px 24px;margin-bottom:28px;border:1px solid #e5e7eb;border-left:4px solid #dc2626}
+.toc h2{font-size:16px;color:#dc2626;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.toc .cnt{color:#9ca3af;font-size:12px;margin-left:4px}
+.sec{background:#fff;border-radius:12px;margin-bottom:24px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:18px 24px 12px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head h2{font-size:17px;font-weight:700;flex:1}.sec-head .cnt-badge{font-size:12px;color:#dc2626;background:#fef2f2;padding:3px 10px;border-radius:8px;font-weight:600}
+.sec-desc{font-size:12px;color:#6b7280;padding:0 24px 12px}
+.tc{width:100%;border-collapse:collapse;font-size:13px}
+.tc th{background:#f9fafb;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap;position:sticky;top:0;z-index:1}
+.tc td{padding:10px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top;line-height:1.6}
+.tc tr:hover{background:#fafbfc}
+.tc .id{color:#dc2626;font-weight:600;white-space:nowrap;width:80px}
+.prio{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.p0{background:#fef2f2;color:#dc2626}.p1{background:#fef3c7;color:#d97706}.p2{background:#ecfdf5;color:#059669}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;margin-right:3px;font-weight:600}
+.tag-tp{background:#eef2ff;color:#2563eb}
+.tag-rt{background:#ecfdf5;color:#059669}
+.tag-res{background:#faf5ff;color:#7c3aed}
+.tag-stab{background:#fff7ed;color:#ea580c}
+.tag-stress{background:#fef2f2;color:#dc2626}
+ol.steps{margin:0;padding-left:18px;font-size:12px;color:#374151}
+ol.steps li{margin-bottom:3px}
+.expect{font-size:12px;color:#374151}
+.expect strong{color:#059669}
+.expect .warn{color:#dc2626}
+.filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.fbtn{padding:5px 14px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer;font-weight:500;transition:all .15s}
+.fbtn:hover{border-color:#dc2626;color:#dc2626}.fbtn.active{background:#dc2626;border-color:#dc2626;color:#fff}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px;margin-top:20px}
+@media(max-width:768px){body{padding:12px}.stats{flex-direction:column}.tc{display:block;overflow-x:auto}.toc ul{columns:1}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+<h1>风控系统 — 性能测试用例</h1>
+<div class="sub">覆盖数据采集、特征计算、模型推理、API响应的全链路性能验证</div>
+<div class="meta">
+<span>系统：风控系统 (Risk Control)</span>
+<span>版本：v1.0</span>
+<span>整理时间：2026-05-25</span>
+<span>用例总数：<strong id="totalCases">0</strong></span>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat c1"><div class="num" id="s1">0</div><div class="label">数据采集</div></div>
+<div class="stat c2"><div class="num" id="s2">0</div><div class="label">Redis缓存</div></div>
+<div class="stat c3"><div class="num" id="s3">0</div><div class="label">特征计算</div></div>
+<div class="stat c4"><div class="num" id="s4">0</div><div class="label">Worker循环</div></div>
+<div class="stat c5"><div class="num" id="s5">0</div><div class="label">离线批量</div></div>
+<div class="stat c6"><div class="num" id="s6">0</div><div class="label">模型推理</div></div>
+<div class="stat c7"><div class="num" id="s7">0</div><div class="label">聚类性能</div></div>
+<div class="stat c8"><div class="num" id="s8">0</div><div class="label">消息队列</div></div>
+<div class="stat c9"><div class="num" id="s9">0</div><div class="label">API响应</div></div>
+<div class="stat c10"><div class="num" id="s10">0</div><div class="label">数据库</div></div>
+<div class="stat c11"><div class="num" id="s11">0</div><div class="label">文件I/O</div></div>
+<div class="stat c12"><div class="num" id="s12">0</div><div class="label">端到端链路</div></div>
+<div class="stat c13"><div class="num" id="s13">0</div><div class="label">资源与压力</div></div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+<button class="fbtn active" data-f="all">全部</button>
+<button class="fbtn" data-f="tp">吞吐量</button>
+<button class="fbtn" data-f="rt">响应时间</button>
+<button class="fbtn" data-f="res">资源</button>
+<button class="fbtn" data-f="stab">稳定性</button>
+<button class="fbtn" data-f="stress">压力</button>
+</div>
+
+<div class="toc">
+<h2>性能测试模块目录</h2>
+<ul>
+<li><a href="#m1">1. 数据采集性能 (StarRocks)</a><span class="cnt" id="mc1"></span></li>
+<li><a href="#m2">2. Redis缓存性能</a><span class="cnt" id="mc2"></span></li>
+<li><a href="#m3">3. 特征计算性能</a><span class="cnt" id="mc3"></span></li>
+<li><a href="#m4">4. Worker循环性能</a><span class="cnt" id="mc4"></span></li>
+<li><a href="#m5">5. 离线批量性能</a><span class="cnt" id="mc5"></span></li>
+<li><a href="#m6">6. 模型推理性能</a><span class="cnt" id="mc6"></span></li>
+<li><a href="#m7">7. 聚类性能 (HDBSCAN)</a><span class="cnt" id="mc7"></span></li>
+<li><a href="#m8">8. 消息队列性能 (RocketMQ)</a><span class="cnt" id="mc8"></span></li>
+<li><a href="#m9">9. API响应性能 (FastAPI)</a><span class="cnt" id="mc9"></span></li>
+<li><a href="#m10">10. 数据库性能 (PostgreSQL)</a><span class="cnt" id="mc10"></span></li>
+<li><a href="#m11">11. 文件I/O性能</a><span class="cnt" id="mc11"></span></li>
+<li><a href="#m12">12. 端到端链路性能</a><span class="cnt" id="mc12"></span></li>
+<li><a href="#m13">13. 资源使用与压力测试</a><span class="cnt" id="mc13"></span></li>
+</ul>
+</div>
+
+<!-- ================================================================ -->
+<!-- M1: 数据采集性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m1">
+<div class="sec-head"><h2>1. 数据采集性能 (StarRocks + Redis Write)</h2><span class="cnt-badge" id="mb1"></span></div>
+<div class="sec-desc">StarRocks 并发分片查询 (max 45 concurrent)，2min shards over 6h = 180 buckets，Redis批量写入 (MessagePack编码)</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P001</td><td><span class="tag tag-tp">吞吐量</span></td><td>StarRocks 45并发查询吞吐</td><td>验证最大并发下查询吞吐量</td><td>StarRocks集群就绪；180个2min分片已有数据；asyncio Semaphore=45</td><td><ol class="steps"><li>配置 max_concurrent=45</li><li>使用 pytest-benchmark 启动 fetch_all_shards()</li><li>记录180个分片全部返回的总耗时</li><li>统计每秒完成的分片数 (shards/sec)</li></ol></td><td class="expect"><strong>180 shards 完成时间 &lt; 60s</strong>；吞吐量 &ge; 3 shards/sec；无超时或连接拒绝</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P002</td><td><span class="tag tag-rt">响应时间</span></td><td>单分片查询响应时间</td><td>验证单个2min shard的查询延迟</td><td>StarRocks已建好分区索引；单分片数据量约500~5000行</td><td><ol class="steps"><li>随机选取10个bucket时间段</li><li>逐一执行 SELECT 查询 (event_time BETWEEN ...)</li><li>记录每次查询耗时(p50/p95/p99)</li><li>使用 time.perf_counter() 精确计时</li></ol></td><td class="expect"><strong>p50 &lt; 200ms；p95 &lt; 500ms；p99 &lt; 1s</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P003</td><td><span class="tag tag-tp">吞吐量</span></td><td>全6h窗口数据抓取总耗时</td><td>验证完整6h窗口数据获取时间</td><td>6h窗口 = 180 buckets；每bucket平均2000行事件</td><td><ol class="steps"><li>触发 online worker cycle 的 fetch 阶段</li><li>time.time() 记录 fetch_start / fetch_end</li><li>重复5次取平均值</li><li>记录网络IO和CPU idle时间比</li></ol></td><td class="expect"><strong>总获取时间 &lt; 90s</strong>（占300s cycle budget的30%以内）</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P004</td><td><span class="tag tag-tp">吞吐量</span></td><td>Redis批量写入吞吐 (MessagePack)</td><td>验证事件写入Redis的吞吐能力</td><td>Redis已连接；MessagePack encoder就绪；批量写入pipeline</td><td><ol class="steps"><li>准备10000条事件数据</li><li>使用 msgpack.packb() 编码</li><li>通过 Redis pipeline MSET 写入</li><li>记录总耗时和单条平均耗时</li><li>验证写入后 MGET 返回一致</li></ol></td><td class="expect"><strong>写入吞吐 &ge; 50000 keys/sec</strong>；单条 MessagePack 编码 &lt; 0.1ms</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P005</td><td><span class="tag tag-rt">响应时间</span></td><td>Watermark更新延迟</td><td>验证水位标记更新的及时性</td><td>Redis watermark key已存在；多个platform/product组合</td><td><ol class="steps"><li>模拟 watermark_update() 调用</li><li>并发10个platform*product组合</li><li>记录每个SET操作的RTT</li><li>验证更新后 GET 值一致</li></ol></td><td class="expect"><strong>单次watermark SET p99 &lt; 5ms</strong>；并发更新无竞争丢失</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P006</td><td><span class="tag tag-stress">压力</span></td><td>StarRocks连接池耗尽恢复</td><td>验证连接池耗尽后的降级和恢复</td><td>StarRocks连接池max=45；构造超过45并发的请求</td><td><ol class="steps"><li>并发发起60个查询请求(超过池上限)</li><li>观察Semaphore排队行为</li><li>记录排队等待时间</li><li>验证所有请求最终完成</li><li>检查无连接泄漏</li></ol></td><td class="expect"><strong>排队请求等待 &lt; 5s</strong>；无连接泄漏；无请求丢失；<span class="warn">不能出现死锁</span></td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M2: Redis缓存性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m2">
+<div class="sec-head"><h2>2. Redis缓存性能</h2><span class="cnt-badge" id="mb2"></span></div>
+<div class="sec-desc">MGET批量读取、MessagePack decode、key格式 fg:v1:evt:{platform}:{product}:{uid}:{bucket2m}:{etype}，cold start场景</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P007</td><td><span class="tag tag-tp">吞吐量</span></td><td>MGET批量读取 - 100 users</td><td>验证小批量MGET性能</td><td>Redis中已存在100 users * 180 buckets * N etypes 的keys</td><td><ol class="steps"><li>构造100 users的key列表 (每用户180*4=720 keys)</li><li>按configurable batch_size分批MGET</li><li>记录总RTT和decode时间</li><li>使用 redis-benchmark 对比</li></ol></td><td class="expect"><strong>100 users MGET总耗时 &lt; 500ms</strong>；msgpack.unpackb 占比 &lt; 30%</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P008</td><td><span class="tag tag-tp">吞吐量</span></td><td>MGET批量读取 - 1000 users</td><td>验证中等规模MGET性能</td><td>Redis中已存1000 users数据</td><td><ol class="steps"><li>构造1000 users完整key列表</li><li>batch_size=500 分批执行MGET</li><li>记录网络RTT vs decode CPU时间</li><li>对比 batch_size=100/500/1000 的差异</li></ol></td><td class="expect"><strong>1000 users 总读取 &lt; 3s</strong>；batch_size=500 为最优平衡点</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P009</td><td><span class="tag tag-tp">吞吐量</span></td><td>MGET批量读取 - 5000 users</td><td>验证大规模MGET极限性能</td><td>Redis中已存5000 users完整6h数据</td><td><ol class="steps"><li>构造5000 users全量key (5000*720=3.6M keys)</li><li>分批执行，batch_size=1000</li><li>监控Redis server CPU和内存</li><li>记录端到端耗时</li></ol></td><td class="expect"><strong>5000 users 总读取 &lt; 15s</strong>；Redis server CPU &lt; 80%</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P010</td><td><span class="tag tag-rt">响应时间</span></td><td>单key读写延迟</td><td>验证基线单key操作延迟</td><td>Redis本地连接；key已存在</td><td><ol class="steps"><li>循环1000次 SET+GET 操作</li><li>value为 msgpack 编码的事件 (~200bytes)</li><li>记录p50/p95/p99延迟</li><li>对比pipeline vs 逐条执行</li></ol></td><td class="expect"><strong>单key GET p50 &lt; 0.5ms; p99 &lt; 2ms</strong>；pipeline 10x加速</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P011</td><td><span class="tag tag-rt">响应时间</span></td><td>Cold start全量数据填充</td><td>验证冷启动时6h数据全量加载时间</td><td>Redis为空；StarRocks有完整6h数据</td><td><ol class="steps"><li>清空Redis相关keys</li><li>触发全量 fetch + write流程</li><li>记录从空到完整填充的总时间</li><li>监控Redis内存增长曲线</li></ol></td><td class="expect"><strong>Cold start完成 &lt; 180s</strong>；内存增量可预测 (~2KB/user/bucket)</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P012</td><td><span class="tag tag-res">资源</span></td><td>每活跃用户内存占用</td><td>评估Redis内存成本</td><td>已填充不同规模用户数据</td><td><ol class="steps"><li>填充100/500/1000/5000 users数据</li><li>每次用 INFO MEMORY 记录 used_memory</li><li>计算单用户边际内存占用</li><li>分析 MessagePack vs JSON 压缩比</li></ol></td><td class="expect"><strong>每活跃用户 6h 数据内存 &lt; 500KB</strong>；MessagePack比JSON节省 &ge; 40%</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P013</td><td><span class="tag tag-stab">稳定性</span></td><td>Key过期处理 under load</td><td>验证TTL过期不影响查询</td><td>设置key TTL=7200s (2h)；高并发读写同时进行</td><td><ol class="steps"><li>写入大量keys设置TTL</li><li>并发100 goroutines持续MGET</li><li>在TTL到期时观察MGET返回nil数量</li><li>验证系统对nil的容错处理</li></ol></td><td class="expect"><strong>过期key不导致panic</strong>；缺失数据被识别并触发重新fetch；无数据一致性问题</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M3: 特征计算性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m3">
+<div class="sec-head"><h2>3. 特征计算性能</h2><span class="cnt-badge" id="mb3"></span></div>
+<div class="sec-desc">3334列特征计算，multiprocessing pool, Top-K selection, spectral/wavelet computations, schema assembly</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P014</td><td><span class="tag tag-rt">响应时间</span></td><td>单用户特征计算耗时</td><td>验证单用户3334列特征计算延迟</td><td>用户有完整6h事件数据；特征schema已加载</td><td><ol class="steps"><li>选取一个典型用户 (中等活跃度)</li><li>调用 compute_features(uid) 10次</li><li>使用 time.perf_counter() 精确计时</li><li>分析各子特征(统计/频谱/小波)耗时占比</li></ol></td><td class="expect"><strong>单用户计算 p50 &lt; 50ms; p99 &lt; 150ms</strong>；频谱+小波占比 &lt; 40%</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P015</td><td><span class="tag tag-tp">吞吐量</span></td><td>批量计算吞吐量 (单进程)</td><td>测量单进程特征计算吞吐</td><td>1000 users数据已就绪</td><td><ol class="steps"><li>单进程循环计算1000 users</li><li>记录总耗时和 users/sec</li><li>监控CPU利用率</li><li>使用 pytest-benchmark 输出统计</li></ol></td><td class="expect"><strong>单进程 &ge; 20 users/sec</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P016</td><td><span class="tag tag-tp">吞吐量</span></td><td>Multiprocessing扩展性 (2/4/8/16 workers)</td><td>验证多进程线性扩展能力</td><td>服务器CPU &ge; 16核；1000 users数据</td><td><ol class="steps"><li>分别配置 workers=2,4,8,16</li><li>每种配置计算1000 users</li><li>记录总耗时和吞吐量</li><li>计算加速比 (speedup vs 单进程)</li><li>检查进程间数据序列化开销</li></ol></td><td class="expect"><strong>8 workers加速比 &ge; 5x</strong>；16 workers加速比 &ge; 7x；<span class="warn">无进程死锁</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P017</td><td><span class="tag tag-res">资源</span></td><td>Worker进程内存占用</td><td>评估每个worker进程内存</td><td>multiprocessing Pool已创建</td><td><ol class="steps"><li>创建N个worker进程</li><li>每个worker处理100 users</li><li>使用 psutil.Process(pid).memory_info().rss 监控</li><li>记录峰值和稳态内存</li></ol></td><td class="expect"><strong>单worker峰值内存 &lt; 2GB</strong>；8 workers总内存 &lt; 12GB</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P018</td><td><span class="tag tag-rt">响应时间</span></td><td>Top-K Selection性能</td><td>验证Top-K特征选择算法性能</td><td>已计算完3334列特征矩阵</td><td><ol class="steps"><li>输入 [N_users, 3334] 特征矩阵</li><li>执行 Top-K selection (K=256)</li><li>对比 N=1000/5000/10000 时耗时</li><li>验证结果正确性</li></ol></td><td class="expect"><strong>Top-K on 5000 users &lt; 200ms</strong>；结果与暴力排序一致</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P019</td><td><span class="tag tag-rt">响应时间</span></td><td>Spectral computation开销</td><td>量化频谱计算耗时</td><td>单用户时间序列数据 (180 points per event type)</td><td><ol class="steps"><li>对单用户所有事件类型执行FFT</li><li>记录numpy.fft计算时间</li><li>对比不同序列长度(50/100/180 points)</li><li>评估是否为瓶颈</li></ol></td><td class="expect"><strong>单用户频谱计算 &lt; 5ms</strong>；不是整体瓶颈(&lt;10%)</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P020</td><td><span class="tag tag-rt">响应时间</span></td><td>Wavelet computation开销</td><td>量化小波变换耗时</td><td>pywt已安装；时间序列数据就绪</td><td><ol class="steps"><li>对单用户执行小波分解 (db4, level=3)</li><li>记录pywt.wavedec耗时</li><li>计算所有用户小波特征总时间</li><li>对比scipy.signal.cwt开销</li></ol></td><td class="expect"><strong>单用户小波计算 &lt; 10ms</strong>；1000 users小波总耗时 &lt; 10s</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P021</td><td><span class="tag tag-rt">响应时间</span></td><td>Schema assembly (3334列) 耗时</td><td>验证特征schema组装时间</td><td>特征定义配置已加载</td><td><ol class="steps"><li>调用 build_feature_schema() 100次</li><li>记录平均耗时</li><li>验证输出DataFrame列数=3334</li><li>检查是否有缓存优化空间</li></ol></td><td class="expect"><strong>Schema assembly &lt; 10ms (cached) / &lt; 100ms (first time)</strong></td><td><span class="prio p2">P2</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M4: Worker循环性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m4">
+<div class="sec-head"><h2>4. Worker循环性能</h2><span class="cnt-badge" id="mb4"></span></div>
+<div class="sec-desc">在线worker必须在300s (5min interval) 内完成 fetch + compute + sink + explain + MQ 全流程</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P022</td><td><span class="tag tag-rt">响应时间</span></td><td>End-to-end cycle (1000 users)</td><td>验证典型负载下cycle完成时间</td><td>1000活跃用户；StarRocks/Redis/MQ就绪</td><td><ol class="steps"><li>触发一次完整 worker cycle</li><li>内部各阶段埋点: t_fetch, t_compute, t_sink, t_explain, t_mq</li><li>记录总时间 t_total</li><li>重复10个cycle取统计值</li></ol></td><td class="expect"><strong>t_total p95 &lt; 240s (80% of budget)</strong>；各阶段: fetch&lt;90s, compute&lt;100s, sink&lt;20s, explain&lt;20s, mq&lt;10s</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P023</td><td><span class="tag tag-rt">响应时间</span></td><td>End-to-end cycle (5000 users)</td><td>验证大负载下是否超时</td><td>5000活跃用户；8 workers配置</td><td><ol class="steps"><li>配置active_users=5000</li><li>触发完整worker cycle</li><li>记录各阶段耗时</li><li>评估是否触发超时</li></ol></td><td class="expect"><strong>t_total &lt; 300s</strong>；<span class="warn">如超时需记录哪个阶段为瓶颈</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P024</td><td><span class="tag tag-rt">响应时间</span></td><td>End-to-end cycle (10000 users)</td><td>验证极限负载下系统行为</td><td>10000活跃用户；16 workers配置</td><td><ol class="steps"><li>配置active_users=10000</li><li>触发worker cycle</li><li>观察是否超过300s</li><li>记录具体超时点</li><li>分析优化方向</li></ol></td><td class="expect"><strong>记录实际耗时</strong>；如超300s需标记为性能风险；识别瓶颈阶段</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P025</td><td><span class="tag tag-res">资源</span></td><td>Worker cycle内存峰值</td><td>评估cycle期间峰值内存</td><td>5000 users配置；8 workers</td><td><ol class="steps"><li>启动cycle前记录基线内存</li><li>每5s采样一次 RSS (tracemalloc)</li><li>记录峰值出现的阶段</li><li>cycle结束后检查内存是否释放</li></ol></td><td class="expect"><strong>峰值内存 &lt; 16GB</strong>；cycle结束后回落到基线+10%以内</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P026</td><td><span class="tag tag-stab">稳定性</span></td><td>连续cycle稳定性 (50 cycles)</td><td>验证长时间运行无退化</td><td>持续运行至少4小时 (50 cycles * 5min)</td><td><ol class="steps"><li>连续运行50个cycle</li><li>记录每个cycle的t_total</li><li>对比第1/10/25/50个cycle耗时</li><li>监控内存增长趋势</li><li>检查GC频率</li></ol></td><td class="expect"><strong>第50 cycle vs 第1 cycle性能偏差 &lt; 15%</strong>；无内存泄漏 (线性增长 &lt; 50MB/cycle)</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P027</td><td><span class="tag tag-rt">响应时间</span></td><td>Fallback rate对性能影响</td><td>验证fallback用户比例对耗时的影响</td><td>模拟不同fallback_rate: 0%, 10%, 30%, 50%</td><td><ol class="steps"><li>配置不同fallback_rate</li><li>每种配置执行完整cycle</li><li>记录各阶段耗时变化</li><li>分析fallback路径额外开销</li></ol></td><td class="expect"><strong>fallback_rate=30% 时 cycle增时 &lt; 20%</strong></td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M5: 离线批量性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m5">
+<div class="sec-head"><h2>5. 离线批量性能</h2><span class="cnt-badge" id="mb5"></span></div>
+<div class="sec-desc">120 windows x all active users, fork multiprocessing with CoW, Parquet输出, resume skip existing</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P028</td><td><span class="tag tag-rt">响应时间</span></td><td>单窗口处理时间</td><td>验证单个5min window的batch处理时间</td><td>单窗口1000 active users；特征schema加载完毕</td><td><ol class="steps"><li>选取一个典型窗口</li><li>执行 offline_process_window(window_id)</li><li>计时: fetch + compute + parquet_write</li><li>重复5次取平均</li></ol></td><td class="expect"><strong>单窗口(1000 users) &lt; 120s</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P029</td><td><span class="tag tag-rt">响应时间</span></td><td>120窗口全量批处理时间</td><td>验证完整离线batch耗时</td><td>120 windows; 1000 users/window; --workers=8</td><td><ol class="steps"><li>执行 offline_batch --windows=120 --workers=8</li><li>记录总耗时</li><li>观察并行度和CPU利用率</li><li>记录磁盘IO wait</li></ol></td><td class="expect"><strong>120 windows完成 &lt; 2h</strong>；平均 &lt; 60s/window (并行)</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P030</td><td><span class="tag tag-rt">响应时间</span></td><td>Resume效率 (skip existing)</td><td>验证断点续传的skip效率</td><td>已有60/120个window输出文件</td><td><ol class="steps"><li>先运行完成60个windows</li><li>中断后重新执行 offline_batch --windows=120</li><li>观察前60个window是否跳过</li><li>记录skip判断耗时</li></ol></td><td class="expect"><strong>Skip判断 &lt; 10ms/window</strong>；总resume恢复时间 &lt; 5s</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P031</td><td><span class="tag tag-res">资源</span></td><td>CoW fork内存效率</td><td>验证fork multiprocessing的CoW内存优势</td><td>主进程加载大型共享数据 (model, schema)</td><td><ol class="steps"><li>主进程加载模型和schema (记录RSS)</li><li>fork 8个子进程</li><li>每个子进程执行计算 (触发CoW)</li><li>记录父+子总物理内存</li><li>对比spawn模式内存差异</li></ol></td><td class="expect"><strong>CoW模式8进程总内存 &lt; 1.5x单进程</strong>；spawn模式约 8x</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P032</td><td><span class="tag tag-tp">吞吐量</span></td><td>Disk I/O吞吐 (Parquet write)</td><td>验证Parquet文件写入吞吐</td><td>PyArrow就绪；SSD磁盘</td><td><ol class="steps"><li>生成 [1000, 3334] DataFrame</li><li>写入Parquet (snappy压缩)</li><li>记录写入时间和文件大小</li><li>重复100次计算MB/s</li></ol></td><td class="expect"><strong>Parquet写入 &ge; 200 MB/s</strong>；单文件(1000 users) &lt; 50MB</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P033</td><td><span class="tag tag-tp">吞吐量</span></td><td>Workers参数扩展性</td><td>验证不同worker数的扩展效果</td><td>120 windows; 分别测试 workers=1,2,4,8,16</td><td><ol class="steps"><li>分别配置 --workers=1,2,4,8,16</li><li>每种配置执行120 windows batch</li><li>记录总耗时</li><li>计算加速比和效率</li></ol></td><td class="expect"><strong>workers=8 加速比 &ge; 5x vs workers=1</strong>；16 workers无明显退化</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M6: 模型推理性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m6">
+<div class="sec-head"><h2>6. 模型推理性能 (GangModel: Mamba + KAN)</h2><span class="cnt-badge" id="mb6"></span></div>
+<div class="sec-desc">GangModel forward pass: d_model=256, Mamba 4 layers d_inner=512, KAN 256->128->64, batch processing</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P034</td><td><span class="tag tag-rt">响应时间</span></td><td>Forward pass - batch=64</td><td>验证小batch推理延迟</td><td>模型已加载；GPU可用(或CPU fallback)；输入[64, 3334]</td><td><ol class="steps"><li>准备tensor [64, 3334] float32</li><li>model.eval(); torch.no_grad()</li><li>执行100次forward pass</li><li>记录p50/p95/p99延迟</li><li>GPU上用torch.cuda.Event计时</li></ol></td><td class="expect"><strong>GPU: p50 &lt; 10ms; CPU: p50 &lt; 50ms</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P035</td><td><span class="tag tag-rt">响应时间</span></td><td>Forward pass - batch=256</td><td>验证中等batch推理延迟</td><td>输入[256, 3334]</td><td><ol class="steps"><li>准备tensor [256, 3334]</li><li>执行50次forward pass</li><li>记录延迟统计</li><li>监控GPU显存占用</li></ol></td><td class="expect"><strong>GPU: p50 &lt; 25ms; CPU: p50 &lt; 150ms</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P036</td><td><span class="tag tag-rt">响应时间</span></td><td>Forward pass - batch=1024</td><td>验证大batch推理延迟</td><td>输入[1024, 3334]；需足够GPU显存</td><td><ol class="steps"><li>准备tensor [1024, 3334]</li><li>forward pass计时</li><li>监控GPU util和显存</li><li>与batch=256对比吞吐</li></ol></td><td class="expect"><strong>GPU: p50 &lt; 80ms</strong>；吞吐 &ge; 12000 users/sec</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P037</td><td><span class="tag tag-rt">响应时间</span></td><td>Forward pass - batch=4096</td><td>验证极大batch行为</td><td>输入[4096, 3334]；需要24GB+显存</td><td><ol class="steps"><li>准备tensor [4096, 3334]</li><li>尝试执行forward pass</li><li>如OOM则记录最大可行batch size</li><li>成功则记录延迟</li></ol></td><td class="expect"><strong>如成功: p50 &lt; 300ms</strong>；如OOM: 记录最大batch_size并graceful报错</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P038</td><td><span class="tag tag-tp">吞吐量</span></td><td>Embedding生成吞吐量</td><td>验证z向量生成 (users/sec)</td><td>5000 users特征数据就绪；最优batch_size已确定</td><td><ol class="steps"><li>将5000 users分batch送入模型</li><li>收集所有z向量 [5000, 64]</li><li>记录总时间计算 users/sec</li><li>验证z向量维度和范围正确</li></ol></td><td class="expect"><strong>吞吐 &ge; 5000 users/sec (GPU)</strong>；&ge; 500 users/sec (CPU)</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P039</td><td><span class="tag tag-rt">响应时间</span></td><td>模型加载时间</td><td>验证checkpoint加载耗时</td><td>模型文件存在于磁盘</td><td><ol class="steps"><li>torch.load(checkpoint_path)</li><li>model.load_state_dict()</li><li>加载scaler状态</li><li>model.to(device)</li><li>记录从开始到ready的总时间</li></ol></td><td class="expect"><strong>模型加载 &lt; 5s (SSD)</strong>；含scaler &lt; 6s</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P040</td><td><span class="tag tag-res">资源</span></td><td>模型+张量内存足迹</td><td>评估推理时GPU/CPU内存占用</td><td>模型已加载</td><td><ol class="steps"><li>记录模型参数量和大小 (MB)</li><li>batch=1024时记录GPU显存增量</li><li>计算输入/中间/输出tensor总大小</li><li>对比训练vs推理显存差异</li></ol></td><td class="expect"><strong>模型本身 &lt; 200MB</strong>；batch=1024推理峰值显存 &lt; 4GB</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M7: 聚类性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m7">
+<div class="sec-head"><h2>7. 聚类性能 (HDBSCAN)</h2><span class="cnt-badge" id="mb7"></span></div>
+<div class="sec-desc">HDBSCAN on embedding vectors [N, 64], L2 normalization, density-based clustering, prototype/confidence computation</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P041</td><td><span class="tag tag-rt">响应时间</span></td><td>HDBSCAN - 1K users</td><td>验证小规模聚类时间</td><td>embedding [1000, 64] 已生成；hdbscan已安装</td><td><ol class="steps"><li>对[1000, 64]执行L2归一化</li><li>hdbscan.HDBSCAN(min_cluster_size=5).fit()</li><li>记录fit耗时</li><li>记录发现的cluster数</li></ol></td><td class="expect"><strong>HDBSCAN fit &lt; 2s (1K users)</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P042</td><td><span class="tag tag-rt">响应时间</span></td><td>HDBSCAN - 5K users</td><td>验证中等规模聚类时间</td><td>embedding [5000, 64]</td><td><ol class="steps"><li>L2归一化 [5000, 64]</li><li>HDBSCAN fit</li><li>记录耗时</li><li>对比sklearn vs hdbscan库</li></ol></td><td class="expect"><strong>HDBSCAN fit &lt; 15s (5K users)</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P043</td><td><span class="tag tag-rt">响应时间</span></td><td>HDBSCAN - 10K users</td><td>验证大规模聚类时间</td><td>embedding [10000, 64]</td><td><ol class="steps"><li>L2归一化 [10000, 64]</li><li>HDBSCAN fit</li><li>记录耗时和内存</li><li>评估是否需要采样</li></ol></td><td class="expect"><strong>HDBSCAN fit &lt; 60s (10K users)</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P044</td><td><span class="tag tag-rt">响应时间</span></td><td>HDBSCAN - 50K users</td><td>验证超大规模聚类可行性</td><td>embedding [50000, 64]</td><td><ol class="steps"><li>L2归一化 [50000, 64]</li><li>尝试HDBSCAN fit</li><li>记录耗时或OOM</li><li>如太慢则测试min_samples增大策略</li></ol></td><td class="expect"><strong>HDBSCAN fit &lt; 300s (50K users)</strong>；或记录需降采样的阈值</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P045</td><td><span class="tag tag-rt">响应时间</span></td><td>L2 normalization开销</td><td>量化归一化预处理时间</td><td>不同规模embedding矩阵</td><td><ol class="steps"><li>对[1K/5K/10K/50K, 64]执行 sklearn.preprocessing.normalize</li><li>记录各规模耗时</li><li>对比numpy手动实现</li></ol></td><td class="expect"><strong>10K users L2 norm &lt; 5ms</strong>；50K &lt; 20ms</td><td><span class="prio p2">P2</span></td></tr>
+<tr><td class="id">TC-P046</td><td><span class="tag tag-rt">响应时间</span></td><td>Prototype computation</td><td>验证聚类原型计算时间</td><td>HDBSCAN已完成；有cluster labels</td><td><ol class="steps"><li>对每个cluster计算centroid (均值向量)</li><li>计算各cluster的density score</li><li>找到最近真实点作为prototype</li><li>记录总耗时</li></ol></td><td class="expect"><strong>Prototype计算 &lt; 1s (10K users, ~50 clusters)</strong></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P047</td><td><span class="tag tag-rt">响应时间</span></td><td>Confidence scoring</td><td>验证置信度计算时间</td><td>聚类结果和prototypes就绪</td><td><ol class="steps"><li>对每个用户计算 cluster membership probability</li><li>计算 soft_clustering probabilities</li><li>记录10K users的总耗时</li></ol></td><td class="expect"><strong>10K users confidence scoring &lt; 5s</strong></td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M8: 消息队列性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m8">
+<div class="sec-head"><h2>8. 消息队列性能 (RocketMQ)</h2><span class="cnt-badge" id="mb8"></span></div>
+<div class="sec-desc">Message publish/consume latency, invisible_sec >= 900, feature_generated / cluster_completed events</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P048</td><td><span class="tag tag-rt">响应时间</span></td><td>Message publish延迟</td><td>验证消息发布延迟</td><td>RocketMQ broker就绪；topic已创建</td><td><ol class="steps"><li>发送1000条消息 (feature_generated event)</li><li>记录每条publish的RTT (send callback)</li><li>计算p50/p95/p99延迟</li><li>验证消息持久化</li></ol></td><td class="expect"><strong>publish p50 &lt; 5ms; p95 &lt; 15ms; p99 &lt; 50ms</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P049</td><td><span class="tag tag-rt">响应时间</span></td><td>Message consume-to-process延迟</td><td>验证从发布到消费开始处理的端到端延迟</td><td>Producer和Consumer均已启动</td><td><ol class="steps"><li>消息body内嵌入 publish_timestamp</li><li>Consumer收到时记录 consume_timestamp</li><li>计算 consume_ts - publish_ts</li><li>统计1000条的延迟分布</li></ol></td><td class="expect"><strong>consume延迟 p50 &lt; 100ms; p95 &lt; 500ms; p99 &lt; 1s</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P050</td><td><span class="tag tag-tp">吞吐量</span></td><td>Consumer吞吐量</td><td>验证消费者处理速率</td><td>积压1000条消息；Consumer running</td><td><ol class="steps"><li>预先发送1000条消息</li><li>启动Consumer</li><li>记录处理完全部消息的时间</li><li>计算 messages/min</li></ol></td><td class="expect"><strong>Consumer吞吐 &ge; 200 messages/min</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P051</td><td><span class="tag tag-stab">稳定性</span></td><td>invisible_sec=900充分性验证</td><td>验证消息处理时间不超过invisible window</td><td>invisible_sec=900(15min)配置</td><td><ol class="steps"><li>发送触发最长处理流程的消息 (cluster_completed)</li><li>记录从consume到ack的处理时间</li><li>验证处理时间 < 900s</li><li>模拟处理超时场景</li></ol></td><td class="expect"><strong>最长处理时间 &lt; 600s (留300s余量)</strong>；超时消息正确重试</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P052</td><td><span class="tag tag-stab">稳定性</span></td><td>消息重试影响</td><td>验证重试不导致消息堆积</td><td>模拟处理失败触发重试</td><td><ol class="steps"><li>让10%消息处理失败 (抛异常)</li><li>观察重试行为</li><li>统计重试消息对正常消息的影响</li><li>记录最大重试次数</li></ol></td><td class="expect"><strong>重试消息不阻塞正常消费</strong>；重试间隔递增；最大重试后进DLQ</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P053</td><td><span class="tag tag-stress">压力</span></td><td>消息高峰期表现</td><td>验证突发高流量消息处理</td><td>短时间内发送10x正常量消息</td><td><ol class="steps"><li>5s内发送500条消息(正常为50条/5s)</li><li>观察Consumer是否拉取积压</li><li>记录处理完毕时间</li><li>监控broker内存</li></ol></td><td class="expect"><strong>积压消息在5min内消化完</strong>；broker内存不OOM</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M9: API响应性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m9">
+<div class="sec-head"><h2>9. API响应性能 (FastAPI)</h2><span class="cnt-badge" id="mb9"></span></div>
+<div class="sec-desc">FastAPI endpoints response time, concurrent load, GZip compression, Sankey/PCA-3D, JWT validation</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P054</td><td><span class="tag tag-rt">响应时间</span></td><td>健康检查接口基线</td><td>验证最小开销接口延迟</td><td>FastAPI服务运行中；无负载</td><td><ol class="steps"><li>wrk -t4 -c10 -d30s http://host/health</li><li>记录p50/p95/p99延迟</li><li>记录QPS</li></ol></td><td class="expect"><strong>p50 &lt; 1ms; p99 &lt; 5ms; QPS &ge; 10000</strong></td><td><span class="prio p2">P2</span></td></tr>
+<tr><td class="id">TC-P055</td><td><span class="tag tag-rt">响应时间</span></td><td>风控结果查询接口</td><td>验证主要业务接口响应时间</td><td>PostgreSQL有cluster_result数据</td><td><ol class="steps"><li>locust配置10并发用户</li><li>持续请求 GET /api/v1/risk/results?window_id=xxx</li><li>运行60s</li><li>记录p50/p95/p99</li></ol></td><td class="expect"><strong>p50 &lt; 50ms; p95 &lt; 200ms; p99 &lt; 500ms</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P056</td><td><span class="tag tag-stress">压力</span></td><td>并发请求处理 (10/50/100/200)</td><td>验证不同并发级别下系统表现</td><td>FastAPI + uvicorn workers=4</td><td><ol class="steps"><li>分别配置 locust 10/50/100/200 并发用户</li><li>每种配置运行60s</li><li>记录响应时间和错误率</li><li>监控CPU和内存</li></ol></td><td class="expect"><strong>100并发: p95 &lt; 1s, 错误率 &lt; 1%</strong>；200并发: 错误率 &lt; 5%</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P057</td><td><span class="tag tag-tp">吞吐量</span></td><td>GZip压缩比和开销</td><td>验证GZip对大响应的压缩效果</td><td>API返回大型JSON (cluster results ~500KB)</td><td><ol class="steps"><li>请求不带 Accept-Encoding</li><li>请求带 Accept-Encoding: gzip</li><li>对比响应大小和延迟</li><li>计算压缩比</li></ol></td><td class="expect"><strong>压缩比 &ge; 5:1</strong>；GZip额外延迟 &lt; 20ms；总体传输更快</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P058</td><td><span class="tag tag-rt">响应时间</span></td><td>大型Sankey响应时间</td><td>验证复杂Sankey数据接口性能</td><td>有多层gang关系数据</td><td><ol class="steps"><li>请求 GET /api/v1/risk/sankey?gang_id=xxx</li><li>记录序列化 + 传输时间</li><li>测试最大gang (100+ members)</li><li>验证GZip下总传输时间</li></ol></td><td class="expect"><strong>Sankey(100 members) p95 &lt; 2s</strong>；GZip响应 &lt; 200KB</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P059</td><td><span class="tag tag-rt">响应时间</span></td><td>PCA-3D文件流性能</td><td>验证3D可视化文件流传输</td><td>PCA-3D HTML文件已生成 (~2MB)</td><td><ol class="steps"><li>请求 GET /api/v1/risk/pca3d?window_id=xxx</li><li>记录首字节时间(TTFB)和完整传输时间</li><li>并发10请求同一文件</li></ol></td><td class="expect"><strong>TTFB &lt; 100ms; 完整传输 &lt; 1s (局域网)</strong></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P060</td><td><span class="tag tag-rt">响应时间</span></td><td>JWT validation开销</td><td>量化认证中间件延迟</td><td>有效JWT token已签发</td><td><ol class="steps"><li>对比有/无JWT验证的同一接口延迟</li><li>wrk测试1000次请求</li><li>计算JWT验证带来的额外延迟</li><li>测试过期token的快速拒绝</li></ol></td><td class="expect"><strong>JWT验证额外开销 &lt; 2ms/req</strong>；过期token拒绝 &lt; 1ms</td><td><span class="prio p2">P2</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M10: 数据库性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m10">
+<div class="sec-head"><h2>10. 数据库性能 (PostgreSQL)</h2><span class="cnt-badge" id="mb10"></span></div>
+<div class="sec-desc">cluster_result_index查询、cluster_risk_alert批量插入、连接池管理、并发查询</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P061</td><td><span class="tag tag-rt">响应时间</span></td><td>cluster_result_index索引查询</td><td>验证索引查询性能</td><td>表有10万+行数据；B-tree index on (window_id, platform)</td><td><ol class="steps"><li>执行 SELECT * FROM cluster_result_index WHERE window_id='xxx' AND platform='yyy'</li><li>EXPLAIN ANALYZE 确认使用索引</li><li>执行1000次随机查询统计延迟</li></ol></td><td class="expect"><strong>索引查询 p50 &lt; 5ms; p95 &lt; 15ms; p99 &lt; 30ms</strong>；使用Index Scan</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P062</td><td><span class="tag tag-tp">吞吐量</span></td><td>cluster_risk_alert批量插入</td><td>验证风险告警批量写入吞吐</td><td>空表或有少量数据</td><td><ol class="steps"><li>准备100/500/1000/5000条告警数据</li><li>使用 executemany / COPY方式插入</li><li>记录各规模耗时</li><li>对比逐条insert vs batch</li></ol></td><td class="expect"><strong>batch insert 1000条 &lt; 200ms</strong>；COPY方式 &lt; 100ms；逐条方式 &lt; 2s</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P063</td><td><span class="tag tag-stab">稳定性</span></td><td>连接池效率</td><td>验证连接池在高并发下的表现</td><td>SQLAlchemy pool_size=10, max_overflow=20</td><td><ol class="steps"><li>50并发协程同时请求数据库</li><li>记录连接获取等待时间</li><li>观察pool溢出频率</li><li>监控idle connections回收</li></ol></td><td class="expect"><strong>连接获取等待 p95 &lt; 50ms</strong>；无连接泄漏；overflow &lt; 10%</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P064</td><td><span class="tag tag-stress">压力</span></td><td>并发API下数据库性能</td><td>验证API高并发时DB不成为瓶颈</td><td>100并发API请求；每个请求含1-3个SQL</td><td><ol class="steps"><li>locust 100并发用户持续请求</li><li>监控PG active connections</li><li>记录慢查询数量 (&gt;100ms)</li><li>检查锁竞争(pg_stat_activity)</li></ol></td><td class="expect"><strong>慢查询 &lt; 5%</strong>；无锁等待 &gt; 1s；active connections &lt; pool max</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P065</td><td><span class="tag tag-rt">响应时间</span></td><td>大范围时间窗口查询</td><td>验证跨多窗口查询性能</td><td>查询7天数据 (2016 windows)</td><td><ol class="steps"><li>SELECT * FROM cluster_result_index WHERE created_at BETWEEN ... AND ...</li><li>EXPLAIN ANALYZE</li><li>对比有/无分区表的性能</li></ol></td><td class="expect"><strong>7天范围查询 &lt; 500ms</strong>；返回行数合理 (&lt; 50K)</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M11: 文件I/O性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m11">
+<div class="sec-head"><h2>11. 文件I/O性能</h2><span class="cnt-badge" id="mb11"></span></div>
+<div class="sec-desc">Parquet write/read (PyArrow), JSON summary generation, CSV output, directory scanning (gang_discovery catalog)</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P066</td><td><span class="tag tag-tp">吞吐量</span></td><td>Parquet写入吞吐 (1K users)</td><td>验证标准规模Parquet写入性能</td><td>DataFrame [1000, 3334]; PyArrow engine; snappy compression</td><td><ol class="steps"><li>生成DataFrame [1000, 3334] float32</li><li>df.to_parquet(path, engine='pyarrow', compression='snappy')</li><li>记录写入时间和文件大小</li><li>重复20次统计</li></ol></td><td class="expect"><strong>写入时间 &lt; 2s; 文件大小 &lt; 30MB</strong>；rows/sec &ge; 500</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P067</td><td><span class="tag tag-tp">吞吐量</span></td><td>Parquet写入吞吐 (5K users)</td><td>验证大规模Parquet写入</td><td>DataFrame [5000, 3334]</td><td><ol class="steps"><li>生成DataFrame [5000, 3334]</li><li>to_parquet with snappy</li><li>记录写入时间和文件大小</li><li>对比gzip vs snappy vs none</li></ol></td><td class="expect"><strong>写入时间 &lt; 8s; 文件大小 &lt; 150MB</strong></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P068</td><td><span class="tag tag-rt">响应时间</span></td><td>Parquet读取性能 (API查询)</td><td>验证API读取Parquet文件的延迟</td><td>已存在多个window Parquet文件</td><td><ol class="steps"><li>pd.read_parquet(path) 完整读取</li><li>pd.read_parquet(path, columns=[subset]) 列裁剪</li><li>记录两种方式耗时</li><li>测试row_group过滤</li></ol></td><td class="expect"><strong>完整读取 &lt; 3s; 列裁剪(10列) &lt; 200ms</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P069</td><td><span class="tag tag-rt">响应时间</span></td><td>JSON summary生成时间</td><td>验证聚类摘要JSON生成性能</td><td>聚类结果就绪 (50 clusters, 5000 users)</td><td><ol class="steps"><li>构建summary dict (cluster stats, top members, etc)</li><li>json.dumps() with indent</li><li>写入文件</li><li>记录总时间</li></ol></td><td class="expect"><strong>Summary JSON生成+写入 &lt; 500ms</strong>；文件大小 &lt; 5MB</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P070</td><td><span class="tag tag-rt">响应时间</span></td><td>CSV output性能</td><td>验证CSV导出性能</td><td>DataFrame [5000, 50] (导出列子集)</td><td><ol class="steps"><li>df.to_csv(path, index=False)</li><li>记录写入时间</li><li>对比pd.to_csv vs csv.writer</li></ol></td><td class="expect"><strong>5000行CSV写入 &lt; 1s</strong></td><td><span class="prio p2">P2</span></td></tr>
+<tr><td class="id">TC-P071</td><td><span class="tag tag-rt">响应时间</span></td><td>Directory scanning (gang_discovery)</td><td>验证目录扫描性能</td><td>gang_discovery/下有1000+文件/目录</td><td><ol class="steps"><li>os.listdir() 或 pathlib.Path.iterdir()</li><li>os.walk() 递归扫描</li><li>记录1000文件目录的扫描时间</li><li>测试glob pattern匹配性能</li></ol></td><td class="expect"><strong>1000文件目录扫描 &lt; 100ms</strong>；glob匹配 &lt; 200ms</td><td><span class="prio p2">P2</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M12: 端到端链路性能 -->
+<!-- ================================================================ -->
+<div class="sec" id="m12">
+<div class="sec-head"><h2>12. 端到端链路性能</h2><span class="cnt-badge" id="mb12"></span></div>
+<div class="sec-desc">feature_generated -> cluster_completed 全链路, cluster_completed -> all artifacts, cold start, recovery, 24h stability</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P072</td><td><span class="tag tag-rt">响应时间</span></td><td>feature_generated -> cluster_completed</td><td>验证特征到聚类的全链路延迟</td><td>Worker已运行；MQ就绪；1000 users</td><td><ol class="steps"><li>触发worker cycle产生feature_generated消息</li><li>记录feature_generated publish时间</li><li>等待cluster worker消费并完成</li><li>记录cluster_completed publish时间</li><li>计算端到端延迟</li></ol></td><td class="expect"><strong>feature -> cluster 全链路 &lt; 120s (1000 users)</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P073</td><td><span class="tag tag-rt">响应时间</span></td><td>cluster_completed -> all summaries</td><td>验证聚类到生成所有产物的延迟</td><td>cluster_completed消息已发布</td><td><ol class="steps"><li>记录cluster_completed消费时间</li><li>等待 summary JSON + Parquet + CSV + PCA-3D 全部生成</li><li>记录最后一个artifact完成时间</li><li>分析各artifact生成时间</li></ol></td><td class="expect"><strong>所有artifacts生成 &lt; 60s</strong>；瓶颈通常是PCA-3D HTML</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P074</td><td><span class="tag tag-rt">响应时间</span></td><td>Cold start到首次成功输出</td><td>验证系统冷启动总时间</td><td>所有服务刚启动；Redis为空</td><td><ol class="steps"><li>记录系统启动时间</li><li>等待首个feature_generated事件</li><li>等待首个cluster_completed事件</li><li>记录从启动到首个完整输出的时间</li></ol></td><td class="expect"><strong>Cold start到首输出 &lt; 10min</strong>（含数据填充+首cycle+clustering）</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P075</td><td><span class="tag tag-stab">稳定性</span></td><td>故障恢复时间</td><td>验证各组件故障后恢复速度</td><td>系统正常运行中</td><td><ol class="steps"><li>模拟Redis短暂不可用(10s) -> 恢复后观察</li><li>模拟StarRocks短暂超时 -> 重试行为</li><li>模拟MQ broker重启 -> 消息不丢</li><li>记录每种故障的恢复时间</li></ol></td><td class="expect"><strong>Redis恢复: &lt; 30s重新连接</strong>；StarRocks: 自动重试成功；MQ: 消息不丢失，&lt; 60s恢复</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P076</td><td><span class="tag tag-stab">稳定性</span></td><td>24h持续运行稳定性</td><td>验证系统能否稳定运行24h</td><td>生产级配置；监控告警就绪</td><td><ol class="steps"><li>启动所有组件</li><li>持续运行24h (288个cycle)</li><li>每小时记录: cycle time, 内存, 错误数</li><li>最终汇总统计</li></ol></td><td class="expect"><strong>24h内: 成功率 &ge; 99%</strong>；无内存线性增长；cycle time标准差 &lt; 20%均值</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P077</td><td><span class="tag tag-rt">响应时间</span></td><td>Gang summary pipeline端到端</td><td>验证gang发现到摘要生成完整延迟</td><td>新gang被检测到</td><td><ol class="steps"><li>cluster结果产生新gang</li><li>记录gang_summary pipeline启动时间</li><li>等待 Sankey + member_detail + risk_score 生成</li><li>记录完成时间</li></ol></td><td class="expect"><strong>Gang summary pipeline &lt; 30s per gang</strong></td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ================================================================ -->
+<!-- M13: 资源使用与压力测试 -->
+<!-- ================================================================ -->
+<div class="sec" id="m13">
+<div class="sec-head"><h2>13. 资源使用与压力测试</h2><span class="cnt-badge" id="mb13"></span></div>
+<div class="sec-desc">CPU/Memory/Disk/Network资源监控, 2x/5x/10x负载压力, 内存泄漏检测, 优雅降级</div>
+<table class="tc"><thead><tr><th>ID</th><th>标签</th><th>测试场景</th><th>测试目标</th><th>前置条件/环境</th><th>测试步骤</th><th>验收指标</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-P078</td><td><span class="tag tag-res">资源</span></td><td>CPU利用率-峰值计算期</td><td>量化计算密集阶段CPU使用</td><td>8 workers; 5000 users; top/htop/pidstat就绪</td><td><ol class="steps"><li>启动worker cycle</li><li>pidstat -u 1 持续采样CPU</li><li>标记各阶段CPU峰值</li><li>识别CPU密集阶段</li></ol></td><td class="expect"><strong>特征计算阶段CPU &ge; 80% (充分利用)</strong>；fetch/sink阶段CPU &lt; 30% (IO-bound符合预期)</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P079</td><td><span class="tag tag-res">资源</span></td><td>内存增长趋势 (泄漏检测)</td><td>检测是否存在内存泄漏</td><td>tracemalloc启用；运行50 cycles</td><td><ol class="steps"><li>tracemalloc.start()</li><li>每10个cycle记录top 10内存分配</li><li>绘制RSS vs cycle_number图表</li><li>线性回归检测增长率</li><li>对比gc.collect()前后</li></ol></td><td class="expect"><strong>50 cycles后内存增长 &lt; 500MB</strong>；增长率 &lt; 10MB/cycle；gc后回落</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P080</td><td><span class="tag tag-res">资源</span></td><td>磁盘使用增长率</td><td>评估长期磁盘空间需求</td><td>Parquet + JSON + CSV产物目录</td><td><ol class="steps"><li>记录运行前磁盘使用</li><li>运行24h</li><li>记录运行后磁盘使用</li><li>计算增长率 (GB/day)</li><li>评估清理策略</li></ol></td><td class="expect"><strong>磁盘增长 &lt; 10GB/day</strong>；有数据保留策略 (30天自动清理)</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P081</td><td><span class="tag tag-res">资源</span></td><td>网络带宽 (StarRocks+Redis+MQ)</td><td>评估网络IO需求</td><td>iftop/nethogs就绪</td><td><ol class="steps"><li>worker cycle运行中监控网络</li><li>分别记录: StarRocks查询数据量, Redis读写流量, MQ消息流量</li><li>识别带宽峰值时刻</li><li>评估是否接近网络瓶颈</li></ol></td><td class="expect"><strong>峰值带宽 &lt; 1Gbps</strong>；StarRocks fetch阶段占主要带宽；Redis/MQ &lt; 100Mbps</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P082</td><td><span class="tag tag-stress">压力</span></td><td>2x正常负载压力测试</td><td>验证2倍负载下系统行为</td><td>将active_users从1000提升到2000</td><td><ol class="steps"><li>配置active_users=2000 (2x)</li><li>运行10个cycles</li><li>记录每个cycle耗时和资源峰值</li><li>观察是否有错误</li></ol></td><td class="expect"><strong>2x负载: cycle &lt; 300s; 无错误</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P083</td><td><span class="tag tag-stress">压力</span></td><td>5x正常负载压力测试</td><td>验证5倍负载下系统极限</td><td>active_users=5000 (5x)</td><td><ol class="steps"><li>配置active_users=5000</li><li>运行5个cycles</li><li>记录耗时、资源峰值、错误</li><li>分析瓶颈组件</li></ol></td><td class="expect"><strong>5x负载: 识别瓶颈</strong>；如cycle&gt;300s需记录哪个阶段超时；无数据丢失</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-P084</td><td><span class="tag tag-stress">压力</span></td><td>10x正常负载压力测试</td><td>验证极端负载下系统降级行为</td><td>active_users=10000 (10x)</td><td><ol class="steps"><li>配置active_users=10000</li><li>运行3个cycles</li><li>记录OOM/超时/崩溃情况</li><li>验证优雅降级机制</li></ol></td><td class="expect"><strong>10x负载: 系统不崩溃</strong>；有降级机制 (跳过非关键步骤)；<span class="warn">不能OOM kill</span></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-P085</td><td><span class="tag tag-stab">稳定性</span></td><td>资源压力下优雅降级</td><td>验证资源不足时的降级策略</td><td>人为限制: CPU=4核, Memory=8GB</td><td><ol class="steps"><li>cgroups限制CPU和内存</li><li>运行正常负载(1000 users)</li><li>观察系统是否自适应 (减少workers/batch_size)</li><li>记录降级行为和日志</li></ol></td><td class="expect"><strong>资源受限时: 自动降级而非崩溃</strong>；cycle可能延长但完成；有降级日志告警</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+</div>
+
+<div class="footer">风控系统性能测试用例 v1.0 &middot; 整理时间：2026-05-25</div>
+
+<!-- 浮动按钮 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#ea580c,#c2410c);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){
+    var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');
+    function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}
+    window.addEventListener('scroll',ck,{passive:true});ck();
+})();
+// Stats count
+(function(){
+    var total=0;
+    for(var i=1;i<=13;i++){
+        var n=document.querySelectorAll('#m'+i+' tbody tr').length;
+        document.getElementById('s'+i).textContent=n;
+        document.getElementById('mc'+i).textContent=' ('+n+')';
+        document.getElementById('mb'+i).textContent=n+' 条';
+        total+=n;
+    }
+    document.getElementById('totalCases').textContent=total;
+})();
+// Filter
+(function(){
+    var btns=document.querySelectorAll('.fbtn');
+    btns.forEach(function(btn){
+        btn.addEventListener('click',function(){
+            btns.forEach(function(b){b.classList.remove('active')});
+            btn.classList.add('active');
+            var f=btn.dataset.f;
+            document.querySelectorAll('.tc tbody tr').forEach(function(tr){
+                if(f==='all'){tr.style.display='';return}
+                var tag=tr.querySelector('.tag');
+                tr.style.display=tag&&tag.className.indexOf('tag-'+f)>=0?'':'none';
+            });
+        });
+    });
+})();
+</script>
+</body>
+</html>
