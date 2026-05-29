@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极光LiveDesk在线客服系统项目文档</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.7;padding:24px}
+.container{max-width:1100px;margin:0 auto}
+
+/* Header */
+.header{background:linear-gradient(135deg,#1e3a5f,#2563eb);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:28px;box-shadow:0 6px 20px rgba(37,99,235,.3);position:relative;overflow:hidden}
+.header::before{content:"";position:absolute;top:-60%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);border-radius:50%}
+.header::after{content:"";position:absolute;bottom:-40%;left:-5%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);border-radius:50%}
+.header-content{position:relative;z-index:1}
+.header h1{font-size:26px;margin-bottom:6px}
+.header .sub{font-size:15px;opacity:.88;margin-bottom:16px}
+.header .meta-row{display:flex;gap:24px;font-size:13px;opacity:.78;flex-wrap:wrap}
+.header .meta-row span{display:flex;align-items:center;gap:5px}
+.header .meta-row .dot{width:6px;height:6px;border-radius:50%;background:#60a5fa;display:inline-block}
+
+/* Stats */
+.stats{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:120px;background:#fff;padding:18px;border-radius:10px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.stat-card .num{font-size:34px;font-weight:700}
+.stat-card .label{font-size:12px;color:#888;margin-top:4px}
+.c-blu .num{color:#2563eb}.c-grn .num{color:#059669}.c-ora .num{color:#d97706}.c-pur .num{color:#7c3aed}.c-red .num{color:#dc2626}.c-teal .num{color:#0d9488}
+
+/* TOC */
+.toc{background:#fff;border-radius:12px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid #2563eb}
+.toc h2{font-size:18px;color:#1e3a5f;margin-bottom:14px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:4px 24px}
+.toc ul{list-style:none;padding:0}.toc li{padding:4px 0}.toc a{color:#2563eb;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}.toc a:hover{color:#1d4ed8;text-decoration:underline}.toc .sub{padding-left:24px}
+
+/* Tags */
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:10px;margin-right:6px}
+.tag-blue{background:#dbeafe;color:#1d4ed8}
+.tag-green{background:#d1fae5;color:#047857}
+.tag-amber{background:#fef3c7;color:#b45309}
+.tag-red{background:#fee2e2;color:#dc2626}
+.tag-purple{background:#ede9fe;color:#6d28d9}
+.tag-slate{background:#f1f5f9;color:#475569}
+.tag-cyan{background:#cffafe;color:#0e7490}
+.tag-pink{background:#fce7f3;color:#be185d}
+
+/* Section */
+.sec{background:#fff;border-radius:12px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden}
+.sec-head{padding:20px 28px 14px;border-bottom:1px solid #f0f0f0}
+.sec-head h2{font-size:18px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:8px}
+.sec-head h3{font-size:16px;font-weight:600;color:#475569;margin-top:6px}
+.sec-head .desc{font-size:13px;color:#888;margin-top:4px}
+.sec-body{padding:20px 28px}
+.sec-body h3{font-size:16px;font-weight:700;color:#1e3a5f;margin:20px 0 10px;padding-left:12px;border-left:3px solid #2563eb}
+.sec-body h4{font-size:15px;font-weight:600;color:#334155;margin:16px 0 8px}
+.sec-body h5{font-size:14px;font-weight:600;color:#475569;margin:12px 0 6px}
+.sec-body p{font-size:14px;color:#475569;margin-bottom:10px;line-height:1.8}
+.sec-body ul,.sec-body ol{padding-left:22px;margin-bottom:12px}
+.sec-body li{font-size:13.5px;color:#475569;margin-bottom:4px;line-height:1.7}
+.sec-body li strong{color:#1e293b}
+
+/* Subsection card */
+.subsec{margin:14px 0;padding:16px 20px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0}
+.subsec h4{font-size:15px;font-weight:600;color:#2563eb;margin-bottom:8px}
+.subsec-inner{margin:10px 0;padding:12px 16px;background:#fff;border-radius:8px;border-left:3px solid #60a5fa}
+.subsec-inner h5{font-size:14px;font-weight:600;color:#1e3a5f;margin-bottom:6px}
+
+/* Tables */
+.stbl{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.stbl th{background:#1e3a5f;color:#e2e8f0;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #2563eb;font-size:12px}
+.stbl th:first-child{border-radius:8px 0 0 0}
+.stbl th:last-child{border-radius:0 8px 0 0}
+.stbl td{padding:10px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top;line-height:1.6;color:#475569}
+.stbl tr:hover{background:#f1f5f9}
+.stbl tr:last-child td:first-child{border-radius:0 0 0 8px}
+.stbl tr:last-child td:last-child{border-radius:0 0 8px 0}
+
+/* Callouts */
+.tip{background:#eff6ff;border-left:3px solid #2563eb;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#1e3a5f}
+.warn{background:#fffbeb;border-left:3px solid #d97706;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#92400e}
+.ok{background:#ecfdf5;border-left:3px solid #059669;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#065f46}
+.alert{background:#fef2f2;border-left:3px solid #dc2626;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#991b1b}
+
+/* Module Grid */
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:14px 0}
+.mod-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;transition:all .2s}
+.mod-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-1px)}
+.mod-card h4{font-size:14px;font-weight:700;color:#1e3a5f;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mod-card h4 .icon{font-size:16px}
+.mod-card p{font-size:12.5px;color:#64748b;margin-bottom:4px}
+.mod-card ul{padding-left:16px;margin:6px 0 0}
+.mod-card li{font-size:12.5px;color:#64748b;margin-bottom:2px}
+
+/* Flow diagram */
+.flow-wrap{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0;padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px}
+.flow-step{background:#fff;border:2px solid #2563eb;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;color:#1e3a5f}
+.flow-arrow{color:#2563eb;font-size:18px;font-weight:700}
+
+/* Feature list */
+.feat-list{list-style:none;padding:0;margin:8px 0}
+.feat-list li{padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13.5px;color:#475569;display:flex;align-items:flex-start;gap:8px}
+.feat-list li:last-child{border-bottom:none}
+.feat-list li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#2563eb;margin-top:9px;flex-shrink:0}
+
+/* Star rating */
+.stars{color:#f59e0b;font-size:14px;letter-spacing:1px}
+.stars-empty{color:#d1d5db}
+
+/* Highlight number */
+.num-hl{font-weight:700;color:#2563eb;font-size:15px}
+
+/* Code block */
+.code-block{background:#0f172a;border-radius:10px;padding:18px 22px;margin:12px 0;color:#e2e8f0;font-family:"SF Mono","Fira Code",Consolas,monospace;font-size:13px;line-height:1.7;overflow-x:auto;white-space:pre}
+
+/* Channel cards */
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:12px 0}
+.ch-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;text-align:center;transition:all .2s}
+.ch-card:hover{border-color:#2563eb;box-shadow:0 2px 8px rgba(37,99,235,.1)}
+.ch-card .ch-name{font-size:14px;font-weight:600;color:#1e293b;margin-bottom:4px}
+.ch-card .ch-type{font-size:11px;color:#64748b}
+
+/* Metric cards */
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:12px 0}
+.metric-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px}
+.metric-card .metric-label{font-size:12px;color:#64748b;margin-bottom:4px}
+.metric-card .metric-value{font-size:22px;font-weight:700;color:#1e3a5f}
+.metric-card .metric-sub{font-size:11px;color:#94a3b8;margin-top:2px}
+
+/* Badge */
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px}
+.badge-ok{background:#d1fae5;color:#047857}
+.badge-warn{background:#fef3c7;color:#b45309}
+.badge-err{background:#fee2e2;color:#dc2626}
+.badge-info{background:#dbeafe;color:#1d4ed8}
+.badge-purple{background:#ede9fe;color:#6d28d9}
+
+/* Footer */
+.footer{text-align:center;padding:24px;color:#94a3b8;font-size:12px;margin-top:12px}
+.footer .divider{width:60px;height:2px;background:#e2e8f0;margin:0 auto 14px}
+
+/* Responsive */
+@media(max-width:768px){body{padding:12px}.header{padding:24px 20px}.header h1{font-size:22px}.stats{flex-direction:column}.mod-grid{grid-template-columns:1fr}.ch-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}.toc-grid{grid-template-columns:1fr}.sec-body{padding:16px 18px}.sec-head{padding:16px 18px 12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== HEADER ========== -->
+<div class="header">
+<div class="header-content">
+<h1>极光LiveDesk在线客服系统项目文档</h1>
+<div class="sub">EngageLab LiveDesk &middot; 全渠道智能客服平台 &middot; AI + 人工协同服务</div>
+<div class="meta-row">
+<span><span class="dot"></span>产品名称：EngageLab LiveDesk</span>
+<span><span class="dot"></span>当前项目：TT在线客服</span>
+<span><span class="dot"></span>访问地址：https://www.engagelab.com/console/livedesk/</span>
+<span><span class="dot"></span>整理时间：2026-05-29</span>
+</div>
+</div>
+</div>
+
+<!-- ========== STATS ========== -->
+<div class="stats">
+<div class="stat-card c-blu"><div class="num">7</div><div class="label">功能模块</div></div>
+<div class="stat-card c-teal"><div class="num">9</div><div class="label">接入渠道</div></div>
+<div class="stat-card c-grn"><div class="num">10</div><div class="label">客服座席</div></div>
+<div class="stat-card c-pur"><div class="num">4</div><div class="label">客服团队</div></div>
+<div class="stat-card c-ora"><div class="num">10</div><div class="label">分析维度</div></div>
+<div class="stat-card c-red"><div class="num">4</div><div class="label">系统角色</div></div>
+</div>
+
+<!-- ========== TOC ========== -->
+<div class="toc" id="toc">
+<h2>目录导航</h2>
+<div class="toc-grid">
+<div>
+<ul>
+<li><a href="#s1">一、产品概述与定位</a></li>
+<li class="sub"><a href="#s1-1">1.1 产品简介</a></li>
+<li class="sub"><a href="#s1-2">1.2 产品架构概览</a></li>
+<li><a href="#s2">二、系统整体布局</a></li>
+<li class="sub"><a href="#s2-1">2.1 三大区域</a></li>
+<li class="sub"><a href="#s2-2">2.2 导航模块</a></li>
+<li><a href="#s3">三、概览（Overview）</a></li>
+<li class="sub"><a href="#s3-1">3.1 实时指标</a></li>
+<li class="sub"><a href="#s3-2">3.2 Human Agent 工作负载</a></li>
+<li class="sub"><a href="#s3-3">3.3 AI Agent 工作负载</a></li>
+<li class="sub"><a href="#s3-4">3.4 对话分析</a></li>
+<li><a href="#s4">四、对话（Conversations）</a></li>
+<li class="sub"><a href="#s4-1">4.1 视图与收件箱</a></li>
+<li class="sub"><a href="#s4-2">4.2 列表筛选与操作</a></li>
+<li class="sub"><a href="#s4-3">4.3 对话窗口</a></li>
+<li class="sub"><a href="#s4-4">4.4 详情面板</a></li>
+<li><a href="#s5">五、工单（Tickets）</a></li>
+<li><a href="#s6">六、洞察分析（Insight Analysis）</a></li>
+</ul>
+</div>
+<div>
+<ul>
+<li><a href="#s7">七、Agents 客服管理</a></li>
+<li class="sub"><a href="#s7-1">7.1 AI Agent 管理</a></li>
+<li class="sub"><a href="#s7-2">7.2 Human Agent 管理</a></li>
+<li class="sub"><a href="#s7-3">7.3 团队管理</a></li>
+<li><a href="#s8">八、联系人（Contacts）</a></li>
+<li><a href="#s9">九、项目设置（Settings）</a></li>
+<li class="sub"><a href="#s9-1">9.1 自动化规则</a></li>
+<li class="sub"><a href="#s9-2">9.2 渠道管理</a></li>
+<li class="sub"><a href="#s9-3">9.3 对话管理</a></li>
+<li class="sub"><a href="#s9-4">9.4 API管理</a></li>
+<li class="sub"><a href="#s9-5">9.5 其他设置</a></li>
+<li><a href="#s10">十、核心业务流程</a></li>
+<li><a href="#s11">十一、AI 能力特性</a></li>
+<li><a href="#s12">十二、多渠道接入能力</a></li>
+<li><a href="#s13">十三、数据报表能力</a></li>
+<li><a href="#s14">十四、权限与角色体系</a></li>
+<li><a href="#s15">十五、系统集成能力</a></li>
+<li><a href="#s16">十六、服务分析与评估</a></li>
+<li><a href="#s17">十七、快捷键与效率功能</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- ========== S1: 产品概述与定位 ========== -->
+<div class="sec" id="s1">
+<div class="sec-head">
+<h2>一、产品概述与定位</h2>
+<div class="desc">EngageLab LiveDesk — 极光(Aurora Mobile)旗下全渠道智能客服平台</div>
+</div>
+<div class="sec-body">
+
+<h3 id="s1-1">1.1 产品简介</h3>
+<p><strong>EngageLab LiveDesk</strong> 是极光（Aurora Mobile）推出的全渠道智能客服平台，提供 <strong>AI Agent + Human Agent</strong> 混合协同模式，支持 Web LiveChat Widget 等多种渠道接入。</p>
+
+<div class="subsec">
+<h4>核心定位</h4>
+<table class="stbl">
+<tr><th>维度</th><th>说明</th></tr>
+<tr><td><strong>产品名称</strong></td><td>EngageLab LiveDesk（极光在线客服）</td></tr>
+<tr><td><strong>所属公司</strong></td><td>极光 Aurora Mobile（NASDAQ: JG）</td></tr>
+<tr><td><strong>产品类型</strong></td><td>SaaS 全渠道智能客服平台</td></tr>
+<tr><td><strong>服务模式</strong></td><td>AI Agent 自动应答 + Human Agent 人工处理</td></tr>
+<tr><td><strong>当前项目</strong></td><td>TT在线客服</td></tr>
+<tr><td><strong>访问地址</strong></td><td><a href="https://www.engagelab.com/console/livedesk/" style="color:#2563eb" target="_blank">https://www.engagelab.com/console/livedesk/</a></td></tr>
+</table>
+</div>
+
+<h3 id="s1-2">1.2 产品架构概览（7大模块）</h3>
+<div class="mod-grid">
+<div class="mod-card">
+<h4><span class="icon">&#128202;</span> 概览 Overview</h4>
+<p>实时仪表盘，核心指标一目了然</p>
+<p>路由：<code>/overview</code></p>
+</div>
+<div class="mod-card">
+<h4><span class="icon">&#128172;</span> 对话 Conversations</h4>
+<p>核心模块，实时对话处理与管理</p>
+<p>路由：<code>/dashboard</code></p>
+</div>
+<div class="mod-card">
+<h4><span class="icon">&#127915;</span> 工单 Tickets</h4>
+<p>复杂问题跟踪与跨部门协作</p>
+<p>路由：<code>/tickets</code></p>
+</div>
+<div class="mod-card">
+<h4><span class="icon">&#128200;</span> 洞察分析 Insight Analysis</h4>
+<p>多维度数据报表与分析</p>
+<p>路由：<code>/insight-analysis</code></p>
+</div>
+<div class="mod-card">
+<h4><span class="icon">&#129302;</span> Agents 客服管理</h4>
+<p>AI Agent 与 Human Agent 统一管理</p>
+<p>路由：<code>/ai-agent</code></p>
+</div>
+<div class="mod-card">
+<h4><span class="icon">&#128101;</span> 联系人 Contacts</h4>
+<p>客户信息沉淀与管理</p>
+<p>路由：<code>/contacts</code></p>
+</div>
+<div class="mod-card">
+<h4><span class="icon">&#9881;</span> 项目设置 Settings</h4>
+<p>渠道、规则、API、偏好等配置</p>
+<p>路由：<code>/automation-rules</code></p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ========== S2: 系统整体布局 ========== -->
+<div class="sec" id="s2">
+<div class="sec-head">
+<h2>二、系统整体布局</h2>
+<div class="desc">三栏式布局设计，模块清晰、操作高效</div>
+</div>
+<div class="sec-body">
+
+<h3 id="s2-1">2.1 三大区域</h3>
+<table class="stbl">
+<tr><th>区域</th><th>位置</th><th>功能说明</th></tr>
+<tr><td><strong>主导航栏</strong></td><td>左侧窄栏（图标导航）</td><td>7个功能模块图标 + 底部工具区</td></tr>
+<tr><td><strong>二级侧边栏</strong></td><td>主导航右侧</td><td>当前模块的子菜单、列表、筛选</td></tr>
+<tr><td><strong>主内容区</strong></td><td>右侧大面积</td><td>对话窗口 / 数据报表 / 配置表单</td></tr>
+</table>
+
+<h3 id="s2-2">2.2 导航模块与路由</h3>
+<table class="stbl">
+<tr><th>序号</th><th>模块名称</th><th>英文名</th><th>路由路径</th><th>图标</th></tr>
+<tr><td>1</td><td>概览</td><td>Overview</td><td><code>/overview</code></td><td>仪表盘</td></tr>
+<tr><td>2</td><td>对话</td><td>Conversations</td><td><code>/dashboard</code></td><td>消息气泡</td></tr>
+<tr><td>3</td><td>工单</td><td>Tickets</td><td><code>/tickets</code></td><td>工单</td></tr>
+<tr><td>4</td><td>洞察分析</td><td>Insight Analysis</td><td><code>/insight-analysis</code></td><td>图表</td></tr>
+<tr><td>5</td><td>Agents</td><td>Agents</td><td><code>/ai-agent</code></td><td>机器人</td></tr>
+<tr><td>6</td><td>联系人</td><td>Contacts</td><td><code>/contacts</code></td><td>人物</td></tr>
+<tr><td>7</td><td>项目设置</td><td>Settings</td><td><code>/automation-rules</code></td><td>齿轮</td></tr>
+</table>
+
+<h4>底部工具区</h4>
+<ul class="feat-list">
+<li>联系商务 — 点击打开商务联系入口</li>
+<li>文档 — 跳转至帮助文档</li>
+<li>在线状态 — 切换 Online / Busy / Offline</li>
+<li>用户头像 — 账号信息与退出</li>
+</ul>
+</div>
+</div>
+
+<!-- ========== S3: 概览 ========== -->
+<div class="sec" id="s3">
+<div class="sec-head">
+<h2>三、概览（Overview）</h2>
+<div class="desc">实时数据仪表盘，涵盖对话量、AI/人工工作负载、对话分析三大板块</div>
+</div>
+<div class="sec-body">
+
+<h3 id="s3-1">3.1 实时核心指标</h3>
+<div class="metric-grid">
+<div class="metric-card">
+<div class="metric-label">活跃对话数</div>
+<div class="metric-value">Active Conversations</div>
+<div class="metric-sub">当前处理中的对话数量</div>
+</div>
+<div class="metric-card">
+<div class="metric-label">活跃工单数</div>
+<div class="metric-value">Active Tickets</div>
+<div class="metric-sub">当前处理中的工单数量</div>
+</div>
+<div class="metric-card">
+<div class="metric-label">月活跃数趋势</div>
+<div class="metric-value">12 Months</div>
+<div class="metric-sub">折线图展示近12个月趋势</div>
+</div>
+<div class="metric-card">
+<div class="metric-label">新建对话数</div>
+<div class="metric-value">New Conversations</div>
+<div class="metric-sub">当期新创建的对话</div>
+</div>
+</div>
+
+<div class="subsec">
+<h4>消息统计</h4>
+<table class="stbl">
+<tr><th>指标</th><th>说明</th><th>附加信息</th></tr>
+<tr><td><strong>用户消息数</strong></td><td>客户发送的消息总量</td><td>按时间段统计</td></tr>
+<tr><td><strong>AI Agent 回复消息数</strong></td><td>AI自动回复的消息数</td><td>含AI占比百分比</td></tr>
+<tr><td><strong>Human Agent 回复消息数</strong></td><td>人工客服回复的消息数</td><td>含人工占比 + 环比(MoM)</td></tr>
+</table>
+</div>
+
+<h3 id="s3-2">3.2 Human Agent 工作负载</h3>
+<table class="stbl">
+<tr><th>指标分类</th><th>指标名称</th><th>说明</th></tr>
+<tr><td rowspan="5"><strong>对话状态</strong></td><td>未分配</td><td>尚未分配给任何客服的对话</td></tr>
+<tr><td>未处理</td><td>已分配但客服尚未回复</td></tr>
+<tr><td>处理中</td><td>客服正在处理的对话</td></tr>
+<tr><td>打开</td><td>状态为Open的对话</td></tr>
+<tr><td>已确定</td><td>已确认状态的对话</td></tr>
+<tr><td rowspan="3"><strong>客服状态</strong></td><td>Online</td><td>在线客服数量</td></tr>
+<tr><td>Busy</td><td>忙碌客服数量</td></tr>
+<tr><td>Offline</td><td>离线客服数量</td></tr>
+<tr><td><strong>筛选</strong></td><td>团队筛选</td><td>可按团队过滤查看工作负载</td></tr>
+</table>
+
+<h3 id="s3-3">3.3 AI Agent 工作负载</h3>
+<table class="stbl">
+<tr><th>指标</th><th>说明</th></tr>
+<tr><td><strong>Hand-off</strong></td><td>AI转交给人工的对话数</td></tr>
+<tr><td><strong>未处理</strong></td><td>AI接收但尚未响应的对话</td></tr>
+<tr><td><strong>处理中</strong></td><td>AI正在自动处理的对话</td></tr>
+<tr><td><strong>Hand-off Rate</strong></td><td>AI转人工率（百分比）</td></tr>
+<tr><td><strong>AI-Active</strong></td><td>AI当前活跃状态</td></tr>
+<tr><td><strong>Status</strong></td><td>AI Agent 运行状态</td></tr>
+</table>
+
+<h3 id="s3-4">3.4 对话分析</h3>
+<div class="subsec">
+<h4>可视化图表</h4>
+<ul>
+<li><strong>渠道饼图</strong>：新建对话 / 已解决对话按渠道分布</li>
+<li><strong>流量热力图</strong>：按小时 &times; 星期几的流量密度矩阵</li>
+</ul>
+<h4>Tab 切换视图</h4>
+<table class="stbl">
+<tr><th>Tab</th><th>维度</th><th>说明</th></tr>
+<tr><td>客服</td><td>按客服人员</td><td>查看各客服的对话数据</td></tr>
+<tr><td>团队</td><td>按团队</td><td>查看各团队的对话数据</td></tr>
+<tr><td>AI Agent</td><td>按AI Agent</td><td>查看AI自动处理的对话数据</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ========== S4: 对话 ========== -->
+<div class="sec" id="s4">
+<div class="sec-head">
+<h2>四、对话（Conversations）— 核心模块</h2>
+<div class="desc">系统最核心的功能模块，承载日常客服对话处理全流程</div>
+</div>
+<div class="sec-body">
+
+<h3 id="s4-1">4.1 视图与收件箱</h3>
+
+<div class="subsec">
+<h4>分类视图（4种 + 自定义）</h4>
+<table class="stbl">
+<tr><th>视图</th><th>说明</th></tr>
+<tr><td><span class="tag tag-blue">所有</span></td><td>所有对话，不分状态</td></tr>
+<tr><td><span class="tag tag-purple">AI响应</span></td><td>AI Agent 自动处理的对话</td></tr>
+<tr><td><span class="tag tag-amber">未分配</span></td><td>尚未分配客服的对话</td></tr>
+<tr><td><span class="tag tag-green">我的</span></td><td>当前登录客服负责的对话</td></tr>
+<tr><td><span class="tag tag-slate">自定义视图</span></td><td>用户自建的过滤视图</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>9个收件箱（Web渠道）</h4>
+<div class="ch-grid">
+<div class="ch-card"><div class="ch-name">TT7XX</div><div class="ch-type">Web Channel</div></div>
+<div class="ch-card"><div class="ch-name">TTB777</div><div class="ch-type">Web Channel</div></div>
+<div class="ch-card"><div class="ch-name">TTBrplay7</div><div class="ch-type">Web Channel</div></div>
+<div class="ch-card"><div class="ch-name">TTBrslot</div><div class="ch-type">Web Channel</div></div>
+<div class="ch-card"><div class="ch-name">TTBrspin</div><div class="ch-type">Web Channel</div></div>
+<div class="ch-card"><div class="ch-name">TTBrwins</div><div class="ch-type">Web Channel</div></div>
+<div class="ch-card"><div class="ch-name">TTSp7</div><div class="ch-type">Web Channel</div></div>
+<div class="ch-card"><div class="ch-name">TTVana7</div><div class="ch-type">Web Channel</div></div>
+<div class="ch-card"><div class="ch-name">测试</div><div class="ch-type">Web Channel</div></div>
+</div>
+</div>
+
+<div class="subsec">
+<h4>标签系统</h4>
+<p>当前使用标签：<span class="tag tag-red">刷子</span> — 用于标记套利/套现类用户</p>
+</div>
+
+<h3 id="s4-2">4.2 列表筛选与操作</h3>
+
+<div class="subsec">
+<h4>状态筛选与排序</h4>
+<table class="stbl">
+<tr><th>功能</th><th>选项</th></tr>
+<tr><td><strong>状态筛选</strong></td><td>全部 / 打开 / 已解决 / 已搁置 / 已关闭</td></tr>
+<tr><td><strong>排序方式</strong></td><td>创建时间 / 更新时间 / 客户等候时间 / 优先级</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>高级筛选</h4>
+<p>字段 &rarr; 操作符 &rarr; 值，条件可叠加组合。支持多条件 AND 逻辑过滤。</p>
+</div>
+
+<div class="subsec">
+<h4>右键菜单（8项操作）</h4>
+<table class="stbl">
+<tr><th>序号</th><th>操作</th><th>说明</th></tr>
+<tr><td>1</td><td><strong>标记未读</strong></td><td>将对话标记为未读状态</td></tr>
+<tr><td>2</td><td><strong>标记已解决</strong></td><td>将对话标记为已解决（Resolved）</td></tr>
+<tr><td>3</td><td><strong>标记待处理</strong></td><td>将对话标记为待处理状态</td></tr>
+<tr><td>4</td><td><strong>搁置</strong></td><td>暂挂对话（On Hold），设置时间后自动恢复</td></tr>
+<tr><td>5</td><td><strong>设置优先级</strong></td><td>设置对话优先级等级</td></tr>
+<tr><td>6</td><td><strong>添加标签</strong></td><td>为对话添加分类标签</td></tr>
+<tr><td>7</td><td><strong>分配客服</strong></td><td>指定对话处理的客服人员</td></tr>
+<tr><td>8</td><td><strong>分配团队</strong></td><td>指定对话处理的客服团队</td></tr>
+</table>
+<div class="tip">右键菜单设计是 LiveDesk 的亮点之一，无需打开对话详情即可完成批量操作，大幅提升效率。</div>
+</div>
+
+<h3 id="s4-3">4.3 对话窗口</h3>
+
+<div class="subsec">
+<h4>窗口顶栏信息</h4>
+<table class="stbl">
+<tr><th>元素</th><th>说明</th></tr>
+<tr><td><strong>用户名称</strong></td><td>当前对话客户的名称/ID</td></tr>
+<tr><td><strong>渠道来源</strong></td><td>显示来自哪个渠道（如 TTBrplay7）</td></tr>
+<tr><td><strong>对话ID</strong></td><td>唯一标识号，可复制</td></tr>
+<tr><td><strong>通知设置</strong></td><td>该对话的通知开关</td></tr>
+<tr><td><strong>对话状态</strong></td><td>Open / Resolved / On Hold / Closed</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>消息展示</h4>
+<ul>
+<li><strong>用户消息</strong>：左侧灰色气泡</li>
+<li><strong>客服消息</strong>：右侧蓝色/紫色气泡</li>
+<li><strong>AI回复</strong>：带 AI Badge 标识</li>
+<li><strong>时间戳</strong>：每条消息标注发送时间</li>
+<li><strong>自动翻译</strong>：支持 PT（葡萄牙语）&harr; CN（中文）自动翻译</li>
+<li><strong>输入指示</strong>：Typing Indicator，显示对方正在输入</li>
+<li><strong>已读回执</strong>：Read Receipts 消息已读状态</li>
+</ul>
+</div>
+
+<div class="subsec">
+<h4>富文本编辑器</h4>
+<table class="stbl">
+<tr><th>功能</th><th>说明</th></tr>
+<tr><td><strong>文字样式</strong></td><td>Bold（加粗）、Italic（斜体）</td></tr>
+<tr><td><strong>链接</strong></td><td>插入超链接</td></tr>
+<tr><td><strong>撤销/重做</strong></td><td>Undo / Redo 操作</td></tr>
+<tr><td><strong>列表</strong></td><td>有序列表、无序列表</td></tr>
+<tr><td><strong>代码块</strong></td><td>插入代码格式内容</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>其他编辑功能</h4>
+<ul>
+<li><strong>"/" 快捷回复</strong>：输入 "/" 触发快捷回复模板选择</li>
+<li><strong>附件上传</strong>：支持图片、文件上传发送</li>
+<li><strong>内部备注模式</strong>：切换到 Internal Note，仅团队内可见，不发送给客户</li>
+<li><strong>发送快捷键</strong>：Enter 发送 或 Cmd+Enter 发送（可在偏好中切换）</li>
+</ul>
+</div>
+
+<h3 id="s4-4">4.4 详情面板（右侧）</h3>
+
+<div class="subsec">
+<h4>"操作" Tab</h4>
+<table class="stbl">
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td><strong>分配客服</strong></td><td>当前处理客服 / 可重新分配</td></tr>
+<tr><td><strong>分配团队</strong></td><td>当前处理团队 / 可重新分配</td></tr>
+<tr><td><strong>优先级</strong></td><td>None / Low / Medium / High / Urgent</td></tr>
+<tr><td><strong>标签</strong></td><td>对话标签（如"刷子"）</td></tr>
+<tr><td><strong>宏操作</strong></td><td>Macros — 一键执行预定义操作组合</td></tr>
+<tr><td><strong>历史记录</strong></td><td>对话历史操作日志</td></tr>
+<tr><td><strong>参与者</strong></td><td>参与该对话的客服列表</td></tr>
+<tr><td><strong>属性</strong></td><td>自定义属性字段</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>"AI 响应" Tab</h4>
+<p>展示 AI Agent 对当前对话的响应详情，包括 AI 推荐回复、匹配的 FAQ 知识点、置信度等信息。</p>
+</div>
+</div>
+</div>
+
+<!-- ========== S5: 工单 ========== -->
+<div class="sec" id="s5">
+<div class="sec-head">
+<h2>五、工单（Tickets）</h2>
+<div class="desc">复杂问题长期跟踪、跨部门协作的任务管理模块</div>
+</div>
+<div class="sec-body">
+<p>工单模块与对话模块结构相似，采用独立 Tab 切换（工单 / 视图），适用于需要长期跟踪、跨部门协作的复杂问题处理。</p>
+
+<div class="subsec">
+<h4>视图分类</h4>
+<table class="stbl">
+<tr><th>视图</th><th>说明</th></tr>
+<tr><td><span class="tag tag-blue">所有</span></td><td>所有工单列表</td></tr>
+<tr><td><span class="tag tag-amber">未分配</span></td><td>尚未分配处理人的工单</td></tr>
+<tr><td><span class="tag tag-green">我的</span></td><td>当前用户负责的工单</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>工单与对话的差异</h4>
+<table class="stbl">
+<tr><th>维度</th><th>对话 Conversations</th><th>工单 Tickets</th></tr>
+<tr><td><strong>场景</strong></td><td>实时沟通，即时响应</td><td>复杂问题，长期跟踪</td></tr>
+<tr><td><strong>时效性</strong></td><td>高，需快速响应</td><td>相对宽松</td></tr>
+<tr><td><strong>协作</strong></td><td>单个客服为主</td><td>可跨团队、跨部门</td></tr>
+<tr><td><strong>生命周期</strong></td><td>通常较短</td><td>可能持续数天至数周</td></tr>
+<tr><td><strong>视图</strong></td><td>所有/AI响应/未分配/我的</td><td>所有/未分配/我的</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ========== S6: 洞察分析 ========== -->
+<div class="sec" id="s6">
+<div class="sec-head">
+<h2>六、洞察分析（Insight Analysis）</h2>
+<div class="desc">10大分析子模块，全方位洞察客服运营数据</div>
+</div>
+<div class="sec-body">
+
+<h3>6.1 分析子模块总览</h3>
+<div class="mod-grid">
+<div class="mod-card"><h4>&#9889; 效能</h4><p>整体运营效率指标</p></div>
+<div class="mod-card"><h4>&#129302; Agents</h4><p>客服个人绩效分析</p></div>
+<div class="mod-card"><h4>&#128100; 客户画像</h4><p>客户属性分布分析</p></div>
+<div class="mod-card"><h4>&#128172; 对话</h4><p>对话量与质量分析</p></div>
+<div class="mod-card"><h4>&#11088; 客户满意度</h4><p>CSAT 满意度评分</p></div>
+<div class="mod-card"><h4>&#128176; AI积分消耗</h4><p>AI Agent 积分使用情况</p></div>
+<div class="mod-card"><h4>&#128188; 客服</h4><p>客服工作量与效率</p></div>
+<div class="mod-card"><h4>&#127991; 标签</h4><p>标签使用分布统计</p></div>
+<div class="mod-card"><h4>&#128225; 渠道</h4><p>各渠道数据对比</p></div>
+<div class="mod-card"><h4>&#128101; 团队</h4><p>团队整体绩效</p></div>
+</div>
+
+<h3>6.2 效能核心指标</h3>
+<div class="subsec">
+<h4>会话量趋势</h4>
+<p>柱状图按天展示会话量，支持时间范围选择。</p>
+</div>
+
+<div class="subsec">
+<h4>首次响应时间</h4>
+<table class="stbl">
+<tr><th>统计维度</th><th>说明</th></tr>
+<tr><td><strong>中位数</strong></td><td>Median — 50%分位</td></tr>
+<tr><td><strong>平均值</strong></td><td>Average — 算术平均</td></tr>
+<tr><td><strong>P90</strong></td><td>90%分位 — 90%的对话在此时间内首次响应</td></tr>
+<tr><td><strong>P95</strong></td><td>95%分位</td></tr>
+<tr><td><strong>P99</strong></td><td>99%分位</td></tr>
+<tr><td><strong>最大值</strong></td><td>Max — 最长首次响应时间</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>问题解决耗时</h4>
+<table class="stbl">
+<tr><th>统计维度</th><th>说明</th></tr>
+<tr><td><strong>中位数</strong></td><td>Median — 50%分位</td></tr>
+<tr><td><strong>P90</strong></td><td>90%分位</td></tr>
+<tr><td><strong>P95</strong></td><td>95%分位</td></tr>
+<tr><td><strong>P99</strong></td><td>99%分位</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>人机协作对比</h4>
+<p>AI Agent 与 Human Agent 在响应时间、解决率、消息量等维度的对比分析。</p>
+</div>
+
+<h3>6.3 多维度分析能力</h3>
+<table class="stbl">
+<tr><th>分析维度</th><th>适用场景</th></tr>
+<tr><td><strong>时间维度</strong></td><td>趋势分析、同环比对比</td></tr>
+<tr><td><strong>客服维度</strong></td><td>个人绩效评估</td></tr>
+<tr><td><strong>团队维度</strong></td><td>团队效率对比</td></tr>
+<tr><td><strong>渠道维度</strong></td><td>渠道投入产出分析</td></tr>
+<tr><td><strong>标签维度</strong></td><td>问题分类分布</td></tr>
+<tr><td><strong>AI vs 人工</strong></td><td>AI替代率与效果评估</td></tr>
+</table>
+</div>
+</div>
+
+<!-- ========== S7: Agents 客服管理 ========== -->
+<div class="sec" id="s7">
+<div class="sec-head">
+<h2>七、Agents 客服管理</h2>
+<div class="desc">AI Agent + Human Agent + 团队三位一体管理</div>
+</div>
+<div class="sec-body">
+
+<h3 id="s7-1">7.1 AI Agent 管理</h3>
+<div class="subsec">
+<h4>当前 AI Agent</h4>
+<table class="stbl">
+<tr><th>属性</th><th>值</th></tr>
+<tr><td><strong>名称</strong></td><td>AB-Demo</td></tr>
+<tr><td><strong>版本</strong></td><td>v1.0.0</td></tr>
+<tr><td><strong>描述</strong></td><td>All customer service assist</td></tr>
+<tr><td><strong>状态</strong></td><td><span class="badge badge-ok">Enabled</span></td></tr>
+<tr><td><strong>关联知识库</strong></td><td>FAQ_DEMO</td></tr>
+</table>
+<h4>管理功能</h4>
+<ul>
+<li>卡片式展示 AI Agent 列表</li>
+<li>搜索 / 筛选 AI Agent</li>
+<li>状态管理：Enabled（启用）/ Disabled（禁用）</li>
+<li>知识库关联配置</li>
+</ul>
+</div>
+
+<h3 id="s7-2">7.2 Human Agent 管理</h3>
+<div class="subsec">
+<h4>当前客服座席（10人）</h4>
+<table class="stbl">
+<tr><th>序号</th><th>姓名</th><th>邮箱</th><th>角色</th><th>状态</th></tr>
+<tr><td>1</td><td>Admin User</td><td>admin@tt.com</td><td><span class="tag tag-red">Admin</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>2</td><td>Agent A</td><td>agentA@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>3</td><td>Agent B</td><td>agentB@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>4</td><td>Agent C</td><td>agentC@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>5</td><td>Agent D</td><td>agentD@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>6</td><td>Agent E</td><td>agentE@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>7</td><td>Agent F</td><td>agentF@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>8</td><td>Agent G</td><td>agentG@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>9</td><td>Agent H</td><td>agentH@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>10</td><td>Agent I</td><td>agentI@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+</table>
+<h4>管理功能</h4>
+<ul>
+<li>表格展示：姓名 / 邮箱 / 状态 / 角色</li>
+<li>邀请客服：通过邮箱邀请新成员</li>
+<li>角色分配：Admin / Agent</li>
+</ul>
+</div>
+
+<h3 id="s7-3">7.3 团队管理</h3>
+<div class="subsec">
+<h4>当前团队（4个）</h4>
+<table class="stbl">
+<tr><th>序号</th><th>团队名称</th><th>说明</th></tr>
+<tr><td>1</td><td><strong>巴西</strong></td><td>负责巴西区域的客服团队</td></tr>
+<tr><td>2</td><td><strong>墨西哥</strong></td><td>负责墨西哥区域的客服团队</td></tr>
+<tr><td>3</td><td><strong>菲律宾</strong></td><td>负责菲律宾区域的客服团队</td></tr>
+<tr><td>4</td><td><strong>ai test</strong></td><td>AI 功能测试团队</td></tr>
+</table>
+<h4>管理功能</h4>
+<ul>
+<li>表格式展示团队列表</li>
+<li>创建 / 编辑 / 删除团队</li>
+<li>团队成员分配</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- ========== S8: 联系人 ========== -->
+<div class="sec" id="s8">
+<div class="sec-head">
+<h2>八、联系人（Contacts）</h2>
+<div class="desc">客户信息自动沉淀与统一管理</div>
+</div>
+<div class="sec-body">
+
+<div class="subsec">
+<h4>联系人表格字段</h4>
+<table class="stbl">
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td><strong>姓名</strong></td><td>客户名称/昵称</td></tr>
+<tr><td><strong>标识码</strong></td><td>客户唯一标识 ID</td></tr>
+<tr><td><strong>电子邮件</strong></td><td>客户邮箱地址</td></tr>
+<tr><td><strong>电话号码</strong></td><td>客户手机号</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>管理功能</h4>
+<ul>
+<li><strong>搜索</strong>：按姓名、邮箱等字段搜索</li>
+<li><strong>高级筛选</strong>：多条件组合过滤</li>
+<li><strong>导出</strong>：导出联系人数据</li>
+<li><strong>创建联系人</strong>：手动添加新联系人</li>
+<li><strong>分页</strong>：每页15条，当前共98页</li>
+<li><strong>自动沉淀</strong>：对话中的客户信息自动沉淀为联系人记录</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- ========== S9: 项目设置 ========== -->
+<div class="sec" id="s9">
+<div class="sec-head">
+<h2>九、项目设置（Settings）</h2>
+<div class="desc">系统配置中心：自动化规则、渠道、对话管理、API、偏好设置</div>
+</div>
+<div class="sec-body">
+
+<h3 id="s9-1">9.1 自动化规则</h3>
+<div class="subsec">
+<h4>规则管理</h4>
+<table class="stbl">
+<tr><th>功能</th><th>说明</th></tr>
+<tr><td><strong>规则列表</strong></td><td>展示规则名称 / 描述 / 状态 / 创建时间</td></tr>
+<tr><td><strong>添加规则</strong></td><td>创建新的自动化规则</td></tr>
+<tr><td><strong>搜索</strong></td><td>按规则名称搜索</td></tr>
+<tr><td><strong>编辑/删除</strong></td><td>修改或移除现有规则</td></tr>
+<tr><td><strong>状态切换</strong></td><td>启用 / 禁用规则</td></tr>
+</table>
+</div>
+
+<h3 id="s9-2">9.2 渠道管理</h3>
+<div class="subsec">
+<h4>当前渠道（9个 Web Channel）</h4>
+<div class="ch-grid">
+<div class="ch-card"><div class="ch-name">TT7XX</div><div class="ch-type">Web &middot; Active</div></div>
+<div class="ch-card"><div class="ch-name">TTB777</div><div class="ch-type">Web &middot; Active</div></div>
+<div class="ch-card"><div class="ch-name">TTBrplay7</div><div class="ch-type">Web &middot; Active</div></div>
+<div class="ch-card"><div class="ch-name">TTBrslot</div><div class="ch-type">Web &middot; Active</div></div>
+<div class="ch-card"><div class="ch-name">TTBrspin</div><div class="ch-type">Web &middot; Active</div></div>
+<div class="ch-card"><div class="ch-name">TTBrwins</div><div class="ch-type">Web &middot; Active</div></div>
+<div class="ch-card"><div class="ch-name">TTSp7</div><div class="ch-type">Web &middot; Active</div></div>
+<div class="ch-card"><div class="ch-name">TTVana7</div><div class="ch-type">Web &middot; Active</div></div>
+<div class="ch-card"><div class="ch-name">测试</div><div class="ch-type">Web &middot; Active</div></div>
+</div>
+<p style="margin-top:10px">卡片展示，每个渠道包含图标、状态、关联 Bot 数量信息。</p>
+</div>
+
+<h3 id="s9-3">9.3 对话管理</h3>
+<div class="subsec">
+<h4>配置项</h4>
+<table class="stbl">
+<tr><th>配置</th><th>说明</th><th>当前值</th></tr>
+<tr><td><strong>标签管理</strong></td><td>创建/编辑/删除对话标签</td><td>刷子（<span style="color:#dc2626">红色</span>）</td></tr>
+<tr><td><strong>属性管理</strong></td><td>自定义对话属性字段</td><td>可扩展</td></tr>
+<tr><td><strong>状态自定义</strong></td><td>自定义对话状态流转</td><td>Open/Resolved/On Hold/Closed</td></tr>
+</table>
+</div>
+
+<h3 id="s9-4">9.4 API管理</h3>
+<div class="subsec">
+<h4>API Keys</h4>
+<table class="stbl">
+<tr><th>Key 名称</th><th>类型</th><th>说明</th></tr>
+<tr><td><strong>test AI key</strong></td><td>测试用</td><td>用于AI功能测试的临时Key</td></tr>
+<tr><td><strong>permanent key</strong></td><td>永久</td><td>正式环境的长期有效Key</td></tr>
+</table>
+<h4>Webhook 配置</h4>
+<p>支持配置 Webhook 回调地址，系统事件（如新对话、对话关闭等）触发后实时推送通知。</p>
+</div>
+
+<h3 id="s9-5">9.5 其他设置</h3>
+<div class="subsec">
+<h4>高级功能</h4>
+<p>当前显示空白页面，可能需要特殊权限或尚未开放。</p>
+<h4>AI能力</h4>
+<p>当前显示空白页面，可能需要特殊权限或尚未开放。</p>
+<h4>账号偏好</h4>
+<table class="stbl">
+<tr><th>设置项</th><th>当前值</th><th>说明</th></tr>
+<tr><td><strong>语言</strong></td><td>zh_CN（简体中文）</td><td>界面语言设置</td></tr>
+<tr><td><strong>签名</strong></td><td>自定义</td><td>客服个人签名</td></tr>
+<tr><td><strong>发送快捷键</strong></td><td>Enter / Cmd+Enter</td><td>消息发送快捷键选择</td></tr>
+<tr><td><strong>音频提醒</strong></td><td>可配置</td><td>新消息声音提醒</td></tr>
+<tr><td><strong>通知事件</strong></td><td>可配置</td><td>选择需要通知的事件类型</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ========== S10: 核心业务流程 ========== -->
+<div class="sec" id="s10">
+<div class="sec-head">
+<h2>十、核心业务流程</h2>
+<div class="desc">对话全生命周期管理与分配机制</div>
+</div>
+<div class="sec-body">
+
+<h3>10.1 对话生命周期</h3>
+<div class="flow-wrap">
+<div class="flow-step">用户发起对话</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">系统创建对话</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">AI自动响应 / 手动分配</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">客服处理对话</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">对话已解决</div>
+</div>
+
+<h3>10.2 对话状态流转</h3>
+<table class="stbl">
+<tr><th>当前状态</th><th>可转换为</th><th>触发条件</th></tr>
+<tr><td><span class="badge badge-ok">Open</span></td><td>Resolved / On Hold / Closed</td><td>客服操作、自动规则</td></tr>
+<tr><td><span class="badge badge-info">On Hold</span></td><td>Open / Closed</td><td>定时恢复、手动操作</td></tr>
+<tr><td><span class="badge badge-purple">Resolved</span></td><td>Open</td><td>客户发送新消息时自动恢复</td></tr>
+<tr><td><span class="badge badge-warn">Closed</span></td><td>—</td><td>终态，不可恢复</td></tr>
+</table>
+
+<div class="tip">搁置（On Hold）状态是 LiveDesk 的特色设计，允许客服暂挂对话并设置自动恢复时间，避免对话被遗忘。</div>
+
+<h3>10.3 对话分配机制</h3>
+<table class="stbl">
+<tr><th>分配方式</th><th>说明</th></tr>
+<tr><td><strong>自动分配</strong></td><td>系统根据规则自动分配给可用客服</td></tr>
+<tr><td><strong>手动分配</strong></td><td>管理员/客服在详情面板中手动指定处理人</td></tr>
+<tr><td><strong>主动认领</strong></td><td>客服从"未分配"队列中主动认领对话</td></tr>
+<tr><td><strong>转交</strong></td><td>当前客服将对话转交给其他客服或团队</td></tr>
+<tr><td><strong>右键分配</strong></td><td>通过右键菜单快速分配客服或团队</td></tr>
+</table>
+</div>
+</div>
+
+<!-- ========== S11: AI 能力特性 ========== -->
+<div class="sec" id="s11">
+<div class="sec-head">
+<h2>十一、AI 能力特性</h2>
+<div class="desc">AI Agent 自动应答、翻译、知识库匹配与 Hand-off 机制</div>
+</div>
+<div class="sec-body">
+
+<table class="stbl">
+<tr><th>AI 能力</th><th>说明</th><th>状态</th></tr>
+<tr><td><strong>AI Agent 自动回复</strong></td><td>基于 FAQ 知识库自动匹配回答用户问题</td><td><span class="badge badge-ok">已启用</span></td></tr>
+<tr><td><strong>自动翻译</strong></td><td>支持 PT（葡萄牙语）&harr; CN（中文）实时翻译</td><td><span class="badge badge-ok">已启用</span></td></tr>
+<tr><td><strong>AI 响应面板</strong></td><td>对话详情右侧"AI 响应"Tab，展示 AI 推荐与匹配结果</td><td><span class="badge badge-ok">可用</span></td></tr>
+<tr><td><strong>Hand-off 机制</strong></td><td>AI 无法解决时自动转交给人工客服处理</td><td><span class="badge badge-ok">已启用</span></td></tr>
+<tr><td><strong>知识库管理</strong></td><td>FAQ_DEMO 知识库，支持配置 AI 回复依据</td><td><span class="badge badge-ok">已关联</span></td></tr>
+</table>
+
+<div class="subsec">
+<h4>AI 工作流程</h4>
+<div class="flow-wrap">
+<div class="flow-step">用户发送消息</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">AI 匹配知识库</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">匹配成功？自动回复</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">匹配失败？Hand-off 转人工</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ========== S12: 多渠道接入能力 ========== -->
+<div class="sec" id="s12">
+<div class="sec-head">
+<h2>十二、多渠道接入能力</h2>
+<div class="desc">当前 9 个 Web 渠道全部为 LiveChat Widget 类型</div>
+</div>
+<div class="sec-body">
+
+<div class="subsec">
+<h4>渠道与收件箱映射</h4>
+<table class="stbl">
+<tr><th>渠道名称</th><th>类型</th><th>对应收件箱</th><th>状态</th></tr>
+<tr><td>TT7XX</td><td>Web (LiveChat Widget)</td><td>TT7XX</td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>TTB777</td><td>Web (LiveChat Widget)</td><td>TTB777</td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>TTBrplay7</td><td>Web (LiveChat Widget)</td><td>TTBrplay7</td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>TTBrslot</td><td>Web (LiveChat Widget)</td><td>TTBrslot</td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>TTBrspin</td><td>Web (LiveChat Widget)</td><td>TTBrspin</td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>TTBrwins</td><td>Web (LiveChat Widget)</td><td>TTBrwins</td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>TTSp7</td><td>Web (LiveChat Widget)</td><td>TTSp7</td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>TTVana7</td><td>Web (LiveChat Widget)</td><td>TTVana7</td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><td>测试</td><td>Web (LiveChat Widget)</td><td>测试</td><td><span class="badge badge-ok">Active</span></td></tr>
+</table>
+</div>
+
+<div class="tip">每个渠道对应一个独立的收件箱（Inbox），对话自动归入对应渠道的收件箱中。</div>
+</div>
+</div>
+
+<!-- ========== S13: 数据报表能力 ========== -->
+<div class="sec" id="s13">
+<div class="sec-head">
+<h2>十三、数据报表能力</h2>
+<div class="desc">多维度报表体系，覆盖效率、质量、AI效果等核心指标</div>
+</div>
+<div class="sec-body">
+
+<h3>13.1 报表维度</h3>
+<table class="stbl">
+<tr><th>维度</th><th>说明</th><th>典型分析场景</th></tr>
+<tr><td><strong>时间</strong></td><td>按天/周/月/自定义时间段</td><td>趋势分析、同环比对比</td></tr>
+<tr><td><strong>客服</strong></td><td>按客服个人</td><td>个人绩效排名、工作量评估</td></tr>
+<tr><td><strong>团队</strong></td><td>按客服团队</td><td>团队效率对比</td></tr>
+<tr><td><strong>渠道</strong></td><td>按接入渠道</td><td>渠道流量分布、投入产出</td></tr>
+<tr><td><strong>标签</strong></td><td>按对话标签</td><td>问题类型分布</td></tr>
+<tr><td><strong>AI vs 人工</strong></td><td>按处理方式</td><td>AI替代率评估、效果对比</td></tr>
+</table>
+
+<h3>13.2 核心指标汇总</h3>
+<table class="stbl">
+<tr><th>指标名称</th><th>统计方式</th><th>说明</th></tr>
+<tr><td><strong>首次响应时间</strong></td><td>中位数 / 平均 / P90 / P95 / P99 / Max</td><td>客户发起对话到客服首次回复的时间</td></tr>
+<tr><td><strong>问题解决耗时</strong></td><td>中位数 / P90 / P95 / P99</td><td>从对话创建到标记为已解决的总耗时</td></tr>
+<tr><td><strong>消息量</strong></td><td>用户/AI/人工分别统计</td><td>各方发送的消息数量</td></tr>
+<tr><td><strong>Hand-off Rate</strong></td><td>百分比</td><td>AI 转人工处理的比率</td></tr>
+<tr><td><strong>CSAT</strong></td><td>评分制</td><td>客户满意度评分</td></tr>
+<tr><td><strong>会话量</strong></td><td>按天/周/月</td><td>新建对话、已解决对话数量</td></tr>
+</table>
+</div>
+</div>
+
+<!-- ========== S14: 权限与角色体系 ========== -->
+<div class="sec" id="s14">
+<div class="sec-head">
+<h2>十四、权限与角色体系</h2>
+<div class="desc">4种角色，分层权限控制</div>
+</div>
+<div class="sec-body">
+
+<table class="stbl">
+<tr><th>角色</th><th>权限范围</th><th>典型操作</th></tr>
+<tr>
+<td><span class="tag tag-red">Admin</span></td>
+<td>全系统完整权限</td>
+<td>
+<ul>
+<li>系统设置全局管理</li>
+<li>渠道、API、自动化规则配置</li>
+<li>客服/团队/AI Agent 管理</li>
+<li>查看所有对话和数据报表</li>
+<li>导出数据、Webhook 配置</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><span class="tag tag-blue">Agent</span></td>
+<td>对话处理 + 联系人 + 个人设置</td>
+<td>
+<ul>
+<li>处理分配给自己的对话</li>
+<li>认领未分配对话</li>
+<li>查看/编辑联系人</li>
+<li>修改个人偏好设置</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><span class="tag tag-purple">AI Agent</span></td>
+<td>自动处理 + 知识库 + Hand-off</td>
+<td>
+<ul>
+<li>基于知识库自动回复</li>
+<li>无法解决时 Hand-off 转人工</li>
+<li>自动翻译</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><span class="tag tag-green">Team Manager</span></td>
+<td>团队范围内管理权限</td>
+<td>
+<ul>
+<li>管理本团队成员</li>
+<li>查看团队范围内的对话和数据</li>
+<li>团队对话分配</li>
+</ul>
+</td>
+</tr>
+</table>
+</div>
+</div>
+
+<!-- ========== S15: 系统集成能力 ========== -->
+<div class="sec" id="s15">
+<div class="sec-head">
+<h2>十五、系统集成能力</h2>
+<div class="desc">REST API + Webhook + 自动化规则三大集成方式</div>
+</div>
+<div class="sec-body">
+
+<table class="stbl">
+<tr><th>集成方式</th><th>说明</th><th>认证方式</th></tr>
+<tr><td><strong>REST API</strong></td><td>通过 API 接口对接第三方系统，支持对话、联系人等操作</td><td>API Key + Secret 认证</td></tr>
+<tr><td><strong>Webhook</strong></td><td>系统事件发生时实时推送回调通知到指定 URL</td><td>签名验证</td></tr>
+<tr><td><strong>自动化规则</strong></td><td>配置条件 &rarr; 动作的自动化工作流</td><td>—（内部配置）</td></tr>
+</table>
+
+<div class="subsec">
+<h4>API 认证方式</h4>
+<div class="code-block">Authorization: Bearer {API_KEY}:{API_SECRET}</div>
+<p style="margin-top:10px">支持两类 Key：测试 Key（临时）和永久 Key（生产环境）。</p>
+</div>
+
+<div class="subsec">
+<h4>Webhook 事件类型</h4>
+<ul>
+<li>新对话创建</li>
+<li>对话状态变更（Open / Resolved / Closed）</li>
+<li>新消息接收</li>
+<li>对话分配变更</li>
+<li>联系人信息更新</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- ========== S16: 服务分析与评估 ========== -->
+<div class="sec" id="s16">
+<div class="sec-head">
+<h2>十六、服务分析与评估</h2>
+<div class="desc">对 EngageLab LiveDesk 平台的综合能力评估与借鉴分析</div>
+</div>
+<div class="sec-body">
+
+<h3>16.1 核心优势</h3>
+<table class="stbl">
+<tr><th>优势</th><th>说明</th></tr>
+<tr><td><strong>全渠道统一收件箱</strong></td><td>9个Web渠道统一收件、统一管理，客服无需切换系统</td></tr>
+<tr><td><strong>成熟团队协作</strong></td><td>4个区域团队、10个客服座席、多级分配机制</td></tr>
+<tr><td><strong>工单系统</strong></td><td>独立工单模块，支持复杂问题长期跟踪和跨部门协作</td></tr>
+<tr><td><strong>数据洞察</strong></td><td>10个分析子模块，P90/P95/P99分位统计，数据驱动运营</td></tr>
+<tr><td><strong>AI能力</strong></td><td>AI Agent自动应答 + 自动翻译 + Hand-off机制</td></tr>
+<tr><td><strong>开放集成</strong></td><td>REST API + Webhook + 自动化规则，可对接外部系统</td></tr>
+<tr><td><strong>SaaS免运维</strong></td><td>云端部署，无需自建服务器，开箱即用</td></tr>
+</table>
+
+<h3>16.2 劣势与不足</h3>
+<table class="stbl">
+<tr><th>不足</th><th>说明</th><th>影响</th></tr>
+<tr><td><strong>AI深度有限</strong></td><td>AI能力为黑盒，仅基于FAQ知识库匹配，缺乏深度NLU</td><td><span class="tag tag-amber">中</span></td></tr>
+<tr><td><strong>数据控制权弱</strong></td><td>SaaS模式下数据存储在第三方，缺乏完全控制</td><td><span class="tag tag-red">高</span></td></tr>
+<tr><td><strong>定制化受限</strong></td><td>标准SaaS产品，深度定制能力有限</td><td><span class="tag tag-amber">中</span></td></tr>
+<tr><td><strong>部分功能页面空白</strong></td><td>"高级功能"和"AI能力"设置页面为空白</td><td><span class="tag tag-slate">低</span></td></tr>
+<tr><td><strong>渠道差异未确认</strong></td><td>TG/WhatsApp等渠道是否支持尚未确认</td><td><span class="tag tag-amber">中</span></td></tr>
+<tr><td><strong>成本考量</strong></td><td>SaaS按量/按席位收费，规模化后成本可能较高</td><td><span class="tag tag-amber">中</span></td></tr>
+</table>
+
+<h3>16.3 产品亮点</h3>
+<div class="mod-grid">
+<div class="mod-card">
+<h4>&#128073; 右键菜单（8项操作）</h4>
+<p>无需打开对话详情即可完成标记、分配、搁置等操作，效率极高</p>
+</div>
+<div class="mod-card">
+<h4>&#9202; 搁置状态设计</h4>
+<p>On Hold状态支持定时自动恢复，避免对话遗忘，设计巧妙</p>
+</div>
+<div class="mod-card">
+<h4>&#128202; Overview 仪表盘</h4>
+<p>实时数据一目了然，AI/人工负载分开展示，管理者视角完善</p>
+</div>
+<div class="mod-card">
+<h4>&#128101; 联系人自动沉淀</h4>
+<p>对话中客户信息自动沉淀为联系人记录，无需手动维护</p>
+</div>
+<div class="mod-card">
+<h4>&#127760; 多语言国际化</h4>
+<p>界面支持多语言，AI自动翻译PT&harr;CN，覆盖国际化场景</p>
+</div>
+<div class="mod-card">
+<h4>&#9881; 个性化设置</h4>
+<p>发送快捷键、音频提醒、通知事件等均可按个人偏好配置</p>
+</div>
+</div>
+
+<h3>16.4 综合能力评估</h3>
+<table class="stbl">
+<tr><th>评估维度</th><th>评分</th><th>说明</th></tr>
+<tr><td><strong>功能完整性</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>核心客服功能齐全，部分高级功能尚未开放</td></tr>
+<tr><td><strong>用户体验</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>界面现代化，交互流畅，右键菜单等设计出色</td></tr>
+<tr><td><strong>AI 能力</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>基础AI应答可用，但深度和灵活性有限</td></tr>
+<tr><td><strong>数据分析</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>10维度分析，P90/P95/P99专业统计</td></tr>
+<tr><td><strong>多渠道支持</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>当前仅Web渠道，TG/WA等待确认</td></tr>
+<tr><td><strong>团队协作</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>团队/分配/工单协作体系成熟</td></tr>
+<tr><td><strong>系统集成</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>API+Webhook基本满足，但文档和SDK有限</td></tr>
+<tr><td><strong>数据安全</strong></td><td><span class="stars">&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;&#9733;</span></td><td>SaaS模式，数据控制权较弱</td></tr>
+<tr><td><strong>扩展性</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>标准SaaS，深度定制受限</td></tr>
+<tr><td><strong>性价比</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>免运维优势明显，但规模化成本需评估</td></tr>
+</table>
+
+<h3>16.5 适用场景</h3>
+<div class="subsec">
+<h4>推荐使用场景</h4>
+<ul>
+<li>中小型团队快速搭建客服系统，无需自建基础设施</li>
+<li>多区域/多语言客服团队，需要统一管理平台</li>
+<li>需要AI辅助降低人工成本的客服场景</li>
+<li>Web渠道为主的在线客服业务</li>
+</ul>
+<h4>需谨慎评估的场景</h4>
+<ul>
+<li>对数据安全和隐私合规有严格要求（如金融、医疗）</li>
+<li>需要深度AI定制（如复杂知识图谱、多轮对话）</li>
+<li>大规模座席（100+）的成本控制</li>
+<li>需要深度集成内部系统的复杂场景</li>
+</ul>
+</div>
+
+<h3>16.6 可借鉴设计</h3>
+<table class="stbl">
+<tr><th>设计要素</th><th>借鉴价值</th><th>说明</th></tr>
+<tr><td><strong>工单模块</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>独立工单系统，适合复杂问题长期跟踪，值得借鉴</td></tr>
+<tr><td><strong>On Hold 搁置状态</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>定时恢复设计精妙，有效避免对话遗忘</td></tr>
+<tr><td><strong>右键菜单</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>8项快速操作，免打开详情，大幅提升效率</td></tr>
+<tr><td><strong>Overview 仪表盘</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>AI/人工分开展示负载，管理者视角清晰</td></tr>
+<tr><td><strong>P90/P95/P99 统计</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>百分位统计比简单平均值更科学，行业最佳实践</td></tr>
+<tr><td><strong>联系人自动沉淀</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>对话自动转化为客户资产，零手动成本</td></tr>
+</table>
+</div>
+</div>
+
+<!-- ========== S17: 快捷键与效率功能 ========== -->
+<div class="sec" id="s17">
+<div class="sec-head">
+<h2>十七、快捷键与效率功能</h2>
+<div class="desc">键盘快捷键与效率提升工具</div>
+</div>
+<div class="sec-body">
+
+<table class="stbl">
+<tr><th>快捷键</th><th>功能</th><th>说明</th></tr>
+<tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">&#8984;+K</kbd></td><td><strong>Command 菜单</strong></td><td>快速搜索并执行命令</td></tr>
+<tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">&#8984;+/</kbd></td><td><strong>快捷键列表</strong></td><td>查看所有可用快捷键</td></tr>
+<tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">/</kbd></td><td><strong>快捷回复</strong></td><td>在输入框中输入 "/" 触发模板选择</td></tr>
+<tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">Enter</kbd></td><td><strong>发送消息</strong></td><td>直接发送（可在偏好中切换）</td></tr>
+<tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">&#8984;+Enter</kbd></td><td><strong>发送消息</strong></td><td>组合键发送（可在偏好中切换）</td></tr>
+</table>
+
+<div class="tip">建议客服人员熟练掌握 &#8984;+K 命令菜单和 "/" 快捷回复，可大幅提升日常工作效率。</div>
+</div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer">
+<div class="divider"></div>
+<p>风控管理平台 — 极光LiveDesk在线客服系统项目文档</p>
+<p>整理时间：2026-05-29</p>
+</div>
+
+</div><!-- end container -->
+
+<!-- 浮动按钮组 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75;text-decoration:none}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+@media(max-width:640px){.fab-group{right:14px;bottom:20px;gap:8px}.fab{width:38px;height:38px}.fab svg{width:16px;height:16px}}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/?project=livedesk" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+</script>
+
+</body>
+</html>

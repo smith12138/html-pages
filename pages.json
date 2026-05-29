@@ -135,6 +135,35 @@
       ]
     },
     {
+      "id": "livedesk",
+      "name": "极光LiveDesk",
+      "description": "EngageLab全渠道智能客服平台",
+      "color": "#2563eb",
+      "pages": [
+        {
+          "file": "docs/极光LiveDesk/极光LiveDesk项目文档.html",
+          "title": "极光LiveDesk项目文档",
+          "category": "requirement",
+          "date": "2026-05-29",
+          "tags": [
+            "在线客服",
+            "AI Agent",
+            "全渠道"
+          ]
+        },
+        {
+          "file": "docs/极光LiveDesk/极光LiveDesk系统流程图.html",
+          "title": "极光LiveDesk系统流程图",
+          "category": "flow",
+          "date": "2026-05-29",
+          "tags": [
+            "流程图",
+            "系统架构"
+          ]
+        }
+      ]
+    },
+    {
       "id": "piscipient",
       "name": "双鱼座AI投放",
       "description": "AI广告投放管理平台",

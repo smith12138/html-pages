@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极光LiveDesk系统流程图</title>
+    <link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e3a5f, #2563eb);
+            color: #fff;
+            padding: 60px 40px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 50%, rgba(37, 99, 235, 0.15) 0%, transparent 60%);
+            animation: headerPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(96, 165, 250, 0.5);
+            color: #93c5fd;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .header h1 span {
+            color: #60a5fa;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: #bfdbfe;
+            margin-bottom: 24px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #bfdbfe;
+        }
+
+        .header-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-meta .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #3b82f6;
+            display: inline-block;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-left: 4px solid #2563eb;
+        }
+
+        .toc h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 8px 24px;
+        }
+
+        .toc a {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 6px 0;
+            display: block;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .toc a:hover {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+
+        /* Section Cards */
+        .section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 36px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            font-size: 24px;
+            color: #1e293b;
+            margin-bottom: 8px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #dbeafe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 .num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #2563eb;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .section-desc {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* SVG Container */
+        .svg-container {
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .svg-container svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px 30px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .footer .divider {
+            width: 60px;
+            height: 2px;
+            background: #e2e8f0;
+            margin: 0 auto 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 40px 20px 36px; }
+            .header h1 { font-size: 28px; }
+            .section { padding: 24px 20px; }
+            .toc { padding: 24px 20px; }
+            .toc-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="header-content">
+        <div class="header-badge">EngageLab LiveDesk</div>
+        <h1>极光<span>LiveDesk</span>系统流程图</h1>
+        <p class="subtitle">在线客服系统架构 / 服务流程 / 状态机 / 集成与自动化</p>
+        <div class="header-meta">
+            <span><span class="dot"></span>8 套核心流程图</span>
+            <span><span class="dot"></span>7 大功能模块</span>
+            <span><span class="dot"></span>2026-05-29</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h2>📋 目录导航</h2>
+        <div class="toc-grid">
+            <a href="#flow1">1. 产品总体架构</a>
+            <a href="#flow2">2. 端到端服务流程</a>
+            <a href="#flow3">3. AI与人工Hand-off协作链路</a>
+            <a href="#flow4">4. 对话状态机</a>
+            <a href="#flow5">5. 对话分配五种路径</a>
+            <a href="#flow6">6. 数据洞察分析体系</a>
+            <a href="#flow7">7. 集成与自动化</a>
+            <a href="#flow8">8. 对比与借鉴</a>
+        </div>
+    </div>
+
+    <!-- Flow 1: 产品总体架构 -->
+    <div class="section" id="flow1">
+        <h2><span class="num">1</span>产品总体架构</h2>
+        <p class="section-desc">LiveDesk 由 7 大核心模块组成，涵盖实时概览、对话处理、工单管理、数据洞察、智能客服、联系人管理和系统设置。</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 1100 720" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+                <!-- Title Box -->
+                <rect x="350" y="10" width="400" height="56" rx="12" fill="#1e3a5f" stroke="#2563eb" stroke-width="2"/>
+                <text x="550" y="44" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">EngageLab LiveDesk</text>
+                <!-- Connector lines from title to modules -->
+                <line x1="550" y1="66" x2="550" y2="90" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="80" y1="90" x2="1020" y2="90" stroke="#94a3b8" stroke-width="2"/>
+                <!-- 7 vertical lines down -->
+                <line x1="80" y1="90" x2="80" y2="115" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="240" y1="90" x2="240" y2="115" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="410" y1="90" x2="410" y2="115" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="550" y1="90" x2="550" y2="115" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="690" y1="90" x2="690" y2="115" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="860" y1="90" x2="860" y2="115" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="1020" y1="90" x2="1020" y2="115" stroke="#94a3b8" stroke-width="2"/>
+
+                <!-- Module 1: 概览 -->
+                <g>
+                    <rect x="10" y="115" width="140" height="40" rx="8" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.5"/>
+                    <text x="80" y="140" text-anchor="middle" fill="#1e3a5f" font-size="14" font-weight="600">概览 Overview</text>
+                    <rect x="10" y="165" width="140" height="120" rx="8" fill="#f8fafc" stroke="#6C8EBF" stroke-width="1" stroke-dasharray="4"/>
+                    <text x="80" y="188" text-anchor="middle" fill="#475569" font-size="12">实时指标卡片</text>
+                    <text x="80" y="210" text-anchor="middle" fill="#475569" font-size="12">Human Agent工作负载</text>
+                    <text x="80" y="232" text-anchor="middle" fill="#475569" font-size="12">AI Agent工作负载</text>
+                    <text x="80" y="254" text-anchor="middle" fill="#475569" font-size="12">对话分析</text>
+                </g>
+
+                <!-- Module 2: 对话 -->
+                <g>
+                    <rect x="165" y="115" width="150" height="40" rx="8" fill="#D5E8D4" stroke="#82B366" stroke-width="1.5"/>
+                    <text x="240" y="140" text-anchor="middle" fill="#2d5016" font-size="14" font-weight="600">对话 Conversations</text>
+                    <rect x="165" y="165" width="150" height="180" rx="8" fill="#f8fafc" stroke="#82B366" stroke-width="1" stroke-dasharray="4"/>
+                    <text x="240" y="188" text-anchor="middle" fill="#475569" font-size="12">4 分类视图</text>
+                    <text x="240" y="210" text-anchor="middle" fill="#475569" font-size="12">9 收件箱</text>
+                    <text x="240" y="232" text-anchor="middle" fill="#475569" font-size="12">标签 / 过滤 / 排序</text>
+                    <text x="240" y="254" text-anchor="middle" fill="#475569" font-size="12">右键 8 操作</text>
+                    <text x="240" y="276" text-anchor="middle" fill="#475569" font-size="12">聊天窗口</text>
+                    <text x="240" y="298" text-anchor="middle" fill="#475569" font-size="12">详情面板</text>
+                </g>
+
+                <!-- Module 3: 工单 -->
+                <g>
+                    <rect x="335" y="115" width="150" height="40" rx="8" fill="#FFE6CC" stroke="#D6A656" stroke-width="1.5"/>
+                    <text x="410" y="140" text-anchor="middle" fill="#7a4a0a" font-size="14" font-weight="600">工单 Tickets</text>
+                    <rect x="335" y="165" width="150" height="120" rx="8" fill="#f8fafc" stroke="#D6A656" stroke-width="1" stroke-dasharray="4"/>
+                    <text x="410" y="188" text-anchor="middle" fill="#475569" font-size="12">适用复杂长期跟踪</text>
+                    <text x="410" y="210" text-anchor="middle" fill="#475569" font-size="12">结构同对话模块</text>
+                    <text x="410" y="232" text-anchor="middle" fill="#475569" font-size="12">独立分类视图</text>
+                    <text x="410" y="254" text-anchor="middle" fill="#475569" font-size="12">独立收件箱</text>
+                </g>
+
+                <!-- Module 4: 洞察分析 -->
+                <g>
+                    <rect x="500" y="115" width="100" height="40" rx="8" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.5"/>
+                    <text x="550" y="140" text-anchor="middle" fill="#4a235a" font-size="14" font-weight="600">洞察 Insight</text>
+                    <rect x="490" y="165" width="120" height="140" rx="8" fill="#f8fafc" stroke="#9673A6" stroke-width="1" stroke-dasharray="4"/>
+                    <text x="550" y="188" text-anchor="middle" fill="#475569" font-size="12">10 子模块</text>
+                    <text x="550" y="210" text-anchor="middle" fill="#475569" font-size="12">首次响应时间</text>
+                    <text x="550" y="232" text-anchor="middle" fill="#475569" font-size="12">P90/P95/P99</text>
+                    <text x="550" y="254" text-anchor="middle" fill="#475569" font-size="12">解决耗时</text>
+                    <text x="550" y="276" text-anchor="middle" fill="#475569" font-size="12">会话量趋势</text>
+                </g>
+
+                <!-- Module 5: Agents -->
+                <g>
+                    <rect x="625" y="115" width="130" height="40" rx="8" fill="#B0E3E6" stroke="#5BA4AB" stroke-width="1.5"/>
+                    <text x="690" y="140" text-anchor="middle" fill="#1a4e53" font-size="14" font-weight="600">Agents</text>
+                    <rect x="625" y="165" width="130" height="120" rx="8" fill="#f8fafc" stroke="#5BA4AB" stroke-width="1" stroke-dasharray="4"/>
+                    <text x="690" y="188" text-anchor="middle" fill="#475569" font-size="12">AI Agent (AB-Demo)</text>
+                    <text x="690" y="210" text-anchor="middle" fill="#475569" font-size="12">Human Agent (10人)</text>
+                    <text x="690" y="232" text-anchor="middle" fill="#475569" font-size="12">Teams (4个)</text>
+                    <text x="690" y="254" text-anchor="middle" fill="#475569" font-size="12">角色/权限管理</text>
+                </g>
+
+                <!-- Module 6: 联系人 -->
+                <g>
+                    <rect x="775" y="115" width="170" height="40" rx="8" fill="#F8CECC" stroke="#B85450" stroke-width="1.5"/>
+                    <text x="860" y="140" text-anchor="middle" fill="#7a1a17" font-size="14" font-weight="600">联系人 Contacts</text>
+                    <rect x="775" y="165" width="170" height="120" rx="8" fill="#f8fafc" stroke="#B85450" stroke-width="1" stroke-dasharray="4"/>
+                    <text x="860" y="188" text-anchor="middle" fill="#475569" font-size="12">字段管理</text>
+                    <text x="860" y="210" text-anchor="middle" fill="#475569" font-size="12">搜索 / 筛选 / 导出</text>
+                    <text x="860" y="232" text-anchor="middle" fill="#475569" font-size="12">自动沉淀</text>
+                    <text x="860" y="254" text-anchor="middle" fill="#475569" font-size="12">客户画像</text>
+                </g>
+
+                <!-- Module 7: 设置 -->
+                <g>
+                    <rect x="955" y="115" width="135" height="40" rx="8" fill="#D4E1F5" stroke="#6482B9" stroke-width="1.5"/>
+                    <text x="1022" y="140" text-anchor="middle" fill="#1e3a5f" font-size="14" font-weight="600">设置 Settings</text>
+                    <rect x="955" y="165" width="135" height="140" rx="8" fill="#f8fafc" stroke="#6482B9" stroke-width="1" stroke-dasharray="4"/>
+                    <text x="1022" y="188" text-anchor="middle" fill="#475569" font-size="12">自动化规则</text>
+                    <text x="1022" y="210" text-anchor="middle" fill="#475569" font-size="12">Channels 渠道</text>
+                    <text x="1022" y="232" text-anchor="middle" fill="#475569" font-size="12">对话管理</text>
+                    <text x="1022" y="254" text-anchor="middle" fill="#475569" font-size="12">API / Webhook</text>
+                    <text x="1022" y="276" text-anchor="middle" fill="#475569" font-size="12">账号偏好</text>
+                </g>
+
+                <!-- Legend -->
+                <rect x="10" y="380" width="1080" height="50" rx="8" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+                <text x="30" y="410" fill="#64748b" font-size="12" font-weight="600">模块关系：</text>
+                <rect x="120" y="393" width="14" height="14" rx="3" fill="#D5E8D4" stroke="#82B366" stroke-width="1"/>
+                <text x="140" y="406" fill="#64748b" font-size="12">核心模块</text>
+                <rect x="210" y="393" width="14" height="14" rx="3" fill="#FFE6CC" stroke="#D6A656" stroke-width="1"/>
+                <text x="230" y="406" fill="#64748b" font-size="12">工单扩展</text>
+                <rect x="300" y="393" width="14" height="14" rx="3" fill="#E1D5E7" stroke="#9673A6" stroke-width="1"/>
+                <text x="320" y="406" fill="#64748b" font-size="12">数据分析</text>
+                <rect x="395" y="393" width="14" height="14" rx="3" fill="#B0E3E6" stroke="#5BA4AB" stroke-width="1"/>
+                <text x="415" y="406" fill="#64748b" font-size="12">客服资源</text>
+                <rect x="490" y="393" width="14" height="14" rx="3" fill="#F8CECC" stroke="#B85450" stroke-width="1"/>
+                <text x="510" y="406" fill="#64748b" font-size="12">客户数据</text>
+                <rect x="585" y="393" width="14" height="14" rx="3" fill="#D4E1F5" stroke="#6482B9" stroke-width="1"/>
+                <text x="605" y="406" fill="#64748b" font-size="12">系统配置</text>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Flow 2: 端到端服务流程 -->
+    <div class="section" id="flow2">
+        <h2><span class="num">2</span>端到端服务流程</h2>
+        <p class="section-desc">从用户接入到数据沉淀的 7 个阶段，覆盖渠道路由、AI 优先响应、Hand-off 人工接管、客服工具集、状态变更和数据分析全链路。</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 1100 980" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+                <!-- Stage 1: 用户接入 -->
+                <g>
+                    <rect x="20" y="10" width="1060" height="100" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+                    <text x="40" y="35" fill="#1e40af" font-size="14" font-weight="700">① 用户接入</text>
+                    <rect x="40" y="50" width="100" height="40" rx="8" fill="#3B82F6" stroke="none"/>
+                    <text x="90" y="75" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">终端用户</text>
+                    <!-- Arrow -->
+                    <line x1="140" y1="70" x2="175" y2="70" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+                    <rect x="175" y="50" width="100" height="40" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+                    <text x="225" y="68" text-anchor="middle" fill="#1e40af" font-size="11">Web/App</text>
+                    <text x="225" y="82" text-anchor="middle" fill="#1e40af" font-size="11">LiveChat</text>
+                    <line x1="275" y1="70" x2="310" y2="70" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+                    <rect x="310" y="50" width="100" height="40" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+                    <text x="360" y="75" text-anchor="middle" fill="#1e40af" font-size="12">自动翻译</text>
+                    <line x1="410" y1="70" x2="445" y2="70" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+                    <rect x="445" y="50" width="120" height="40" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+                    <text x="505" y="75" text-anchor="middle" fill="#1e40af" font-size="12">9 个渠道入口</text>
+                </g>
+
+                <!-- Stage 2: 渠道路由+视图分类 -->
+                <g>
+                    <line x1="550" y1="110" x2="550" y2="140" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+                    <rect x="20" y="140" width="1060" height="100" rx="10" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.5"/>
+                    <text x="40" y="165" fill="#166534" font-size="14" font-weight="700">② 渠道路由 + 视图分类</text>
+                    <rect x="40" y="180" width="100" height="40" rx="8" fill="#22C55E" stroke="none"/>
+                    <text x="90" y="205" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Channel</text>
+                    <line x1="140" y1="200" x2="175" y2="200" stroke="#22C55E" stroke-width="2" marker-end="url(#arrowGreen)"/>
+                    <rect x="175" y="180" width="100" height="40" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+                    <text x="225" y="205" text-anchor="middle" fill="#166534" font-size="12">Inbox</text>
+                    <line x1="275" y1="200" x2="310" y2="200" stroke="#22C55E" stroke-width="2" marker-end="url(#arrowGreen)"/>
+                    <rect x="310" y="180" width="120" height="40" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+                    <text x="370" y="205" text-anchor="middle" fill="#166534" font-size="12">4 分类视图</text>
+                    <line x1="430" y1="200" x2="465" y2="200" stroke="#22C55E" stroke-width="2" marker-end="url(#arrowGreen)"/>
+                    <rect x="465" y="180" width="110" height="40" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+                    <text x="520" y="205" text-anchor="middle" fill="#166534" font-size="12">标签筛选</text>
+                </g>
+
+                <!-- Stage 3: AI Agent优先响应 -->
+                <g>
+                    <line x1="550" y1="240" x2="550" y2="270" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+                    <rect x="20" y="270" width="1060" height="120" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.5"/>
+                    <text x="40" y="295" fill="#5B21B6" font-size="14" font-weight="700">③ AI Agent 优先响应</text>
+                    <rect x="40" y="310" width="110" height="40" rx="8" fill="#8B5CF6" stroke="none"/>
+                    <text x="95" y="335" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">AB-Demo</text>
+                    <line x1="150" y1="330" x2="185" y2="330" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrowPurple)"/>
+                    <rect x="185" y="310" width="140" height="40" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+                    <text x="255" y="335" text-anchor="middle" fill="#5B21B6" font-size="12">知识库 FAQ_DEMO</text>
+                    <line x1="325" y1="330" x2="360" y2="330" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrowPurple)"/>
+                    <rect x="360" y="310" width="100" height="40" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+                    <text x="410" y="335" text-anchor="middle" fill="#5B21B6" font-size="12">AI 回复</text>
+                    <line x1="460" y1="330" x2="495" y2="330" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrowPurple)"/>
+                    <!-- Decision diamond -->
+                    <polygon points="565,305 635,330 565,355 495,330" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+                    <text x="565" y="334" text-anchor="middle" fill="#92400E" font-size="11" font-weight="600">能否解决?</text>
+                    <!-- Yes path -->
+                    <line x1="565" y1="355" x2="565" y2="375" stroke="#22C55E" stroke-width="2" marker-end="url(#arrowGreen)"/>
+                    <text x="578" y="368" fill="#22C55E" font-size="10" font-weight="600">Yes</text>
+                    <rect x="515" y="375" width="100" height="30" rx="6" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+                    <text x="565" y="395" text-anchor="middle" fill="#166534" font-size="11">标记已解决</text>
+                    <!-- No path -->
+                    <line x1="635" y1="330" x2="680" y2="330" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+                    <text x="652" y="323" fill="#EF4444" font-size="10" font-weight="600">No</text>
+                    <rect x="680" y="310" width="100" height="40" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+                    <text x="730" y="335" text-anchor="middle" fill="#991B1B" font-size="12" font-weight="600">Hand-off</text>
+                </g>
+
+                <!-- Stage 4: Hand-off → 人工接管 -->
+                <g>
+                    <line x1="730" y1="350" x2="730" y2="420" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+                    <rect x="20" y="420" width="1060" height="120" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+                    <text x="40" y="445" fill="#9A3412" font-size="14" font-weight="700">④ Hand-off → 人工接管</text>
+                    <rect x="40" y="460" width="100" height="40" rx="8" fill="#F97316" stroke="none"/>
+                    <text x="90" y="485" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Hand-off</text>
+                    <line x1="140" y1="480" x2="175" y2="480" stroke="#F97316" stroke-width="2" marker-end="url(#arrowOrange)"/>
+                    <rect x="175" y="460" width="130" height="40" rx="8" fill="#FFEDD5" stroke="#F97316" stroke-width="1.5"/>
+                    <text x="240" y="478" text-anchor="middle" fill="#9A3412" font-size="11">分配策略</text>
+                    <text x="240" y="492" text-anchor="middle" fill="#9A3412" font-size="10">(5 种)</text>
+                    <line x1="305" y1="480" x2="340" y2="480" stroke="#F97316" stroke-width="2" marker-end="url(#arrowOrange)"/>
+                    <rect x="340" y="460" width="130" height="40" rx="8" fill="#FFEDD5" stroke="#F97316" stroke-width="1.5"/>
+                    <text x="405" y="478" text-anchor="middle" fill="#9A3412" font-size="11">团队路由</text>
+                    <text x="405" y="492" text-anchor="middle" fill="#9A3412" font-size="10">(4 团队)</text>
+                    <line x1="470" y1="480" x2="505" y2="480" stroke="#F97316" stroke-width="2" marker-end="url(#arrowOrange)"/>
+                    <rect x="505" y="460" width="140" height="40" rx="8" fill="#FFEDD5" stroke="#F97316" stroke-width="1.5"/>
+                    <text x="575" y="478" text-anchor="middle" fill="#9A3412" font-size="11">Human Agent</text>
+                    <text x="575" y="492" text-anchor="middle" fill="#9A3412" font-size="10">(10 人)</text>
+                </g>
+
+                <!-- Stage 5: 客服处理工具集 -->
+                <g>
+                    <line x1="550" y1="540" x2="550" y2="570" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+                    <rect x="20" y="570" width="1060" height="100" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+                    <text x="40" y="595" fill="#065F46" font-size="14" font-weight="700">⑤ 客服处理工具集</text>
+                    <rect x="40" y="610" width="80" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="80" y="633" text-anchor="middle" fill="#065F46" font-size="10">快捷回复/</text>
+                    <rect x="130" y="610" width="80" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="170" y="633" text-anchor="middle" fill="#065F46" font-size="10">内部笔记</text>
+                    <rect x="220" y="610" width="65" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="252" y="633" text-anchor="middle" fill="#065F46" font-size="10">附件</text>
+                    <rect x="295" y="610" width="70" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="330" y="633" text-anchor="middle" fill="#065F46" font-size="10">富文本</text>
+                    <rect x="375" y="610" width="80" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="415" y="633" text-anchor="middle" fill="#065F46" font-size="10">自动翻译</text>
+                    <rect x="465" y="610" width="70" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="500" y="633" text-anchor="middle" fill="#065F46" font-size="10">优先级</text>
+                    <rect x="545" y="610" width="65" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="577" y="633" text-anchor="middle" fill="#065F46" font-size="10">标签</text>
+                    <rect x="620" y="610" width="80" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="660" y="633" text-anchor="middle" fill="#065F46" font-size="10">快捷宏</text>
+                    <rect x="710" y="610" width="70" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="745" y="633" text-anchor="middle" fill="#065F46" font-size="10">转分配</text>
+                    <rect x="790" y="610" width="80" height="36" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                    <text x="830" y="633" text-anchor="middle" fill="#065F46" font-size="10">历史对话</text>
+                </g>
+
+                <!-- Stage 6: 对话状态变更 -->
+                <g>
+                    <line x1="550" y1="670" x2="550" y2="700" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+                    <rect x="20" y="700" width="1060" height="100" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
+                    <text x="40" y="725" fill="#991B1B" font-size="14" font-weight="700">⑥ 对话状态变更</text>
+                    <rect x="60" y="740" width="90" height="40" rx="8" fill="#EF4444" stroke="none"/>
+                    <text x="105" y="765" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Open</text>
+                    <line x1="150" y1="760" x2="210" y2="760" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+                    <rect x="210" y="740" width="100" height="40" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+                    <text x="260" y="765" text-anchor="middle" fill="#166534" font-size="13">Resolved</text>
+                    <line x1="310" y1="760" x2="370" y2="760" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+                    <rect x="370" y="740" width="100" height="40" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+                    <text x="420" y="765" text-anchor="middle" fill="#92400E" font-size="13">On Hold</text>
+                    <line x1="470" y1="760" x2="530" y2="760" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+                    <rect x="530" y="740" width="100" height="40" rx="8" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.5"/>
+                    <text x="580" y="765" text-anchor="middle" fill="#374151" font-size="13">Closed</text>
+                    <!-- Back arrows -->
+                    <path d="M260,740 Q260,720 105,720 L105,740" fill="none" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arrowRedSm)"/>
+                    <text x="180" y="715" text-anchor="middle" fill="#EF4444" font-size="9">用户新消息</text>
+                </g>
+
+                <!-- Stage 7: 数据沉淀 -->
+                <g>
+                    <line x1="550" y1="800" x2="550" y2="830" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+                    <rect x="20" y="830" width="1060" height="100" rx="10" fill="#F0F9FF" stroke="#0EA5E9" stroke-width="1.5"/>
+                    <text x="40" y="855" fill="#0C4A6E" font-size="14" font-weight="700">⑦ 数据沉淀</text>
+                    <rect x="60" y="870" width="100" height="40" rx="8" fill="#0EA5E9" stroke="none"/>
+                    <text x="110" y="895" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">CSAT</text>
+                    <line x1="160" y1="890" x2="210" y2="890" stroke="#0EA5E9" stroke-width="2" marker-end="url(#arrowCyan)"/>
+                    <rect x="210" y="870" width="110" height="40" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
+                    <text x="265" y="895" text-anchor="middle" fill="#0C4A6E" font-size="12">Contacts</text>
+                    <line x1="320" y1="890" x2="370" y2="890" stroke="#0EA5E9" stroke-width="2" marker-end="url(#arrowCyan)"/>
+                    <rect x="370" y="870" width="120" height="40" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
+                    <text x="430" y="895" text-anchor="middle" fill="#0C4A6E" font-size="12">Insight 报表</text>
+                    <line x1="490" y1="890" x2="540" y2="890" stroke="#0EA5E9" stroke-width="2" marker-end="url(#arrowCyan)"/>
+                    <rect x="540" y="870" width="130" height="40" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
+                    <text x="605" y="895" text-anchor="middle" fill="#0C4A6E" font-size="12">API / Webhook</text>
+                </g>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#3B82F6"/></marker>
+                    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#22C55E"/></marker>
+                    <marker id="arrowPurple" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8B5CF6"/></marker>
+                    <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#F97316"/></marker>
+                    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#EF4444"/></marker>
+                    <marker id="arrowRedSm" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5 Z" fill="#EF4444"/></marker>
+                    <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/></marker>
+                    <marker id="arrowCyan" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0EA5E9"/></marker>
+                </defs>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Flow 3: AI与人工Hand-off协作链路 -->
+    <div class="section" id="flow3">
+        <h2><span class="num">3</span>AI与人工Hand-off协作链路</h2>
+        <p class="section-desc">展示 AI Agent 与 Human Agent 的协作链路，包括知识库匹配、Hand-off 触发条件、监控指标和 AI 能力面板。</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 750" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+                <defs>
+                    <marker id="a3down" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto"><path d="M0,0 L4,6 L8,0" fill="#64748b"/></marker>
+                    <marker id="a3yes" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto"><path d="M0,0 L4,6 L8,0" fill="#22C55E"/></marker>
+                    <marker id="a3no" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#EF4444"/></marker>
+                    <marker id="a3right" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/></marker>
+                    <marker id="a3purple" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto"><path d="M0,0 L4,6 L8,0" fill="#8B5CF6"/></marker>
+                    <marker id="a3orange" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto"><path d="M0,0 L4,6 L8,0" fill="#F97316"/></marker>
+                    <marker id="a3teal" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto"><path d="M0,0 L4,6 L8,0" fill="#0D9488"/></marker>
+                </defs>
+
+                <!-- Main vertical flow (center) -->
+                <!-- User message -->
+                <rect x="380" y="10" width="200" height="44" rx="10" fill="#1e3a5f" stroke="#2563eb" stroke-width="2"/>
+                <text x="480" y="38" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">用户消息</text>
+
+                <line x1="480" y1="54" x2="480" y2="80" stroke="#8B5CF6" stroke-width="2" marker-end="url(#a3purple)"/>
+
+                <!-- AI Agent -->
+                <rect x="370" y="80" width="220" height="44" rx="10" fill="#8B5CF6" stroke="#7C3AED" stroke-width="2"/>
+                <text x="480" y="108" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">AI Agent AB-Demo</text>
+
+                <line x1="480" y1="124" x2="480" y2="155" stroke="#8B5CF6" stroke-width="2" marker-end="url(#a3purple)"/>
+
+                <!-- Knowledge base -->
+                <rect x="350" y="155" width="260" height="44" rx="10" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+                <text x="480" y="182" text-anchor="middle" fill="#5B21B6" font-size="13" font-weight="600">知识库匹配 / FAQ 检索</text>
+
+                <line x1="480" y1="199" x2="480" y2="235" stroke="#8B5CF6" stroke-width="2" marker-end="url(#a3purple)"/>
+
+                <!-- Decision: 能否回答? -->
+                <polygon points="480,235 560,270 480,305 400,270" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+                <text x="480" y="274" text-anchor="middle" fill="#92400E" font-size="13" font-weight="600">能否回答?</text>
+
+                <!-- Yes path (left) -->
+                <line x1="400" y1="270" x2="290" y2="270" stroke="#22C55E" stroke-width="2" marker-end="url(#a3no)"/>
+                <text x="348" y="263" text-anchor="middle" fill="#22C55E" font-size="12" font-weight="700">Yes</text>
+
+                <rect x="160" y="250" width="130" height="40" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+                <text x="225" y="275" text-anchor="middle" fill="#166534" font-size="12" font-weight="600">AI 自动回复</text>
+
+                <line x1="225" y1="290" x2="225" y2="325" stroke="#22C55E" stroke-width="2" marker-end="url(#a3yes)"/>
+
+                <!-- Decision: 用户问题解决? -->
+                <polygon points="225,325 295,355 225,385 155,355" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+                <text x="225" y="352" text-anchor="middle" fill="#92400E" font-size="11" font-weight="600">问题解决?</text>
+                <text x="225" y="366" text-anchor="middle" fill="#92400E" font-size="10"></text>
+
+                <!-- Yes - resolved -->
+                <line x1="155" y1="355" x2="60" y2="355" stroke="#22C55E" stroke-width="2"/>
+                <text x="110" y="348" text-anchor="middle" fill="#22C55E" font-size="11" font-weight="700">Yes</text>
+                <rect x="10" y="335" width="50" height="40" rx="20" fill="#22C55E" stroke="none"/>
+                <text x="35" y="360" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">END</text>
+                <text x="35" y="395" text-anchor="middle" fill="#166534" font-size="10">标记已解决</text>
+                <text x="35" y="408" text-anchor="middle" fill="#166534" font-size="10">(AI闭环)</text>
+
+                <!-- No - loop back -->
+                <line x1="295" y1="355" x2="340" y2="355" stroke="#EF4444" stroke-width="2"/>
+                <text x="315" y="348" fill="#EF4444" font-size="11" font-weight="700">No</text>
+                <path d="M340,355 Q380,355 380,310 Q380,270 380,250 Q380,230 350,230 L290,250" fill="none" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="5"/>
+                <text x="370" y="300" fill="#EF4444" font-size="9">循环重试</text>
+
+                <!-- No path (right) - Hand-off -->
+                <line x1="560" y1="270" x2="660" y2="270" stroke="#EF4444" stroke-width="2"/>
+                <text x="605" y="263" text-anchor="middle" fill="#EF4444" font-size="12" font-weight="700">No</text>
+
+                <rect x="660" y="250" width="160" height="40" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+                <text x="740" y="275" text-anchor="middle" fill="#991B1B" font-size="13" font-weight="700">Hand-off 转人工</text>
+
+                <line x1="740" y1="290" x2="740" y2="330" stroke="#F97316" stroke-width="2" marker-end="url(#a3orange)"/>
+
+                <!-- Route to team -->
+                <rect x="650" y="330" width="180" height="40" rx="8" fill="#FFEDD5" stroke="#F97316" stroke-width="1.5"/>
+                <text x="740" y="355" text-anchor="middle" fill="#9A3412" font-size="12">路由到团队 / 客服</text>
+
+                <line x1="740" y1="370" x2="740" y2="410" stroke="#F97316" stroke-width="2" marker-end="url(#a3orange)"/>
+
+                <!-- Human takeover -->
+                <rect x="650" y="410" width="180" height="40" rx="8" fill="#0D9488" stroke="#0F766E" stroke-width="2"/>
+                <text x="740" y="435" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">人工接管</text>
+
+                <line x1="740" y1="450" x2="740" y2="485" stroke="#0D9488" stroke-width="2" marker-end="url(#a3teal)"/>
+
+                <!-- View AI tags -->
+                <rect x="640" y="485" width="200" height="40" rx="8" fill="#CCFBF1" stroke="#0D9488" stroke-width="1.5"/>
+                <text x="740" y="510" text-anchor="middle" fill="#065F46" font-size="12">查看 AI 响应标签</text>
+
+                <line x1="740" y1="525" x2="740" y2="560" stroke="#0D9488" stroke-width="2" marker-end="url(#a3teal)"/>
+
+                <!-- Human tools -->
+                <rect x="640" y="560" width="200" height="40" rx="8" fill="#CCFBF1" stroke="#0D9488" stroke-width="1.5"/>
+                <text x="740" y="585" text-anchor="middle" fill="#065F46" font-size="12">人工处理工具集</text>
+
+                <line x1="740" y1="600" x2="740" y2="635" stroke="#0D9488" stroke-width="2" marker-end="url(#a3teal)"/>
+
+                <!-- Human resolved -->
+                <rect x="670" y="635" width="140" height="40" rx="20" fill="#0D9488" stroke="none"/>
+                <text x="740" y="660" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">人工解决</text>
+
+                <!-- Side panel: 监控指标 (left) -->
+                <rect x="10" y="440" width="180" height="140" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.5"/>
+                <text x="100" y="465" text-anchor="middle" fill="#5B21B6" font-size="13" font-weight="700">监控指标</text>
+                <line x1="30" y1="475" x2="170" y2="475" stroke="#DDD6FE" stroke-width="1"/>
+                <text x="100" y="498" text-anchor="middle" fill="#6D28D9" font-size="11">Hand-off Rate</text>
+                <text x="100" y="520" text-anchor="middle" fill="#6D28D9" font-size="11">AI-Active 会话数</text>
+                <text x="100" y="542" text-anchor="middle" fill="#6D28D9" font-size="11">Hand-off 数量</text>
+                <text x="100" y="564" text-anchor="middle" fill="#6D28D9" font-size="11">AI 解决率</text>
+
+                <!-- Side panel: AI能力 (left bottom) -->
+                <rect x="10" y="600" width="180" height="120" rx="10" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+                <text x="100" y="625" text-anchor="middle" fill="#5B21B6" font-size="13" font-weight="700">AI 能力</text>
+                <line x1="30" y1="635" x2="170" y2="635" stroke="#DDD6FE" stroke-width="1"/>
+                <text x="100" y="658" text-anchor="middle" fill="#6D28D9" font-size="11">自动翻译</text>
+                <text x="100" y="680" text-anchor="middle" fill="#6D28D9" font-size="11">知识库匹配</text>
+                <text x="100" y="702" text-anchor="middle" fill="#6D28D9" font-size="11">定制能力配置</text>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Flow 4: 对话状态机 -->
+    <div class="section" id="flow4">
+        <h2><span class="num">4</span>对话状态机</h2>
+        <p class="section-desc">对话从 Open 状态出发，经过 Resolved、On Hold 最终到达 Closed 终态。各状态之间的转换路径和触发条件。</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 900 560" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+                <defs>
+                    <marker id="s4arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/></marker>
+                    <marker id="s4red" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#EF4444"/></marker>
+                    <marker id="s4green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#22C55E"/></marker>
+                    <marker id="s4yellow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#D97706"/></marker>
+                    <marker id="s4gray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#6B7280"/></marker>
+                </defs>
+
+                <!-- State: Open (red) -->
+                <circle cx="200" cy="150" r="60" fill="#FEE2E2" stroke="#EF4444" stroke-width="3"/>
+                <text x="200" y="140" text-anchor="middle" fill="#EF4444" font-size="22">&#x1F534;</text>
+                <text x="200" y="165" text-anchor="middle" fill="#991B1B" font-size="14" font-weight="700">打开 Open</text>
+                <text x="200" y="82" text-anchor="middle" fill="#EF4444" font-size="12" font-weight="600">[初始状态]</text>
+                <path d="M160,80 L200,90" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#s4red)"/>
+
+                <!-- State: Resolved (green) -->
+                <circle cx="500" cy="100" r="60" fill="#DCFCE7" stroke="#22C55E" stroke-width="3"/>
+                <text x="500" y="90" text-anchor="middle" fill="#22C55E" font-size="22">&#x1F7E2;</text>
+                <text x="500" y="115" text-anchor="middle" fill="#166534" font-size="14" font-weight="700">已解决 Resolved</text>
+
+                <!-- State: On Hold (yellow) -->
+                <circle cx="500" cy="280" r="60" fill="#FEF3C7" stroke="#D97706" stroke-width="3"/>
+                <text x="500" y="270" text-anchor="middle" fill="#D97706" font-size="22">&#x1F7E1;</text>
+                <text x="500" y="295" text-anchor="middle" fill="#92400E" font-size="14" font-weight="700">已搁置 On Hold</text>
+
+                <!-- State: Closed (gray) -->
+                <circle cx="750" cy="190" r="60" fill="#E5E7EB" stroke="#6B7280" stroke-width="3"/>
+                <text x="750" y="180" text-anchor="middle" fill="#374151" font-size="22">&#x26AB;</text>
+                <text x="750" y="205" text-anchor="middle" fill="#374151" font-size="14" font-weight="700">已关闭 Closed</text>
+                <text x="750" y="260" text-anchor="middle" fill="#6B7280" font-size="12" font-weight="600">[终态]</text>
+
+                <!-- Transition: Open → Resolved -->
+                <path d="M255,125 Q350,80 440,100" fill="none" stroke="#22C55E" stroke-width="2" marker-end="url(#s4green)"/>
+                <text x="340" y="88" text-anchor="middle" fill="#22C55E" font-size="11" font-weight="600">客服解决</text>
+
+                <!-- Transition: Open → On Hold -->
+                <path d="M255,175 Q350,240 440,270" fill="none" stroke="#D97706" stroke-width="2" marker-end="url(#s4yellow)"/>
+                <text x="330" y="240" text-anchor="middle" fill="#D97706" font-size="11" font-weight="600">搁置等待</text>
+
+                <!-- Transition: Open → Closed -->
+                <path d="M258,160 Q500,50 695,170" fill="none" stroke="#6B7280" stroke-width="2" marker-end="url(#s4gray)"/>
+                <text x="480" y="48" text-anchor="middle" fill="#6B7280" font-size="11" font-weight="600">直接关闭</text>
+
+                <!-- Transition: Resolved → Open (reopen) -->
+                <path d="M440,110 Q350,140 260,145" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="6" marker-end="url(#s4red)"/>
+                <text x="355" y="140" text-anchor="middle" fill="#EF4444" font-size="10" font-weight="600">用户发送新消息</text>
+
+                <!-- Transition: On Hold → Open (reopen) -->
+                <path d="M445,265 Q350,210 258,165" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="6" marker-end="url(#s4red)"/>
+                <text x="330" y="200" text-anchor="middle" fill="#EF4444" font-size="10" font-weight="600">原因解决/重新打开</text>
+
+                <!-- Transition: On Hold → Closed -->
+                <path d="M555,260 Q650,230 695,205" fill="none" stroke="#6B7280" stroke-width="2" marker-end="url(#s4gray)"/>
+                <text x="630" y="242" text-anchor="middle" fill="#6B7280" font-size="11" font-weight="600">超时关闭</text>
+
+                <!-- Transition: Resolved → Closed (optional) -->
+                <path d="M555,115 Q650,145 695,175" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#s4gray)"/>
+                <text x="640" y="130" text-anchor="middle" fill="#6B7280" font-size="10">自动归档</text>
+
+                <!-- Trigger points box -->
+                <rect x="100" y="400" width="700" height="130" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+                <text x="450" y="430" text-anchor="middle" fill="#1e293b" font-size="15" font-weight="700">触发入口</text>
+                <line x1="140" y1="445" x2="760" y2="445" stroke="#E2E8F0" stroke-width="1"/>
+
+                <rect x="130" y="460" width="150" height="44" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+                <text x="205" y="478" text-anchor="middle" fill="#1e40af" font-size="11">聊天窗口</text>
+                <text x="205" y="494" text-anchor="middle" fill="#1e40af" font-size="11">头部状态按钮</text>
+
+                <rect x="305" y="460" width="150" height="44" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+                <text x="380" y="478" text-anchor="middle" fill="#1e40af" font-size="11">对话列表</text>
+                <text x="380" y="494" text-anchor="middle" fill="#1e40af" font-size="11">右键菜单</text>
+
+                <rect x="480" y="460" width="150" height="44" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+                <text x="555" y="478" text-anchor="middle" fill="#1e40af" font-size="11">详情面板</text>
+                <text x="555" y="494" text-anchor="middle" fill="#1e40af" font-size="11">操作区域</text>
+
+                <rect x="655" y="460" width="120" height="44" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+                <text x="715" y="478" text-anchor="middle" fill="#1e40af" font-size="11">自动化规则</text>
+                <text x="715" y="494" text-anchor="middle" fill="#1e40af" font-size="11">触发</text>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Flow 5: 对话分配五种路径 -->
+    <div class="section" id="flow5">
+        <h2><span class="num">5</span>对话分配五种路径</h2>
+        <p class="section-desc">从未分配队列到客服开始处理，提供 5 种分配路径：自动分配、手动分配、主动认领、转分配、右键分配。</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 1000 660" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+                <defs>
+                    <marker id="a5r" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#3B82F6"/></marker>
+                    <marker id="a5p1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8B5CF6"/></marker>
+                    <marker id="a5p2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0EA5E9"/></marker>
+                    <marker id="a5p3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#10B981"/></marker>
+                    <marker id="a5p4" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#F97316"/></marker>
+                    <marker id="a5p5" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#EF4444"/></marker>
+                </defs>
+
+                <!-- Source: 未分配队列 -->
+                <rect x="380" y="10" width="200" height="50" rx="12" fill="#1e3a5f" stroke="#2563eb" stroke-width="2"/>
+                <text x="480" y="41" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">未分配队列</text>
+
+                <!-- 5 path labels -->
+                <line x1="480" y1="60" x2="480" y2="90" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="120" y1="90" x2="840" y2="90" stroke="#94a3b8" stroke-width="2"/>
+
+                <!-- Path 1: 自动分配 -->
+                <line x1="120" y1="90" x2="120" y2="120" stroke="#8B5CF6" stroke-width="2"/>
+                <rect x="40" y="120" width="160" height="80" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+                <text x="120" y="145" text-anchor="middle" fill="#5B21B6" font-size="13" font-weight="700">① 自动分配</text>
+                <text x="120" y="168" text-anchor="middle" fill="#6D28D9" font-size="11">自动化规则触发</text>
+                <text x="120" y="186" text-anchor="middle" fill="#6D28D9" font-size="11">系统自动路由</text>
+
+                <!-- Path 2: 手动分配 -->
+                <line x1="300" y1="90" x2="300" y2="120" stroke="#0EA5E9" stroke-width="2"/>
+                <rect x="220" y="120" width="160" height="80" rx="10" fill="#F0F9FF" stroke="#0EA5E9" stroke-width="2"/>
+                <text x="300" y="145" text-anchor="middle" fill="#0C4A6E" font-size="13" font-weight="700">② 手动分配</text>
+                <text x="300" y="168" text-anchor="middle" fill="#0369A1" font-size="11">管理者在详情面板</text>
+                <text x="300" y="186" text-anchor="middle" fill="#0369A1" font-size="11">指定客服</text>
+
+                <!-- Path 3: 主动认领 -->
+                <line x1="480" y1="90" x2="480" y2="120" stroke="#10B981" stroke-width="2"/>
+                <rect x="400" y="120" width="160" height="80" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+                <text x="480" y="145" text-anchor="middle" fill="#065F46" font-size="13" font-weight="700">③ 主动认领</text>
+                <text x="480" y="168" text-anchor="middle" fill="#047857" font-size="11">客服在未分配视图</text>
+                <text x="480" y="186" text-anchor="middle" fill="#047857" font-size="11">点击"分配给我"</text>
+
+                <!-- Path 4: 转分配 -->
+                <line x1="660" y1="90" x2="660" y2="120" stroke="#F97316" stroke-width="2"/>
+                <rect x="580" y="120" width="160" height="80" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+                <text x="660" y="145" text-anchor="middle" fill="#9A3412" font-size="13" font-weight="700">④ 转分配</text>
+                <text x="660" y="168" text-anchor="middle" fill="#C2410C" font-size="11">当前客服转交</text>
+                <text x="660" y="186" text-anchor="middle" fill="#C2410C" font-size="11">其他客服/团队</text>
+
+                <!-- Path 5: 右键分配 -->
+                <line x1="840" y1="90" x2="840" y2="120" stroke="#EF4444" stroke-width="2"/>
+                <rect x="760" y="120" width="160" height="80" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+                <text x="840" y="145" text-anchor="middle" fill="#991B1B" font-size="13" font-weight="700">⑤ 右键分配</text>
+                <text x="840" y="168" text-anchor="middle" fill="#B91C1C" font-size="11">列表右键菜单</text>
+                <text x="840" y="186" text-anchor="middle" fill="#B91C1C" font-size="11">快速操作</text>
+
+                <!-- Converge arrows -->
+                <line x1="120" y1="200" x2="120" y2="260" stroke="#8B5CF6" stroke-width="2"/>
+                <line x1="300" y1="200" x2="300" y2="260" stroke="#0EA5E9" stroke-width="2"/>
+                <line x1="480" y1="200" x2="480" y2="260" stroke="#10B981" stroke-width="2"/>
+                <line x1="660" y1="200" x2="660" y2="260" stroke="#F97316" stroke-width="2"/>
+                <line x1="840" y1="200" x2="840" y2="260" stroke="#EF4444" stroke-width="2"/>
+                <line x1="120" y1="260" x2="840" y2="260" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="480" y1="260" x2="480" y2="290" stroke="#94a3b8" stroke-width="2"/>
+
+                <!-- Target: 客服开始处理 -->
+                <rect x="350" y="290" width="260" height="50" rx="12" fill="#22C55E" stroke="#16A34A" stroke-width="2"/>
+                <text x="480" y="321" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">客服开始处理</text>
+
+                <!-- Two dimension boxes -->
+                <line x1="480" y1="340" x2="480" y2="370" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="280" y1="370" x2="680" y2="370" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="280" y1="370" x2="280" y2="400" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="680" y1="370" x2="680" y2="400" stroke="#94a3b8" stroke-width="2"/>
+
+                <!-- Agent dimension -->
+                <rect x="120" y="400" width="320" height="240" rx="12" fill="#F0F9FF" stroke="#0EA5E9" stroke-width="1.5"/>
+                <text x="280" y="428" text-anchor="middle" fill="#0C4A6E" font-size="14" font-weight="700">Agent 维度 (10 位客服)</text>
+                <line x1="140" y1="440" x2="420" y2="440" stroke="#BAE6FD" stroke-width="1"/>
+                <rect x="140" y="455" width="140" height="30" rx="6" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="1"/>
+                <text x="210" y="475" text-anchor="middle" fill="#0369A1" font-size="11">Admin (管理员)</text>
+                <rect x="295" y="455" width="140" height="30" rx="6" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="1"/>
+                <text x="365" y="475" text-anchor="middle" fill="#0369A1" font-size="11">Agent (客服)</text>
+                <rect x="140" y="495" width="140" height="30" rx="6" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="1"/>
+                <text x="210" y="515" text-anchor="middle" fill="#0369A1" font-size="11">AI Agent</text>
+                <rect x="295" y="495" width="140" height="30" rx="6" fill="#E0F2FE" stroke="#7DD3FC" stroke-width="1"/>
+                <text x="365" y="515" text-anchor="middle" fill="#0369A1" font-size="11">Team Lead</text>
+                <text x="280" y="560" text-anchor="middle" fill="#475569" font-size="11">支持按技能、负载、在线状态分配</text>
+                <text x="280" y="580" text-anchor="middle" fill="#475569" font-size="11">负载均衡 / 轮询 / 优先级</text>
+
+                <!-- Team dimension -->
+                <rect x="520" y="400" width="320" height="240" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+                <text x="680" y="428" text-anchor="middle" fill="#9A3412" font-size="14" font-weight="700">Team 维度 (4 个团队)</text>
+                <line x1="540" y1="440" x2="820" y2="440" stroke="#FED7AA" stroke-width="1"/>
+                <rect x="545" y="455" width="130" height="30" rx="6" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1"/>
+                <text x="610" y="475" text-anchor="middle" fill="#9A3412" font-size="11">Team-A 技术支持</text>
+                <rect x="690" y="455" width="130" height="30" rx="6" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1"/>
+                <text x="755" y="475" text-anchor="middle" fill="#9A3412" font-size="11">Team-B 售前</text>
+                <rect x="545" y="495" width="130" height="30" rx="6" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1"/>
+                <text x="610" y="515" text-anchor="middle" fill="#9A3412" font-size="11">Team-C 售后</text>
+                <rect x="690" y="495" width="130" height="30" rx="6" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1"/>
+                <text x="755" y="515" text-anchor="middle" fill="#9A3412" font-size="11">Team-D VIP</text>
+                <text x="680" y="560" text-anchor="middle" fill="#475569" font-size="11">按渠道 / 标签 / 技能路由到团队</text>
+                <text x="680" y="580" text-anchor="middle" fill="#475569" font-size="11">团队内再分配给具体客服</text>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Flow 6: 数据洞察分析体系 -->
+    <div class="section" id="flow6">
+        <h2><span class="num">6</span>数据洞察分析体系</h2>
+        <p class="section-desc">Overview 实时运营看板与 Insight 历史趋势多维分析体系，涵盖 10 个子模块和核心 KPI 指标。</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 1040 820" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+
+                <!-- Two-part header -->
+                <rect x="100" y="10" width="360" height="50" rx="12" fill="#7C3AED" stroke="none"/>
+                <text x="280" y="42" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">Overview 实时运营看板</text>
+
+                <rect x="540" y="10" width="360" height="50" rx="12" fill="#6D28D9" stroke="none"/>
+                <text x="720" y="42" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">Insight 历史趋势 + 多维分析</text>
+
+                <!-- Overview items -->
+                <rect x="100" y="75" width="360" height="170" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.5"/>
+                <text x="120" y="100" fill="#5B21B6" font-size="12" font-weight="600">实时数据卡片:</text>
+                <rect x="120" y="112" width="100" height="28" rx="6" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                <text x="170" y="131" text-anchor="middle" fill="#6D28D9" font-size="10">在线访客数</text>
+                <rect x="230" y="112" width="100" height="28" rx="6" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                <text x="280" y="131" text-anchor="middle" fill="#6D28D9" font-size="10">排队中对话</text>
+                <rect x="340" y="112" width="100" height="28" rx="6" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                <text x="390" y="131" text-anchor="middle" fill="#6D28D9" font-size="10">今日会话量</text>
+                <text x="120" y="165" fill="#5B21B6" font-size="12" font-weight="600">工作负载:</text>
+                <rect x="120" y="178" width="140" height="28" rx="6" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                <text x="190" y="197" text-anchor="middle" fill="#6D28D9" font-size="10">Human Agent 负载</text>
+                <rect x="270" y="178" width="140" height="28" rx="6" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                <text x="340" y="197" text-anchor="middle" fill="#6D28D9" font-size="10">AI Agent 负载</text>
+                <text x="120" y="232" fill="#6D28D9" font-size="11">特点: 刷新频率高，关注当前状态</text>
+
+                <!-- Insight items (10 sub-modules) -->
+                <rect x="540" y="75" width="360" height="170" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.5"/>
+                <text x="560" y="100" fill="#5B21B6" font-size="12" font-weight="600">10 子模块分组:</text>
+
+                <!-- Group 1: 时效/满意度 -->
+                <rect x="560" y="110" width="70" height="24" rx="4" fill="#FECACA" stroke="#EF4444" stroke-width="1"/>
+                <text x="595" y="127" text-anchor="middle" fill="#991B1B" font-size="9">效能</text>
+                <rect x="638" y="110" width="70" height="24" rx="4" fill="#FECACA" stroke="#EF4444" stroke-width="1"/>
+                <text x="673" y="127" text-anchor="middle" fill="#991B1B" font-size="9">CSAT</text>
+
+                <!-- Group 2: 资源/主体 -->
+                <rect x="720" y="110" width="70" height="24" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+                <text x="755" y="127" text-anchor="middle" fill="#1e40af" font-size="9">Agents</text>
+                <rect x="798" y="110" width="70" height="24" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+                <text x="833" y="127" text-anchor="middle" fill="#1e40af" font-size="9">客服</text>
+
+                <rect x="560" y="142" width="70" height="24" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+                <text x="595" y="159" text-anchor="middle" fill="#1e40af" font-size="9">团队</text>
+                <rect x="638" y="142" width="70" height="24" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+                <text x="673" y="159" text-anchor="middle" fill="#1e40af" font-size="9">渠道</text>
+
+                <!-- Group 3: 数据/内容 -->
+                <rect x="720" y="142" width="70" height="24" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                <text x="755" y="159" text-anchor="middle" fill="#065F46" font-size="9">客户画像</text>
+                <rect x="798" y="142" width="70" height="24" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                <text x="833" y="159" text-anchor="middle" fill="#065F46" font-size="9">对话</text>
+
+                <rect x="560" y="174" width="70" height="24" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                <text x="595" y="191" text-anchor="middle" fill="#065F46" font-size="9">标签</text>
+                <rect x="638" y="174" width="70" height="24" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/>
+                <text x="673" y="191" text-anchor="middle" fill="#065F46" font-size="9">AI积分</text>
+
+                <text x="560" y="232" fill="#6D28D9" font-size="11">特点: 可选时间范围，支持导出</text>
+
+                <!-- Core Metrics Table -->
+                <rect x="50" y="270" width="940" height="280" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.5"/>
+                <text x="520" y="300" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="700">核心 KPI 指标</text>
+                <line x1="70" y1="310" x2="970" y2="310" stroke="#E2E8F0" stroke-width="1"/>
+
+                <!-- Table header -->
+                <rect x="70" y="320" width="300" height="32" rx="0" fill="#EEF2FF"/>
+                <text x="220" y="342" text-anchor="middle" fill="#3730A3" font-size="12" font-weight="700">指标名称</text>
+                <rect x="370" y="320" width="300" height="32" rx="0" fill="#EEF2FF"/>
+                <text x="520" y="342" text-anchor="middle" fill="#3730A3" font-size="12" font-weight="700">说明</text>
+                <rect x="670" y="320" width="300" height="32" rx="0" fill="#EEF2FF"/>
+                <text x="820" y="342" text-anchor="middle" fill="#3730A3" font-size="12" font-weight="700">维度</text>
+
+                <!-- Row 1 -->
+                <text x="220" y="375" text-anchor="middle" fill="#334155" font-size="11">会话量趋势</text>
+                <text x="520" y="375" text-anchor="middle" fill="#64748b" font-size="11">每日/周/月对话数量变化</text>
+                <text x="820" y="375" text-anchor="middle" fill="#64748b" font-size="11">时间 / 渠道 / 标签</text>
+                <line x1="70" y1="388" x2="970" y2="388" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 2 -->
+                <text x="220" y="410" text-anchor="middle" fill="#334155" font-size="11">首次响应时间</text>
+                <text x="520" y="410" text-anchor="middle" fill="#64748b" font-size="11">P90 / P95 / P99 百分位</text>
+                <text x="820" y="410" text-anchor="middle" fill="#64748b" font-size="11">客服 / 团队 / 时间</text>
+                <line x1="70" y1="423" x2="970" y2="423" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 3 -->
+                <text x="220" y="445" text-anchor="middle" fill="#334155" font-size="11">问题解决耗时</text>
+                <text x="520" y="445" text-anchor="middle" fill="#64748b" font-size="11">从创建到 Resolved 的时长分布</text>
+                <text x="820" y="445" text-anchor="middle" fill="#64748b" font-size="11">客服 / 团队 / 渠道</text>
+                <line x1="70" y1="458" x2="970" y2="458" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 4 -->
+                <text x="220" y="480" text-anchor="middle" fill="#334155" font-size="11">人机协作对比</text>
+                <text x="520" y="480" text-anchor="middle" fill="#64748b" font-size="11">AI vs Human 解决率/响应速度对比</text>
+                <text x="820" y="480" text-anchor="middle" fill="#64748b" font-size="11">AI vs 人工</text>
+                <line x1="70" y1="493" x2="970" y2="493" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 5 -->
+                <text x="220" y="515" text-anchor="middle" fill="#334155" font-size="11">Hand-off Rate</text>
+                <text x="520" y="515" text-anchor="middle" fill="#64748b" font-size="11">AI 转人工比例</text>
+                <text x="820" y="515" text-anchor="middle" fill="#64748b" font-size="11">AI Agent / 时间</text>
+                <line x1="70" y1="528" x2="970" y2="528" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 6 -->
+                <text x="220" y="543" text-anchor="middle" fill="#334155" font-size="11">CSAT 满意度</text>
+                <text x="520" y="543" text-anchor="middle" fill="#64748b" font-size="11">客户满意度评分分布</text>
+                <text x="820" y="543" text-anchor="middle" fill="#64748b" font-size="11">客服 / 团队 / 渠道</text>
+
+                <!-- Analysis Dimensions -->
+                <rect x="50" y="575" width="940" height="100" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.5"/>
+                <text x="520" y="605" text-anchor="middle" fill="#5B21B6" font-size="14" font-weight="700">分析维度</text>
+                <line x1="70" y1="615" x2="970" y2="615" stroke="#DDD6FE" stroke-width="1"/>
+                <g>
+                    <rect x="80" y="628" width="110" height="32" rx="8" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                    <text x="135" y="649" text-anchor="middle" fill="#6D28D9" font-size="12">时间</text>
+                    <rect x="210" y="628" width="110" height="32" rx="8" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                    <text x="265" y="649" text-anchor="middle" fill="#6D28D9" font-size="12">客服</text>
+                    <rect x="340" y="628" width="110" height="32" rx="8" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                    <text x="395" y="649" text-anchor="middle" fill="#6D28D9" font-size="12">团队</text>
+                    <rect x="470" y="628" width="110" height="32" rx="8" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                    <text x="525" y="649" text-anchor="middle" fill="#6D28D9" font-size="12">渠道</text>
+                    <rect x="600" y="628" width="110" height="32" rx="8" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                    <text x="655" y="649" text-anchor="middle" fill="#6D28D9" font-size="12">标签</text>
+                    <rect x="730" y="628" width="130" height="32" rx="8" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+                    <text x="795" y="649" text-anchor="middle" fill="#6D28D9" font-size="12">AI vs 人工</text>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Flow 7: 集成与自动化 -->
+    <div class="section" id="flow7">
+        <h2><span class="num">7</span>集成与自动化</h2>
+        <p class="section-desc">涵盖自动化规则引擎、Channels 渠道接入、API/Webhook 对接和角色权限体系。</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 1040 780" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+                <defs>
+                    <marker id="a7r" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#475569"/></marker>
+                    <marker id="a7b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#3B82F6"/></marker>
+                </defs>
+
+                <!-- Area 1: 自动化规则 -->
+                <rect x="20" y="10" width="490" height="340" rx="12" fill="#F0F9FF" stroke="#3B82F6" stroke-width="2"/>
+                <rect x="20" y="10" width="490" height="44" rx="12" fill="#3B82F6"/>
+                <rect x="20" y="34" width="490" height="20" fill="#3B82F6"/>
+                <text x="265" y="38" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">自动化规则引擎</text>
+
+                <!-- Trigger conditions -->
+                <text x="45" y="80" fill="#1e40af" font-size="13" font-weight="700">触发条件</text>
+                <rect x="45" y="92" width="130" height="32" rx="6" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+                <text x="110" y="113" text-anchor="middle" fill="#1e40af" font-size="11">新对话创建</text>
+                <rect x="185" y="92" width="130" height="32" rx="6" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+                <text x="250" y="113" text-anchor="middle" fill="#1e40af" font-size="11">消息事件</text>
+                <rect x="45" y="132" width="130" height="32" rx="6" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+                <text x="110" y="153" text-anchor="middle" fill="#1e40af" font-size="11">状态变化</text>
+                <rect x="185" y="132" width="130" height="32" rx="6" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+                <text x="250" y="153" text-anchor="middle" fill="#1e40af" font-size="11">时间触发</text>
+
+                <!-- Arrow -->
+                <line x1="350" y1="130" x2="390" y2="130" stroke="#475569" stroke-width="2" marker-end="url(#a7r)"/>
+
+                <!-- Execution actions -->
+                <text x="395" y="80" fill="#1e40af" font-size="13" font-weight="700">执行操作</text>
+                <rect x="395" y="92" width="100" height="32" rx="6" fill="#BFDBFE" stroke="#60A5FA" stroke-width="1"/>
+                <text x="445" y="113" text-anchor="middle" fill="#1e40af" font-size="11">自动分配</text>
+                <rect x="395" y="132" width="100" height="32" rx="6" fill="#BFDBFE" stroke="#60A5FA" stroke-width="1"/>
+                <text x="445" y="153" text-anchor="middle" fill="#1e40af" font-size="11">打标签</text>
+                <rect x="395" y="172" width="100" height="32" rx="6" fill="#BFDBFE" stroke="#60A5FA" stroke-width="1"/>
+                <text x="445" y="193" text-anchor="middle" fill="#1e40af" font-size="11">变更状态</text>
+                <rect x="395" y="212" width="100" height="32" rx="6" fill="#BFDBFE" stroke="#60A5FA" stroke-width="1"/>
+                <text x="445" y="233" text-anchor="middle" fill="#1e40af" font-size="11">自动回复</text>
+
+                <!-- Example rule -->
+                <rect x="45" y="185" width="300" height="80" rx="8" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1" stroke-dasharray="4"/>
+                <text x="55" y="205" fill="#3B82F6" font-size="11" font-weight="600">示例规则：</text>
+                <text x="55" y="225" fill="#475569" font-size="10">IF 新对话 AND 渠道=Web</text>
+                <text x="55" y="243" fill="#475569" font-size="10">THEN 分配到 Team-A + 打标签"Web来源"</text>
+
+                <!-- Priority note -->
+                <text x="45" y="295" fill="#475569" font-size="11">规则优先级: 按创建顺序执行，首条匹配即停止</text>
+                <text x="45" y="315" fill="#475569" font-size="11">支持: 条件组合 (AND/OR)、多动作并行执行</text>
+
+                <!-- Area 2: Channels渠道接入 -->
+                <rect x="530" y="10" width="490" height="180" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+                <rect x="530" y="10" width="490" height="44" rx="12" fill="#10B981"/>
+                <rect x="530" y="34" width="490" height="20" fill="#10B981"/>
+                <text x="775" y="38" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">Channels 渠道接入</text>
+
+                <text x="555" y="80" fill="#065F46" font-size="13" font-weight="700">9 个 Web 渠道</text>
+                <rect x="555" y="92" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
+                <text x="597" y="111" text-anchor="middle" fill="#065F46" font-size="10">Website</text>
+                <rect x="648" y="92" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
+                <text x="690" y="111" text-anchor="middle" fill="#065F46" font-size="10">Facebook</text>
+                <rect x="741" y="92" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
+                <text x="783" y="111" text-anchor="middle" fill="#065F46" font-size="10">WhatsApp</text>
+                <rect x="834" y="92" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
+                <text x="876" y="111" text-anchor="middle" fill="#065F46" font-size="10">Telegram</text>
+                <rect x="555" y="128" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
+                <text x="597" y="147" text-anchor="middle" fill="#065F46" font-size="10">Line</text>
+                <rect x="648" y="128" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
+                <text x="690" y="147" text-anchor="middle" fill="#065F46" font-size="10">Instagram</text>
+                <rect x="741" y="128" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
+                <text x="783" y="147" text-anchor="middle" fill="#065F46" font-size="10">Email</text>
+                <rect x="834" y="128" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
+                <text x="876" y="147" text-anchor="middle" fill="#065F46" font-size="10">API</text>
+                <text x="555" y="178" fill="#475569" font-size="11">每个渠道独立卡片管理，支持多实例配置</text>
+
+                <!-- Area 3: API/Webhook -->
+                <rect x="530" y="210" width="490" height="140" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+                <rect x="530" y="210" width="490" height="44" rx="12" fill="#F97316"/>
+                <rect x="530" y="234" width="490" height="20" fill="#F97316"/>
+                <text x="775" y="238" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">API / Webhook</text>
+
+                <rect x="555" y="272" width="130" height="36" rx="8" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1"/>
+                <text x="620" y="295" text-anchor="middle" fill="#9A3412" font-size="11">API 密钥管理</text>
+                <line x1="685" y1="290" x2="720" y2="290" stroke="#475569" stroke-width="2" marker-end="url(#a7r)"/>
+                <rect x="720" y="272" width="130" height="36" rx="8" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1"/>
+                <text x="785" y="295" text-anchor="middle" fill="#9A3412" font-size="11">Webhook 回调</text>
+                <line x1="850" y1="290" x2="885" y2="290" stroke="#475569" stroke-width="2" marker-end="url(#a7r)"/>
+                <rect x="885" y="272" width="110" height="36" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+                <text x="940" y="295" text-anchor="middle" fill="#92400E" font-size="11">外部系统</text>
+                <text x="555" y="335" fill="#475569" font-size="11">test AI key 可用于开发调试环境</text>
+
+                <!-- Area 4: 角色权限 -->
+                <rect x="20" y="370" width="1000" height="200" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+                <rect x="20" y="370" width="1000" height="44" rx="12" fill="#475569"/>
+                <rect x="20" y="394" width="1000" height="20" fill="#475569"/>
+                <text x="520" y="398" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">角色权限体系</text>
+
+                <!-- Admin -->
+                <rect x="50" y="430" width="210" height="120" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+                <rect x="50" y="430" width="210" height="34" rx="10" fill="#EF4444"/>
+                <rect x="50" y="450" width="210" height="14" fill="#EF4444"/>
+                <text x="155" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Admin 管理员</text>
+                <text x="155" y="485" text-anchor="middle" fill="#991B1B" font-size="11">全功能访问</text>
+                <text x="155" y="505" text-anchor="middle" fill="#991B1B" font-size="11">系统设置 + 用户管理</text>
+                <text x="155" y="525" text-anchor="middle" fill="#991B1B" font-size="11">数据报表 + API 管理</text>
+
+                <!-- Agent -->
+                <rect x="290" y="430" width="210" height="120" rx="10" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+                <rect x="290" y="430" width="210" height="34" rx="10" fill="#3B82F6"/>
+                <rect x="290" y="450" width="210" height="14" fill="#3B82F6"/>
+                <text x="395" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">客服 Agent</text>
+                <text x="395" y="485" text-anchor="middle" fill="#1e40af" font-size="11">对话处理 + 工单</text>
+                <text x="395" y="505" text-anchor="middle" fill="#1e40af" font-size="11">联系人查看</text>
+                <text x="395" y="525" text-anchor="middle" fill="#1e40af" font-size="11">个人工作台</text>
+
+                <!-- AI Agent -->
+                <rect x="530" y="430" width="210" height="120" rx="10" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+                <rect x="530" y="430" width="210" height="34" rx="10" fill="#8B5CF6"/>
+                <rect x="530" y="450" width="210" height="14" fill="#8B5CF6"/>
+                <text x="635" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">AI Agent</text>
+                <text x="635" y="485" text-anchor="middle" fill="#5B21B6" font-size="11">自动处理对话</text>
+                <text x="635" y="505" text-anchor="middle" fill="#5B21B6" font-size="11">知识库检索 + 回复</text>
+                <text x="635" y="525" text-anchor="middle" fill="#5B21B6" font-size="11">Hand-off 转人工</text>
+
+                <!-- Team Manager -->
+                <rect x="770" y="430" width="220" height="120" rx="10" fill="#FFEDD5" stroke="#F97316" stroke-width="1.5"/>
+                <rect x="770" y="430" width="220" height="34" rx="10" fill="#F97316"/>
+                <rect x="770" y="450" width="220" height="14" fill="#F97316"/>
+                <text x="880" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">团队管理者</text>
+                <text x="880" y="485" text-anchor="middle" fill="#9A3412" font-size="11">团队对话管理</text>
+                <text x="880" y="505" text-anchor="middle" fill="#9A3412" font-size="11">成员分配 + 监控</text>
+                <text x="880" y="525" text-anchor="middle" fill="#9A3412" font-size="11">团队级报表查看</text>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Flow 8: 对比与借鉴 -->
+    <div class="section" id="flow8">
+        <h2><span class="num">8</span>对比与借鉴</h2>
+        <p class="section-desc">LiveDesk 与自研方案的 10 维度对比评估，以及 5 个值得借鉴的设计亮点。</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 1040 1000" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+
+                <!-- Comparison Table -->
+                <rect x="20" y="10" width="1000" height="530" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.5"/>
+                <text x="520" y="42" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="700">10 维度对比评估</text>
+                <line x1="40" y1="55" x2="1000" y2="55" stroke="#E2E8F0" stroke-width="1"/>
+
+                <!-- Table header -->
+                <rect x="40" y="65" width="240" height="36" rx="0" fill="#EFF6FF"/>
+                <text x="160" y="88" text-anchor="middle" fill="#1e40af" font-size="13" font-weight="700">对比维度</text>
+                <rect x="280" y="65" width="350" height="36" rx="0" fill="#DBEAFE"/>
+                <text x="455" y="88" text-anchor="middle" fill="#1e40af" font-size="13" font-weight="700">LiveDesk</text>
+                <rect x="630" y="65" width="370" height="36" rx="0" fill="#D1FAE5"/>
+                <text x="815" y="88" text-anchor="middle" fill="#065F46" font-size="13" font-weight="700">自研方案</text>
+
+                <!-- Row function -->
+                <!-- Row 1 -->
+                <text x="160" y="122" text-anchor="middle" fill="#334155" font-size="11">上线速度</text>
+                <text x="455" y="122" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 即开即用</text>
+                <text x="815" y="122" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733; 需数月开发</text>
+                <line x1="40" y1="133" x2="1000" y2="133" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 2 -->
+                <text x="160" y="155" text-anchor="middle" fill="#334155" font-size="11">AI 能力</text>
+                <text x="455" y="155" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733; 内置AI Agent + 知识库</text>
+                <text x="815" y="155" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 深度定制自研模型</text>
+                <line x1="40" y1="166" x2="1000" y2="166" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 3 -->
+                <text x="160" y="188" text-anchor="middle" fill="#334155" font-size="11">多渠道接入</text>
+                <text x="455" y="188" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 9渠道开箱即用</text>
+                <text x="815" y="188" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733; 需逐个对接</text>
+                <line x1="40" y1="199" x2="1000" y2="199" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 4 -->
+                <text x="160" y="221" text-anchor="middle" fill="#334155" font-size="11">数据合规</text>
+                <text x="455" y="221" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733; 依赖第三方</text>
+                <text x="815" y="221" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 完全自主可控</text>
+                <line x1="40" y1="232" x2="1000" y2="232" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 5 -->
+                <text x="160" y="254" text-anchor="middle" fill="#334155" font-size="11">定制灵活度</text>
+                <text x="455" y="254" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733; SaaS标准化</text>
+                <text x="815" y="254" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 完全定制</text>
+                <line x1="40" y1="265" x2="1000" y2="265" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 6 -->
+                <text x="160" y="287" text-anchor="middle" fill="#334155" font-size="11">运维成本</text>
+                <text x="455" y="287" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 托管无运维</text>
+                <text x="815" y="287" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733; 需专职运维</text>
+                <line x1="40" y1="298" x2="1000" y2="298" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 7 -->
+                <text x="160" y="320" text-anchor="middle" fill="#334155" font-size="11">国际化</text>
+                <text x="455" y="320" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 自动翻译+多语言</text>
+                <text x="815" y="320" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733; 需单独开发</text>
+                <line x1="40" y1="331" x2="1000" y2="331" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 8 -->
+                <text x="160" y="353" text-anchor="middle" fill="#334155" font-size="11">扩展规模</text>
+                <text x="455" y="353" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733; 中等规模适用</text>
+                <text x="815" y="353" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 大规模弹性扩展</text>
+                <line x1="40" y1="364" x2="1000" y2="364" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 9 -->
+                <text x="160" y="386" text-anchor="middle" fill="#334155" font-size="11">报表分析</text>
+                <text x="455" y="386" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733; 10子模块+P90/P95/P99</text>
+                <text x="815" y="386" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733; 按需定制</text>
+                <line x1="40" y1="397" x2="1000" y2="397" stroke="#F1F5F9" stroke-width="1"/>
+
+                <!-- Row 10 -->
+                <text x="160" y="419" text-anchor="middle" fill="#334155" font-size="11">开发成本</text>
+                <text x="455" y="419" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 订阅制低成本</text>
+                <text x="815" y="419" text-anchor="middle" fill="#059669" font-size="11">&#9733; 需大量人力投入</text>
+
+                <!-- Applicable scenarios -->
+                <line x1="40" y1="440" x2="1000" y2="440" stroke="#CBD5E1" stroke-width="1.5"/>
+                <text x="520" y="468" text-anchor="middle" fill="#1e293b" font-size="14" font-weight="700">适用场景</text>
+
+                <rect x="60" y="480" width="440" height="40" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+                <text x="280" y="505" text-anchor="middle" fill="#1e40af" font-size="12" font-weight="600">LiveDesk 适合</text>
+                <rect x="540" y="480" width="440" height="40" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+                <text x="760" y="505" text-anchor="middle" fill="#065F46" font-size="12" font-weight="600">自研适合</text>
+
+                <!-- Table body row -->
+                <!-- LiveDesk scenarios -->
+                <text x="80" y="540" fill="#334155" font-size="11">- 快速上线，业务验证期</text>
+                <text x="560" y="540" fill="#334155" font-size="11">- AI 深度定制，自研模型集成</text>
+
+                <text x="80" y="560" fill="#334155" font-size="11">- 中等规模客服团队 (10-50人)</text>
+                <text x="560" y="560" fill="#334155" font-size="11">- 数据合规要求高 (金融/医疗)</text>
+
+                <text x="80" y="580" fill="#334155" font-size="11">- 国际化业务，多语言需求</text>
+                <text x="560" y="580" fill="#334155" font-size="11">- 高度定制化业务流程</text>
+
+                <text x="80" y="600" fill="#334155" font-size="11">- 无专职技术团队维护</text>
+                <text x="560" y="600" fill="#334155" font-size="11">- 大规模集群 (100+ 客服)</text>
+
+                <!-- 5 Borrowable designs -->
+                <rect x="20" y="630" width="1000" height="350" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+                <text x="520" y="662" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="700">5 个值得借鉴的设计亮点</text>
+                <line x1="40" y1="675" x2="1000" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+
+                <!-- Design 1 -->
+                <rect x="40" y="690" width="180" height="120" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+                <rect x="55" y="700" width="30" height="30" rx="15" fill="#F97316"/>
+                <text x="70" y="720" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">1</text>
+                <text x="100" y="720" fill="#9A3412" font-size="13" font-weight="700">工单模块</text>
+                <text x="130" y="748" text-anchor="middle" fill="#475569" font-size="10">独立工单系统</text>
+                <text x="130" y="766" text-anchor="middle" fill="#475569" font-size="10">适合复杂问题</text>
+                <text x="130" y="784" text-anchor="middle" fill="#475569" font-size="10">长期跟踪处理</text>
+
+                <!-- Design 2 -->
+                <rect x="240" y="690" width="180" height="120" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+                <rect x="255" y="700" width="30" height="30" rx="15" fill="#D97706"/>
+                <text x="270" y="720" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">2</text>
+                <text x="300" y="720" fill="#92400E" font-size="13" font-weight="700">On Hold状态</text>
+                <text x="330" y="748" text-anchor="middle" fill="#475569" font-size="10">搁置等待机制</text>
+                <text x="330" y="766" text-anchor="middle" fill="#475569" font-size="10">避免超时误关</text>
+                <text x="330" y="784" text-anchor="middle" fill="#475569" font-size="10">提升处理灵活性</text>
+
+                <!-- Design 3 -->
+                <rect x="440" y="690" width="180" height="120" rx="10" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="2"/>
+                <rect x="455" y="700" width="30" height="30" rx="15" fill="#8B5CF6"/>
+                <text x="470" y="720" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">3</text>
+                <text x="500" y="720" fill="#5B21B6" font-size="13" font-weight="700">右键菜单</text>
+                <text x="530" y="748" text-anchor="middle" fill="#475569" font-size="10">8种快捷操作</text>
+                <text x="530" y="766" text-anchor="middle" fill="#475569" font-size="10">批量/单条处理</text>
+                <text x="530" y="784" text-anchor="middle" fill="#475569" font-size="10">提升操作效率</text>
+
+                <!-- Design 4 -->
+                <rect x="640" y="690" width="180" height="120" rx="10" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+                <rect x="655" y="700" width="30" height="30" rx="15" fill="#3B82F6"/>
+                <text x="670" y="720" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">4</text>
+                <text x="715" y="720" fill="#1e40af" font-size="12" font-weight="700">Overview仪表盘</text>
+                <text x="730" y="748" text-anchor="middle" fill="#475569" font-size="10">实时监控看板</text>
+                <text x="730" y="766" text-anchor="middle" fill="#475569" font-size="10">多维度数据卡片</text>
+                <text x="730" y="784" text-anchor="middle" fill="#475569" font-size="10">一目了然掌控全局</text>
+
+                <!-- Design 5 -->
+                <rect x="840" y="690" width="160" height="120" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+                <rect x="855" y="700" width="30" height="30" rx="15" fill="#10B981"/>
+                <text x="870" y="720" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">5</text>
+                <text x="895" y="720" fill="#065F46" font-size="12" font-weight="700">P90/P95/P99</text>
+                <text x="920" y="748" text-anchor="middle" fill="#475569" font-size="10">百分位指标</text>
+                <text x="920" y="766" text-anchor="middle" fill="#475569" font-size="10">精准衡量SLA</text>
+                <text x="920" y="784" text-anchor="middle" fill="#475569" font-size="10">发现尾部延迟</text>
+
+                <!-- Summary -->
+                <rect x="40" y="830" width="960" height="60" rx="8" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1"/>
+                <text x="520" y="855" text-anchor="middle" fill="#1e40af" font-size="12" font-weight="600">总结：LiveDesk 是成熟的 SaaS 客服系统，适合快速部署和国际化场景；</text>
+                <text x="520" y="875" text-anchor="middle" fill="#1e40af" font-size="12" font-weight="600">自研方案适合需要深度 AI 定制、数据合规和大规模扩展的企业级场景。</text>
+
+                <!-- Recommendation -->
+                <rect x="40" y="910" width="960" height="50" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+                <text x="520" y="940" text-anchor="middle" fill="#92400E" font-size="13" font-weight="700">推荐策略：先用 LiveDesk 快速验证业务，借鉴其设计亮点到自研系统，逐步迁移核心能力。</text>
+            </svg>
+        </div>
+    </div>
+
+</div><!-- end container -->
+
+<!-- Footer -->
+<div class="footer">
+    <div class="divider"></div>
+    <p>极光LiveDesk在线客服系统 — 系统流程图文档</p>
+    <p>数据来源：EngageLab LiveDesk 功能文档 · 操作文档 · 服务分析</p>
+    <p style="margin-top:8px;">整理时间：2026-05-29</p>
+</div>
+
+<!-- 浮动按钮组 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75;text-decoration:none}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+@media(max-width:640px){.fab-group{right:14px;bottom:20px;gap:8px}.fab{width:38px;height:38px}.fab svg{width:16px;height:16px}}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/?project=livedesk" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+</script>
+
+</body>
+</html>
