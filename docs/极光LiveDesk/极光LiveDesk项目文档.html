@@ -520,7 +520,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="subsec">
 <h4>消息展示</h4>
 <p>用户消息显示在左侧灰色气泡，客服消息在右侧蓝色/紫色气泡，AI回复会带一个 AI Badge 标识。每条消息都标注了发送时间。</p>
-<p>系统内置了 PT（葡萄牙语）和 CN（中文）之间的自动翻译，每条消息旁提供"翻译"按钮，点击即可查看对应语言的译文。另外还支持 Typing Indicator（输入指示）和 Read Receipts（已读回执）。</p>
+<p>系统内置了自动翻译功能，提供 MT-Flash（快速）和 MT-Plus（高质量）两种翻译模型，支持双向互译，单次限制 1000 字符，可配置自定义术语表（JSON 格式）。当前项目主要用于 PT（葡萄牙语）和 CN（中文）之间的互译。每条消息旁提供"翻译"按钮，点击即可查看对应语言的译文。另外还支持 Typing Indicator（输入指示）和 Read Receipts（已读回执）。</p>
 <p>用户名称采用系统自动生成的动物组合名，格式为"形容词-动物"，如 dynamic-skunk、excess-aphid、flat-bison 等，保护用户隐私的同时便于客服辨识不同对话。</p>
 </div>
 
@@ -1124,15 +1124,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 <div class="sec-body">
 
-<h3>13.1 报表维度</h3>
+<h3>13.1 报表维度（官方6大维度）</h3>
 <table class="stbl">
 <tr><th>维度</th><th>切分方式</th><th>典型分析场景</th></tr>
-<tr><td><strong>时间</strong></td><td>按天/周/月/自定义时间段</td><td>趋势分析、同环比对比</td></tr>
-<tr><td><strong>客服</strong></td><td>按客服个人</td><td>绩效排名、工作量评估</td></tr>
-<tr><td><strong>团队</strong></td><td>按客服团队</td><td>团队效率对比</td></tr>
-<tr><td><strong>渠道</strong></td><td>按接入渠道</td><td>渠道流量分布、投入产出</td></tr>
-<tr><td><strong>标签</strong></td><td>按对话标签</td><td>问题类型分布</td></tr>
-<tr><td><strong>AI vs 人工</strong></td><td>按处理方式</td><td>AI替代率评估</td></tr>
+<tr><td><strong>会话（Conversations）</strong></td><td>按对话量、消息收发、响应时间等</td><td>对话量趋势、响应效率分析</td></tr>
+<tr><td><strong>客户满意度（CSAT）</strong></td><td>按满意度评分</td><td>服务质量评估、改进方向</td></tr>
+<tr><td><strong>客服（Agents）</strong></td><td>按客服个人</td><td>绩效排名、工作量评估</td></tr>
+<tr><td><strong>标签（Labels）</strong></td><td>按对话标签</td><td>问题类型分布</td></tr>
+<tr><td><strong>通道（Channels）</strong></td><td>按接入渠道</td><td>渠道流量分布、投入产出</td></tr>
+<tr><td><strong>团队（Teams）</strong></td><td>按客服团队</td><td>团队效率对比</td></tr>
 </table>
 
 <h3>13.2 核心指标汇总</h3>
@@ -1273,10 +1273,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <h3>16.2 存在的不足</h3>
 <table class="stbl">
 <tr><th>问题</th><th>具体表现</th><th>影响程度</th></tr>
-<tr><td><strong>AI深度有限</strong></td><td>AI能力整体偏黑盒，只做 FAQ 匹配，缺少深层语义理解</td><td><span class="tag tag-amber">中</span></td></tr>
+<tr><td><strong>AI深度有限</strong></td><td>官方文档补充后 AI 能力较丰富（分类/优化/置信度/FCR/翻译），但部分高级功能需订阅，核心仍依赖 GPTBots Agent API</td><td><span class="tag tag-slate">低</span></td></tr>
 <tr><td><strong>数据控制权弱</strong></td><td>SaaS模式下数据存在第三方，无法完全掌控</td><td><span class="tag tag-red">高</span></td></tr>
 <tr><td><strong>定制空间有限</strong></td><td>标准化 SaaS 产品，很难做深度定制</td><td><span class="tag tag-amber">中</span></td></tr>
-<tr><td><strong>部分功能未配置</strong></td><td>"高级功能"设置页面为空白；"AI能力"页面已展示3项配置（问题分类/优化客服消息/解决置信度）但均未实际配置数据</td><td><span class="tag tag-slate">低</span></td></tr>
+<tr><td><strong>部分功能未配置</strong></td><td>"高级功能"设置页面为空白；AI能力页面共6项配置（问题分类/优化客服消息/解决置信度/FCR识别/自动推断解决/消息翻译），其中3项需订阅</td><td><span class="tag tag-slate">低</span></td></tr>
 <tr><td><strong>渠道支持已确认</strong></td><td>官方文档确认支持 10 种渠道类型，包括 Website/WhatsApp/Telegram/SMS/Email/LINE/Facebook/Instagram/API Channel 等，当前项目仅使用了 Web 渠道</td><td><span class="tag tag-green">已解决</span></td></tr>
 <tr><td><strong>规模化成本</strong></td><td>SaaS 按量或按席位收费，座席数量增长后费用可能上升较快</td><td><span class="tag tag-amber">中</span></td></tr>
 </table>
@@ -1288,8 +1288,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <p>不用打开对话详情就能完成标记、分配、搁置等操作，批量处理时效率很高</p>
 </div>
 <div class="mod-card">
-<h4>搁置状态设计</h4>
-<p>On Hold 支持设定时间后自动恢复为 Open，防止对话被遗忘在角落</p>
+<h4>搁置状态设计（Snoozed）</h4>
+<p>Snoozed（官方术语）支持设定时间后自动恢复为 Open，防止对话被遗忘在角落</p>
 </div>
 <div class="mod-card">
 <h4>Overview 仪表盘</h4>
@@ -1314,8 +1314,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <tr><th>评估维度</th><th>评分</th><th>评价</th></tr>
 <tr><td><strong>功能完整性</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>核心客服功能齐全，部分高级功能尚未开放</td></tr>
 <tr><td><strong>用户体验</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>界面现代化，交互流畅，右键菜单等设计出色</td></tr>
-<tr><td><strong>AI 能力</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>基础AI应答可用，但深度和灵活性有限</td></tr>
-<tr><td><strong>数据分析</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>10维度分析，P90/P95/P99专业统计</td></tr>
+<tr><td><strong>AI 能力</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>官方文档补充：含分类/优化/置信度/FCR/翻译等6项AI能力，部分为订阅制</td></tr>
+<tr><td><strong>数据分析</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>官方6大维度分析（会话/CSAT/客服/标签/通道/团队），P90/P95/P99专业统计</td></tr>
 <tr><td><strong>多渠道支持</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>官方支持10种渠道（Website/WhatsApp/TG/SMS/Email/LINE/FB/IG/API等）</td></tr>
 <tr><td><strong>团队协作</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>团队/分配/工单协作体系成熟</td></tr>
 <tr><td><strong>系统集成</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>REST API（Contact/Conversation/Ticket）+ Webhook + JavaScript SDK + Dyte音视频集成</td></tr>
@@ -1346,7 +1346,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <table class="stbl">
 <tr><th>设计点</th><th>借鉴价值</th><th>理由</th></tr>
 <tr><td><strong>工单模块</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>独立于对话的工单系统，让复杂问题有了专门的跟踪通道</td></tr>
-<tr><td><strong>On Hold 搁置状态</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>定时恢复机制很实用，能有效防止对话被遗漏</td></tr>
+<tr><td><strong>Snoozed 搁置状态</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>定时恢复机制很实用，能有效防止对话被遗漏（官方术语为 Snoozed）</td></tr>
 <tr><td><strong>右键菜单</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>8项快速操作免打开详情，在批量处理场景下优势明显</td></tr>
 <tr><td><strong>Overview 仪表盘</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>AI和人工负载分开展示，管理视角清晰</td></tr>
 <tr><td><strong>P90/P95/P99 统计</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>百分位统计比简单平均值更能反映真实的服务水平</td></tr>
@@ -1390,11 +1390,162 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 </div>
 
+<!-- ========== S18: Widget SDK 接入 ========== -->
+<div class="sec" id="s18">
+<div class="sec-head">
+<h2>十八、Widget SDK 接入（官方文档补充）</h2>
+<div class="desc">JavaScript SDK 提供完整的 Widget 控制能力，支持用户身份绑定、自定义属性、界面控制和事件监听</div>
+</div>
+<div class="sec-body">
+
+<h3>18.1 全局配置（livedeskSettings）</h3>
+<div class="subsec">
+<p>通过全局变量 <code>window.livedeskSettings</code> 进行 Widget 初始化配置，支持 20+ 个参数，包括：渠道 Token、语言、位置、颜色主题、暗色模式、气泡样式、自定义属性等。</p>
+<div class="code-block">window.livedeskSettings = {
+  token: 'YOUR_CHANNEL_TOKEN',
+  locale: 'pt_BR',
+  position: 'right',
+  type: 'expanded_bubble',
+  darkMode: 'auto',
+  // ...20+ 可配置参数
+};</div>
+</div>
+
+<h3>18.2 JavaScript SDK 方法</h3>
+<table class="stbl">
+<tr><th>方法</th><th>功能说明</th></tr>
+<tr><td><strong>setUserId(userId)</strong></td><td>绑定用户身份标识，支持普通模式和 HMAC 加密模式（防伪造）</td></tr>
+<tr><td><strong>setCustomAttributes(attrs)</strong></td><td>设置自定义对话或用户属性</td></tr>
+<tr><td><strong>toggle()</strong></td><td>切换 Widget 的展开/收起状态</td></tr>
+<tr><td><strong>toggleBubbleVisibility()</strong></td><td>切换气泡按钮的显示/隐藏</td></tr>
+<tr><td><strong>popoutChatWindow()</strong></td><td>将聊天窗口弹出为独立窗口</td></tr>
+<tr><td><strong>setLocale(locale)</strong></td><td>动态切换 Widget 显示语言</td></tr>
+<tr><td><strong>setLabel(label)</strong></td><td>为当前对话设置标签</td></tr>
+<tr><td><strong>removeLabel(label)</strong></td><td>移除当前对话的指定标签</td></tr>
+</table>
+
+<h3>18.3 事件监听（Event Listeners）</h3>
+<table class="stbl">
+<tr><th>事件名称</th><th>触发时机</th></tr>
+<tr><td><strong>livedesk:ready</strong></td><td>Widget 加载完成并准备就绪时触发</td></tr>
+<tr><td><strong>livedesk:on-message</strong></td><td>收到新消息时触发</td></tr>
+<tr><td><strong>livedesk:error</strong></td><td>Widget 发生错误时触发</td></tr>
+</table>
+
+<div class="subsec">
+<h4>HMAC 加密用户身份（安全模式）</h4>
+<p>为防止用户身份伪造，setUserId 支持 HMAC 加密模式。服务端使用 API Secret 对 userId 进行 HMAC-SHA256 签名，将签名结果连同 userId 一起传入 SDK，系统会自动验证签名有效性。</p>
+</div>
+</div>
+</div>
+
+<!-- ========== S19: REST API 接口 ========== -->
+<div class="sec" id="s19">
+<div class="sec-head">
+<h2>十九、REST API 接口（官方文档补充）</h2>
+<div class="desc">新加坡数据中心，HTTP Basic Auth 认证，支持 Contact/Conversation/Ticket 三大资源操作</div>
+</div>
+<div class="sec-body">
+
+<div class="subsec">
+<h4>API 概览</h4>
+<table class="stbl">
+<tr><th>项目</th><th>详情</th></tr>
+<tr><td><strong>数据中心</strong></td><td>新加坡（Singapore）</td></tr>
+<tr><td><strong>基础地址</strong></td><td><code>https://livedesk-api.engagelab.com</code></td></tr>
+<tr><td><strong>认证方式</strong></td><td>HTTP Basic Authentication（API Key : API Secret）</td></tr>
+<tr><td><strong>数据格式</strong></td><td>JSON</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>API 端点详情</h4>
+<table class="stbl">
+<tr><th>资源</th><th>端点</th><th>支持操作</th></tr>
+<tr><td><strong>Contact</strong></td><td>/api/v1/contacts</td><td>创建（POST）/ 查询（GET）/ 更新（PUT）/ 删除（DELETE）</td></tr>
+<tr><td><strong>Conversation</strong></td><td>/api/v1/conversations</td><td>创建对话（POST）/ 发送消息 / 变更状态</td></tr>
+<tr><td><strong>Ticket</strong></td><td>/api/v1/tickets</td><td>创建工单（POST）/ 更新工单（PUT）/ 查询详情（GET）</td></tr>
+</table>
+</div>
+
+<div class="code-block"># 示例：创建联系人
+curl -X POST https://livedesk-api.engagelab.com/api/v1/contacts \
+  -u {API_KEY}:{API_SECRET} \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John Doe", "email": "john@example.com"}'</div>
+</div>
+</div>
+
+<!-- ========== S20: Pre-chat 表单与营业时间 ========== -->
+<div class="sec" id="s20">
+<div class="sec-head">
+<h2>二十、Pre-chat 表单与营业时间（官方文档补充）</h2>
+<div class="desc">会话前表单收集客户信息，营业时间按渠道独立配置</div>
+</div>
+<div class="sec-body">
+
+<h3>20.1 Pre-chat 表单</h3>
+<div class="subsec">
+<h4>可配置字段</h4>
+<table class="stbl">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><strong>Email</strong></td><td>内置字段</td><td>客户邮箱地址</td></tr>
+<tr><td><strong>Phone</strong></td><td>内置字段</td><td>客户电话号码</td></tr>
+<tr><td><strong>First Name</strong></td><td>内置字段</td><td>客户名</td></tr>
+<tr><td><strong>Last Name</strong></td><td>内置字段</td><td>客户姓</td></tr>
+<tr><td><strong>自定义属性</strong></td><td>扩展字段</td><td>可自定义添加的扩展信息字段</td></tr>
+</table>
+<p>表单字段支持正则表达式验证（Regex Validation），可对用户输入的格式进行校验，例如邮箱格式、手机号格式等。</p>
+</div>
+
+<h3>20.2 营业时间（Business Hours）</h3>
+<div class="subsec">
+<p>支持按渠道独立设置工作时间，每个渠道可配置不同的工作时段和时区。在非工作时间，系统可自动展示离线消息提示，引导客户留言或等待工作时间再次联系。</p>
+<table class="stbl">
+<tr><th>配置项</th><th>说明</th></tr>
+<tr><td><strong>工作时间</strong></td><td>按每周各天设置起止时间</td></tr>
+<tr><td><strong>时区</strong></td><td>支持全球时区选择</td></tr>
+<tr><td><strong>离线消息</strong></td><td>非工作时间的自动回复内容</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ========== S21: 免费试用与订阅 ========== -->
+<div class="sec" id="s21">
+<div class="sec-head">
+<h2>二十一、免费试用与订阅（官方文档补充）</h2>
+<div class="desc">30天免费试用，1000对话配额</div>
+</div>
+<div class="sec-body">
+
+<div class="subsec">
+<h4>免费试用</h4>
+<table class="stbl">
+<tr><th>项目</th><th>详情</th></tr>
+<tr><td><strong>试用时长</strong></td><td>30 天</td></tr>
+<tr><td><strong>对话配额</strong></td><td>1,000 次对话</td></tr>
+<tr><td><strong>功能范围</strong></td><td>试用期间可使用平台大部分功能</td></tr>
+</table>
+</div>
+
+<div class="subsec">
+<h4>订阅制功能</h4>
+<p>以下 AI 高级功能需要付费订阅后才能使用：</p>
+<ul>
+<li><strong>解决置信度（Resolution Confidence）</strong> -- AI 质量检测</li>
+<li><strong>FCR 识别（First Contact Resolution）</strong> -- 首次联系解决率评估</li>
+<li><strong>自动推断解决识别</strong> -- 自动解决对话的真实性评估</li>
+</ul>
+</div>
+</div>
+</div>
+
 <!-- ========== FOOTER ========== -->
 <div class="footer">
 <div class="divider"></div>
 <p>极光LiveDesk在线客服系统项目文档</p>
-<p>整理时间：2026-05-30（基于实际系统观测更新）</p>
+<p>v3.0（官方文档补充版） &middot; 整理时间：2026-05-30</p>
 </div>
 
 </div><!-- end container -->
