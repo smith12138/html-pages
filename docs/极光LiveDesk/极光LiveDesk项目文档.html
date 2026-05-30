@@ -227,17 +227,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s1">
 <div class="sec-head">
 <h2>一、产品概述与定位</h2>
-<div class="desc">EngageLab LiveDesk — 极光(Aurora Mobile)旗下全渠道智能客服平台</div>
+<div class="desc">极光(Aurora Mobile)推出的 SaaS 客服产品，当前用于 TT在线客服 项目</div>
 </div>
 <div class="sec-body">
 
 <h3 id="s1-1">1.1 产品简介</h3>
-<p><strong>EngageLab LiveDesk</strong> 是极光（Aurora Mobile）推出的全渠道智能客服平台，提供 <strong>AI Agent + Human Agent</strong> 混合协同模式，支持 Web LiveChat Widget 等多种渠道接入。</p>
+<p><strong>EngageLab LiveDesk</strong> 是极光（Aurora Mobile）旗下的全渠道客服平台。它同时支持 AI Agent 和 Human Agent 两种应答模式，客户通过 Web LiveChat Widget 等渠道发起会话后，系统会根据配置决定由 AI 自动应答还是转交人工处理。</p>
 
 <div class="subsec">
-<h4>核心定位</h4>
+<h4>基本信息</h4>
 <table class="stbl">
-<tr><th>维度</th><th>说明</th></tr>
+<tr><th>项目</th><th>详情</th></tr>
 <tr><td><strong>产品名称</strong></td><td>EngageLab LiveDesk（极光在线客服）</td></tr>
 <tr><td><strong>所属公司</strong></td><td>极光 Aurora Mobile（NASDAQ: JG）</td></tr>
 <tr><td><strong>产品类型</strong></td><td>SaaS 全渠道智能客服平台</td></tr>
@@ -250,38 +250,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <h3 id="s1-2">1.2 产品架构概览（7大模块）</h3>
 <div class="mod-grid">
 <div class="mod-card">
-<h4><span class="icon">&#128202;</span> 概览 Overview</h4>
-<p>实时仪表盘，核心指标一目了然</p>
+<h4>概览 Overview</h4>
+<p>实时仪表盘，汇总对话量、客服负载、AI处理情况</p>
 <p>路由：<code>/overview</code></p>
 </div>
 <div class="mod-card">
-<h4><span class="icon">&#128172;</span> 对话 Conversations</h4>
-<p>核心模块，实时对话处理与管理</p>
+<h4>对话 Conversations</h4>
+<p>日常工作的主要入口，处理和管理所有客服对话</p>
 <p>路由：<code>/dashboard</code></p>
 </div>
 <div class="mod-card">
-<h4><span class="icon">&#127915;</span> 工单 Tickets</h4>
-<p>复杂问题跟踪与跨部门协作</p>
+<h4>工单 Tickets</h4>
+<p>处理无法在对话中快速解决的复杂问题，支持跨部门流转</p>
 <p>路由：<code>/tickets</code></p>
 </div>
 <div class="mod-card">
-<h4><span class="icon">&#128200;</span> 洞察分析 Insight Analysis</h4>
-<p>多维度数据报表与分析</p>
+<h4>洞察分析 Insight Analysis</h4>
+<p>包含10个分析子模块，涵盖效率、满意度、渠道等维度</p>
 <p>路由：<code>/insight-analysis</code></p>
 </div>
 <div class="mod-card">
-<h4><span class="icon">&#129302;</span> Agents 客服管理</h4>
-<p>AI Agent 与 Human Agent 统一管理</p>
+<h4>Agents 客服管理</h4>
+<p>集中管理 AI Agent 和 Human Agent，含团队配置</p>
 <p>路由：<code>/ai-agent</code></p>
 </div>
 <div class="mod-card">
-<h4><span class="icon">&#128101;</span> 联系人 Contacts</h4>
-<p>客户信息沉淀与管理</p>
+<h4>联系人 Contacts</h4>
+<p>对话中的客户信息会自动沉淀到这里，也支持手动维护</p>
 <p>路由：<code>/contacts</code></p>
 </div>
 <div class="mod-card">
-<h4><span class="icon">&#9881;</span> 项目设置 Settings</h4>
-<p>渠道、规则、API、偏好等配置</p>
+<h4>项目设置 Settings</h4>
+<p>渠道接入、自动化规则、API密钥、个人偏好等配置项</p>
 <p>路由：<code>/automation-rules</code></p>
 </div>
 </div>
@@ -292,21 +292,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s2">
 <div class="sec-head">
 <h2>二、系统整体布局</h2>
-<div class="desc">三栏式布局设计，模块清晰、操作高效</div>
+<div class="desc">经典的三栏式设计，左侧导航 + 中间列表 + 右侧内容区</div>
 </div>
 <div class="sec-body">
 
 <h3 id="s2-1">2.1 三大区域</h3>
 <table class="stbl">
-<tr><th>区域</th><th>位置</th><th>功能说明</th></tr>
+<tr><th>区域</th><th>位置</th><th>承担内容</th></tr>
 <tr><td><strong>主导航栏</strong></td><td>左侧窄栏（图标导航）</td><td>7个功能模块图标 + 底部工具区</td></tr>
-<tr><td><strong>二级侧边栏</strong></td><td>主导航右侧</td><td>当前模块的子菜单、列表、筛选</td></tr>
+<tr><td><strong>二级侧边栏</strong></td><td>主导航右侧</td><td>当前模块的子菜单、列表、筛选条件</td></tr>
 <tr><td><strong>主内容区</strong></td><td>右侧大面积</td><td>对话窗口 / 数据报表 / 配置表单</td></tr>
 </table>
 
 <h3 id="s2-2">2.2 导航模块与路由</h3>
 <table class="stbl">
-<tr><th>序号</th><th>模块名称</th><th>英文名</th><th>路由路径</th><th>图标</th></tr>
+<tr><th>序号</th><th>模块</th><th>英文名</th><th>路由路径</th><th>图标</th></tr>
 <tr><td>1</td><td>概览</td><td>Overview</td><td><code>/overview</code></td><td>仪表盘</td></tr>
 <tr><td>2</td><td>对话</td><td>Conversations</td><td><code>/dashboard</code></td><td>消息气泡</td></tr>
 <tr><td>3</td><td>工单</td><td>Tickets</td><td><code>/tickets</code></td><td>工单</td></tr>
@@ -318,10 +318,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <h4>底部工具区</h4>
 <ul class="feat-list">
-<li>联系商务 — 点击打开商务联系入口</li>
+<li>联系商务 — 打开商务联系入口</li>
 <li>文档 — 跳转至帮助文档</li>
-<li>在线状态 — 切换 Online / Busy / Offline</li>
-<li>用户头像 — 账号信息与退出</li>
+<li>在线状态 — 在 Online / Busy / Offline 之间切换</li>
+<li>用户头像 — 查看账号信息或退出登录</li>
 </ul>
 </div>
 </div>
@@ -330,38 +330,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s3">
 <div class="sec-head">
 <h2>三、概览（Overview）</h2>
-<div class="desc">实时数据仪表盘，涵盖对话量、AI/人工工作负载、对话分析三大板块</div>
+<div class="desc">管理者的主视图，实时展示对话量、客服负载和对话趋势</div>
 </div>
 <div class="sec-body">
 
-<h3 id="s3-1">3.1 实时核心指标</h3>
-<div class="metric-grid">
-<div class="metric-card">
-<div class="metric-label">活跃对话数</div>
-<div class="metric-value">Active Conversations</div>
-<div class="metric-sub">当前处理中的对话数量</div>
-</div>
-<div class="metric-card">
-<div class="metric-label">活跃工单数</div>
-<div class="metric-value">Active Tickets</div>
-<div class="metric-sub">当前处理中的工单数量</div>
-</div>
-<div class="metric-card">
-<div class="metric-label">月活跃数趋势</div>
-<div class="metric-value">12 Months</div>
-<div class="metric-sub">折线图展示近12个月趋势</div>
-</div>
-<div class="metric-card">
-<div class="metric-label">新建对话数</div>
-<div class="metric-value">New Conversations</div>
-<div class="metric-sub">当期新创建的对话</div>
-</div>
-</div>
+<h3 id="s3-1">3.1 实时指标卡片</h3>
+<p>仪表盘顶部展示四张指标卡片，分别是：活跃对话数、活跃工单数、近12个月对话量趋势（折线图）、新建对话数。这些数字实时更新，管理者登录后第一眼就能掌握当前的服务压力。</p>
 
 <div class="subsec">
 <h4>消息统计</h4>
 <table class="stbl">
-<tr><th>指标</th><th>说明</th><th>附加信息</th></tr>
+<tr><th>指标</th><th>含义</th><th>备注</th></tr>
 <tr><td><strong>用户消息数</strong></td><td>客户发送的消息总量</td><td>按时间段统计</td></tr>
 <tr><td><strong>AI Agent 回复消息数</strong></td><td>AI自动回复的消息数</td><td>含AI占比百分比</td></tr>
 <tr><td><strong>Human Agent 回复消息数</strong></td><td>人工客服回复的消息数</td><td>含人工占比 + 环比(MoM)</td></tr>
@@ -370,7 +349,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <h3 id="s3-2">3.2 Human Agent 工作负载</h3>
 <table class="stbl">
-<tr><th>指标分类</th><th>指标名称</th><th>说明</th></tr>
+<tr><th>分组</th><th>指标</th><th>含义</th></tr>
 <tr><td rowspan="5"><strong>对话状态</strong></td><td>未分配</td><td>尚未分配给任何客服的对话</td></tr>
 <tr><td>未处理</td><td>已分配但客服尚未回复</td></tr>
 <tr><td>处理中</td><td>客服正在处理的对话</td></tr>
@@ -384,7 +363,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <h3 id="s3-3">3.3 AI Agent 工作负载</h3>
 <table class="stbl">
-<tr><th>指标</th><th>说明</th></tr>
+<tr><th>指标</th><th>含义</th></tr>
 <tr><td><strong>Hand-off</strong></td><td>AI转交给人工的对话数</td></tr>
 <tr><td><strong>未处理</strong></td><td>AI接收但尚未响应的对话</td></tr>
 <tr><td><strong>处理中</strong></td><td>AI正在自动处理的对话</td></tr>
@@ -396,16 +375,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <h3 id="s3-4">3.4 对话分析</h3>
 <div class="subsec">
 <h4>可视化图表</h4>
-<ul>
-<li><strong>渠道饼图</strong>：新建对话 / 已解决对话按渠道分布</li>
-<li><strong>流量热力图</strong>：按小时 &times; 星期几的流量密度矩阵</li>
-</ul>
+<p>仪表盘提供两种图表：一是渠道饼图，按渠道展示新建对话和已解决对话的分布；二是流量热力图，以小时 &times; 星期几的矩阵形式展示流量密度，方便排班参考。</p>
 <h4>Tab 切换视图</h4>
 <table class="stbl">
-<tr><th>Tab</th><th>维度</th><th>说明</th></tr>
+<tr><th>Tab</th><th>维度</th><th>用途</th></tr>
 <tr><td>客服</td><td>按客服人员</td><td>查看各客服的对话数据</td></tr>
-<tr><td>团队</td><td>按团队</td><td>查看各团队的对话数据</td></tr>
-<tr><td>AI Agent</td><td>按AI Agent</td><td>查看AI自动处理的对话数据</td></tr>
+<tr><td>团队</td><td>按团队</td><td>对比不同团队的处理情况</td></tr>
+<tr><td>AI Agent</td><td>按AI Agent</td><td>评估AI自动处理的效果</td></tr>
 </table>
 </div>
 </div>
@@ -415,7 +391,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s4">
 <div class="sec-head">
 <h2>四、对话（Conversations）— 核心模块</h2>
-<div class="desc">系统最核心的功能模块，承载日常客服对话处理全流程</div>
+<div class="desc">客服人员日常使用频率最高的模块，所有对话的收发和处理都在这里完成</div>
 </div>
 <div class="sec-body">
 
@@ -424,12 +400,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="subsec">
 <h4>分类视图（4种 + 自定义）</h4>
 <table class="stbl">
-<tr><th>视图</th><th>说明</th></tr>
-<tr><td><span class="tag tag-blue">所有</span></td><td>所有对话，不分状态</td></tr>
-<tr><td><span class="tag tag-purple">AI响应</span></td><td>AI Agent 自动处理的对话</td></tr>
-<tr><td><span class="tag tag-amber">未分配</span></td><td>尚未分配客服的对话</td></tr>
-<tr><td><span class="tag tag-green">我的</span></td><td>当前登录客服负责的对话</td></tr>
-<tr><td><span class="tag tag-slate">自定义视图</span></td><td>用户自建的过滤视图</td></tr>
+<tr><th>视图</th><th>筛选范围</th></tr>
+<tr><td><span class="tag tag-blue">所有</span></td><td>不区分状态，列出全部对话</td></tr>
+<tr><td><span class="tag tag-purple">AI响应</span></td><td>仅显示由 AI Agent 自动处理的对话</td></tr>
+<tr><td><span class="tag tag-amber">未分配</span></td><td>尚未指定客服的对话，可从中认领</td></tr>
+<tr><td><span class="tag tag-green">我的</span></td><td>当前登录客服名下的对话</td></tr>
+<tr><td><span class="tag tag-slate">自定义视图</span></td><td>用户自行定义筛选条件的视图</td></tr>
 </table>
 </div>
 
@@ -450,7 +426,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <div class="subsec">
 <h4>标签系统</h4>
-<p>当前使用标签：<span class="tag tag-red">刷子</span> — 用于标记套利/套现类用户</p>
+<p>目前项目中只用了一个标签：<span class="tag tag-red">刷子</span>，用于标记套利/套现类用户。</p>
 </div>
 
 <h3 id="s4-2">4.2 列表筛选与操作</h3>
@@ -458,7 +434,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="subsec">
 <h4>状态筛选与排序</h4>
 <table class="stbl">
-<tr><th>功能</th><th>选项</th></tr>
+<tr><th>操作</th><th>可选项</th></tr>
 <tr><td><strong>状态筛选</strong></td><td>全部 / 打开 / 已解决 / 已搁置 / 已关闭</td></tr>
 <tr><td><strong>排序方式</strong></td><td>创建时间 / 更新时间 / 客户等候时间 / 优先级</td></tr>
 </table>
@@ -466,23 +442,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <div class="subsec">
 <h4>高级筛选</h4>
-<p>字段 &rarr; 操作符 &rarr; 值，条件可叠加组合。支持多条件 AND 逻辑过滤。</p>
+<p>按"字段 &rarr; 操作符 &rarr; 值"的方式组合条件，多个条件之间是 AND 关系。</p>
 </div>
 
 <div class="subsec">
 <h4>右键菜单（8项操作）</h4>
+<p>在对话列表中右键点击任意一条对话，可以直接执行以下操作，不需要先打开对话详情：</p>
 <table class="stbl">
-<tr><th>序号</th><th>操作</th><th>说明</th></tr>
+<tr><th>序号</th><th>操作</th><th>效果</th></tr>
 <tr><td>1</td><td><strong>标记未读</strong></td><td>将对话标记为未读状态</td></tr>
-<tr><td>2</td><td><strong>标记已解决</strong></td><td>将对话标记为已解决（Resolved）</td></tr>
+<tr><td>2</td><td><strong>标记已解决</strong></td><td>将对话状态改为 Resolved</td></tr>
 <tr><td>3</td><td><strong>标记待处理</strong></td><td>将对话标记为待处理状态</td></tr>
-<tr><td>4</td><td><strong>搁置</strong></td><td>暂挂对话（On Hold），设置时间后自动恢复</td></tr>
-<tr><td>5</td><td><strong>设置优先级</strong></td><td>设置对话优先级等级</td></tr>
-<tr><td>6</td><td><strong>添加标签</strong></td><td>为对话添加分类标签</td></tr>
-<tr><td>7</td><td><strong>分配客服</strong></td><td>指定对话处理的客服人员</td></tr>
-<tr><td>8</td><td><strong>分配团队</strong></td><td>指定对话处理的客服团队</td></tr>
+<tr><td>4</td><td><strong>搁置</strong></td><td>暂挂对话（On Hold），可设定自动恢复时间</td></tr>
+<tr><td>5</td><td><strong>设置优先级</strong></td><td>设置优先级等级</td></tr>
+<tr><td>6</td><td><strong>添加标签</strong></td><td>为对话打标签分类</td></tr>
+<tr><td>7</td><td><strong>分配客服</strong></td><td>指定处理的客服人员</td></tr>
+<tr><td>8</td><td><strong>分配团队</strong></td><td>指定处理的客服团队</td></tr>
 </table>
-<div class="tip">右键菜单设计是 LiveDesk 的亮点之一，无需打开对话详情即可完成批量操作，大幅提升效率。</div>
 </div>
 
 <h3 id="s4-3">4.3 对话窗口</h3>
@@ -490,9 +466,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="subsec">
 <h4>窗口顶栏信息</h4>
 <table class="stbl">
-<tr><th>元素</th><th>说明</th></tr>
+<tr><th>元素</th><th>内容</th></tr>
 <tr><td><strong>用户名称</strong></td><td>当前对话客户的名称/ID</td></tr>
-<tr><td><strong>渠道来源</strong></td><td>显示来自哪个渠道（如 TTBrplay7）</td></tr>
+<tr><td><strong>渠道来源</strong></td><td>来自哪个渠道（如 TTBrplay7）</td></tr>
 <tr><td><strong>对话ID</strong></td><td>唯一标识号，可复制</td></tr>
 <tr><td><strong>通知设置</strong></td><td>该对话的通知开关</td></tr>
 <tr><td><strong>对话状态</strong></td><td>Open / Resolved / On Hold / Closed</td></tr>
@@ -501,24 +477,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <div class="subsec">
 <h4>消息展示</h4>
-<ul>
-<li><strong>用户消息</strong>：左侧灰色气泡</li>
-<li><strong>客服消息</strong>：右侧蓝色/紫色气泡</li>
-<li><strong>AI回复</strong>：带 AI Badge 标识</li>
-<li><strong>时间戳</strong>：每条消息标注发送时间</li>
-<li><strong>自动翻译</strong>：支持 PT（葡萄牙语）&harr; CN（中文）自动翻译</li>
-<li><strong>输入指示</strong>：Typing Indicator，显示对方正在输入</li>
-<li><strong>已读回执</strong>：Read Receipts 消息已读状态</li>
-</ul>
+<p>用户消息显示在左侧灰色气泡，客服消息在右侧蓝色/紫色气泡，AI回复会带一个 AI Badge 标识。每条消息都标注了发送时间。</p>
+<p>系统内置了 PT（葡萄牙语）和 CN（中文）之间的自动翻译，另外还支持 Typing Indicator（输入指示）和 Read Receipts（已读回执）。</p>
 </div>
 
 <div class="subsec">
 <h4>富文本编辑器</h4>
 <table class="stbl">
-<tr><th>功能</th><th>说明</th></tr>
+<tr><th>工具</th><th>对应操作</th></tr>
 <tr><td><strong>文字样式</strong></td><td>Bold（加粗）、Italic（斜体）</td></tr>
 <tr><td><strong>链接</strong></td><td>插入超链接</td></tr>
-<tr><td><strong>撤销/重做</strong></td><td>Undo / Redo 操作</td></tr>
+<tr><td><strong>撤销/重做</strong></td><td>Undo / Redo</td></tr>
 <tr><td><strong>列表</strong></td><td>有序列表、无序列表</td></tr>
 <tr><td><strong>代码块</strong></td><td>插入代码格式内容</td></tr>
 </table>
@@ -527,10 +496,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="subsec">
 <h4>其他编辑功能</h4>
 <ul>
-<li><strong>"/" 快捷回复</strong>：输入 "/" 触发快捷回复模板选择</li>
-<li><strong>附件上传</strong>：支持图片、文件上传发送</li>
-<li><strong>内部备注模式</strong>：切换到 Internal Note，仅团队内可见，不发送给客户</li>
-<li><strong>发送快捷键</strong>：Enter 发送 或 Cmd+Enter 发送（可在偏好中切换）</li>
+<li><strong>"/" 快捷回复</strong>：在输入框中输入 "/" 即可调出预设的回复模板</li>
+<li><strong>附件上传</strong>：支持图片和文件</li>
+<li><strong>内部备注模式</strong>：切换到 Internal Note 后，消息仅团队内可见，不会发送给客户</li>
+<li><strong>发送快捷键</strong>：可在偏好中设为 Enter 或 Cmd+Enter</li>
 </ul>
 </div>
 
@@ -539,21 +508,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="subsec">
 <h4>"操作" Tab</h4>
 <table class="stbl">
-<tr><th>字段</th><th>说明</th></tr>
-<tr><td><strong>分配客服</strong></td><td>当前处理客服 / 可重新分配</td></tr>
-<tr><td><strong>分配团队</strong></td><td>当前处理团队 / 可重新分配</td></tr>
+<tr><th>字段</th><th>用途</th></tr>
+<tr><td><strong>分配客服</strong></td><td>查看当前处理客服，或重新分配</td></tr>
+<tr><td><strong>分配团队</strong></td><td>查看当前处理团队，或重新分配</td></tr>
 <tr><td><strong>优先级</strong></td><td>None / Low / Medium / High / Urgent</td></tr>
 <tr><td><strong>标签</strong></td><td>对话标签（如"刷子"）</td></tr>
-<tr><td><strong>宏操作</strong></td><td>Macros — 一键执行预定义操作组合</td></tr>
-<tr><td><strong>历史记录</strong></td><td>对话历史操作日志</td></tr>
-<tr><td><strong>参与者</strong></td><td>参与该对话的客服列表</td></tr>
+<tr><td><strong>宏操作</strong></td><td>Macros — 一键执行预定义的操作组合</td></tr>
+<tr><td><strong>历史记录</strong></td><td>该对话的操作日志</td></tr>
+<tr><td><strong>参与者</strong></td><td>参与该对话的所有客服</td></tr>
 <tr><td><strong>属性</strong></td><td>自定义属性字段</td></tr>
 </table>
 </div>
 
 <div class="subsec">
 <h4>"AI 响应" Tab</h4>
-<p>展示 AI Agent 对当前对话的响应详情，包括 AI 推荐回复、匹配的 FAQ 知识点、置信度等信息。</p>
+<p>这个面板展示 AI Agent 对当前对话的处理信息：推荐的回复内容、匹配到的 FAQ 知识点、以及匹配置信度。客服可以据此判断 AI 回复的质量。</p>
 </div>
 </div>
 </div>
@@ -562,28 +531,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s5">
 <div class="sec-head">
 <h2>五、工单（Tickets）</h2>
-<div class="desc">复杂问题长期跟踪、跨部门协作的任务管理模块</div>
+<div class="desc">当对话中的问题无法快速解决时，可以转为工单进行长期跟踪</div>
 </div>
 <div class="sec-body">
-<p>工单模块与对话模块结构相似，采用独立 Tab 切换（工单 / 视图），适用于需要长期跟踪、跨部门协作的复杂问题处理。</p>
+<p>工单模块的界面结构和对话模块基本一致，也通过 Tab 切换不同视图。区别在于工单面向的是需要较长处理周期、可能涉及跨部门协作的复杂问题。</p>
 
 <div class="subsec">
 <h4>视图分类</h4>
 <table class="stbl">
-<tr><th>视图</th><th>说明</th></tr>
-<tr><td><span class="tag tag-blue">所有</span></td><td>所有工单列表</td></tr>
-<tr><td><span class="tag tag-amber">未分配</span></td><td>尚未分配处理人的工单</td></tr>
+<tr><th>视图</th><th>范围</th></tr>
+<tr><td><span class="tag tag-blue">所有</span></td><td>全部工单</td></tr>
+<tr><td><span class="tag tag-amber">未分配</span></td><td>尚未指定处理人</td></tr>
 <tr><td><span class="tag tag-green">我的</span></td><td>当前用户负责的工单</td></tr>
 </table>
 </div>
 
 <div class="subsec">
-<h4>工单与对话的差异</h4>
+<h4>工单与对话的对比</h4>
 <table class="stbl">
-<tr><th>维度</th><th>对话 Conversations</th><th>工单 Tickets</th></tr>
+<tr><th>方面</th><th>对话 Conversations</th><th>工单 Tickets</th></tr>
 <tr><td><strong>场景</strong></td><td>实时沟通，即时响应</td><td>复杂问题，长期跟踪</td></tr>
-<tr><td><strong>时效性</strong></td><td>高，需快速响应</td><td>相对宽松</td></tr>
-<tr><td><strong>协作</strong></td><td>单个客服为主</td><td>可跨团队、跨部门</td></tr>
+<tr><td><strong>时效要求</strong></td><td>高，需快速响应</td><td>相对宽松</td></tr>
+<tr><td><strong>协作方式</strong></td><td>通常单个客服处理</td><td>可跨团队、跨部门</td></tr>
 <tr><td><strong>生命周期</strong></td><td>通常较短</td><td>可能持续数天至数周</td></tr>
 <tr><td><strong>视图</strong></td><td>所有/AI响应/未分配/我的</td><td>所有/未分配/我的</td></tr>
 </table>
@@ -595,48 +564,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s6">
 <div class="sec-head">
 <h2>六、洞察分析（Insight Analysis）</h2>
-<div class="desc">10大分析子模块，全方位洞察客服运营数据</div>
+<div class="desc">包含10个分析子模块，从效率到满意度覆盖运营管理的各个角度</div>
 </div>
 <div class="sec-body">
 
 <h3>6.1 分析子模块总览</h3>
 <div class="mod-grid">
-<div class="mod-card"><h4>&#9889; 效能</h4><p>整体运营效率指标</p></div>
-<div class="mod-card"><h4>&#129302; Agents</h4><p>客服个人绩效分析</p></div>
-<div class="mod-card"><h4>&#128100; 客户画像</h4><p>客户属性分布分析</p></div>
-<div class="mod-card"><h4>&#128172; 对话</h4><p>对话量与质量分析</p></div>
-<div class="mod-card"><h4>&#11088; 客户满意度</h4><p>CSAT 满意度评分</p></div>
-<div class="mod-card"><h4>&#128176; AI积分消耗</h4><p>AI Agent 积分使用情况</p></div>
-<div class="mod-card"><h4>&#128188; 客服</h4><p>客服工作量与效率</p></div>
-<div class="mod-card"><h4>&#127991; 标签</h4><p>标签使用分布统计</p></div>
-<div class="mod-card"><h4>&#128225; 渠道</h4><p>各渠道数据对比</p></div>
-<div class="mod-card"><h4>&#128101; 团队</h4><p>团队整体绩效</p></div>
+<div class="mod-card"><h4>效能</h4><p>响应时间、解决耗时等整体运营效率指标</p></div>
+<div class="mod-card"><h4>Agents</h4><p>各客服的个人绩效对比</p></div>
+<div class="mod-card"><h4>客户画像</h4><p>按地域、语言等维度分析客户分布</p></div>
+<div class="mod-card"><h4>对话</h4><p>对话量趋势和质量指标</p></div>
+<div class="mod-card"><h4>客户满意度</h4><p>CSAT 评分及分布情况</p></div>
+<div class="mod-card"><h4>AI积分消耗</h4><p>AI Agent 积分的使用明细</p></div>
+<div class="mod-card"><h4>客服</h4><p>每位客服的工作量与效率数据</p></div>
+<div class="mod-card"><h4>标签</h4><p>各标签的使用频率和分布</p></div>
+<div class="mod-card"><h4>渠道</h4><p>不同渠道之间的数据对比</p></div>
+<div class="mod-card"><h4>团队</h4><p>团队层面的绩效汇总</p></div>
 </div>
 
 <h3>6.2 效能核心指标</h3>
 <div class="subsec">
 <h4>会话量趋势</h4>
-<p>柱状图按天展示会话量，支持时间范围选择。</p>
+<p>按天展示的柱状图，支持选择时间范围。可以直观看到业务量的波动。</p>
 </div>
 
 <div class="subsec">
 <h4>首次响应时间</h4>
 <table class="stbl">
-<tr><th>统计维度</th><th>说明</th></tr>
-<tr><td><strong>中位数</strong></td><td>Median — 50%分位</td></tr>
-<tr><td><strong>平均值</strong></td><td>Average — 算术平均</td></tr>
-<tr><td><strong>P90</strong></td><td>90%分位 — 90%的对话在此时间内首次响应</td></tr>
+<tr><th>统计口径</th><th>含义</th></tr>
+<tr><td><strong>中位数</strong></td><td>50%分位，一半对话在此时间内首次响应</td></tr>
+<tr><td><strong>平均值</strong></td><td>算术平均</td></tr>
+<tr><td><strong>P90</strong></td><td>90%的对话在此时间内首次响应</td></tr>
 <tr><td><strong>P95</strong></td><td>95%分位</td></tr>
 <tr><td><strong>P99</strong></td><td>99%分位</td></tr>
-<tr><td><strong>最大值</strong></td><td>Max — 最长首次响应时间</td></tr>
+<tr><td><strong>最大值</strong></td><td>最长首次响应时间</td></tr>
 </table>
 </div>
 
 <div class="subsec">
 <h4>问题解决耗时</h4>
 <table class="stbl">
-<tr><th>统计维度</th><th>说明</th></tr>
-<tr><td><strong>中位数</strong></td><td>Median — 50%分位</td></tr>
+<tr><th>统计口径</th><th>含义</th></tr>
+<tr><td><strong>中位数</strong></td><td>50%分位</td></tr>
 <tr><td><strong>P90</strong></td><td>90%分位</td></tr>
 <tr><td><strong>P95</strong></td><td>95%分位</td></tr>
 <tr><td><strong>P99</strong></td><td>99%分位</td></tr>
@@ -645,17 +614,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <div class="subsec">
 <h4>人机协作对比</h4>
-<p>AI Agent 与 Human Agent 在响应时间、解决率、消息量等维度的对比分析。</p>
+<p>将 AI Agent 和 Human Agent 在响应时间、解决率、消息量等维度放在一起对比。这对于评估 AI 的实际效果很有参考价值。</p>
 </div>
 
 <h3>6.3 多维度分析能力</h3>
 <table class="stbl">
-<tr><th>分析维度</th><th>适用场景</th></tr>
+<tr><th>分析维度</th><th>典型用途</th></tr>
 <tr><td><strong>时间维度</strong></td><td>趋势分析、同环比对比</td></tr>
-<tr><td><strong>客服维度</strong></td><td>个人绩效评估</td></tr>
-<tr><td><strong>团队维度</strong></td><td>团队效率对比</td></tr>
-<tr><td><strong>渠道维度</strong></td><td>渠道投入产出分析</td></tr>
-<tr><td><strong>标签维度</strong></td><td>问题分类分布</td></tr>
+<tr><td><strong>客服维度</strong></td><td>个人绩效评估与排名</td></tr>
+<tr><td><strong>团队维度</strong></td><td>团队之间的效率对比</td></tr>
+<tr><td><strong>渠道维度</strong></td><td>各渠道的流量和投入产出</td></tr>
+<tr><td><strong>标签维度</strong></td><td>问题分类的分布情况</td></tr>
 <tr><td><strong>AI vs 人工</strong></td><td>AI替代率与效果评估</td></tr>
 </table>
 </div>
@@ -665,7 +634,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s7">
 <div class="sec-head">
 <h2>七、Agents 客服管理</h2>
-<div class="desc">AI Agent + Human Agent + 团队三位一体管理</div>
+<div class="desc">统一管理 AI Agent、人工客服和团队编制</div>
 </div>
 <div class="sec-body">
 
@@ -682,10 +651,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </table>
 <h4>管理功能</h4>
 <ul>
-<li>卡片式展示 AI Agent 列表</li>
-<li>搜索 / 筛选 AI Agent</li>
-<li>状态管理：Enabled（启用）/ Disabled（禁用）</li>
-<li>知识库关联配置</li>
+<li>以卡片形式展示 AI Agent 列表，支持搜索和筛选</li>
+<li>每个 Agent 可独立启用或禁用</li>
+<li>配置 Agent 关联的知识库</li>
 </ul>
 </div>
 
@@ -693,42 +661,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="subsec">
 <h4>当前客服座席（10人）</h4>
 <table class="stbl">
-<tr><th>序号</th><th>姓名</th><th>邮箱</th><th>角色</th><th>状态</th></tr>
-<tr><td>1</td><td>Admin User</td><td>admin@tt.com</td><td><span class="tag tag-red">Admin</span></td><td><span class="badge badge-ok">Active</span></td></tr>
-<tr><td>2</td><td>Agent A</td><td>agentA@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
-<tr><td>3</td><td>Agent B</td><td>agentB@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
-<tr><td>4</td><td>Agent C</td><td>agentC@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
-<tr><td>5</td><td>Agent D</td><td>agentD@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
-<tr><td>6</td><td>Agent E</td><td>agentE@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
-<tr><td>7</td><td>Agent F</td><td>agentF@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
-<tr><td>8</td><td>Agent G</td><td>agentG@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
-<tr><td>9</td><td>Agent H</td><td>agentH@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
-<tr><td>10</td><td>Agent I</td><td>agentI@tt.com</td><td><span class="tag tag-blue">Agent</span></td><td><span class="badge badge-ok">Active</span></td></tr>
+<tr><th>序号</th><th>姓名</th><th>邮箱</th><th>角色</th></tr>
+<tr><td>1</td><td>Admin User</td><td>admin@tt.com</td><td><span class="tag tag-red">Admin</span></td></tr>
+<tr><td>2</td><td>Agent A</td><td>agentA@tt.com</td><td><span class="tag tag-blue">Agent</span></td></tr>
+<tr><td>3</td><td>Agent B</td><td>agentB@tt.com</td><td><span class="tag tag-blue">Agent</span></td></tr>
+<tr><td>4</td><td>Agent C</td><td>agentC@tt.com</td><td><span class="tag tag-blue">Agent</span></td></tr>
+<tr><td>5</td><td>Agent D</td><td>agentD@tt.com</td><td><span class="tag tag-blue">Agent</span></td></tr>
+<tr><td>6</td><td>Agent E</td><td>agentE@tt.com</td><td><span class="tag tag-blue">Agent</span></td></tr>
+<tr><td>7</td><td>Agent F</td><td>agentF@tt.com</td><td><span class="tag tag-blue">Agent</span></td></tr>
+<tr><td>8</td><td>Agent G</td><td>agentG@tt.com</td><td><span class="tag tag-blue">Agent</span></td></tr>
+<tr><td>9</td><td>Agent H</td><td>agentH@tt.com</td><td><span class="tag tag-blue">Agent</span></td></tr>
+<tr><td>10</td><td>Agent I</td><td>agentI@tt.com</td><td><span class="tag tag-blue">Agent</span></td></tr>
 </table>
-<h4>管理功能</h4>
-<ul>
-<li>表格展示：姓名 / 邮箱 / 状态 / 角色</li>
-<li>邀请客服：通过邮箱邀请新成员</li>
-<li>角色分配：Admin / Agent</li>
-</ul>
+<p style="margin-top:10px">全部10个座席均处于 Active 状态。新成员通过邮箱邀请加入，加入后分配 Admin 或 Agent 角色。</p>
 </div>
 
 <h3 id="s7-3">7.3 团队管理</h3>
 <div class="subsec">
 <h4>当前团队（4个）</h4>
 <table class="stbl">
-<tr><th>序号</th><th>团队名称</th><th>说明</th></tr>
-<tr><td>1</td><td><strong>巴西</strong></td><td>负责巴西区域的客服团队</td></tr>
-<tr><td>2</td><td><strong>墨西哥</strong></td><td>负责墨西哥区域的客服团队</td></tr>
-<tr><td>3</td><td><strong>菲律宾</strong></td><td>负责菲律宾区域的客服团队</td></tr>
-<tr><td>4</td><td><strong>ai test</strong></td><td>AI 功能测试团队</td></tr>
+<tr><th>序号</th><th>团队名称</th><th>职责</th></tr>
+<tr><td>1</td><td><strong>巴西</strong></td><td>负责巴西区域客服</td></tr>
+<tr><td>2</td><td><strong>墨西哥</strong></td><td>负责墨西哥区域客服</td></tr>
+<tr><td>3</td><td><strong>菲律宾</strong></td><td>负责菲律宾区域客服</td></tr>
+<tr><td>4</td><td><strong>ai test</strong></td><td>AI 功能测试用</td></tr>
 </table>
-<h4>管理功能</h4>
-<ul>
-<li>表格式展示团队列表</li>
-<li>创建 / 编辑 / 删除团队</li>
-<li>团队成员分配</li>
-</ul>
+<p style="margin-top:10px">团队管理支持创建、编辑、删除，以及向团队分配成员。</p>
 </div>
 </div>
 </div>
@@ -737,14 +695,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s8">
 <div class="sec-head">
 <h2>八、联系人（Contacts）</h2>
-<div class="desc">客户信息自动沉淀与统一管理</div>
+<div class="desc">客户资料库，对话中产生的客户信息会自动归档到这里</div>
 </div>
 <div class="sec-body">
 
 <div class="subsec">
 <h4>联系人表格字段</h4>
 <table class="stbl">
-<tr><th>字段</th><th>说明</th></tr>
+<tr><th>字段</th><th>内容</th></tr>
 <tr><td><strong>姓名</strong></td><td>客户名称/昵称</td></tr>
 <tr><td><strong>标识码</strong></td><td>客户唯一标识 ID</td></tr>
 <tr><td><strong>电子邮件</strong></td><td>客户邮箱地址</td></tr>
@@ -754,14 +712,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <div class="subsec">
 <h4>管理功能</h4>
-<ul>
-<li><strong>搜索</strong>：按姓名、邮箱等字段搜索</li>
-<li><strong>高级筛选</strong>：多条件组合过滤</li>
-<li><strong>导出</strong>：导出联系人数据</li>
-<li><strong>创建联系人</strong>：手动添加新联系人</li>
-<li><strong>分页</strong>：每页15条，当前共98页</li>
-<li><strong>自动沉淀</strong>：对话中的客户信息自动沉淀为联系人记录</li>
-</ul>
+<p>支持按姓名、邮箱等字段搜索，也可以用多条件组合做高级筛选。列表每页15条，目前共98页。除了对话中自动沉淀的客户记录外，也可以手动创建联系人或导出数据。</p>
 </div>
 </div>
 </div>
@@ -770,21 +721,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s9">
 <div class="sec-head">
 <h2>九、项目设置（Settings）</h2>
-<div class="desc">系统配置中心：自动化规则、渠道、对话管理、API、偏好设置</div>
+<div class="desc">自动化规则、渠道接入、API密钥、个人偏好等系统级配置</div>
 </div>
 <div class="sec-body">
 
 <h3 id="s9-1">9.1 自动化规则</h3>
 <div class="subsec">
 <h4>规则管理</h4>
-<table class="stbl">
-<tr><th>功能</th><th>说明</th></tr>
-<tr><td><strong>规则列表</strong></td><td>展示规则名称 / 描述 / 状态 / 创建时间</td></tr>
-<tr><td><strong>添加规则</strong></td><td>创建新的自动化规则</td></tr>
-<tr><td><strong>搜索</strong></td><td>按规则名称搜索</td></tr>
-<tr><td><strong>编辑/删除</strong></td><td>修改或移除现有规则</td></tr>
-<tr><td><strong>状态切换</strong></td><td>启用 / 禁用规则</td></tr>
-</table>
+<p>规则列表展示每条规则的名称、描述、状态和创建时间。可以新建规则、搜索已有规则、编辑或删除，也可以随时切换启用/禁用状态。</p>
 </div>
 
 <h3 id="s9-2">9.2 渠道管理</h3>
@@ -801,17 +745,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="ch-card"><div class="ch-name">TTVana7</div><div class="ch-type">Web &middot; Active</div></div>
 <div class="ch-card"><div class="ch-name">测试</div><div class="ch-type">Web &middot; Active</div></div>
 </div>
-<p style="margin-top:10px">卡片展示，每个渠道包含图标、状态、关联 Bot 数量信息。</p>
+<p style="margin-top:10px">每张渠道卡片显示渠道图标、运行状态和已关联的 Bot 数量。</p>
 </div>
 
 <h3 id="s9-3">9.3 对话管理</h3>
 <div class="subsec">
 <h4>配置项</h4>
 <table class="stbl">
-<tr><th>配置</th><th>说明</th><th>当前值</th></tr>
+<tr><th>配置</th><th>用途</th><th>当前值</th></tr>
 <tr><td><strong>标签管理</strong></td><td>创建/编辑/删除对话标签</td><td>刷子（<span style="color:#dc2626">红色</span>）</td></tr>
-<tr><td><strong>属性管理</strong></td><td>自定义对话属性字段</td><td>可扩展</td></tr>
-<tr><td><strong>状态自定义</strong></td><td>自定义对话状态流转</td><td>Open/Resolved/On Hold/Closed</td></tr>
+<tr><td><strong>属性管理</strong></td><td>自定义对话的扩展属性字段</td><td>可扩展</td></tr>
+<tr><td><strong>状态自定义</strong></td><td>定义对话的状态流转</td><td>Open/Resolved/On Hold/Closed</td></tr>
 </table>
 </div>
 
@@ -819,28 +763,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="subsec">
 <h4>API Keys</h4>
 <table class="stbl">
-<tr><th>Key 名称</th><th>类型</th><th>说明</th></tr>
-<tr><td><strong>test AI key</strong></td><td>测试用</td><td>用于AI功能测试的临时Key</td></tr>
+<tr><th>Key 名称</th><th>类型</th><th>用途</th></tr>
+<tr><td><strong>test AI key</strong></td><td>测试用</td><td>AI功能调试的临时Key</td></tr>
 <tr><td><strong>permanent key</strong></td><td>永久</td><td>正式环境的长期有效Key</td></tr>
 </table>
 <h4>Webhook 配置</h4>
-<p>支持配置 Webhook 回调地址，系统事件（如新对话、对话关闭等）触发后实时推送通知。</p>
+<p>可以配置 Webhook 回调地址。当系统中发生新对话、对话关闭等事件时，LiveDesk 会实时推送通知到指定 URL。</p>
 </div>
 
 <h3 id="s9-5">9.5 其他设置</h3>
 <div class="subsec">
 <h4>高级功能</h4>
-<p>当前显示空白页面，可能需要特殊权限或尚未开放。</p>
+<p>当前页面为空白，可能需要更高权限或该功能尚未上线。</p>
 <h4>AI能力</h4>
-<p>当前显示空白页面，可能需要特殊权限或尚未开放。</p>
+<p>同上，页面为空白。</p>
 <h4>账号偏好</h4>
 <table class="stbl">
-<tr><th>设置项</th><th>当前值</th><th>说明</th></tr>
-<tr><td><strong>语言</strong></td><td>zh_CN（简体中文）</td><td>界面语言设置</td></tr>
-<tr><td><strong>签名</strong></td><td>自定义</td><td>客服个人签名</td></tr>
-<tr><td><strong>发送快捷键</strong></td><td>Enter / Cmd+Enter</td><td>消息发送快捷键选择</td></tr>
-<tr><td><strong>音频提醒</strong></td><td>可配置</td><td>新消息声音提醒</td></tr>
-<tr><td><strong>通知事件</strong></td><td>可配置</td><td>选择需要通知的事件类型</td></tr>
+<tr><th>设置项</th><th>当前值</th><th>备注</th></tr>
+<tr><td><strong>语言</strong></td><td>zh_CN（简体中文）</td><td>界面显示语言</td></tr>
+<tr><td><strong>签名</strong></td><td>自定义</td><td>客服的个人签名</td></tr>
+<tr><td><strong>发送快捷键</strong></td><td>Enter / Cmd+Enter</td><td>二选一</td></tr>
+<tr><td><strong>音频提醒</strong></td><td>可配置</td><td>新消息的声音提醒</td></tr>
+<tr><td><strong>通知事件</strong></td><td>可配置</td><td>选择哪些事件需要弹出通知</td></tr>
 </table>
 </div>
 </div>
@@ -850,7 +794,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s10">
 <div class="sec-head">
 <h2>十、核心业务流程</h2>
-<div class="desc">对话全生命周期管理与分配机制</div>
+<div class="desc">一条对话从产生到关闭经历的完整流程，以及分配机制的几种方式</div>
 </div>
 <div class="sec-body">
 
@@ -876,16 +820,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <tr><td><span class="badge badge-warn">Closed</span></td><td>—</td><td>终态，不可恢复</td></tr>
 </table>
 
-<div class="tip">搁置（On Hold）状态是 LiveDesk 的特色设计，允许客服暂挂对话并设置自动恢复时间，避免对话被遗忘。</div>
+<p>其中 On Hold（搁置）状态比较有特色：客服可以暂挂一条对话并设定恢复时间，到时后系统自动将其恢复为 Open，避免被遗忘。</p>
 
 <h3>10.3 对话分配机制</h3>
 <table class="stbl">
-<tr><th>分配方式</th><th>说明</th></tr>
+<tr><th>方式</th><th>具体逻辑</th></tr>
 <tr><td><strong>自动分配</strong></td><td>系统根据规则自动分配给可用客服</td></tr>
 <tr><td><strong>手动分配</strong></td><td>管理员/客服在详情面板中手动指定处理人</td></tr>
-<tr><td><strong>主动认领</strong></td><td>客服从"未分配"队列中主动认领对话</td></tr>
-<tr><td><strong>转交</strong></td><td>当前客服将对话转交给其他客服或团队</td></tr>
-<tr><td><strong>右键分配</strong></td><td>通过右键菜单快速分配客服或团队</td></tr>
+<tr><td><strong>主动认领</strong></td><td>客服从"未分配"队列中自己认领</td></tr>
+<tr><td><strong>转交</strong></td><td>当前客服将对话转给其他客服或团队</td></tr>
+<tr><td><strong>右键分配</strong></td><td>通过右键菜单直接分配，不用打开详情</td></tr>
 </table>
 </div>
 </div>
@@ -894,21 +838,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s11">
 <div class="sec-head">
 <h2>十一、AI 能力特性</h2>
-<div class="desc">AI Agent 自动应答、翻译、知识库匹配与 Hand-off 机制</div>
+<div class="desc">基于 FAQ 知识库的自动应答，配合自动翻译和 Hand-off 转人工机制</div>
 </div>
 <div class="sec-body">
 
 <table class="stbl">
-<tr><th>AI 能力</th><th>说明</th><th>状态</th></tr>
-<tr><td><strong>AI Agent 自动回复</strong></td><td>基于 FAQ 知识库自动匹配回答用户问题</td><td><span class="badge badge-ok">已启用</span></td></tr>
-<tr><td><strong>自动翻译</strong></td><td>支持 PT（葡萄牙语）&harr; CN（中文）实时翻译</td><td><span class="badge badge-ok">已启用</span></td></tr>
-<tr><td><strong>AI 响应面板</strong></td><td>对话详情右侧"AI 响应"Tab，展示 AI 推荐与匹配结果</td><td><span class="badge badge-ok">可用</span></td></tr>
-<tr><td><strong>Hand-off 机制</strong></td><td>AI 无法解决时自动转交给人工客服处理</td><td><span class="badge badge-ok">已启用</span></td></tr>
-<tr><td><strong>知识库管理</strong></td><td>FAQ_DEMO 知识库，支持配置 AI 回复依据</td><td><span class="badge badge-ok">已关联</span></td></tr>
+<tr><th>能力项</th><th>工作方式</th></tr>
+<tr><td><strong>AI Agent 自动回复</strong></td><td>基于 FAQ 知识库自动匹配并回答用户问题</td></tr>
+<tr><td><strong>自动翻译</strong></td><td>PT（葡萄牙语）和 CN（中文）之间实时互译</td></tr>
+<tr><td><strong>AI 响应面板</strong></td><td>在对话详情右侧展示 AI 的推荐回复和匹配结果</td></tr>
+<tr><td><strong>Hand-off 机制</strong></td><td>AI 判断无法解决时，自动将对话转交给人工客服</td></tr>
+<tr><td><strong>知识库管理</strong></td><td>当前关联的是 FAQ_DEMO 知识库</td></tr>
 </table>
 
 <div class="subsec">
-<h4>AI 工作流程</h4>
+<h4>AI 处理流程</h4>
 <div class="flow-wrap">
 <div class="flow-step">用户发送消息</div>
 <div class="flow-arrow">&rarr;</div>
@@ -926,14 +870,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s12">
 <div class="sec-head">
 <h2>十二、多渠道接入能力</h2>
-<div class="desc">当前 9 个 Web 渠道全部为 LiveChat Widget 类型</div>
+<div class="desc">目前 TT 项目配置了 9 个 Web 渠道，全部使用 LiveChat Widget 方式接入</div>
 </div>
 <div class="sec-body">
 
 <div class="subsec">
-<h4>渠道与收件箱映射</h4>
+<h4>渠道清单</h4>
 <table class="stbl">
-<tr><th>渠道名称</th><th>类型</th><th>对应收件箱</th><th>状态</th></tr>
+<tr><th>渠道名称</th><th>接入方式</th><th>对应收件箱</th><th>状态</th></tr>
 <tr><td>TT7XX</td><td>Web (LiveChat Widget)</td><td>TT7XX</td><td><span class="badge badge-ok">Active</span></td></tr>
 <tr><td>TTB777</td><td>Web (LiveChat Widget)</td><td>TTB777</td><td><span class="badge badge-ok">Active</span></td></tr>
 <tr><td>TTBrplay7</td><td>Web (LiveChat Widget)</td><td>TTBrplay7</td><td><span class="badge badge-ok">Active</span></td></tr>
@@ -945,8 +889,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <tr><td>测试</td><td>Web (LiveChat Widget)</td><td>测试</td><td><span class="badge badge-ok">Active</span></td></tr>
 </table>
 </div>
-
-<div class="tip">每个渠道对应一个独立的收件箱（Inbox），对话自动归入对应渠道的收件箱中。</div>
 </div>
 </div>
 
@@ -954,30 +896,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s13">
 <div class="sec-head">
 <h2>十三、数据报表能力</h2>
-<div class="desc">多维度报表体系，覆盖效率、质量、AI效果等核心指标</div>
+<div class="desc">报表体系覆盖效率、质量、AI效果等方面，采用百分位统计</div>
 </div>
 <div class="sec-body">
 
 <h3>13.1 报表维度</h3>
 <table class="stbl">
-<tr><th>维度</th><th>说明</th><th>典型分析场景</th></tr>
+<tr><th>维度</th><th>切分方式</th><th>典型分析场景</th></tr>
 <tr><td><strong>时间</strong></td><td>按天/周/月/自定义时间段</td><td>趋势分析、同环比对比</td></tr>
-<tr><td><strong>客服</strong></td><td>按客服个人</td><td>个人绩效排名、工作量评估</td></tr>
+<tr><td><strong>客服</strong></td><td>按客服个人</td><td>绩效排名、工作量评估</td></tr>
 <tr><td><strong>团队</strong></td><td>按客服团队</td><td>团队效率对比</td></tr>
 <tr><td><strong>渠道</strong></td><td>按接入渠道</td><td>渠道流量分布、投入产出</td></tr>
 <tr><td><strong>标签</strong></td><td>按对话标签</td><td>问题类型分布</td></tr>
-<tr><td><strong>AI vs 人工</strong></td><td>按处理方式</td><td>AI替代率评估、效果对比</td></tr>
+<tr><td><strong>AI vs 人工</strong></td><td>按处理方式</td><td>AI替代率评估</td></tr>
 </table>
 
 <h3>13.2 核心指标汇总</h3>
 <table class="stbl">
-<tr><th>指标名称</th><th>统计方式</th><th>说明</th></tr>
-<tr><td><strong>首次响应时间</strong></td><td>中位数 / 平均 / P90 / P95 / P99 / Max</td><td>客户发起对话到客服首次回复的时间</td></tr>
-<tr><td><strong>问题解决耗时</strong></td><td>中位数 / P90 / P95 / P99</td><td>从对话创建到标记为已解决的总耗时</td></tr>
-<tr><td><strong>消息量</strong></td><td>用户/AI/人工分别统计</td><td>各方发送的消息数量</td></tr>
-<tr><td><strong>Hand-off Rate</strong></td><td>百分比</td><td>AI 转人工处理的比率</td></tr>
+<tr><th>指标</th><th>统计方式</th><th>含义</th></tr>
+<tr><td><strong>首次响应时间</strong></td><td>中位数 / 平均 / P90 / P95 / P99 / Max</td><td>从客户发起对话到客服首次回复的间隔</td></tr>
+<tr><td><strong>问题解决耗时</strong></td><td>中位数 / P90 / P95 / P99</td><td>从对话创建到标记为已解决的总时长</td></tr>
+<tr><td><strong>消息量</strong></td><td>用户/AI/人工分别统计</td><td>各方发送的消息条数</td></tr>
+<tr><td><strong>Hand-off Rate</strong></td><td>百分比</td><td>AI 无法处理而转交人工的比率</td></tr>
 <tr><td><strong>CSAT</strong></td><td>评分制</td><td>客户满意度评分</td></tr>
-<tr><td><strong>会话量</strong></td><td>按天/周/月</td><td>新建对话、已解决对话数量</td></tr>
+<tr><td><strong>会话量</strong></td><td>按天/周/月</td><td>新建对话数、已解决对话数</td></tr>
 </table>
 </div>
 </div>
@@ -986,12 +928,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s14">
 <div class="sec-head">
 <h2>十四、权限与角色体系</h2>
-<div class="desc">4种角色，分层权限控制</div>
+<div class="desc">系统设有4种角色，权限范围从全局管理到单一对话处理各不相同</div>
 </div>
 <div class="sec-body">
 
 <table class="stbl">
-<tr><th>角色</th><th>权限范围</th><th>典型操作</th></tr>
+<tr><th>角色</th><th>权限范围</th><th>可执行的操作</th></tr>
 <tr>
 <td><span class="tag tag-red">Admin</span></td>
 <td>全系统完整权限</td>
@@ -1035,7 +977,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <ul>
 <li>管理本团队成员</li>
 <li>查看团队范围内的对话和数据</li>
-<li>团队对话分配</li>
+<li>团队内对话分配</li>
 </ul>
 </td>
 </tr>
@@ -1047,25 +989,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s15">
 <div class="sec-head">
 <h2>十五、系统集成能力</h2>
-<div class="desc">REST API + Webhook + 自动化规则三大集成方式</div>
+<div class="desc">通过 REST API、Webhook 和自动化规则三种方式与外部系统对接</div>
 </div>
 <div class="sec-body">
 
 <table class="stbl">
-<tr><th>集成方式</th><th>说明</th><th>认证方式</th></tr>
-<tr><td><strong>REST API</strong></td><td>通过 API 接口对接第三方系统，支持对话、联系人等操作</td><td>API Key + Secret 认证</td></tr>
-<tr><td><strong>Webhook</strong></td><td>系统事件发生时实时推送回调通知到指定 URL</td><td>签名验证</td></tr>
-<tr><td><strong>自动化规则</strong></td><td>配置条件 &rarr; 动作的自动化工作流</td><td>—（内部配置）</td></tr>
+<tr><th>集成方式</th><th>工作原理</th><th>认证方式</th></tr>
+<tr><td><strong>REST API</strong></td><td>通过 HTTP 接口操作对话、联系人等资源</td><td>API Key + Secret 认证</td></tr>
+<tr><td><strong>Webhook</strong></td><td>系统事件发生时向指定 URL 推送回调</td><td>签名验证</td></tr>
+<tr><td><strong>自动化规则</strong></td><td>在系统内部配置 条件 &rarr; 动作 的自动化工作流</td><td>—（内部配置）</td></tr>
 </table>
 
 <div class="subsec">
 <h4>API 认证方式</h4>
 <div class="code-block">Authorization: Bearer {API_KEY}:{API_SECRET}</div>
-<p style="margin-top:10px">支持两类 Key：测试 Key（临时）和永久 Key（生产环境）。</p>
+<p style="margin-top:10px">目前配置了两类 Key：test AI key（临时测试用）和 permanent key（生产环境长期使用）。</p>
 </div>
 
 <div class="subsec">
-<h4>Webhook 事件类型</h4>
+<h4>Webhook 支持的事件</h4>
 <ul>
 <li>新对话创建</li>
 <li>对话状态变更（Open / Resolved / Closed）</li>
@@ -1081,103 +1023,96 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s16">
 <div class="sec-head">
 <h2>十六、服务分析与评估</h2>
-<div class="desc">对 EngageLab LiveDesk 平台的综合能力评估与借鉴分析</div>
+<div class="desc">基于实际使用体验，对 LiveDesk 平台能力的综合评估</div>
 </div>
 <div class="sec-body">
 
-<h3>16.1 核心优势</h3>
-<table class="stbl">
-<tr><th>优势</th><th>说明</th></tr>
-<tr><td><strong>全渠道统一收件箱</strong></td><td>9个Web渠道统一收件、统一管理，客服无需切换系统</td></tr>
-<tr><td><strong>成熟团队协作</strong></td><td>4个区域团队、10个客服座席、多级分配机制</td></tr>
-<tr><td><strong>工单系统</strong></td><td>独立工单模块，支持复杂问题长期跟踪和跨部门协作</td></tr>
-<tr><td><strong>数据洞察</strong></td><td>10个分析子模块，P90/P95/P99分位统计，数据驱动运营</td></tr>
-<tr><td><strong>AI能力</strong></td><td>AI Agent自动应答 + 自动翻译 + Hand-off机制</td></tr>
-<tr><td><strong>开放集成</strong></td><td>REST API + Webhook + 自动化规则，可对接外部系统</td></tr>
-<tr><td><strong>SaaS免运维</strong></td><td>云端部署，无需自建服务器，开箱即用</td></tr>
-</table>
+<h3>16.1 做得好的地方</h3>
+<p>LiveDesk 在几个方面表现不错。首先，9个 Web 渠道汇入统一收件箱，客服不需要在不同系统间来回切换。团队协作也比较成熟，4个区域团队和10个客服座席之间的分配机制运转顺畅。</p>
+<p>独立的工单模块值得一提，它让复杂问题不至于淹没在实时对话中。数据分析方面提供了10个子模块，并且用了 P90/P95/P99 百分位统计而非简单的平均值，这在同类产品中不太常见。</p>
+<p>AI 方面具备自动应答、自动翻译和 Hand-off 转人工三项能力。作为 SaaS 产品，不需要自建服务器，开箱即用。REST API 和 Webhook 也让外部集成成为可能。</p>
 
-<h3>16.2 劣势与不足</h3>
+<h3>16.2 存在的不足</h3>
 <table class="stbl">
-<tr><th>不足</th><th>说明</th><th>影响</th></tr>
-<tr><td><strong>AI深度有限</strong></td><td>AI能力为黑盒，仅基于FAQ知识库匹配，缺乏深度NLU</td><td><span class="tag tag-amber">中</span></td></tr>
-<tr><td><strong>数据控制权弱</strong></td><td>SaaS模式下数据存储在第三方，缺乏完全控制</td><td><span class="tag tag-red">高</span></td></tr>
-<tr><td><strong>定制化受限</strong></td><td>标准SaaS产品，深度定制能力有限</td><td><span class="tag tag-amber">中</span></td></tr>
-<tr><td><strong>部分功能页面空白</strong></td><td>"高级功能"和"AI能力"设置页面为空白</td><td><span class="tag tag-slate">低</span></td></tr>
-<tr><td><strong>渠道差异未确认</strong></td><td>TG/WhatsApp等渠道是否支持尚未确认</td><td><span class="tag tag-amber">中</span></td></tr>
-<tr><td><strong>成本考量</strong></td><td>SaaS按量/按席位收费，规模化后成本可能较高</td><td><span class="tag tag-amber">中</span></td></tr>
+<tr><th>问题</th><th>具体表现</th><th>影响程度</th></tr>
+<tr><td><strong>AI深度有限</strong></td><td>AI能力整体偏黑盒，只做 FAQ 匹配，缺少深层语义理解</td><td><span class="tag tag-amber">中</span></td></tr>
+<tr><td><strong>数据控制权弱</strong></td><td>SaaS模式下数据存在第三方，无法完全掌控</td><td><span class="tag tag-red">高</span></td></tr>
+<tr><td><strong>定制空间有限</strong></td><td>标准化 SaaS 产品，很难做深度定制</td><td><span class="tag tag-amber">中</span></td></tr>
+<tr><td><strong>部分页面为空白</strong></td><td>"高级功能"和"AI能力"两个设置页面打开后没有内容</td><td><span class="tag tag-slate">低</span></td></tr>
+<tr><td><strong>渠道支持待确认</strong></td><td>TG/WhatsApp 等渠道是否支持，目前没有看到相关入口</td><td><span class="tag tag-amber">中</span></td></tr>
+<tr><td><strong>规模化成本</strong></td><td>SaaS 按量或按席位收费，座席数量增长后费用可能上升较快</td><td><span class="tag tag-amber">中</span></td></tr>
 </table>
 
 <h3>16.3 产品亮点</h3>
 <div class="mod-grid">
 <div class="mod-card">
-<h4>&#128073; 右键菜单（8项操作）</h4>
-<p>无需打开对话详情即可完成标记、分配、搁置等操作，效率极高</p>
+<h4>右键菜单（8项操作）</h4>
+<p>不用打开对话详情就能完成标记、分配、搁置等操作，批量处理时效率很高</p>
 </div>
 <div class="mod-card">
-<h4>&#9202; 搁置状态设计</h4>
-<p>On Hold状态支持定时自动恢复，避免对话遗忘，设计巧妙</p>
+<h4>搁置状态设计</h4>
+<p>On Hold 支持设定时间后自动恢复为 Open，防止对话被遗忘在角落</p>
 </div>
 <div class="mod-card">
-<h4>&#128202; Overview 仪表盘</h4>
-<p>实时数据一目了然，AI/人工负载分开展示，管理者视角完善</p>
+<h4>Overview 仪表盘</h4>
+<p>AI 和人工的负载数据分开展示，管理者一眼就能判断当前的服务压力分布</p>
 </div>
 <div class="mod-card">
-<h4>&#128101; 联系人自动沉淀</h4>
-<p>对话中客户信息自动沉淀为联系人记录，无需手动维护</p>
+<h4>联系人自动沉淀</h4>
+<p>客户一旦发起过对话，信息就自动进入联系人库，不需要手动录入</p>
 </div>
 <div class="mod-card">
-<h4>&#127760; 多语言国际化</h4>
-<p>界面支持多语言，AI自动翻译PT&harr;CN，覆盖国际化场景</p>
+<h4>多语言与自动翻译</h4>
+<p>界面本身支持多语言，AI 还能在葡萄牙语和中文之间实时互译</p>
 </div>
 <div class="mod-card">
-<h4>&#9881; 个性化设置</h4>
-<p>发送快捷键、音频提醒、通知事件等均可按个人偏好配置</p>
+<h4>个性化偏好设置</h4>
+<p>发送快捷键、声音提醒、通知事件等都可以按个人习惯调整</p>
 </div>
 </div>
 
 <h3>16.4 综合能力评估</h3>
 <table class="stbl">
-<tr><th>评估维度</th><th>评分</th><th>说明</th></tr>
+<tr><th>评估维度</th><th>评分</th><th>评价</th></tr>
 <tr><td><strong>功能完整性</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>核心客服功能齐全，部分高级功能尚未开放</td></tr>
 <tr><td><strong>用户体验</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>界面现代化，交互流畅，右键菜单等设计出色</td></tr>
 <tr><td><strong>AI 能力</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>基础AI应答可用，但深度和灵活性有限</td></tr>
 <tr><td><strong>数据分析</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>10维度分析，P90/P95/P99专业统计</td></tr>
 <tr><td><strong>多渠道支持</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>当前仅Web渠道，TG/WA等待确认</td></tr>
 <tr><td><strong>团队协作</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>团队/分配/工单协作体系成熟</td></tr>
-<tr><td><strong>系统集成</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>API+Webhook基本满足，但文档和SDK有限</td></tr>
+<tr><td><strong>系统集成</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>API+Webhook基本够用，但文档和SDK偏少</td></tr>
 <tr><td><strong>数据安全</strong></td><td><span class="stars">&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;&#9733;</span></td><td>SaaS模式，数据控制权较弱</td></tr>
 <tr><td><strong>扩展性</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>标准SaaS，深度定制受限</td></tr>
-<tr><td><strong>性价比</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>免运维优势明显，但规模化成本需评估</td></tr>
+<tr><td><strong>性价比</strong></td><td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;&#9733;</span></td><td>免运维优势明显，但规模化后成本需评估</td></tr>
 </table>
 
 <h3>16.5 适用场景</h3>
 <div class="subsec">
-<h4>推荐使用场景</h4>
+<h4>比较适合的场景</h4>
 <ul>
-<li>中小型团队快速搭建客服系统，无需自建基础设施</li>
-<li>多区域/多语言客服团队，需要统一管理平台</li>
-<li>需要AI辅助降低人工成本的客服场景</li>
-<li>Web渠道为主的在线客服业务</li>
+<li>中小型团队需要快速上线客服系统，不想自建基础设施</li>
+<li>业务覆盖多个地区和语言，需要统一的管理平台</li>
+<li>希望用 AI 分担一部分简单问题的应答工作</li>
+<li>客服渠道以 Web 为主</li>
 </ul>
-<h4>需谨慎评估的场景</h4>
+<h4>需要谨慎考虑的场景</h4>
 <ul>
-<li>对数据安全和隐私合规有严格要求（如金融、医疗）</li>
-<li>需要深度AI定制（如复杂知识图谱、多轮对话）</li>
-<li>大规模座席（100+）的成本控制</li>
-<li>需要深度集成内部系统的复杂场景</li>
+<li>对数据安全和隐私合规要求严格的行业（金融、医疗等）</li>
+<li>需要复杂 AI 能力（多轮对话、知识图谱等）</li>
+<li>座席规模较大（100+），成本需要精算</li>
+<li>内部系统集成需求复杂</li>
 </ul>
 </div>
 
-<h3>16.6 可借鉴设计</h3>
+<h3>16.6 值得借鉴的设计</h3>
 <table class="stbl">
-<tr><th>设计要素</th><th>借鉴价值</th><th>说明</th></tr>
-<tr><td><strong>工单模块</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>独立工单系统，适合复杂问题长期跟踪，值得借鉴</td></tr>
-<tr><td><strong>On Hold 搁置状态</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>定时恢复设计精妙，有效避免对话遗忘</td></tr>
-<tr><td><strong>右键菜单</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>8项快速操作，免打开详情，大幅提升效率</td></tr>
-<tr><td><strong>Overview 仪表盘</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>AI/人工分开展示负载，管理者视角清晰</td></tr>
-<tr><td><strong>P90/P95/P99 统计</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>百分位统计比简单平均值更科学，行业最佳实践</td></tr>
-<tr><td><strong>联系人自动沉淀</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>对话自动转化为客户资产，零手动成本</td></tr>
+<tr><th>设计点</th><th>借鉴价值</th><th>理由</th></tr>
+<tr><td><strong>工单模块</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>独立于对话的工单系统，让复杂问题有了专门的跟踪通道</td></tr>
+<tr><td><strong>On Hold 搁置状态</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>定时恢复机制很实用，能有效防止对话被遗漏</td></tr>
+<tr><td><strong>右键菜单</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td><td>8项快速操作免打开详情，在批量处理场景下优势明显</td></tr>
+<tr><td><strong>Overview 仪表盘</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>AI和人工负载分开展示，管理视角清晰</td></tr>
+<tr><td><strong>P90/P95/P99 统计</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>百分位统计比简单平均值更能反映真实的服务水平</td></tr>
+<tr><td><strong>联系人自动沉淀</strong></td><td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-empty">&#9733;</span></td><td>对话自动转化为客户记录，省去手动维护的成本</td></tr>
 </table>
 </div>
 </div>
@@ -1186,27 +1121,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec" id="s17">
 <div class="sec-head">
 <h2>十七、快捷键与效率功能</h2>
-<div class="desc">键盘快捷键与效率提升工具</div>
+<div class="desc">日常操作中用得比较多的几个快捷键</div>
 </div>
 <div class="sec-body">
 
 <table class="stbl">
-<tr><th>快捷键</th><th>功能</th><th>说明</th></tr>
+<tr><th>快捷键</th><th>作用</th><th>备注</th></tr>
 <tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">&#8984;+K</kbd></td><td><strong>Command 菜单</strong></td><td>快速搜索并执行命令</td></tr>
 <tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">&#8984;+/</kbd></td><td><strong>快捷键列表</strong></td><td>查看所有可用快捷键</td></tr>
-<tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">/</kbd></td><td><strong>快捷回复</strong></td><td>在输入框中输入 "/" 触发模板选择</td></tr>
+<tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">/</kbd></td><td><strong>快捷回复</strong></td><td>在输入框中触发模板选择</td></tr>
 <tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">Enter</kbd></td><td><strong>发送消息</strong></td><td>直接发送（可在偏好中切换）</td></tr>
 <tr><td><kbd style="background:#e2e8f0;padding:2px 8px;border-radius:4px;font-size:12px">&#8984;+Enter</kbd></td><td><strong>发送消息</strong></td><td>组合键发送（可在偏好中切换）</td></tr>
 </table>
-
-<div class="tip">建议客服人员熟练掌握 &#8984;+K 命令菜单和 "/" 快捷回复，可大幅提升日常工作效率。</div>
 </div>
 </div>
 
 <!-- ========== FOOTER ========== -->
 <div class="footer">
 <div class="divider"></div>
-<p>风控管理平台 — 极光LiveDesk在线客服系统项目文档</p>
+<p>极光LiveDesk在线客服系统项目文档</p>
 <p>整理时间：2026-05-29</p>
 </div>
 

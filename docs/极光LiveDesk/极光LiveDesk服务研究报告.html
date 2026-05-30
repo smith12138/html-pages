@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EngageLab LiveDesk 服务研究报告</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.7;padding:24px}
+.container{max-width:1100px;margin:0 auto}
+
+/* Header — darker for research report */
+.header{background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;padding:40px 36px;border-radius:14px;margin-bottom:28px;box-shadow:0 6px 24px rgba(15,23,42,.4);position:relative;overflow:hidden}
+.header::before{content:"";position:absolute;top:-60%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
+.header::after{content:"";position:absolute;bottom:-40%;left:-5%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%}
+.header-content{position:relative;z-index:1}
+.header-badge{display:inline-block;background:rgba(59,130,246,.2);border:1px solid rgba(96,165,250,.4);color:#93c5fd;padding:3px 14px;border-radius:16px;font-size:11px;letter-spacing:2px;margin-bottom:14px;text-transform:uppercase}
+.header h1{font-size:28px;margin-bottom:6px;font-weight:700;letter-spacing:1px}
+.header .sub{font-size:15px;opacity:.82;margin-bottom:16px;line-height:1.5}
+.header .meta-row{display:flex;gap:24px;font-size:13px;opacity:.72;flex-wrap:wrap}
+.header .meta-row span{display:flex;align-items:center;gap:5px}
+.header .meta-row .dot{width:6px;height:6px;border-radius:50%;background:#3b82f6;display:inline-block}
+
+/* Stats */
+.stats{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:120px;background:#fff;padding:18px;border-radius:10px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.stat-card .num{font-size:34px;font-weight:700}
+.stat-card .label{font-size:12px;color:#888;margin-top:4px}
+.c-blu .num{color:#2563eb}.c-grn .num{color:#059669}.c-ora .num{color:#d97706}.c-pur .num{color:#7c3aed}
+
+/* TOC */
+.toc{background:#fff;border-radius:12px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid #1e3a5f}
+.toc h2{font-size:18px;color:#1e3a5f;margin-bottom:14px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:4px 24px}
+.toc ul{list-style:none;padding:0}.toc li{padding:4px 0}.toc a{color:#1e3a5f;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}.toc a:hover{color:#2563eb;text-decoration:underline}
+
+/* Report section */
+.report-section{background:#fff;border-radius:12px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden}
+.report-section .sec-head{padding:20px 28px 14px;border-bottom:1px solid #f0f0f0}
+.report-section .sec-head h2{font-size:18px;font-weight:700;color:#1e293b}
+.report-section .sec-head .desc{font-size:13px;color:#888;margin-top:4px}
+.report-section .sec-body{padding:24px 28px}
+.report-section .sec-body h3{font-size:16px;font-weight:700;color:#1e3a5f;margin:24px 0 10px;padding-left:12px;border-left:3px solid #1e3a5f}
+.report-section .sec-body h3:first-child{margin-top:0}
+.report-section .sec-body h4{font-size:15px;font-weight:600;color:#334155;margin:18px 0 8px}
+.report-section .sec-body p{font-size:14px;color:#475569;margin-bottom:12px;line-height:1.85}
+.report-section .sec-body ul,.report-section .sec-body ol{padding-left:22px;margin-bottom:12px}
+.report-section .sec-body li{font-size:13.5px;color:#475569;margin-bottom:5px;line-height:1.7}
+.report-section .sec-body li strong{color:#1e293b}
+
+/* Callouts */
+.insight{background:#f1f5f9;border-left:3px solid #1e3a5f;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#334155;line-height:1.8}
+.insight strong{color:#0f172a}
+.warn-box{background:#fffbeb;border-left:3px solid #d97706;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#92400e;line-height:1.8}
+.good-box{background:#ecfdf5;border-left:3px solid #059669;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#065f46;line-height:1.8}
+
+/* Tables */
+.stbl{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+.stbl th{background:#0f172a;color:#e2e8f0;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #1e3a5f;font-size:12px}
+.stbl th:first-child{border-radius:8px 0 0 0}
+.stbl th:last-child{border-radius:0 8px 0 0}
+.stbl td{padding:10px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top;line-height:1.6;color:#475569}
+.stbl tr:hover{background:#f8fafc}
+.stbl tr:last-child td:first-child{border-radius:0 0 0 8px}
+.stbl tr:last-child td:last-child{border-radius:0 0 8px 0}
+
+/* Star rating */
+.stars{color:#f59e0b;font-size:14px;letter-spacing:1px}
+.stars-dim{color:#d1d5db;font-size:14px;letter-spacing:1px}
+
+/* Tags */
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:10px;margin-right:4px}
+.tag-red{background:#fee2e2;color:#dc2626}
+.tag-green{background:#d1fae5;color:#047857}
+.tag-yellow{background:#fef3c7;color:#b45309}
+.tag-gray{background:#f1f5f9;color:#64748b}
+.tag-blue{background:#dbeafe;color:#1d4ed8}
+
+/* Flow diagram */
+.flow-wrap{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:14px 0;padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px}
+.flow-step{background:#fff;border:2px solid #1e3a5f;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;color:#1e3a5f}
+.flow-step-ai{background:#eff6ff;border:2px solid #2563eb;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;color:#2563eb}
+.flow-step-end{background:#f0fdf4;border:2px solid #059669;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;color:#059669}
+.flow-arrow{color:#94a3b8;font-size:16px;font-weight:700}
+
+/* State badges inline */
+.state{display:inline-block;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin:0 2px}
+.state-open{background:#fee2e2;color:#dc2626}
+.state-resolved{background:#d1fae5;color:#047857}
+.state-hold{background:#fef3c7;color:#b45309}
+.state-closed{background:#f1f5f9;color:#64748b}
+
+/* Subsection card */
+.subsec{margin:14px 0;padding:16px 20px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0}
+.subsec h4{font-size:14px;font-weight:600;color:#1e3a5f;margin-bottom:8px}
+.subsec p{font-size:13.5px;color:#475569;margin-bottom:8px;line-height:1.8}
+
+/* Channel grid */
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin:10px 0}
+.ch-tag{background:#f0f4ff;border:1px solid #dbeafe;border-radius:6px;padding:6px 10px;text-align:center;font-size:12px;font-weight:600;color:#1e3a5f}
+
+/* Comparison highlight */
+.vs-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
+.vs-card{padding:16px 20px;border-radius:10px;border:1px solid #e2e8f0}
+.vs-card h4{font-size:14px;font-weight:700;margin-bottom:8px}
+.vs-card p{font-size:13px;color:#475569;line-height:1.7;margin-bottom:4px}
+.vs-live{background:#f0f4ff;border-color:#dbeafe}
+.vs-live h4{color:#1e3a5f}
+.vs-self{background:#f0fdf4;border-color:#bbf7d0}
+.vs-self h4{color:#047857}
+
+/* Borrow card */
+.borrow-item{margin:16px 0;padding:18px 22px;background:#f8fafc;border-radius:10px;border-left:4px solid #1e3a5f}
+.borrow-item h4{font-size:15px;font-weight:700;color:#1e3a5f;margin-bottom:6px}
+.borrow-item p{font-size:13.5px;color:#475569;line-height:1.8;margin-bottom:6px}
+.borrow-item .how{font-size:12.5px;color:#64748b;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid #e2e8f0;margin-top:6px;line-height:1.7}
+
+/* Footer */
+.footer{text-align:center;padding:24px;color:#94a3b8;font-size:12px;margin-top:12px}
+.footer .divider{width:60px;height:2px;background:#e2e8f0;margin:0 auto 14px}
+
+/* Responsive */
+@media(max-width:768px){body{padding:12px}.header{padding:24px 20px}.header h1{font-size:22px}.stats{flex-direction:column}.report-section .sec-body{padding:16px 18px}.report-section .sec-head{padding:16px 18px 12px}.toc-grid{grid-template-columns:1fr}.vs-row{grid-template-columns:1fr}.ch-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== HEADER ========== -->
+<div class="header">
+<div class="header-content">
+<div class="header-badge">Research Report</div>
+<h1>EngageLab LiveDesk 服务研究报告</h1>
+<div class="sub">基于TT在线客服项目的产品体验与竞品对标分析</div>
+<div class="meta-row">
+<span><span class="dot"></span>调研周期：2026年5月</span>
+<span><span class="dot"></span>调研人：产品技术部</span>
+<span><span class="dot"></span>当前项目：TT在线客服</span>
+<span><span class="dot"></span>文档版本：v1.0</span>
+</div>
+</div>
+</div>
+
+<!-- ========== STATS ========== -->
+<div class="stats">
+<div class="stat-card c-blu"><div class="num">7</div><div class="label">核心模块</div></div>
+<div class="stat-card c-grn"><div class="num">9</div><div class="label">接入渠道</div></div>
+<div class="stat-card c-ora"><div class="num">10</div><div class="label">客服座席</div></div>
+<div class="stat-card c-pur"><div class="num">8</div><div class="label">流程链路</div></div>
+</div>
+
+<!-- ========== TOC ========== -->
+<div class="toc" id="toc">
+<h2>目录</h2>
+<div class="toc-grid">
+<div>
+<ul>
+<li><a href="#summary">报告摘要</a></li>
+<li><a href="#s1">一、产品定位与架构</a></li>
+<li><a href="#s2">二、功能深度评估</a></li>
+<li><a href="#s3">三、端到端服务流程分析</a></li>
+<li><a href="#s4">四、对话状态机与分配机制</a></li>
+</ul>
+</div>
+<div>
+<ul>
+<li><a href="#s5">五、与自研系统的对标分析</a></li>
+<li><a href="#s6">六、值得借鉴的设计</a></li>
+<li><a href="#s7">七、适用场景与选型建议</a></li>
+<li><a href="#s8">八、结论</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- ========== SUMMARY ========== -->
+<div class="report-section" id="summary">
+<div class="sec-head">
+<h2>报告摘要</h2>
+</div>
+<div class="sec-body">
+<p>EngageLab LiveDesk 是极光（Aurora Mobile, NASDAQ: JG）推出的 SaaS 全渠道在线客服平台，主打 AI Agent + Human Agent 混合协同模式。我们在 TT 在线客服项目的选型阶段对其进行了为期一个月的深度体验和功能拆解，覆盖了从对话处理、工单管理、数据分析到 API 集成的完整链路。</p>
+
+<p>坦率地说，LiveDesk 作为一个 SaaS 产品的完成度相当高。团队协作、运营可视化、对话管理这些"看得见"的能力做得扎实，右键菜单、On Hold 搁置状态、P90/P95/P99 分位统计这些细节设计甚至超出了我们对一个中型 SaaS 工具的预期。但问题也很明显：AI 能力是个黑盒，只有一个 AB-Demo v1.0.0 的 AI Agent 挂在那里，背后用的什么模型、怎么做意图识别、能不能微调 -- 全都不透明。对于不需要深度 AI 定制、不在乎数据是否留在第三方云端的团队来说，LiveDesk 确实是比自研更快、更便宜的路径。</p>
+
+<p>但对我们的场景而言 -- AI 回复质量直接影响用户留存，数据合规和自主可控是硬性要求 -- LiveDesk 更适合作为设计参考而非替代方案。它在工单系统、仪表盘设计、状态机流转等方面有很多值得我们借鉴的地方，这份报告会逐一拆解。</p>
+</div>
+</div>
+
+<!-- ========== S1: 产品定位与架构 ========== -->
+<div class="report-section" id="s1">
+<div class="sec-head">
+<h2>一、产品定位与架构</h2>
+</div>
+<div class="sec-body">
+
+<p>LiveDesk 的定位很清晰：面向中大型企业的全渠道在线客服平台，强调"AI + 人工"协同。它不是一个轻量级的聊天插件，而是一个完整的客服运营系统，从对话处理到数据分析到团队管理一条龙。当前 TT 项目通过 engagelab.com/console/livedesk/ 访问，所有数据托管在极光的云端基础设施上。</p>
+
+<p>整个系统由 7 个模块组成，结构上很标准，没有什么意外：</p>
+
+<table class="stbl">
+<tr><th>模块</th><th>路由</th><th>一句话定位</th></tr>
+<tr><td><strong>Overview 概览</strong></td><td>/overview</td><td>管理者仪表盘，实时指标和工作负载一览</td></tr>
+<tr><td><strong>Conversations 对话</strong></td><td>/dashboard</td><td>核心模块，日常对话处理的主战场</td></tr>
+<tr><td><strong>Tickets 工单</strong></td><td>/tickets</td><td>复杂问题的长期跟踪，独立于对话</td></tr>
+<tr><td><strong>Insight Analysis 洞察分析</strong></td><td>/insight-analysis</td><td>10个子模块的数据报表体系</td></tr>
+<tr><td><strong>Agents 客服管理</strong></td><td>/ai-agent</td><td>AI Agent 和 Human Agent 的统一管理</td></tr>
+<tr><td><strong>Contacts 联系人</strong></td><td>/contacts</td><td>客户信息沉淀，对话自动转化为联系人记录</td></tr>
+<tr><td><strong>Settings 设置</strong></td><td>/automation-rules</td><td>渠道、自动化规则、API、偏好等配置</td></tr>
+</table>
+
+<p>架构上采用经典的三栏式布局：左侧窄导航栏放 7 个模块图标，中间二级侧边栏做子菜单和列表筛选，右侧大面积主内容区。这个布局在 Intercom、Zendesk 等同类产品中也很常见，用户学习成本低。值得一提的是底部工具区提供了在线状态切换（Online / Busy / Offline），这是客服系统的标配，LiveDesk 没有遗漏。</p>
+
+<div class="insight">
+<strong>架构观察：</strong>LiveDesk 的模块划分比较传统但够用。值得注意的是 Tickets 和 Conversations 做了物理分离而非逻辑分离 -- 这是一个好的设计决策，避免了对话列表被长期未关闭的工单"污染"。我们自研系统目前没有工单模块，这一点需要补上。
+</div>
+</div>
+</div>
+
+<!-- ========== S2: 功能深度评估 ========== -->
+<div class="report-section" id="s2">
+<div class="sec-head">
+<h2>二、功能深度评估</h2>
+<div class="desc">模块级拆解，不是功能清单，是使用感受和设计判断</div>
+</div>
+<div class="sec-body">
+
+<h3>对话模块 -- 日常战场</h3>
+
+<p>对话模块是 LiveDesk 的核心，也是我们花最多时间体验的部分。整体印象：功能完备，交互效率高，细节打磨到位。</p>
+
+<p>左侧提供了 4 种视图（所有 / AI响应 / 未分配 / 我的）加上自定义视图，下面挂着 9 个 Web 收件箱，分别对应不同的业务线：</p>
+
+<div class="ch-grid">
+<div class="ch-tag">TT7XX</div>
+<div class="ch-tag">TTB777</div>
+<div class="ch-tag">TTBrplay7</div>
+<div class="ch-tag">TTBrslot</div>
+<div class="ch-tag">TTBrspin</div>
+<div class="ch-tag">TTBrwins</div>
+<div class="ch-tag">TTSp7</div>
+<div class="ch-tag">TTVana7</div>
+<div class="ch-tag">测试</div>
+</div>
+
+<p>实际体验下来，最让我们印象深刻的是右键菜单。在对话列表上右键，直接弹出 8 项操作 -- 标记未读、标记已解决、标记待处理、搁置、设置优先级、添加标签、分配客服、分配团队。不需要点进对话详情就能完成这些高频操作，对于每天处理上百条对话的客服来说，这个效率提升是实实在在的。</p>
+
+<div class="good-box">
+右键菜单的 8 项操作覆盖了客服日常 80% 的管理动作。这个设计值得直接抄 -- 我们自研系统目前所有操作都得打开对话详情才能做，在高并发场景下效率差距明显。
+</div>
+
+<p>对话窗口本身中规中矩：富文本编辑器支持加粗、斜体、链接、列表、代码块；"/" 触发快捷回复模板；Internal Note 模式切换让内部讨论不会误发给客户；自动翻译支持 PT（葡萄牙语）和 CN（中文）互译，对我们巴西和墨西哥团队有实际价值。</p>
+
+<p>右侧详情面板分两个 Tab。"操作" Tab 集中了分配客服、分配团队、优先级（None/Low/Medium/High/Urgent 五档）、标签、宏操作、历史记录、参与者、自定义属性。"AI 响应" Tab 展示 AI Agent 的推荐回复和 FAQ 匹配结果。两个 Tab 的信息密度控制得不错，没有把所有东西堆在一个面板里。</p>
+
+<p>状态生命周期是四态模型：<span class="state state-open">Open</span> <span class="state state-resolved">Resolved</span> <span class="state state-hold">On Hold</span> <span class="state state-closed">Closed</span>。其中 On Hold 搁置状态设计得很聪明 -- 允许客服暂挂对话并设定自动恢复时间，到时间后对话自动重新变为 Open。这个机制有效避免了"等客户补充信息"类对话被遗忘的问题。我们自研系统只有 Open 和 Closed 两个状态，太粗了，需要加上 Resolved 和 On Hold。</p>
+
+<h3>AI 能力 -- 看起来有，用起来浅</h3>
+
+<p>这是我们最关心也最失望的部分。</p>
+
+<p>LiveDesk 当前只有一个 AI Agent：AB-Demo v1.0.0，描述是 "All customer service assist"，关联了 FAQ_DEMO 知识库。启用状态下，用户发消息会先走 AI 匹配，匹配到知识库条目就自动回复，匹配不到就触发 Hand-off 转人工。Overview 仪表盘上能看到 Hand-off Rate 和 AI-Active 两个指标。</p>
+
+<p>听起来还行，但实际体验下来问题不少。首先，AI 是完全的黑盒 -- 我们不知道背后用的什么模型，不知道它怎么做意图识别，不知道匹配的置信度阈值是多少，更别提微调了。其次，知识库就是一个简单的 FAQ 列表，没有看到向量检索、语义理解之类的高级能力。最后，"AI能力"设置页面打开是空白的，说明要么这个功能还没做完，要么需要更高权限才能配置。</p>
+
+<div class="vs-row">
+<div class="vs-card vs-live">
+<h4>LiveDesk AI</h4>
+<p>平台内嵌 LLM，模型不可选</p>
+<p>基于 FAQ 知识库的关键词/语义匹配</p>
+<p>意图识别机制不透明</p>
+<p>不支持微调和自定义 NLU</p>
+<p>Hand-off 是唯一的降级策略</p>
+</div>
+<div class="vs-card vs-self">
+<h4>自研 AI</h4>
+<p>Qwen3-30B 主力，可随时切换模型</p>
+<p>Qdrant + BGE-M3 + Rerank 检索链路</p>
+<p>Qwen2.5-7B 独立意图识别模型</p>
+<p>全栈可微调，数据闭环</p>
+<p>多级降级：重试 / 转人工 / 兜底话术</p>
+</div>
+</div>
+
+<div class="warn-box">
+坦率地说，LiveDesk 的 AI 能力和我们自研系统不在一个量级。但这也合理 -- SaaS 产品追求的是通用性和易用性，不是某个垂直场景的极致效果。对于 FAQ 类简单问答，它够用了。
+</div>
+
+<h3>工单系统 -- 我们没有的东西</h3>
+
+<p>Tickets 模块和 Conversations 结构类似，但定位不同：对话是实时的、短周期的，工单是异步的、可能持续数天到数周的。视图分三类（所有 / 未分配 / 我的），没有"AI 响应"视图 -- 因为工单通常是复杂问题，AI 处理不了。</p>
+
+<p>这个模块让我们反思了一个问题：我们自研系统目前所有问题都走对话流，没有独立的工单系统。结果就是一些需要跨部门协作、多次跟进的复杂问题混在普通对话里，容易丢失上下文。LiveDesk 把工单独立出来是对的，我们需要补上这个能力。</p>
+
+<h3>数据洞察 -- 做得比预期好</h3>
+
+<p>Insight Analysis 下面有 10 个子模块：效能、Agents、客户画像、对话、客户满意度、AI积分消耗、客服、标签、渠道、团队。坦率地说，这个模块的专业度超出了我们对一个中型 SaaS 产品的预期。</p>
+
+<p>首先是 P90/P95/P99 分位统计。大多数客服系统只给平均值和中位数，但 LiveDesk 在首次响应时间和问题解决耗时两个指标上都提供了完整的分位数分析。这是做性能监控的标准做法（参考 APM 工具），用在客服效率分析上很专业。举个例子：平均首次响应时间 30 秒看起来很好，但如果 P99 是 10 分钟，说明有 1% 的客户等了很久 -- 这种长尾问题只有分位数才能暴露。</p>
+
+<p>其次是流量热力图，按小时和星期几做二维矩阵，可以直观看出流量高峰分布在什么时段。这对排班规划很有价值 -- 我们巴西团队是不是周六晚上最忙？菲律宾团队的低谷期在哪？一张热力图比看一堆表格清楚得多。</p>
+
+<p>CSAT（客户满意度）评分模块也是标配但做得完整，支持按客服、团队、渠道、时间段交叉分析。自研系统目前用 ClickHouse 做数据分析，灵活性更高但可视化层面还比较粗糙，LiveDesk 的仪表盘设计值得参考。</p>
+
+<h3>团队协作 -- 成熟但简单</h3>
+
+<p>当前配置了 10 个客服座席（1 Admin + 9 Agent），4 个区域团队（巴西、墨西哥、菲律宾、ai test）。分配机制有 5 条路径：自动分配、手动分配、主动认领、转交、右键分配。</p>
+
+<p>角色体系只有两个实际角色：Admin 和 Agent。Admin 有全系统权限，Agent 只能处理分配给自己的对话和认领未分配对话。虽然文档提到了 Team Manager 和 AI Agent 两个角色，但在实际使用中 Team Manager 的权限边界不够清晰，AI Agent 更多是一个系统角色而非人工角色。</p>
+
+<div class="insight">
+<strong>权限对比：</strong>LiveDesk 的两级角色（Admin/Agent）对于 10 人团队够用了，但对我们的场景偏简单。自研系统已经实现了 RBAC 模型，支持按钮级别的权限控制，这是 SaaS 产品很难做到的定制化深度。
+</div>
+
+<h3>渠道接入 -- Web 为主，其他待定</h3>
+
+<p>现有 9 个渠道全部是 Web（LiveChat Widget）类型，通过 JS SDK 嵌入到各业务网站。每个渠道对应一个独立收件箱，对话自动归入对应渠道。</p>
+
+<p>关键问题是：我们没有在系统中看到 Telegram 或 WhatsApp 渠道的接入配置。对于 TT 项目来说，TG 群是最重要的客服触达渠道之一。自研系统已经通过 MTProto 协议直连 Telegram，通过 whatsmeow 对接 WhatsApp，这是 LiveDesk 目前无法覆盖的场景。</p>
+
+<h3>设置与集成 -- 基础能力具备</h3>
+
+<p>Settings 模块提供了自动化规则引擎（条件-动作模式）、渠道管理、对话管理（标签、属性、状态自定义）、API 管理（Key + Secret 认证 + Webhook）。API 支持两种 Key：test AI key（测试用临时 Key）和 permanent key（正式环境长期 Key）。Webhook 可以监听新对话创建、状态变更、新消息接收等事件。</p>
+
+<p>但"高级功能"和"AI 能力"两个设置页面打开都是空白，这有点让人不安 -- 要么是功能还没完成，要么是权限限制没有说明。整体来看，API 能力够做基础集成，但 SDK 文档和错误处理的文档覆盖面不够，开发体验一般。</p>
+
+</div>
+</div>
+
+<!-- ========== S3: 端到端服务流程 ========== -->
+<div class="report-section" id="s3">
+<div class="sec-head">
+<h2>三、端到端服务流程分析</h2>
+<div class="desc">从用户发起联系到数据沉淀的完整链路拆解</div>
+</div>
+<div class="sec-body">
+
+<p>我们根据实际体验和系统流程图，梳理出 LiveDesk 的 7 阶段端到端服务流程。整个链路的设计思路是"AI 优先、人工兜底、数据闭环"，这个方向是对的，但执行深度有差异。</p>
+
+<div class="flow-wrap">
+<div class="flow-step">1. 用户触达</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">2. 渠道路由</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step-ai">3. AI 优先响应</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">4. Hand-off 转人工</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">5. 客服工具箱</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step">6. 状态流转</div>
+<div class="flow-arrow">&rarr;</div>
+<div class="flow-step-end">7. 数据沉淀</div>
+</div>
+
+<p><strong>第一阶段：用户触达。</strong>用户通过嵌入业务网站的 LiveChat Widget 发起对话。每个网站对应一个独立渠道和收件箱，系统自动创建对话记录并采集基础信息（浏览器指纹、IP、访问页面等）。这个阶段没什么特别的，行业标准做法。</p>
+
+<p><strong>第二阶段：渠道路由。</strong>对话根据来源渠道自动归入对应的收件箱（比如从 TTBrplay7 网站来的对话归入 TTBrplay7 收件箱）。路由规则是渠道级的一一映射，暂时没看到基于用户属性或对话内容的智能路由能力。这里有一个可以改进的点 -- 如果能根据用户语言自动路由到对应区域团队（比如葡萄牙语自动到巴西团队），效率会更高。</p>
+
+<p><strong>第三阶段：AI 优先响应。</strong>对话创建后，如果 AI Agent（AB-Demo）处于启用状态，系统会先让 AI 尝试响应。AI 匹配 FAQ_DEMO 知识库，命中则自动回复，未命中则标记为需要人工介入。这个"AI-first"的设计方向是对的，但实际效果取决于知识库的覆盖率和匹配精度 -- 而这两点我们无法从外部评估。</p>
+
+<p><strong>第四阶段：Hand-off 转人工。</strong>AI 无法解决时触发 Hand-off，对话进入人工队列。这里的问题是 Hand-off 是一次性的 -- 一旦转给人工，AI 就完全退出了。没有看到"AI 辅助人工"的协同模式（比如 AI 实时推荐回复、AI 自动查询相关知识库给客服参考）。虽然右侧面板有"AI 响应"Tab，但那更像是一个查看面板，而非交互式的辅助工具。</p>
+
+<p><strong>第五阶段：客服工具箱。</strong>人工客服接手后，可以使用富文本编辑器、"/" 快捷回复、内部备注、自动翻译、右键菜单等工具处理对话。这个阶段 LiveDesk 做得很扎实，工具链完整，操作效率高。前面提到的 8 项右键菜单操作就是这个阶段的效率利器。</p>
+
+<p><strong>第六阶段：状态流转。</strong>客服处理完毕后，通过顶栏按钮、右键菜单、详情面板或自动化规则触发状态变更。四态模型（Open/Resolved/On Hold/Closed）的设计合理，双向流转（Resolved 和 On Hold 在用户发新消息时可以自动回到 Open）是实际业务中必需的能力。</p>
+
+<p><strong>第七阶段：数据沉淀。</strong>对话关闭后，数据流向四个方向 -- CSAT 满意度评分收集、Contacts 联系人信息更新、Insight Analysis 报表聚合、API/Webhook 外部推送。这个数据闭环设计得比较完整，尤其是联系人自动沉淀这一点，零手动成本就把对话数据转化为客户资产。</p>
+
+<div class="insight">
+<strong>流程评价：</strong>LiveDesk 的服务流程整体上是成熟的单轮 AI + 人工切换模式。强项是状态机清晰、工具链完整、数据闭环到位。弱项是 AI 没有多轮对话能力、没有用户画像驱动的个性化路由、Hand-off 后 AI 完全退出没有人机协同。这些恰好是我们自研系统需要重点做好的地方。
+</div>
+</div>
+</div>
+
+<!-- ========== S4: 状态机与分配 ========== -->
+<div class="report-section" id="s4">
+<div class="sec-head">
+<h2>四、对话状态机与分配机制</h2>
+</div>
+<div class="sec-body">
+
+<h3>四态生命周期</h3>
+
+<p>LiveDesk 的对话状态机是一个四节点有向图，设计得干净利落。</p>
+
+<table class="stbl">
+<tr><th>状态</th><th>标识</th><th>含义</th><th>可转换为</th></tr>
+<tr><td><span class="state state-open">Open</span></td><td>红色</td><td>对话进行中，需要处理</td><td>Resolved / On Hold / Closed</td></tr>
+<tr><td><span class="state state-resolved">Resolved</span></td><td>绿色</td><td>问题已解决，等待确认</td><td>Open（用户发新消息时自动回转）</td></tr>
+<tr><td><span class="state state-hold">On Hold</span></td><td>黄色</td><td>暂挂等待，可设定时恢复</td><td>Open（定时或手动恢复）/ Closed</td></tr>
+<tr><td><span class="state state-closed">Closed</span></td><td>灰色</td><td>终态，不可恢复</td><td>--</td></tr>
+</table>
+
+<p>几个值得注意的设计决策：</p>
+
+<p>第一，Resolved 不是终态。标记为已解决后，如果用户发了新消息，对话自动回到 Open。这在实际业务中非常重要 -- 客服标记"已解决"但用户不认可的情况经常发生，如果 Resolved 是终态，客服就得手动创建新对话来处理后续问题。LiveDesk 的双向流转避免了这个麻烦。</p>
+
+<p>第二，On Hold 搁置状态支持定时自动恢复。比如客服等客户提供截图，可以搁置对话并设定 24 小时后自动恢复为 Open。如果到时候客户没有回复，对话回到 Open 状态提醒客服主动跟进。这个设计解决了"等待中的对话被遗忘"这个很现实的问题。</p>
+
+<p>第三，Closed 是不可逆终态。一旦关闭就无法重新打开，这保证了数据的一致性和报表的准确性。如果用户后续再来联系，系统会创建新的对话，而不是重开旧对话。</p>
+
+<h3>五条分配路径</h3>
+
+<table class="stbl">
+<tr><th>路径</th><th>机制</th><th>适用场景</th></tr>
+<tr><td><strong>自动分配</strong></td><td>系统根据自动化规则分配给可用客服</td><td>常规对话，按负载均衡分配</td></tr>
+<tr><td><strong>手动分配</strong></td><td>管理员在详情面板中指定处理人</td><td>特定问题需要特定专家处理</td></tr>
+<tr><td><strong>主动认领</strong></td><td>客服从"未分配"队列中自行认领</td><td>客服空闲时主动接单</td></tr>
+<tr><td><strong>转交</strong></td><td>当前客服将对话转给其他客服或团队</td><td>问题超出能力范围，需要升级</td></tr>
+<tr><td><strong>右键分配</strong></td><td>通过右键菜单快速分配</td><td>管理员批量调度</td></tr>
+</table>
+
+<p>5 条路径覆盖了日常客服运营的绝大部分分配场景。自动分配处理常规流量，手动分配和转交处理特殊情况，主动认领让客服有自主权，右键分配给管理员提供了批量调度的效率工具。</p>
+
+<h3>四个触发点</h3>
+
+<p>状态变更可以从 4 个地方触发：对话窗口顶栏的状态按钮、列表右键菜单、右侧详情面板、以及自动化规则。多触发点的设计保证了不同工作习惯的客服都能找到顺手的操作路径，这是一个体验细节但体现了产品的成熟度。</p>
+
+</div>
+</div>
+
+<!-- ========== S5: 对标分析 ========== -->
+<div class="report-section" id="s5">
+<div class="sec-head">
+<h2>五、与自研系统的对标分析</h2>
+<div class="desc">10 个维度的横向对比，不回避任何一方的短板</div>
+</div>
+<div class="sec-body">
+
+<p>下面这张表是我们对 LiveDesk 和自研系统在 10 个关键维度上的评估。评分标准是 1-5 星，1 星代表"严重不足"，5 星代表"完全满足需求"。需要强调的是，这不是绝对好坏的评价，而是针对我们 TT 项目需求的适配度评估。</p>
+
+<table class="stbl">
+<tr><th>维度</th><th>LiveDesk</th><th>自研系统</th><th>分析</th></tr>
+<tr>
+<td><strong>上手成本</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td>LiveDesk 注册即用，0 部署成本；自研需要持续开发投入</td>
+</tr>
+<tr>
+<td><strong>AI 深度</strong></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>LiveDesk AI 是黑盒；自研全栈可控，模型可切换可微调</td>
+</tr>
+<tr>
+<td><strong>数据控制</strong></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>LiveDesk 数据在极光云端；自研数据完全自主，满足合规要求</td>
+</tr>
+<tr>
+<td><strong>定制灵活性</strong></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>SaaS 天然受限；自研想改什么改什么</td>
+</tr>
+<tr>
+<td><strong>运维成本</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td>LiveDesk 零运维是最大优势；自研需要持续投入运维人力</td>
+</tr>
+<tr>
+<td><strong>多渠道</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;</span></td>
+<td>LiveDesk Web 渠道丰富但无 TG/WA；自研深度对接 TG 和 WA</td>
+</tr>
+<tr>
+<td><strong>团队协作</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;</span></td>
+<td>LiveDesk 团队、分配、工单体系成熟；自研基础协作已有，工单缺失</td>
+</tr>
+<tr>
+<td><strong>数据分析</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;</span></td>
+<td>LiveDesk 内置仪表盘专业；自研 ClickHouse 灵活但可视化待完善</td>
+</tr>
+<tr>
+<td><strong>工单系统</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>LiveDesk 工单模块完整；自研目前完全没有工单能力</td>
+</tr>
+<tr>
+<td><strong>长期成本</strong></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td>LiveDesk 按席位收费，规模化后成本线性增长；自研边际成本递减</td>
+</tr>
+</table>
+
+<p>从这张表可以看出一个清晰的模式：LiveDesk 在"不需要动手"的维度上全面领先（上手成本、运维成本、团队协作、数据分析、工单系统），而自研系统在"需要深度控制"的维度上全面领先（AI 深度、数据控制、定制灵活性、长期成本）。</p>
+
+<p>这不是一个"谁更好"的问题，而是一个"你要什么"的问题。如果团队的核心诉求是快速上线、稳定运营、不想养技术团队，LiveDesk 是更优选择。但如果核心诉求是 AI 回复质量直接影响业务指标、数据不能出境、需要和内部系统深度打通 -- 那自研是唯一选项。</p>
+
+<div class="insight">
+<strong>关键判断：</strong>对 TT 项目而言，AI 质量和数据控制是不可妥协的。LiveDesk 在这两个维度上的 2 星评分不是因为它做得差，而是 SaaS 模式的天然限制。但它在工单、仪表盘、状态机等方面的设计经验，完全值得我们拿来用。
+</div>
+</div>
+</div>
+
+<!-- ========== S6: 值得借鉴的设计 ========== -->
+<div class="report-section" id="s6">
+<div class="sec-head">
+<h2>六、值得借鉴的设计</h2>
+<div class="desc">5 个具体可落地的设计点，附实施思路</div>
+</div>
+<div class="sec-body">
+
+<div class="borrow-item">
+<h4>1. 独立工单模块</h4>
+<p>这是我们自研系统目前最大的功能缺口。当前所有问题都走对话流，但"帮我调一下出金额度"和"账号被盗，涉及多笔交易需要逐一核查"是完全不同性质的问题。前者一条对话就能搞定，后者可能需要风控、财务、技术多个部门协作，跨越几天甚至几周。没有工单系统，后一类问题要么丢在对话里被新消息淹没，要么客服用线下文档跟踪 -- 两种方式都不靠谱。</p>
+<div class="how"><strong>实施思路：</strong>在现有对话模型基础上扩展 Ticket 实体，复用分配、状态、标签等基础能力，增加跨部门协作（指定协作人）、SLA 时限、子工单等工单特有能力。前端新增独立的 Tickets 页面，参考 LiveDesk 的三视图结构（所有/未分配/我的）。预计开发周期 2-3 周。</div>
+</div>
+
+<div class="borrow-item">
+<h4>2. On Hold 搁置状态</h4>
+<p>我们现在只有 Open 和 Closed 两个状态，中间缺少了"问题已回复但等待客户反馈"和"问题已解决但未正式关闭"两个关键节点。结果就是客服不知道哪些对话是在等客户回复、哪些是真的在处理中。LiveDesk 的四态模型（Open / Resolved / On Hold / Closed）解决了这个问题，尤其是 On Hold 的定时自动恢复机制，避免了对话被遗忘。</p>
+<div class="how"><strong>实施思路：</strong>在对话状态机中新增 Resolved 和 On Hold 两个状态。Resolved 状态下用户发新消息自动回转 Open。On Hold 状态支持设定恢复时间，通过定时任务（cron）扫描到期的搁置对话并自动转为 Open。前端状态筛选和列表样式同步调整。改动不大，核心是状态机的重新设计，预计 1 周。</div>
+</div>
+
+<div class="borrow-item">
+<h4>3. 右键菜单快速操作</h4>
+<p>这个设计看起来简单，但对客服效率的提升是切实的。当前自研系统的所有操作都需要点进对话详情才能执行 -- 标记状态、分配客服、打标签，每个动作至少多两次点击。LiveDesk 的右键菜单把 8 个高频操作（标记未读、已解决、待处理、搁置、设置优先级、添加标签、分配客服、分配团队）直接铺在列表层面，省去了大量无效跳转。</p>
+<div class="how"><strong>实施思路：</strong>在对话列表组件上添加 contextmenu 事件监听，弹出自定义菜单。菜单项绑定对应的 API 调用（PATCH 对话状态、分配等）。注意处理好菜单的定位（避免溢出屏幕边缘）和键盘可访问性。前端改动为主，预计 3-5 天。</div>
+</div>
+
+<div class="borrow-item">
+<h4>4. Overview 全局仪表盘</h4>
+<p>我们自研系统目前没有一个面向管理者的全局概览页面。客服主管想了解"现在有多少对话在处理中、AI 转人工率是多少、哪个团队最忙"，需要分别去不同页面查看甚至查数据库。LiveDesk 的 Overview 把活跃对话数、活跃工单数、月趋势、Human Agent 工作负载（未分配/未处理/处理中）、AI Agent 工作负载（Hand-off Rate/AI-Active）、对话分析（渠道饼图/流量热力图）全部集中在一个页面上，管理者打开系统第一眼就能掌握全局。</p>
+<div class="how"><strong>实施思路：</strong>新增 /overview 路由页面。数据源从 ClickHouse 实时查询，前端用 ECharts 渲染图表。核心组件包括：指标卡片组（4-6 个关键数字）、工作负载表格（按团队/客服维度）、趋势折线图、渠道分布饼图、流量热力图。可以先做一个 MVP 版本跑起来，后续再迭代。预计 1-2 周。</div>
+</div>
+
+<div class="borrow-item">
+<h4>5. P90/P95/P99 分位统计</h4>
+<p>平均值是会骗人的。如果 100 个客户的首次响应时间是 99 个 10 秒 + 1 个 30 分钟，平均值是 28 秒 -- 看起来还行。但那 1 个等了 30 分钟的客户已经流失了。分位数统计（P90 = 90% 的客户在多少秒内得到响应）才能真实反映服务质量的长尾分布。LiveDesk 在首次响应时间和问题解决耗时两个指标上都提供了完整的 Median/P90/P95/P99/Max 分析，这是 APM 领域的标准做法，用在客服效率分析上非常专业。</p>
+<div class="how"><strong>实施思路：</strong>ClickHouse 原生支持 quantile 函数（quantile(0.9)(response_time)），SQL 层面改动很小。关键是在 Insight 报表页面增加分位数的展示维度，默认显示 Median 和 P90，高级模式展开 P95/P99/Max。可以先在首次响应时间这一个指标上试点，验证效果后推广到其他指标。预计 3-5 天。</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== S7: 选型建议 ========== -->
+<div class="report-section" id="s7">
+<div class="sec-head">
+<h2>七、适用场景与选型建议</h2>
+</div>
+<div class="sec-body">
+
+<h3>什么时候该选 LiveDesk</h3>
+
+<p>如果你的团队处于这样的状态 -- 10 到 50 人的中型客服团队，业务渠道以 Web 为主，不需要对 AI 回复质量做精细控制，没有专职的技术团队来维护客服系统，需要快速上线（以周为单位而非月），有国际化运营需求但不涉及严格的数据合规 -- 那 LiveDesk 是一个非常合理的选择。它的开箱即用体验、成熟的团队协作机制、专业的数据分析能力，可以让你省掉大量的开发和运维成本，把精力聚焦在业务本身。</p>
+
+<h3>什么时候该选自研</h3>
+
+<p>但如果你的场景是这样的 -- AI 回复质量直接影响用户转化或留存，需要对模型做垂直领域的微调，对话数据涉及敏感信息不能存放在第三方平台，业务渠道包括 Telegram、WhatsApp 等非标准渠道需要协议级对接，系统需要和内部的 CRM、ERP、风控系统深度集成，团队规模大到按席位收费不划算 -- 那自研是更合适的路径。前期投入大，但长期来看控制权和边际成本都更优。</p>
+
+<h3>TT 项目的选型建议</h3>
+
+<div class="subsec">
+<p>综合以上分析，我们对 TT 在线客服项目的建议是：<strong>继续走自研路线，但把 LiveDesk 的设计经验融入进来。</strong></p>
+
+<p>具体来说：</p>
+
+<p>自研系统继续承担核心职责 -- AI 对话引擎（Qwen3-30B + RAG）、Telegram/WhatsApp 渠道对接（MTProto + whatsmeow）、数据存储和分析（ClickHouse）、RBAC 权限体系。这些是我们的竞争力所在，不能让渡给第三方。</p>
+
+<p>同时，借鉴 LiveDesk 的 5 个设计点来补齐短板：新增工单模块处理复杂问题、引入 On Hold 搁置状态完善对话生命周期、实现右键菜单提升操作效率、建设 Overview 仪表盘提供管理视角、在报表中加入 P90/P95/P99 分位统计。这些改动的开发量不大（总计预计 4-6 周），但对产品完整度的提升是实质性的。</p>
+
+<p>LiveDesk 可以保留作为备用方案，如果未来有新的业务线需要快速上线客服能力但对 AI 深度要求不高，可以直接用 LiveDesk 搭建，避免重复开发。</p>
+</div>
+
+</div>
+</div>
+
+<!-- ========== S8: 结论 ========== -->
+<div class="report-section" id="s8">
+<div class="sec-head">
+<h2>八、结论</h2>
+</div>
+<div class="sec-body">
+
+<p>这次调研的核心发现是：LiveDesk 和自研系统之间的差异不是"好与坏"的差异，而是"取舍"的差异。LiveDesk 选择了 SaaS 模式，得到了快速部署、零运维、标准化的好处，代价是 AI 能力浅、数据不在手里、定制化受限。自研系统选择了自主可控，得到了 AI 全栈可控、数据自主、无限定制的好处，代价是持续的开发投入和运维压力。两者没有绝对优劣，只有场景适配。</p>
+
+<p>对 TT 项目而言，我们的判断是明确的：AI 回复质量和数据控制权是不可妥协的，自研是正确的路线。但 LiveDesk 在产品设计层面的积累 -- 特别是工单系统、状态机设计、操作效率优化、数据分析体系 -- 不应该被浪费。把这些设计经验吸收到自研系统中，是这次调研最实际的产出。不重复造轮子，但也不为了省事放弃核心控制权，这是我们需要持续平衡的事。</p>
+
+</div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer">
+<div class="divider"></div>
+<p>产品技术部 &middot; EngageLab LiveDesk 服务研究报告 &middot; 2026-05-30</p>
+</div>
+
+</div><!-- end container -->
+
+<!-- 浮动按钮组 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75;text-decoration:none}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+@media(max-width:640px){.fab-group{right:14px;bottom:20px;gap:8px}.fab{width:38px;height:38px}.fab svg{width:16px;height:16px}}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/?project=livedesk" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+</script>
+
+</body>
+</html>

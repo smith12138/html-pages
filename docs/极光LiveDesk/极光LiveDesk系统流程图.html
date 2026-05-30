@@ -23,28 +23,10 @@
         .header {
             background: linear-gradient(135deg, #1e3a5f, #2563eb);
             color: #fff;
-            padding: 60px 40px 50px;
-            text-align: center;
+            padding: 36px 32px;
             position: relative;
             overflow: hidden;
-            border-radius: 0 0 16px 16px;
-        }
-
-        .header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 30% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 60%),
-                        radial-gradient(ellipse at 70% 50%, rgba(37, 99, 235, 0.15) 0%, transparent 60%);
-            animation: headerPulse 8s ease-in-out infinite alternate;
-        }
-
-        @keyframes headerPulse {
-            0% { opacity: 0.6; }
-            100% { opacity: 1; }
+            border-radius: 14px;
         }
 
         .header-content {
@@ -54,24 +36,10 @@
             margin: 0 auto;
         }
 
-        .header-badge {
-            display: inline-block;
-            background: rgba(59, 130, 246, 0.3);
-            border: 1px solid rgba(96, 165, 250, 0.5);
-            color: #93c5fd;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
         .header h1 {
-            font-size: 42px;
+            font-size: 32px;
             font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: 2px;
+            margin-bottom: 6px;
         }
 
         .header h1 span {
@@ -79,17 +47,16 @@
         }
 
         .header .subtitle {
-            font-size: 18px;
+            font-size: 15px;
             color: #bfdbfe;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
 
         .header-meta {
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            gap: 24px;
             flex-wrap: wrap;
-            font-size: 14px;
+            font-size: 13px;
             color: #bfdbfe;
         }
 
@@ -222,8 +189,8 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .header { padding: 40px 20px 36px; }
-            .header h1 { font-size: 28px; }
+            .header { padding: 28px 20px; }
+            .header h1 { font-size: 24px; }
             .section { padding: 24px 20px; }
             .toc { padding: 24px 20px; }
             .toc-grid { grid-template-columns: 1fr; }
@@ -235,13 +202,12 @@
 <!-- Header -->
 <div class="header">
     <div class="header-content">
-        <div class="header-badge">EngageLab LiveDesk</div>
         <h1>极光<span>LiveDesk</span>系统流程图</h1>
         <p class="subtitle">在线客服系统架构 / 服务流程 / 状态机 / 集成与自动化</p>
         <div class="header-meta">
             <span><span class="dot"></span>8 套核心流程图</span>
             <span><span class="dot"></span>7 大功能模块</span>
-            <span><span class="dot"></span>2026-05-29</span>
+            <span><span class="dot"></span>2026-05-30</span>
         </div>
     </div>
 </div>
@@ -250,7 +216,7 @@
 
     <!-- Table of Contents -->
     <div class="toc">
-        <h2>📋 目录导航</h2>
+        <h2>目录导航</h2>
         <div class="toc-grid">
             <a href="#flow1">1. 产品总体架构</a>
             <a href="#flow2">2. 端到端服务流程</a>
@@ -387,7 +353,7 @@
     <!-- Flow 2: 端到端服务流程 -->
     <div class="section" id="flow2">
         <h2><span class="num">2</span>端到端服务流程</h2>
-        <p class="section-desc">从用户接入到数据沉淀的 7 个阶段，覆盖渠道路由、AI 优先响应、Hand-off 人工接管、客服工具集、状态变更和数据分析全链路。</p>
+        <p class="section-desc">完整的用户服务链路分为 7 个阶段，依次经过渠道接入、路由分类、AI 响应、人工接管、工具集处理、状态变更，最终完成数据沉淀。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1100 980" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <!-- Stage 1: 用户接入 -->
@@ -561,7 +527,7 @@
     <!-- Flow 3: AI与人工Hand-off协作链路 -->
     <div class="section" id="flow3">
         <h2><span class="num">3</span>AI与人工Hand-off协作链路</h2>
-        <p class="section-desc">展示 AI Agent 与 Human Agent 的协作链路，包括知识库匹配、Hand-off 触发条件、监控指标和 AI 能力面板。</p>
+        <p class="section-desc">这张图重点说明 AI Agent 无法解答时如何触发 Hand-off，以及人工客服接管后的完整处理流程。左侧列出了关键监控指标和 AI 能力面板。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1000 750" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <defs>
@@ -685,7 +651,7 @@
     <!-- Flow 4: 对话状态机 -->
     <div class="section" id="flow4">
         <h2><span class="num">4</span>对话状态机</h2>
-        <p class="section-desc">对话从 Open 状态出发，经过 Resolved、On Hold 最终到达 Closed 终态。各状态之间的转换路径和触发条件。</p>
+        <p class="section-desc">对话生命周期包含 Open、Resolved、On Hold、Closed 四个状态，下图标注了各状态之间的转换路径及触发条件。</p>
         <div class="svg-container">
             <svg viewBox="0 0 900 560" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <defs>
@@ -774,7 +740,7 @@
     <!-- Flow 5: 对话分配五种路径 -->
     <div class="section" id="flow5">
         <h2><span class="num">5</span>对话分配五种路径</h2>
-        <p class="section-desc">从未分配队列到客服开始处理，提供 5 种分配路径：自动分配、手动分配、主动认领、转分配、右键分配。</p>
+        <p class="section-desc">未分配对话可通过自动分配、手动分配、主动认领、转分配、右键分配这 5 种路径到达客服，随后按 Agent 维度和 Team 维度进行二次调度。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1000 660" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <defs>
@@ -884,7 +850,7 @@
     <!-- Flow 6: 数据洞察分析体系 -->
     <div class="section" id="flow6">
         <h2><span class="num">6</span>数据洞察分析体系</h2>
-        <p class="section-desc">Overview 实时运营看板与 Insight 历史趋势多维分析体系，涵盖 10 个子模块和核心 KPI 指标。</p>
+        <p class="section-desc">数据层分为两块：Overview 提供实时运营指标，Insight 则聚焦历史趋势和多维度分析，共包含 10 个子模块。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1040 820" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
 
@@ -1018,7 +984,7 @@
     <!-- Flow 7: 集成与自动化 -->
     <div class="section" id="flow7">
         <h2><span class="num">7</span>集成与自动化</h2>
-        <p class="section-desc">涵盖自动化规则引擎、Channels 渠道接入、API/Webhook 对接和角色权限体系。</p>
+        <p class="section-desc">系统的可扩展性体现在四个方面：自动化规则引擎负责业务流程编排，Channels 管理 9 个渠道接入，API/Webhook 连接外部系统，角色权限体系控制功能访问范围。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1040 780" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <defs>
@@ -1156,7 +1122,7 @@
     <!-- Flow 8: 对比与借鉴 -->
     <div class="section" id="flow8">
         <h2><span class="num">8</span>对比与借鉴</h2>
-        <p class="section-desc">LiveDesk 与自研方案的 10 维度对比评估，以及 5 个值得借鉴的设计亮点。</p>
+        <p class="section-desc">下表从 10 个维度对比 LiveDesk 与自研方案各自的优劣，并总结了 5 个值得参考的设计思路。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1040 1000" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
 
@@ -1325,7 +1291,7 @@
     <div class="divider"></div>
     <p>极光LiveDesk在线客服系统 — 系统流程图文档</p>
     <p>数据来源：EngageLab LiveDesk 功能文档 · 操作文档 · 服务分析</p>
-    <p style="margin-top:8px;">整理时间：2026-05-29</p>
+    <p style="margin-top:8px;">整理时间：2026-05-30</p>
 </div>
 
 <!-- 浮动按钮组 -->

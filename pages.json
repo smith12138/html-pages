@@ -144,7 +144,7 @@
           "file": "docs/极光LiveDesk/极光LiveDesk项目文档.html",
           "title": "极光LiveDesk项目文档",
           "category": "requirement",
-          "date": "2026-05-29",
+          "date": "2026-05-30",
           "tags": [
             "在线客服",
             "AI Agent",
@@ -152,10 +152,21 @@
           ]
         },
         {
+          "file": "docs/极光LiveDesk/极光LiveDesk服务研究报告.html",
+          "title": "极光LiveDesk服务研究报告",
+          "category": "feedback",
+          "date": "2026-05-30",
+          "tags": [
+            "研究报告",
+            "竞品分析",
+            "选型评估"
+          ]
+        },
+        {
           "file": "docs/极光LiveDesk/极光LiveDesk系统流程图.html",
           "title": "极光LiveDesk系统流程图",
           "category": "flow",
-          "date": "2026-05-29",
+          "date": "2026-05-30",
           "tags": [
             "流程图",
             "系统架构"
