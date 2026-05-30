@@ -138,7 +138,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <span><span class="dot"></span>调研周期：2026年5月</span>
 <span><span class="dot"></span>调研人：产品技术部</span>
 <span><span class="dot"></span>当前项目：TT在线客服</span>
-<span><span class="dot"></span>文档版本：v1.0</span>
+<span><span class="dot"></span>文档版本：v3.0（官方文档补充版）</span>
 </div>
 </div>
 </div>
@@ -146,9 +146,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <!-- ========== STATS ========== -->
 <div class="stats">
 <div class="stat-card c-blu"><div class="num">7</div><div class="label">核心模块</div></div>
-<div class="stat-card c-grn"><div class="num">9</div><div class="label">接入渠道</div></div>
-<div class="stat-card c-ora"><div class="num">10</div><div class="label">客服座席</div></div>
-<div class="stat-card c-pur"><div class="num">8</div><div class="label">流程链路</div></div>
+<div class="stat-card c-grn"><div class="num">10</div><div class="label">官方渠道类型</div></div>
+<div class="stat-card c-ora"><div class="num">30+</div><div class="label">实际接入渠道</div></div>
+<div class="stat-card c-pur"><div class="num">28</div><div class="label">官方文档页数</div></div>
 </div>
 
 <!-- ========== TOC ========== -->
@@ -167,7 +167,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div>
 <ul>
 <li><a href="#s5">五、与自研系统的对标分析</a></li>
-<li><a href="#s6">六、值得借鉴的设计</a></li>
+<li><a href="#s6">六、值得借鉴的设计（6项）</a></li>
 <li><a href="#s7">七、适用场景与选型建议</a></li>
 <li><a href="#s8">八、结论</a></li>
 </ul>
@@ -183,9 +183,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="sec-body">
 <p>EngageLab LiveDesk 是极光（Aurora Mobile, NASDAQ: JG）推出的 SaaS 全渠道在线客服平台，主打 AI Agent + Human Agent 混合协同模式。我们在 TT 在线客服项目的选型阶段对其进行了为期一个月的深度体验和功能拆解，覆盖了从对话处理、工单管理、数据分析到 API 集成的完整链路。</p>
 
-<p>坦率地说，LiveDesk 作为一个 SaaS 产品的完成度相当高。团队协作、运营可视化、对话管理这些"看得见"的能力做得扎实，右键菜单、On Hold 搁置状态、P90/P95/P99 分位统计这些细节设计甚至超出了我们对一个中型 SaaS 工具的预期。但问题也很明显：AI 能力是个黑盒，只有一个 AB-Demo v1.0.0 的 AI Agent 挂在那里，背后用的什么模型、怎么做意图识别、能不能微调 -- 全都不透明。对于不需要深度 AI 定制、不在乎数据是否留在第三方云端的团队来说，LiveDesk 确实是比自研更快、更便宜的路径。</p>
+<p>坦率地说，LiveDesk 作为一个 SaaS 产品的完成度相当高。本次调研我们实际登录了两套系统 -- LiveDesk 控制台（engagelab.com）和自研 AI 客服后台（AWS 部署），逐页面逐功能比对。LiveDesk 当月活跃对话 2K，新建对话 820 条（环比增长 88.51%），人工客服回复消息 1,652 条；洞察分析模块记录了 1,999 条新对话和 1,990 条已解决对话，中位首次响应时间 1 分 10 秒，中位问题解决时间 19 分 17 秒。团队协作、运营可视化、对话管理这些"看得见"的能力做得扎实，右键菜单、Snoozed 搁置状态（含定时恢复）、流量热力图这些细节设计甚至超出了我们对一个中型 SaaS 工具的预期。但问题也很明显：AI 能力是个黑盒，只有一个 A8-Demo v1.0.2 的 AI Agent 挂着，关联 FAE-DEMO 知识库，背后用的什么模型、怎么做意图识别、能不能微调 -- 全都不透明。而自研系统这边，7 天内已处理 960 条对话，AI 解决率 78.8%，转人工率仅 21.3%，平均对话轮次 2.0 轮。两者的 AI 深度差距在实际数据面前一目了然。</p>
 
-<p>但对我们的场景而言 -- AI 回复质量直接影响用户留存，数据合规和自主可控是硬性要求 -- LiveDesk 更适合作为设计参考而非替代方案。它在工单系统、仪表盘设计、状态机流转等方面有很多值得我们借鉴的地方，这份报告会逐一拆解。</p>
+<p>本次报告在实地体验的基础上，进一步分析了极光官方发布的 28 页产品文档（含用户指南、控制台指南、REST API 文档），对 LiveDesk 的能力边界有了更完整的认知。它在工单系统、五态状态机、自动化规则引擎、Widget SDK、10 种渠道集成、AI 质检（解决置信度/FCR/自动推断）等方面的设计比我们实际体验中感知到的更完善，这份报告会逐一拆解。但对我们的场景而言 -- AI 回复质量直接影响用户留存，数据合规和自主可控是硬性要求 -- LiveDesk 更适合作为设计参考而非替代方案。</p>
 </div>
 </div>
 
@@ -207,8 +207,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <tr><td><strong>Tickets 工单</strong></td><td>/tickets</td><td>复杂问题的长期跟踪，独立于对话</td></tr>
 <tr><td><strong>Insight Analysis 洞察分析</strong></td><td>/insight-analysis</td><td>10个子模块的数据报表体系</td></tr>
 <tr><td><strong>Agents 客服管理</strong></td><td>/ai-agent</td><td>AI Agent 和 Human Agent 的统一管理</td></tr>
-<tr><td><strong>Contacts 联系人</strong></td><td>/contacts</td><td>客户信息沉淀，对话自动转化为联系人记录</td></tr>
-<tr><td><strong>Settings 设置</strong></td><td>/automation-rules</td><td>渠道、自动化规则、API、偏好等配置</td></tr>
+<tr><td><strong>Contacts 联系人</strong></td><td>/contacts</td><td>客户 CRM，支持联系人合并、表格导入导出、直接发消息</td></tr>
+<tr><td><strong>Settings 设置</strong></td><td>/automation-rules</td><td>渠道（10种）、自动化规则（ECA引擎）、对话管理、高级功能（音视频/宏）、AI能力、API、偏好</td></tr>
 </table>
 
 <p>架构上采用经典的三栏式布局：左侧窄导航栏放 7 个模块图标，中间二级侧边栏做子菜单和列表筛选，右侧大面积主内容区。这个布局在 Intercom、Zendesk 等同类产品中也很常见，用户学习成本低。值得一提的是底部工具区提供了在线状态切换（Online / Busy / Offline），这是客服系统的标配，LiveDesk 没有遗漏。</p>
@@ -231,18 +231,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <p>对话模块是 LiveDesk 的核心，也是我们花最多时间体验的部分。整体印象：功能完备，交互效率高，细节打磨到位。</p>
 
-<p>左侧提供了 4 种视图（所有 / AI响应 / 未分配 / 我的）加上自定义视图，下面挂着 9 个 Web 收件箱，分别对应不同的业务线：</p>
+<p>左侧提供了 4 种视图（所有 / AI响应 / 未分配 / 我的）加上自定义视图，下面挂着 30 多个 Web 收件箱，分为 TT 系列和 PP 系列两大类，横跨 4 页。实际登录看到的部分渠道如下：</p>
 
 <div class="ch-grid">
-<div class="ch-tag">TT7XX</div>
-<div class="ch-tag">TTB777</div>
-<div class="ch-tag">TTBrplay7</div>
-<div class="ch-tag">TTBrslot</div>
-<div class="ch-tag">TTBrspin</div>
-<div class="ch-tag">TTBrwins</div>
-<div class="ch-tag">TTSp7</div>
-<div class="ch-tag">TTVana7</div>
-<div class="ch-tag">测试</div>
+<div class="ch-tag">TT B777</div>
+<div class="ch-tag">TT Sp1</div>
+<div class="ch-tag">TT 7ss</div>
+<div class="ch-tag">TT 7aa</div>
+<div class="ch-tag">TT B7</div>
+<div class="ch-tag">TT Brplay7</div>
+<div class="ch-tag">TT 7luck</div>
+<div class="ch-tag">TT Sp7</div>
+<div class="ch-tag">TT 1xspin</div>
+<div class="ch-tag">TT 595</div>
+<div class="ch-tag">TT 7pg</div>
+<div class="ch-tag">PP 077game</div>
+<div class="ch-tag">PP 17game</div>
+<div class="ch-tag">PP 33s</div>
+<div class="ch-tag">PP 37bet</div>
+<div class="ch-tag">PP 67game</div>
+<div class="ch-tag">PP 97games</div>
+<div class="ch-tag">PP 997game</div>
+<div class="ch-tag">PP g77</div>
+<div class="ch-tag">PP win77</div>
+<div class="ch-tag">AI测试</div>
 </div>
 
 <p>实际体验下来，最让我们印象深刻的是右键菜单。在对话列表上右键，直接弹出 8 项操作 -- 标记未读、标记已解决、标记待处理、搁置、设置优先级、添加标签、分配客服、分配团队。不需要点进对话详情就能完成这些高频操作，对于每天处理上百条对话的客服来说，这个效率提升是实实在在的。</p>
@@ -251,80 +263,128 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 右键菜单的 8 项操作覆盖了客服日常 80% 的管理动作。这个设计值得直接抄 -- 我们自研系统目前所有操作都得打开对话详情才能做，在高并发场景下效率差距明显。
 </div>
 
-<p>对话窗口本身中规中矩：富文本编辑器支持加粗、斜体、链接、列表、代码块；"/" 触发快捷回复模板；Internal Note 模式切换让内部讨论不会误发给客户；自动翻译支持 PT（葡萄牙语）和 CN（中文）互译，对我们巴西和墨西哥团队有实际价值。</p>
+<p>对话窗口本身中规中矩：富文本编辑器支持加粗、斜体、链接、列表、代码块；"/" 触发快捷回复模板（官方称"预设回复"，通过短代码标识）；Internal Note 模式切换让内部讨论不会误发给客户；翻译系统支持 MT-Flash 和 MT-Plus 两种模型，每条消息最长 1000 字符，支持自定义术语对照表（JSON 格式），可以双向翻译（客户消息→客服语言，客服回复→客户语言），对我们巴西和墨西哥团队有实际价值。</p>
 
 <p>右侧详情面板分两个 Tab。"操作" Tab 集中了分配客服、分配团队、优先级（None/Low/Medium/High/Urgent 五档）、标签、宏操作、历史记录、参与者、自定义属性。"AI 响应" Tab 展示 AI Agent 的推荐回复和 FAQ 匹配结果。两个 Tab 的信息密度控制得不错，没有把所有东西堆在一个面板里。</p>
 
-<p>状态生命周期是四态模型：<span class="state state-open">Open</span> <span class="state state-resolved">Resolved</span> <span class="state state-hold">On Hold</span> <span class="state state-closed">Closed</span>。其中 On Hold 搁置状态设计得很聪明 -- 允许客服暂挂对话并设定自动恢复时间，到时间后对话自动重新变为 Open。这个机制有效避免了"等客户补充信息"类对话被遗忘的问题。我们自研系统只有 Open 和 Closed 两个状态，太粗了，需要加上 Resolved 和 On Hold。</p>
+<p>状态生命周期是五态模型（根据官方文档修正）：<span class="state state-open">Open</span> <span class="state" style="background:#dbeafe;color:#1d4ed8">AI-Replying</span> <span class="state state-hold">Snoozed</span> <span class="state state-resolved">Resolved</span> <span class="state state-closed">Closed</span>。其中 AI-Replying 是 AI Agent 自动回复的独立状态，Snoozed（官方术语，我们之前称为 On Hold）允许客服推迟对话并设定自动恢复时间。这个五态模型比我们自研系统的二态（Open/Closed）精细得多，尤其是 AI-Replying 作为独立状态的设计让 AI 和人工的职责边界非常清晰。</p>
 
 <h3>AI 能力 -- 看起来有，用起来浅</h3>
 
 <p>这是我们最关心也最失望的部分。</p>
 
-<p>LiveDesk 当前只有一个 AI Agent：AB-Demo v1.0.0，描述是 "All customer service assist"，关联了 FAQ_DEMO 知识库。启用状态下，用户发消息会先走 AI 匹配，匹配到知识库条目就自动回复，匹配不到就触发 Hand-off 转人工。Overview 仪表盘上能看到 Hand-off Rate 和 AI-Active 两个指标。</p>
+<p>LiveDesk 当前只有一个 AI Agent：A8-Demo v1.0.2，描述是 "A8 customer service assist"，关联了 FAE-DEMO 知识库。启用状态下，用户发消息会先走 AI 匹配，匹配到知识库条目就自动回复，匹配不到就触发 Hand-off 转人工。Overview 仪表盘上能看到 Hand-off Rate 和 AI-Active 两个指标，右上角还有"联系我们定制 AI Agent"的入口，暗示定制化需要额外付费或商务洽谈。</p>
 
-<p>听起来还行，但实际体验下来问题不少。首先，AI 是完全的黑盒 -- 我们不知道背后用的什么模型，不知道它怎么做意图识别，不知道匹配的置信度阈值是多少，更别提微调了。其次，知识库就是一个简单的 FAQ 列表，没有看到向量检索、语义理解之类的高级能力。最后，"AI能力"设置页面打开是空白的，说明要么这个功能还没做完，要么需要更高权限才能配置。</p>
+<p>但从官方文档来看，LiveDesk 的 AI 能力比我们在实际体验中感知到的要丰富得多。官方文档（最近更新于约 1 个月前）详细描述了以下 AI 子模块：</p>
+
+<ul>
+<li><strong>问题分类（Issue Classification）</strong>：AI 识别每条用户消息并匹配预设分类，通过 GPTBots Agent API 获取分类标签写入对话。支持自定义类别、子类和描述信息，描述可辅助 AI 提高识别准确率。</li>
+<li><strong>优化客服消息（Message Optimization）</strong>：自定义 AI 指令优化客服回复质量。对话窗口出现指令图标，客服点击后将已填写的文字内容与 AI 提示词一起提交，AI 返回优化后的内容自动回填到输入框，客服可编辑后发送。</li>
+<li><strong>解决置信度（Resolution Confidence）</strong>：针对每条已解决对话，AI 自动质检评估解决置信度 -- 这是一个订阅制付费功能（默认不可用）。</li>
+<li><strong>FCR 识别（First Contact Resolution）</strong>：AI 对首次咨询即解决的对话进行 24 小时监控，评估首次解决率 -- 同样是订阅制功能。</li>
+<li><strong>自动推断解决识别</strong>：AI 评估用户消息，判断系统自动推断为"已解决"的对话是否确实是用户确认解决 -- 同样订阅制。</li>
+<li><strong>对话消息翻译</strong>：支持 MT-Flash 和 MT-Plus 两种翻译模型，每条消息最长 1000 字符。支持术语名词对照（JSON 格式），可双向翻译（客户消息→客服语言，客服回复→客户语言）。翻译消耗 AI 积分，是当前最大的积分消费项。</li>
+</ul>
+
+<p>也就是说，LiveDesk 的 AI 能力体系比我们在实际体验中看到的要完整。问题在于：部分高级功能（解决置信度、FCR、自动推断）需要额外付费订阅才能启用，这解释了为什么我们在控制台里看到这些配置区域但没有实际数据。而核心的 AI Agent 对话能力仍然依赖外部 GPTBots 服务，模型选择和微调不可控。相比之下，自研系统的 AI 能力已经在生产环境跑出了实际数据：7 天 960 条对话，AI 解决率 78.8%，质检平均分 80，FAQ 命中率和转人工率都有独立仪表盘追踪。</p>
 
 <div class="vs-row">
 <div class="vs-card vs-live">
 <h4>LiveDesk AI</h4>
-<p>平台内嵌 LLM，模型不可选</p>
-<p>基于 FAQ 知识库的关键词/语义匹配</p>
-<p>意图识别机制不透明</p>
-<p>不支持微调和自定义 NLU</p>
-<p>Hand-off 是唯一的降级策略</p>
+<p>GPTBots Agent 集成，模型由 GPTBots 托管</p>
+<p>知识库 FAQ 匹配 + AI 问题分类（GPTBots API）</p>
+<p>AI 消息优化指令（自定义提示词优化客服回复）</p>
+<p>解决置信度 / FCR / 自动推断（订阅制付费功能）</p>
+<p>MT-Flash / MT-Plus 双翻译模型 + 术语对照</p>
+<p>Hand-off 转人工，5 态生命周期管理</p>
 </div>
 <div class="vs-card vs-self">
 <h4>自研 AI</h4>
 <p>Qwen3-30B 主力，可随时切换模型</p>
 <p>Qdrant + BGE-M3 + Rerank 检索链路</p>
 <p>Qwen2.5-7B 独立意图识别模型</p>
-<p>全栈可微调，数据闭环</p>
-<p>多级降级：重试 / 转人工 / 兜底话术</p>
+<p>逐产品 AI 人格配置（语气/语言/记忆轮数）</p>
+<p>用户标签注入 system prompt 动态调整回复策略</p>
+<p>质检系统自动评分 + 降级/翻译/无知识标记</p>
+<p>实测 78.8% AI 解决率，转人工率 21.3%</p>
 </div>
 </div>
 
 <div class="warn-box">
-坦率地说，LiveDesk 的 AI 能力和我们自研系统不在一个量级。但这也合理 -- SaaS 产品追求的是通用性和易用性，不是某个垂直场景的极致效果。对于 FAQ 类简单问答，它够用了。
+综合实际体验和官方文档来看，LiveDesk 的 AI 能力比我们最初预期的要完整 -- 问题分类、消息优化、解决置信度、FCR 监控、翻译都有对应模块。但核心限制没变：AI Agent 依赖外部 GPTBots 服务，模型不可选不可微调，高级质检功能需要额外付费订阅。和自研系统全栈可控（模型/检索/意图/人格/质检）的深度相比，仍然不在一个量级。但作为 SaaS 产品的 AI 能力，这个完成度已经超出预期。
 </div>
 
 <h3>工单系统 -- 我们没有的东西</h3>
 
-<p>Tickets 模块和 Conversations 结构类似，但定位不同：对话是实时的、短周期的，工单是异步的、可能持续数天到数周的。视图分三类（所有 / 未分配 / 我的），没有"AI 响应"视图 -- 因为工单通常是复杂问题，AI 处理不了。</p>
+<p>Tickets 模块和 Conversations 结构几乎完全镜像，官方文档确认了这一点。工单提供 5 种视图（工单视图 / 团队视图 / 通道视图 / 标签视图 / 自定义视图），自定义视图支持按工单标识、受理人、渠道名称等属性过滤。工单详情面板包含：回复（富文本 + 附件 + 音频 + 签名 + AI辅助）、私人便笺、状态控制（Open/AI-Replying/Resolved/Snoozed）、发送记录到指定代理或邮箱。右侧关联信息有联系人、对话操作（分配/优先级/标签）、宏、联系人属性、历史工单、工单参与者。定位上，对话是实时短周期的，工单是异步长周期的。</p>
 
-<p>这个模块让我们反思了一个问题：我们自研系统目前所有问题都走对话流，没有独立的工单系统。结果就是一些需要跨部门协作、多次跟进的复杂问题混在普通对话里，容易丢失上下文。LiveDesk 把工单独立出来是对的，我们需要补上这个能力。</p>
+<p>这个模块让我们反思了一个问题：我们自研系统目前所有问题都走对话流，没有独立的工单系统。结果就是一些需要跨部门协作、多次跟进的复杂问题混在普通对话里，容易丢失上下文。LiveDesk 把工单独立出来是对的，而且它的工单和对话共享同一套基础能力（状态/分配/标签/宏），降低了学习成本。我们需要补上这个能力。</p>
 
 <h3>数据洞察 -- 做得比预期好</h3>
 
-<p>Insight Analysis 下面有 10 个子模块：效能、Agents、客户画像、对话、客户满意度、AI积分消耗、客服、标签、渠道、团队。坦率地说，这个模块的专业度超出了我们对一个中型 SaaS 产品的预期。</p>
+<p>Insight Analysis 在控制台中实际展示了 10 个子模块：效能、Agents、客户观察、对话、客户满意度、AI积分消耗、客服、标签、渠道、团队。官方文档将核心统计维度归纳为 6 个：会话、客户满意度、客服、标签、通道、团队。每个维度统一提供 7 项指标：会话数量、收到消息数、发送消息数、首次响应时间、解决时间、已解决数量、客户等待时间，支持自定义时间段查询。坦率地说，这个模块的专业度超出了我们对一个中型 SaaS 产品的预期。实际登录后看到的数字也印证了这一点。</p>
 
-<p>首先是 P90/P95/P99 分位统计。大多数客服系统只给平均值和中位数，但 LiveDesk 在首次响应时间和问题解决耗时两个指标上都提供了完整的分位数分析。这是做性能监控的标准做法（参考 APM 工具），用在客服效率分析上很专业。举个例子：平均首次响应时间 30 秒看起来很好，但如果 P99 是 10 分钟，说明有 1% 的客户等了很久 -- 这种长尾问题只有分位数才能暴露。</p>
+<p>效能页面一进去就是四个核心指标卡片：新建对话数 1,999、已解决对话数 1,990、中位首次响应时间 1m 10s、中位问题解决时间 19m 17s。下面是对话业务量趋势折线图和 24 小时热力图。热力图按小时和星期几做二维矩阵，可以直观看出流量高峰分布在什么时段 -- 比如我们在实际数据中发现周五和周六的流量明显高于工作日，凌晨 5-7 点也有不小的对话量（巴西时区的晚间时段）。这对排班规划有直接参考价值。</p>
 
-<p>其次是流量热力图，按小时和星期几做二维矩阵，可以直观看出流量高峰分布在什么时段。这对排班规划很有价值 -- 我们巴西团队是不是周六晚上最忙？菲律宾团队的低谷期在哪？一张热力图比看一堆表格清楚得多。</p>
+<p>Agents 页面更深入：中位首次响应 1m 11s，中位解决时间 19m 32s，CSAT 好评率 23.8%，Agent Utilization 11.4%（系统标注健康区间为 70-85%，说明人力配置偏富余），并发峰值 23，参与对话数 1,798。下面是每个客服按小时统计的回复明细表，能精确看到 A linan、A na、bi anca、G abriele 等巴西团队客服在哪些时段在线处理了多少对话。</p>
 
-<p>CSAT（客户满意度）评分模块也是标配但做得完整，支持按客服、团队、渠道、时间段交叉分析。自研系统目前用 ClickHouse 做数据分析，灵活性更高但可视化层面还比较粗糙，LiveDesk 的仪表盘设计值得参考。</p>
+<p>客户满意度模块实际运行数据是：7 天内收到 49 条评价反馈，满意度得分 20.41%，回复率 3.40%。能看到每条评价的联系人、分配客服、1-5 星评分和客户留言原文（葡萄牙语）。AI 积分消耗页面则追踪了 7 种 AI 功能的积分使用情况，其中对话消息翻译是最大消费项，5 月 29 日单天消耗 23.16 积分。</p>
+
+<p>不过也要看到自研系统在数据分析上的独特优势。自研系统的质检仪表盘有 6 个 LiveDesk 没有的 AI 专项指标：AI 解决率（78.8%）、转人工率（21.3%）、FAQ 命中率、平均延迟、质检平均分、评分分布（优秀/良好/一般/差四档）。质检明细页面可以逐条审查每个 AI 回复的评分和降级标记（正常/翻译/无知识），这种粒度的 AI 质量追踪是 LiveDesk 完全没有的能力。</p>
 
 <h3>团队协作 -- 成熟但简单</h3>
 
-<p>当前配置了 10 个客服座席（1 Admin + 9 Agent），4 个区域团队（巴西、墨西哥、菲律宾、ai test）。分配机制有 5 条路径：自动分配、手动分配、主动认领、转交、右键分配。</p>
+<p>实际登录确认了 10 个客服座席：3 个 Admin（Long yin、wang jlen、will smith）+ 7 个 Agent（A linan、A na、bi anca、G abriele、M aria、M ariana、samsedverma247），4 个区域团队（巴西、墨西哥、菲律宾、ai test）。分配机制有 5 条路径：自动分配、手动分配、主动认领、转交、右键分配。</p>
 
-<p>角色体系只有两个实际角色：Admin 和 Agent。Admin 有全系统权限，Agent 只能处理分配给自己的对话和认领未分配对话。虽然文档提到了 Team Manager 和 AI Agent 两个角色，但在实际使用中 Team Manager 的权限边界不够清晰，AI Agent 更多是一个系统角色而非人工角色。</p>
+<p>角色体系只有两个实际角色：Admin 和客服。Admin 有全系统权限，客服只能处理分配给自己的对话和认领未分配对话。状态分在线/离线两种，通过邮箱账号绑定。</p>
 
 <div class="insight">
-<strong>权限对比：</strong>LiveDesk 的两级角色（Admin/Agent）对于 10 人团队够用了，但对我们的场景偏简单。自研系统已经实现了 RBAC 模型，支持按钮级别的权限控制，这是 SaaS 产品很难做到的定制化深度。
+<strong>权限对比：</strong>差距非常悬殊。LiveDesk 就 2 个角色（Admin/客服），10 个座席。自研系统实际跑着 52 个自定义角色（超级管理员、客服、客维、聊天、数据类型-1、FAQ-1 等），75 个账号，支持按公司/平台/产品三级授权范围，菜单树有按钮级权限控制（类型-列表/新增/更新/删除），还有完整的操作日志（记录操作人/API路径/IP地址/时间戳）。这是 SaaS 产品和自研系统在权限体系上的根本性差距。
 </div>
 
-<h3>渠道接入 -- Web 为主，其他待定</h3>
+<h3>渠道接入 -- 官方支持 10 种，实际以 Web 为主</h3>
 
-<p>现有 9 个渠道全部是 Web（LiveChat Widget）类型，通过 JS SDK 嵌入到各业务网站。每个渠道对应一个独立收件箱，对话自动归入对应渠道。</p>
+<p>实际登录确认了 4 页 Web 渠道（约 30 个），分为两大系列：TT 系和 PP 系，全部是 LiveChat Widget 类型。但官方文档揭示了 LiveDesk 实际支持 10 种渠道类型，远超我们在控制台中看到的：</p>
 
-<p>关键问题是：我们没有在系统中看到 Telegram 或 WhatsApp 渠道的接入配置。对于 TT 项目来说，TG 群是最重要的客服触达渠道之一。自研系统已经通过 MTProto 协议直连 Telegram，通过 whatsmeow 对接 WhatsApp，这是 LiveDesk 目前无法覆盖的场景。</p>
+<table class="stbl">
+<tr><th>渠道类型</th><th>接入方式</th><th>备注</th></tr>
+<tr><td><strong>Website</strong></td><td>气泡代码 / iframe / GTM</td><td>支持小部件生成器、预聊天表单、工作时间设置、域名白名单</td></tr>
+<tr><td><strong>WhatsApp</strong></td><td>3 种接入商</td><td>EngageLab WhatsApp / Twilio / WhatsApp 云服务 三选一</td></tr>
+<tr><td><strong>Telegram</strong></td><td>BotFather Token</td><td>支持 3 种模式：单聊、群聊、GPTBots 群聊模式</td></tr>
+<tr><td><strong>Email</strong></td><td>SMTP/IMAP</td><td>支持转为工单处理</td></tr>
+<tr><td><strong>SMS</strong></td><td>SMS 服务商</td><td>短信渠道</td></tr>
+<tr><td><strong>LINE</strong></td><td>LINE 开发者</td><td>日本/东南亚市场</td></tr>
+<tr><td><strong>Facebook</strong></td><td>Facebook 页面</td><td>Facebook Messenger</td></tr>
+<tr><td><strong>Instagram</strong></td><td>Instagram 业务</td><td>Instagram DM</td></tr>
+<tr><td><strong>API</strong></td><td>REST API + Webhook</td><td>自定义集成，支持事件回调</td></tr>
+</table>
 
-<h3>设置与集成 -- 基础能力具备</h3>
+<p>Telegram 渠道的官方文档特别值得关注 -- 它支持三种模式：<strong>单聊模式</strong>（用户与 Bot 一对一聊天）、<strong>群聊模式</strong>（Bot 在群组中接收和回复消息）、以及<strong>GPTBots 群聊模式</strong>（LiveDesk 与 GPTBots 共享 TG 群聊消息，GPTBots 优先处理，LiveDesk 获取对话记录）。这意味着 LiveDesk 确实具备 Telegram 集成能力，只是当前 TT 项目没有配置使用。每个渠道都支持独立的对话分配规则（路由规则 > AI Agent > Human Agent 优先级链）、工作时间设置和 CSAT 调查。</p>
 
-<p>Settings 模块提供了自动化规则引擎（条件-动作模式）、渠道管理、对话管理（标签、属性、状态自定义）、API 管理（Key + Secret 认证 + Webhook）。API 支持两种 Key：test AI key（测试用临时 Key）和 permanent key（正式环境长期 Key）。Webhook 可以监听新对话创建、状态变更、新消息接收等事件。</p>
+<p>但即便如此，自研系统在 Telegram 上的深度集成仍然有明显优势 -- 5 条实际运行的 Telegram 渠道配置、独立的账号绑定（如 @AnaatendenteVIP）、10+ 条按平台/产品/客服分类的专属链接管理、LiveChat 双渠道并行。LiveDesk 的 Telegram 是标准化接入，自研系统的 Telegram 是场景化深度对接。</p>
 
-<p>但"高级功能"和"AI 能力"两个设置页面打开都是空白，这有点让人不安 -- 要么是功能还没完成，要么是权限限制没有说明。整体来看，API 能力够做基础集成，但 SDK 文档和错误处理的文档覆盖面不够，开发体验一般。</p>
+<h3>设置与集成 -- 比想象中丰富</h3>
+
+<p>在实际登录控制台时，Settings 模块的部分页面看起来功能有限。但官方文档揭示了这个模块实际上相当强大。下面按子模块拆解：</p>
+
+<h4>自动化规则引擎</h4>
+<p>这是一个完整的事件-条件-操作（ECA）引擎。4 种触发事件：Conversation Created、Conversation Updated、Message Created、Conversation Opened。条件支持按消息类型/内容、收件箱、浏览器语言、国家、来源链接、分配人、团队、自定义属性等多维度过滤。操作可以执行：分配客服/团队、添加标签、发送邮件、发送 Webhook、关闭/推迟/解决对话、发送消息/附件。支持同时添加多条条件和多个操作。这套自动化规则的复杂度接近 Zendesk Triggers。</p>
+
+<h4>高级功能</h4>
+<p>官方文档确认了三个子能力：预设回复（通过 "/" 短代码触发的快捷回复模板）、音视频通话（通过 Dyte 集成实现客服与客户的实时视频/语音通话，需配置 Dyte 的组织 ID 和 API Key）、快捷宏（自动发送消息的规则化宏，支持公开/私有可见性设置）。</p>
+
+<h4>Widget SDK</h4>
+<p>官方文档提供了完整的 Widget SDK 接口文档（LiveDesk Widget SDK），支持：setUserId（普通模式和 HMAC 加密模式）、setConversationCustomAttributes（对话自定义变量）、setCustomAttributes（用户自定义变量）、toggle/toggleBubbleVisibility（控制小部件开关）、popoutChatWindow（弹窗模式）、setLocale（多语言）、setLabel/removeLabel（标签管理）。还有一个 livedeskSettings 全局配置对象，支持 20+ 参数（位置、暗黑模式、气泡样式、欢迎语、功能开关等）。3 个事件监听：livedesk:ready、livedesk:on-message、livedesk:error。</p>
+
+<h4>REST API</h4>
+<p>数据中心在新加坡（Base URL: livedesk-api.engagelab.com），HTTP Basic Auth 认证（API Key:API Secret）。API 覆盖三个核心实体：联系人（CRUD + 查询）、对话（创建 + 发消息 + 修改状态）、工单（创建 + 更新 + 查询详情）。支持通过 API 管理页面创建 test key 和 permanent key，通过 Webhook 监听对话事件。</p>
+
+<h4>对话管理</h4>
+<p>标签系统支持自定义名称、描述和颜色。属性分为会话属性和联系人属性两大类，支持 6 种字段类型（Text/Number/Link/Date/List/Checkbox），还支持正则表达式验证。状态管理可以设置非活跃工单的自动结单天数。</p>
+
+<div class="good-box">
+之前报告中提到"高级功能和AI能力两个设置页面打开都是空白"是不准确的 -- 官方文档确认这些功能都已完整实现。实际体验中看到的"空白"可能是因为免费计划的功能限制（新项目享有 30 天免费试用，1000 条对话额度），高级 AI 功能需要付费订阅才能启用。
+</div>
 
 </div>
 </div>
@@ -355,22 +415,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="flow-step-end">7. 数据沉淀</div>
 </div>
 
-<p><strong>第一阶段：用户触达。</strong>用户通过嵌入业务网站的 LiveChat Widget 发起对话。每个网站对应一个独立渠道和收件箱，系统自动创建对话记录并采集基础信息（浏览器指纹、IP、访问页面等）。这个阶段没什么特别的，行业标准做法。</p>
+<p><strong>第一阶段：用户触达。</strong>用户通过嵌入业务网站的 LiveChat Widget 发起对话（支持气泡代码、iframe 和 GTM 三种嵌入方式）。官方文档还揭示了一个我们之前没注意到的能力 -- 预聊天表单（Pre-chat Form）：在正式进入聊天前，可以要求用户填写 email、手机号、姓名等字段（支持自定义字段和正则验证），收集的信息直接写入会话属性。此外，Website 渠道支持域名白名单、用户身份验证（HMAC SHA256）、工作时间设置（含离线提示语），以及完整的小部件生成器（可视化配置主题颜色、气泡样式、欢迎语、社交媒体链接、工单入口、外链卡片等）。</p>
 
-<p><strong>第二阶段：渠道路由。</strong>对话根据来源渠道自动归入对应的收件箱（比如从 TTBrplay7 网站来的对话归入 TTBrplay7 收件箱）。路由规则是渠道级的一一映射，暂时没看到基于用户属性或对话内容的智能路由能力。这里有一个可以改进的点 -- 如果能根据用户语言自动路由到对应区域团队（比如葡萄牙语自动到巴西团队），效率会更高。</p>
+<p><strong>第二阶段：渠道路由与对话分配。</strong>对话根据来源渠道自动归入对应的收件箱。官方文档明确了三级优先分配链：<strong>路由规则 > AI Agent > Human Agent</strong>。当存在路由规则时，系统优先按规则匹配（多条规则按顺序遍历）；规则不满足时，分配给 AI Agent；未配置 AI Agent 时，分配给 Human Agent。Human Agent 支持两种自动分配机制：按并发负载分配和按顺序平均分配。此外，自动化规则引擎（ECA 模式）可以基于浏览器语言、国家、自定义属性等条件做智能路由 -- 我们之前没注意到这个能力。</p>
 
-<p><strong>第三阶段：AI 优先响应。</strong>对话创建后，如果 AI Agent（AB-Demo）处于启用状态，系统会先让 AI 尝试响应。AI 匹配 FAQ_DEMO 知识库，命中则自动回复，未命中则标记为需要人工介入。这个"AI-first"的设计方向是对的，但实际效果取决于知识库的覆盖率和匹配精度 -- 而这两点我们无法从外部评估。</p>
+<p><strong>第三阶段：AI 优先响应。</strong>对话创建后，如果渠道启用了 AI Agent，对话直接进入 AI-Replying 状态（而非 Open），AI Agent（A8-Demo v1.0.2）通过 GPTBots 服务匹配 FAE-DEMO 知识库。同时 AI 还会自动进行问题分类（将消息提交给 GPTBots Agent API 获取分类标签）。未命中知识库则触发 Hand-off 转人工。这个"AI-first"的设计方向是对的，官方文档还提到了 AI 消息优化功能 -- 即使 Hand-off 后，AI 仍然可以辅助客服优化回复内容。</p>
 
 <p><strong>第四阶段：Hand-off 转人工。</strong>AI 无法解决时触发 Hand-off，对话进入人工队列。这里的问题是 Hand-off 是一次性的 -- 一旦转给人工，AI 就完全退出了。没有看到"AI 辅助人工"的协同模式（比如 AI 实时推荐回复、AI 自动查询相关知识库给客服参考）。虽然右侧面板有"AI 响应"Tab，但那更像是一个查看面板，而非交互式的辅助工具。</p>
 
 <p><strong>第五阶段：客服工具箱。</strong>人工客服接手后，可以使用富文本编辑器、"/" 快捷回复、内部备注、自动翻译、右键菜单等工具处理对话。这个阶段 LiveDesk 做得很扎实，工具链完整，操作效率高。前面提到的 8 项右键菜单操作就是这个阶段的效率利器。</p>
 
-<p><strong>第六阶段：状态流转。</strong>客服处理完毕后，通过顶栏按钮、右键菜单、详情面板或自动化规则触发状态变更。四态模型（Open/Resolved/On Hold/Closed）的设计合理，双向流转（Resolved 和 On Hold 在用户发新消息时可以自动回到 Open）是实际业务中必需的能力。</p>
+<p><strong>第六阶段：状态流转。</strong>客服处理完毕后，通过顶栏按钮、右键菜单、详情面板或自动化规则触发状态变更。五态模型（Open / AI-Replying / Snoozed / Resolved / Closed）的设计合理，双向流转（Resolved 和 Snoozed 在用户发新消息时可以自动回到 Open 或 AI-Replying）是实际业务中必需的能力。Resolved 状态还会自动触发 CSAT 满意度调查。</p>
 
 <p><strong>第七阶段：数据沉淀。</strong>对话关闭后，数据流向四个方向 -- CSAT 满意度评分收集、Contacts 联系人信息更新、Insight Analysis 报表聚合、API/Webhook 外部推送。这个数据闭环设计得比较完整，尤其是联系人自动沉淀这一点，零手动成本就把对话数据转化为客户资产。</p>
 
 <div class="insight">
-<strong>流程评价：</strong>LiveDesk 的服务流程整体上是成熟的单轮 AI + 人工切换模式。强项是状态机清晰、工具链完整、数据闭环到位。弱项是 AI 没有多轮对话能力、没有用户画像驱动的个性化路由、Hand-off 后 AI 完全退出没有人机协同。这些恰好是我们自研系统需要重点做好的地方。
+<strong>流程评价：</strong>通过官方文档补充后，LiveDesk 的服务流程比实际体验中感知到的更完整。强项是五态状态机清晰（含独立的 AI-Replying 状态）、三级分配优先链（路由规则 > AI Agent > Human Agent）、ECA 自动化引擎可实现智能路由、工具链完整、数据闭环到位。弱项仍然是 AI 没有多轮对话能力、模型不可选不可微调、高级质检功能需要额外付费。这些恰好是我们自研系统需要重点做好的地方。
 </div>
 </div>
 </div>
@@ -382,25 +442,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 <div class="sec-body">
 
-<h3>四态生命周期</h3>
+<h3>五态生命周期</h3>
 
-<p>LiveDesk 的对话状态机是一个四节点有向图，设计得干净利落。</p>
+<p>根据官方文档，LiveDesk 的对话状态机是一个五节点有向图。之前我们在实际体验中观察到的是四态模型（Open / Resolved / On Hold / Closed），但官方文档明确定义了第五个状态 AI-Replying -- 这是 AI Agent 自动回复的独立阶段，只有在渠道启用了 AI Agent 的情况下才会出现。</p>
 
 <table class="stbl">
 <tr><th>状态</th><th>标识</th><th>含义</th><th>可转换为</th></tr>
-<tr><td><span class="state state-open">Open</span></td><td>红色</td><td>对话进行中，需要处理</td><td>Resolved / On Hold / Closed</td></tr>
-<tr><td><span class="state state-resolved">Resolved</span></td><td>绿色</td><td>问题已解决，等待确认</td><td>Open（用户发新消息时自动回转）</td></tr>
-<tr><td><span class="state state-hold">On Hold</span></td><td>黄色</td><td>暂挂等待，可设定时恢复</td><td>Open（定时或手动恢复）/ Closed</td></tr>
-<tr><td><span class="state state-closed">Closed</span></td><td>灰色</td><td>终态，不可恢复</td><td>--</td></tr>
+<tr><td><span class="state state-open">Open</span></td><td>红色</td><td>人工对话进行中，需要处理</td><td>AI-Replying / Snoozed / Resolved</td></tr>
+<tr><td><span class="state" style="background:#dbeafe;color:#1d4ed8">AI-Replying</span></td><td>蓝色</td><td>AI Agent 正在自动回复</td><td>Open / Snoozed / Resolved</td></tr>
+<tr><td><span class="state state-hold">Snoozed</span></td><td>黄色</td><td>暂挂等待，到期自动恢复</td><td>Open / Resolved / AI-Replying</td></tr>
+<tr><td><span class="state state-resolved">Resolved</span></td><td>绿色</td><td>问题已解决，触发满意度调查</td><td>Open / AI-Replying / Closed</td></tr>
+<tr><td><span class="state state-closed">Closed</span></td><td>灰色</td><td>终态，不计入对话数量</td><td>Open（用户发新消息时创建新对话）</td></tr>
 </table>
+
+<div class="insight">
+<strong>官方文档修正：</strong>之前我们在报告中使用的 "On Hold" 一词，官方术语为 "Snoozed"（推迟）。此外 Closed 状态的对话不计入对话数量统计，这影响了报表的解读方式。状态流转的入口取决于渠道是否启用 AI Agent -- 启用时新对话直接进入 AI-Replying 状态，未启用时进入 Open 状态。
+</div>
 
 <p>几个值得注意的设计决策：</p>
 
-<p>第一，Resolved 不是终态。标记为已解决后，如果用户发了新消息，对话自动回到 Open。这在实际业务中非常重要 -- 客服标记"已解决"但用户不认可的情况经常发生，如果 Resolved 是终态，客服就得手动创建新对话来处理后续问题。LiveDesk 的双向流转避免了这个麻烦。</p>
+<p>第一，AI-Replying 是一个独立的前置状态。当渠道启用了 AI Agent 时，用户发起的新对话不会直接进入 Open 等待人工处理，而是先进入 AI-Replying 让 AI 尝试解决。只有当 AI 无法解决（Hand-off）或用户主动要求人工时，对话才从 AI-Replying 流转到 Open。这个设计让 AI 和人工的职责边界非常清晰。</p>
 
-<p>第二，On Hold 搁置状态支持定时自动恢复。比如客服等客户提供截图，可以搁置对话并设定 24 小时后自动恢复为 Open。如果到时候客户没有回复，对话回到 Open 状态提醒客服主动跟进。这个设计解决了"等待中的对话被遗忘"这个很现实的问题。</p>
+<p>第二，Resolved 不是终态。标记为已解决后，如果用户发了新消息，对话自动回到 Open（或 AI-Replying）。同时 Resolved 状态会自动触发 CSAT 满意度调查，收集客户评价后再关闭。</p>
 
-<p>第三，Closed 是不可逆终态。一旦关闭就无法重新打开，这保证了数据的一致性和报表的准确性。如果用户后续再来联系，系统会创建新的对话，而不是重开旧对话。</p>
+<p>第三，Snoozed 搁置状态支持定时自动恢复。比如客服等客户提供截图，可以推迟对话并设定恢复时间。到期后对话自动或手动流转为 Open，也可以直接转为 AI-Replying 或 Resolved。</p>
+
+<p>第四，Closed 是不可逆终态且不计入对话数量。一旦关闭就无法重新打开，数据从活跃统计中移除。用户后续再来联系会创建新的对话。</p>
 
 <h3>五条分配路径</h3>
 
@@ -413,7 +480,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <tr><td><strong>右键分配</strong></td><td>通过右键菜单快速分配</td><td>管理员批量调度</td></tr>
 </table>
 
-<p>5 条路径覆盖了日常客服运营的绝大部分分配场景。自动分配处理常规流量，手动分配和转交处理特殊情况，主动认领让客服有自主权，右键分配给管理员提供了批量调度的效率工具。</p>
+<p>5 条路径覆盖了日常客服运营的绝大部分分配场景。自动分配处理常规流量，手动分配和转交处理特殊情况，主动认领让客服有自主权，右键分配给管理员提供了批量调度的效率工具。官方文档进一步明确了自动分配的优先级链：<strong>路由规则 > AI Agent > Human Agent</strong>。路由规则按顺序遍历匹配，Human Agent 的自动分配支持两种机制 -- 按并发负载分配和按顺序平均分配。</p>
 
 <h3>四个触发点</h3>
 
@@ -426,7 +493,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="report-section" id="s5">
 <div class="sec-head">
 <h2>五、与自研系统的对标分析</h2>
-<div class="desc">10 个维度的横向对比，不回避任何一方的短板</div>
+<div class="desc">13 个维度的横向对比，不回避任何一方的短板</div>
 </div>
 <div class="sec-body">
 
@@ -466,9 +533,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </tr>
 <tr>
 <td><strong>多渠道</strong></td>
-<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
 <td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;</span></td>
-<td>LiveDesk Web 渠道丰富但无 TG/WA；自研深度对接 TG 和 WA</td>
+<td>LiveDesk 官方支持 10 种渠道（含 TG/WA/LINE/FB/IG）；自研深度对接 TG 和 LiveChat 但类型有限</td>
 </tr>
 <tr>
 <td><strong>团队协作</strong></td>
@@ -494,9 +561,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
 <td>LiveDesk 按席位收费，规模化后成本线性增长；自研边际成本递减</td>
 </tr>
+<tr>
+<td><strong>权限体系</strong></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>LiveDesk 仅 Admin/客服两种角色；自研 52 个自定义角色 + 按钮级权限 + 操作日志</td>
+</tr>
+<tr>
+<td><strong>AI 质检</strong></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>LiveDesk 有解决置信度 + FCR + 自动推断（订阅制），但实际未启用；自研有质检仪表盘 + 逐条评分 + 降级标记</td>
+</tr>
+<tr>
+<td><strong>用户画像</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td>LiveDesk 有联系人模块（3,300+记录）；自研有 VIP 等级 + AI 标签 + 建联明细 + 信息验证</td>
+</tr>
 </table>
 
-<p>从这张表可以看出一个清晰的模式：LiveDesk 在"不需要动手"的维度上全面领先（上手成本、运维成本、团队协作、数据分析、工单系统），而自研系统在"需要深度控制"的维度上全面领先（AI 深度、数据控制、定制灵活性、长期成本）。</p>
+<p>从这张 13 维对比中可以看出一个清晰的模式：LiveDesk 在"不需要动手"的维度上领先（上手成本、运维成本、团队协作、数据分析、工单系统），自研系统则在"需要深度控制"的维度上全面领先（AI 深度、数据控制、定制灵活性、长期成本、权限体系、AI 质检、用户画像）。新增的 3 个维度进一步拉大了这个差距 -- 自研系统在权限、质检和用户画像上的能力厚度，是 SaaS 产品难以企及的。</p>
 
 <p>这不是一个"谁更好"的问题，而是一个"你要什么"的问题。如果团队的核心诉求是快速上线、稳定运营、不想养技术团队，LiveDesk 是更优选择。但如果核心诉求是 AI 回复质量直接影响业务指标、数据不能出境、需要和内部系统深度打通 -- 那自研是唯一选项。</p>
 
@@ -510,7 +595,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="report-section" id="s6">
 <div class="sec-head">
 <h2>六、值得借鉴的设计</h2>
-<div class="desc">5 个具体可落地的设计点，附实施思路</div>
+<div class="desc">6 个具体可落地的设计点，附实施思路</div>
 </div>
 <div class="sec-body">
 
@@ -521,9 +606,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 
 <div class="borrow-item">
-<h4>2. On Hold 搁置状态</h4>
-<p>我们现在只有 Open 和 Closed 两个状态，中间缺少了"问题已回复但等待客户反馈"和"问题已解决但未正式关闭"两个关键节点。结果就是客服不知道哪些对话是在等客户回复、哪些是真的在处理中。LiveDesk 的四态模型（Open / Resolved / On Hold / Closed）解决了这个问题，尤其是 On Hold 的定时自动恢复机制，避免了对话被遗忘。</p>
-<div class="how"><strong>实施思路：</strong>在对话状态机中新增 Resolved 和 On Hold 两个状态。Resolved 状态下用户发新消息自动回转 Open。On Hold 状态支持设定恢复时间，通过定时任务（cron）扫描到期的搁置对话并自动转为 Open。前端状态筛选和列表样式同步调整。改动不大，核心是状态机的重新设计，预计 1 周。</div>
+<h4>2. 五态生命周期（含 AI-Replying 和 Snoozed）</h4>
+<p>我们现在只有 Open 和 Closed 两个状态，中间缺少了关键的过渡节点。LiveDesk 官方定义的五态模型（Open / AI-Replying / Snoozed / Resolved / Closed）解决了这个问题：AI-Replying 让 AI 处理阶段有明确的状态标识，Snoozed 支持定时自动恢复避免对话被遗忘，Resolved 触发 CSAT 满意度调查形成闭环，Closed 不计入活跃统计保证报表准确。</p>
+<div class="how"><strong>实施思路：</strong>在对话状态机中新增 AI-Replying、Snoozed、Resolved 三个状态。AI-Replying 在 AI 引擎接管时自动进入，Hand-off 后转 Open。Snoozed 支持设定恢复时间，通过定时任务扫描到期对话。Resolved 触发满意度评分收集。前端状态筛选、列表样式和统计逻辑同步调整。预计 1-2 周。</div>
 </div>
 
 <div class="borrow-item">
@@ -542,6 +627,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <h4>5. P90/P95/P99 分位统计</h4>
 <p>平均值是会骗人的。如果 100 个客户的首次响应时间是 99 个 10 秒 + 1 个 30 分钟，平均值是 28 秒 -- 看起来还行。但那 1 个等了 30 分钟的客户已经流失了。分位数统计（P90 = 90% 的客户在多少秒内得到响应）才能真实反映服务质量的长尾分布。LiveDesk 在首次响应时间和问题解决耗时两个指标上都提供了完整的 Median/P90/P95/P99/Max 分析，这是 APM 领域的标准做法，用在客服效率分析上非常专业。</p>
 <div class="how"><strong>实施思路：</strong>ClickHouse 原生支持 quantile 函数（quantile(0.9)(response_time)），SQL 层面改动很小。关键是在 Insight 报表页面增加分位数的展示维度，默认显示 Median 和 P90，高级模式展开 P95/P99/Max。可以先在首次响应时间这一个指标上试点，验证效果后推广到其他指标。预计 3-5 天。</div>
+</div>
+
+<div class="borrow-item">
+<h4>6. 自动化规则引擎（ECA）</h4>
+<p>LiveDesk 的自动化规则比我们之前认知的要强大得多。它实现了一个完整的事件-条件-操作（ECA）引擎：4 种触发事件（Conversation Created/Updated、Message Created、Conversation Opened）× 多维度条件（消息类型/内容、浏览器语言、国家、来源链接、收件箱、自定义属性等）× 多种操作（分配客服/团队、打标签、发邮件/Webhook、关闭/推迟/解决对话、发消息/附件）。条件和操作可以叠加多条。这套引擎可以实现"葡萄牙语用户自动分配给巴西团队"、"VIP 标签用户自动提升优先级"等场景，是目前自研系统完全不具备的能力。</p>
+<div class="how"><strong>实施思路：</strong>设计一个通用的 Rule 模型（event + conditions[] + actions[]），事件通过消息队列触发，条件走规则引擎匹配（可以先用简单的 if-else 链，后期再上 RETE 算法），操作封装为 Action Handler。前端新增规则配置页面（参考 LiveDesk 的卡片式编辑器）。预计 2-3 周。</div>
 </div>
 
 </div>
@@ -571,7 +662,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <p>自研系统继续承担核心职责 -- AI 对话引擎（Qwen3-30B + RAG）、Telegram/WhatsApp 渠道对接（MTProto + whatsmeow）、数据存储和分析（ClickHouse）、RBAC 权限体系。这些是我们的竞争力所在，不能让渡给第三方。</p>
 
-<p>同时，借鉴 LiveDesk 的 5 个设计点来补齐短板：新增工单模块处理复杂问题、引入 On Hold 搁置状态完善对话生命周期、实现右键菜单提升操作效率、建设 Overview 仪表盘提供管理视角、在报表中加入 P90/P95/P99 分位统计。这些改动的开发量不大（总计预计 4-6 周），但对产品完整度的提升是实质性的。</p>
+<p>同时，借鉴 LiveDesk 的 6 个设计点来补齐短板：新增工单模块处理复杂问题、引入 Snoozed 搁置状态完善对话生命周期、实现右键菜单提升操作效率、建设 Overview 仪表盘提供管理视角、在报表中加入 P90/P95/P99 分位统计、构建自动化规则引擎实现智能路由和自动化操作。这些改动的开发量合计预计 6-8 周，但对产品完整度的提升是实质性的。</p>
 
 <p>LiveDesk 可以保留作为备用方案，如果未来有新的业务线需要快速上线客服能力但对 AI 深度要求不高，可以直接用 LiveDesk 搭建，避免重复开发。</p>
 </div>
@@ -588,7 +679,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <p>这次调研的核心发现是：LiveDesk 和自研系统之间的差异不是"好与坏"的差异，而是"取舍"的差异。LiveDesk 选择了 SaaS 模式，得到了快速部署、零运维、标准化的好处，代价是 AI 能力浅、数据不在手里、定制化受限。自研系统选择了自主可控，得到了 AI 全栈可控、数据自主、无限定制的好处，代价是持续的开发投入和运维压力。两者没有绝对优劣，只有场景适配。</p>
 
-<p>对 TT 项目而言，我们的判断是明确的：AI 回复质量和数据控制权是不可妥协的，自研是正确的路线。但 LiveDesk 在产品设计层面的积累 -- 特别是工单系统、状态机设计、操作效率优化、数据分析体系 -- 不应该被浪费。把这些设计经验吸收到自研系统中，是这次调研最实际的产出。不重复造轮子，但也不为了省事放弃核心控制权，这是我们需要持续平衡的事。</p>
+<p>但这次实地登录两个系统后，有几个判断比之前更加确定。第一，自研系统的 AI 质量管理体系（质检仪表盘 + 逐条评分 + 用户标签注入 + 产品级 AI 人格配置）已经形成了 LiveDesk 完全不具备的竞争壁垒。第二，自研系统 78.8% 的 AI 解决率和 21.3% 的转人工率证明 AI 引擎已经进入正循环，而 LiveDesk 的 AI Agent 在实际环境中几乎没有产出（AI Agent 回复消息数为 0，Hand-off 为 0）。第三，权限体系的差距比预想的更大 -- 52 个自定义角色、75 个账号、按钮级权限控制对比 2 个固定角色、10 个座席，这不是一个量级的东西。</p>
+
+<p>对 TT 项目而言，我们的判断更加明确：自研是唯一正确的路线，LiveDesk 在 AI 自主可控性、权限粒度、场景化渠道深度上仍无法满足需求。但通过官方文档的补充分析，我们对 LiveDesk 的能力评价需要修正 -- 它的渠道覆盖实际上很广（10 种渠道类型含 TG/WA/LINE/FB/IG），AI 能力模块也比实际体验中感知到的丰富（问题分类、消息优化、解决置信度、FCR、翻译），自动化规则引擎接近 Zendesk Triggers 的复杂度，Widget SDK 提供了完整的前端集成接口。LiveDesk 在产品设计层面的积累 -- 五态状态机、ECA 自动化引擎、工单系统、操作效率优化、洞察分析体系、Widget SDK 架构 -- 都是值得吸收的设计经验。把这 6 个具体设计点融入自研系统，是这次调研最实际的产出。</p>
 
 </div>
 </div>

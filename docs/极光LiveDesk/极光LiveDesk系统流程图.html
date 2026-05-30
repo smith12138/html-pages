@@ -232,7 +232,7 @@
     <!-- Flow 1: 产品总体架构 -->
     <div class="section" id="flow1">
         <h2><span class="num">1</span>产品总体架构</h2>
-        <p class="section-desc">LiveDesk 由 7 大核心模块组成，涵盖实时概览、对话处理、工单管理、数据洞察、智能客服、联系人管理和系统设置。</p>
+        <p class="section-desc">LiveDesk 由 7 大核心模块组成，涵盖实时概览、对话处理、工单管理、数据洞察、智能客服、联系人管理和系统设置。实测数据：当前部署了 A8-Demo v1.0.2 AI Agent，配置 FAE-DEMO 知识库，30+ Web 渠道（TT 系列 + PP 系列，分布在 4 页），10 位人工客服（3 Admin + 7 客服），4 个团队（巴西/墨西哥/菲律宾/ai test）。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1100 720" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <!-- Title Box -->
@@ -353,7 +353,7 @@
     <!-- Flow 2: 端到端服务流程 -->
     <div class="section" id="flow2">
         <h2><span class="num">2</span>端到端服务流程</h2>
-        <p class="section-desc">完整的用户服务链路分为 7 个阶段，依次经过渠道接入、路由分类、AI 响应、人工接管、工具集处理、状态变更，最终完成数据沉淀。</p>
+        <p class="section-desc">完整的用户服务链路分为 7 个阶段，依次经过渠道接入、路由分类、AI 响应、人工接管、工具集处理、状态变更，最终完成数据沉淀。官方支持 10 种渠道类型：Website、WhatsApp（含 3 种接入商）、Telegram（3 种模式：私聊/群组/GPTBots 群组，支持 BotFather Token 集成，GPTBots 群组模式下消息先经 GPTBots 处理再转人工）、SMS、Email、LINE、Facebook、Instagram、API。实测观察：渠道实际有 30+ 个 Web 入口（非图中 9 个），对话中用户名为系统自动生成，内置翻译功能可实时翻译（MT-Flash / MT-Plus 双模型，支持术语表），客服可通过 '/' 触发快捷回复。关键运营指标：2K 月活、1,999 新建对话、1,990 已解决、中位首响 1m10s、中位解决 19m17s。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1100 980" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <!-- Stage 1: 用户接入 -->
@@ -372,7 +372,7 @@
                     <text x="360" y="75" text-anchor="middle" fill="#1e40af" font-size="12">自动翻译</text>
                     <line x1="410" y1="70" x2="445" y2="70" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowBlue)"/>
                     <rect x="445" y="50" width="120" height="40" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
-                    <text x="505" y="75" text-anchor="middle" fill="#1e40af" font-size="12">9 个渠道入口</text>
+                    <text x="505" y="75" text-anchor="middle" fill="#1e40af" font-size="12">10 种渠道入口</text>
                 </g>
 
                 <!-- Stage 2: 渠道路由+视图分类 -->
@@ -527,7 +527,7 @@
     <!-- Flow 3: AI与人工Hand-off协作链路 -->
     <div class="section" id="flow3">
         <h2><span class="num">3</span>AI与人工Hand-off协作链路</h2>
-        <p class="section-desc">这张图重点说明 AI Agent 无法解答时如何触发 Hand-off，以及人工客服接管后的完整处理流程。左侧列出了关键监控指标和 AI 能力面板。</p>
+        <p class="section-desc">这张图重点说明 AI Agent 无法解答时如何触发 Hand-off，以及人工客服接管后的完整处理流程。左侧列出了关键监控指标和 AI 能力面板。AI Agent 底层通过 GPTBots Agent API 集成，支持以下官方能力：Issue Classification（自动对用户消息进行问题分类/归类）、Message Optimization（AI 指令优化客服回复质量）、Resolution Confidence（解决置信度评估）、FCR（首次联系解决率）、Auto-infer Resolution（自动推断解决，此三项为订阅套餐门控功能）。翻译方面支持 MT-Flash 和 MT-Plus 两种模型，双向翻译，并支持术语表自定义。实测确认：AI Agent 实际版本为 A8-Demo v1.0.2（非 AB-Demo），知识库为 FAE-DEMO（非 FAQ_DEMO）。AI 能力设置面板提供三项可配置能力：问题分类、优化客服消息、解决置信度，但当前均未启用。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1000 750" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <defs>
@@ -651,7 +651,7 @@
     <!-- Flow 4: 对话状态机 -->
     <div class="section" id="flow4">
         <h2><span class="num">4</span>对话状态机</h2>
-        <p class="section-desc">对话生命周期包含 Open、Resolved、On Hold、Closed 四个状态，下图标注了各状态之间的转换路径及触发条件。</p>
+        <p class="section-desc">对话生命周期包含 5 个官方状态：Open（打开）、AI-Replying（AI 回复中）、Snoozed（暂停/延后提醒）、Resolved（已解决）、Closed（已关闭）。其中 AI-Replying 为 AI Agent 正在处理时的中间态，Snoozed 可设定延后时间自动重新打开，取代旧版 On Hold 概念。下图标注了各状态之间的转换路径及触发条件。</p>
         <div class="svg-container">
             <svg viewBox="0 0 900 560" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <defs>
@@ -740,7 +740,7 @@
     <!-- Flow 5: 对话分配五种路径 -->
     <div class="section" id="flow5">
         <h2><span class="num">5</span>对话分配五种路径</h2>
-        <p class="section-desc">未分配对话可通过自动分配、手动分配、主动认领、转分配、右键分配这 5 种路径到达客服，随后按 Agent 维度和 Team 维度进行二次调度。</p>
+        <p class="section-desc">未分配对话可通过自动分配、手动分配、主动认领、转分配、右键分配这 5 种路径到达客服，随后按 Agent 维度和 Team 维度进行二次调度。官方文档定义了 3 级优先分配链：Routing Rules（路由规则）> AI Agent > Human Agent，系统按此优先级依次匹配。自动分配机制支持两种模式：Load-based（基于负载）和 Round-robin（轮询），可在设置中切换。实测确认：10 位人工客服（3 Admin + 7 客服），4 个团队分别为巴西、墨西哥、菲律宾、ai test（图中 Team-A/B/C/D 为示意名称）。自动化规则模块已存在但当前为空，尚未配置任何自动分配规则。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1000 660" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <defs>
@@ -850,7 +850,7 @@
     <!-- Flow 6: 数据洞察分析体系 -->
     <div class="section" id="flow6">
         <h2><span class="num">6</span>数据洞察分析体系</h2>
-        <p class="section-desc">数据层分为两块：Overview 提供实时运营指标，Insight 则聚焦历史趋势和多维度分析，共包含 10 个子模块。</p>
+        <p class="section-desc">数据层分为两块：Overview 提供实时运营指标，Insight 则聚焦历史趋势和多维度分析，共包含 10 个子模块。官方 Insight Analysis 涵盖 6 大分析维度：Conversations（对话量/趋势）、CSAT（满意度评分分布）、Agent（客服绩效）、Tags（标签分布）、Channel（渠道效能）、Team（团队维度）。实测关键指标：2K 月活、1,999 新建对话、1,990 已解决、中位首响 1m10s、中位解决 19m17s。CSAT 满意度调查：49 份有效反馈、满意度 20.41%。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1040 820" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
 
@@ -984,7 +984,7 @@
     <!-- Flow 7: 集成与自动化 -->
     <div class="section" id="flow7">
         <h2><span class="num">7</span>集成与自动化</h2>
-        <p class="section-desc">系统的可扩展性体现在四个方面：自动化规则引擎负责业务流程编排，Channels 管理 9 个渠道接入，API/Webhook 连接外部系统，角色权限体系控制功能访问范围。</p>
+        <p class="section-desc">系统的可扩展性体现在四个方面：自动化规则引擎采用 ECA（Event-Condition-Action）架构，支持 4 类事件（新对话创建、消息事件、状态变化、时间触发）× 多维条件组合 × 多种执行动作，实现完整的业务流程编排。Channels 管理 10 种官方渠道接入（实测 30+ Web 渠道，跨 4 页）。API/Webhook 方面：Widget SDK 提供 JavaScript API（setUserId、自定义属性、toggle 控制、事件监听），REST API 部署在新加坡数据中心，使用 HTTP Basic Auth 认证，提供 Contact、Conversation、Ticket 等端点；Webhook 支持多种事件回调通知外部系统。角色权限体系控制功能访问范围。实测发现：自动化规则模块已上线但规则列表为空；渠道以 TT 系列和 PP 系列为主；角色体系分 Admin、Agent、AI Agent、团队管理者四类。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1040 780" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
                 <defs>
@@ -1030,8 +1030,8 @@
                 <text x="55" y="243" fill="#475569" font-size="10">THEN 分配到 Team-A + 打标签"Web来源"</text>
 
                 <!-- Priority note -->
-                <text x="45" y="295" fill="#475569" font-size="11">规则优先级: 按创建顺序执行，首条匹配即停止</text>
-                <text x="45" y="315" fill="#475569" font-size="11">支持: 条件组合 (AND/OR)、多动作并行执行</text>
+                <text x="45" y="295" fill="#475569" font-size="11">ECA引擎: 4事件 × 多维条件 × 多动作，按优先级匹配</text>
+                <text x="45" y="315" fill="#475569" font-size="11">支持: 条件组合 (AND/OR)、多动作并行、首条匹配即停止</text>
 
                 <!-- Area 2: Channels渠道接入 -->
                 <rect x="530" y="10" width="490" height="180" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
@@ -1039,7 +1039,7 @@
                 <rect x="530" y="34" width="490" height="20" fill="#10B981"/>
                 <text x="775" y="38" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">Channels 渠道接入</text>
 
-                <text x="555" y="80" fill="#065F46" font-size="13" font-weight="700">9 个 Web 渠道</text>
+                <text x="555" y="80" fill="#065F46" font-size="13" font-weight="700">10 种官方渠道</text>
                 <rect x="555" y="92" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
                 <text x="597" y="111" text-anchor="middle" fill="#065F46" font-size="10">Website</text>
                 <rect x="648" y="92" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
@@ -1056,7 +1056,7 @@
                 <text x="783" y="147" text-anchor="middle" fill="#065F46" font-size="10">Email</text>
                 <rect x="834" y="128" width="85" height="28" rx="6" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1"/>
                 <text x="876" y="147" text-anchor="middle" fill="#065F46" font-size="10">API</text>
-                <text x="555" y="178" fill="#475569" font-size="11">每个渠道独立卡片管理，支持多实例配置</text>
+                <text x="555" y="178" fill="#475569" font-size="11">含 SMS 等共 10 种，每渠道独立卡片，支持多实例配置</text>
 
                 <!-- Area 3: API/Webhook -->
                 <rect x="530" y="210" width="490" height="140" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
@@ -1072,7 +1072,7 @@
                 <line x1="850" y1="290" x2="885" y2="290" stroke="#475569" stroke-width="2" marker-end="url(#a7r)"/>
                 <rect x="885" y="272" width="110" height="36" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
                 <text x="940" y="295" text-anchor="middle" fill="#92400E" font-size="11">外部系统</text>
-                <text x="555" y="335" fill="#475569" font-size="11">test AI key 可用于开发调试环境</text>
+                <text x="555" y="335" fill="#475569" font-size="11">REST API(新加坡数据中心,HTTP Basic Auth) + Widget SDK(JS API) + Webhook事件</text>
 
                 <!-- Area 4: 角色权限 -->
                 <rect x="20" y="370" width="1000" height="200" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
@@ -1122,7 +1122,7 @@
     <!-- Flow 8: 对比与借鉴 -->
     <div class="section" id="flow8">
         <h2><span class="num">8</span>对比与借鉴</h2>
-        <p class="section-desc">下表从 10 个维度对比 LiveDesk 与自研方案各自的优劣，并总结了 5 个值得参考的设计思路。</p>
+        <p class="section-desc">下表从 10 个维度对比 LiveDesk 与自研方案各自的优劣，并总结了 5 个值得参考的设计思路。以下评估基于实际浏览两套系统的真实观察：LiveDesk 实测环境有 30+ 渠道、10 人客服团队、2K 月活、CSAT 20.41%；自建系统实测环境有 850 对话、LiveChat+Telegram+WhatsApp 三渠道、52 个角色、75 个账号、AI 解决率 78.8%。</p>
         <div class="svg-container">
             <svg viewBox="0 0 1040 1000" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
 
@@ -1148,14 +1148,14 @@
 
                 <!-- Row 2 -->
                 <text x="160" y="155" text-anchor="middle" fill="#334155" font-size="11">AI 能力</text>
-                <text x="455" y="155" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733; 内置AI Agent + 知识库</text>
-                <text x="815" y="155" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 深度定制自研模型</text>
+                <text x="455" y="155" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733; A8-Demo v1.0.2 + FAE-DEMO知识库</text>
+                <text x="815" y="155" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; AI解决率78.8% + 质检评分体系</text>
                 <line x1="40" y1="166" x2="1000" y2="166" stroke="#F1F5F9" stroke-width="1"/>
 
                 <!-- Row 3 -->
                 <text x="160" y="188" text-anchor="middle" fill="#334155" font-size="11">多渠道接入</text>
-                <text x="455" y="188" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 9渠道开箱即用</text>
-                <text x="815" y="188" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733; 需逐个对接</text>
+                <text x="455" y="188" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 30+渠道(TT/PP系列)开箱即用</text>
+                <text x="815" y="188" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733; LiveChat+Telegram+WhatsApp</text>
                 <line x1="40" y1="199" x2="1000" y2="199" stroke="#F1F5F9" stroke-width="1"/>
 
                 <!-- Row 4 -->
@@ -1166,8 +1166,8 @@
 
                 <!-- Row 5 -->
                 <text x="160" y="254" text-anchor="middle" fill="#334155" font-size="11">定制灵活度</text>
-                <text x="455" y="254" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733; SaaS标准化</text>
-                <text x="815" y="254" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 完全定制</text>
+                <text x="455" y="254" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733; SaaS标准化(AI能力可配未启用)</text>
+                <text x="815" y="254" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 按产品配AI人格/语言/记忆轮次</text>
                 <line x1="40" y1="265" x2="1000" y2="265" stroke="#F1F5F9" stroke-width="1"/>
 
                 <!-- Row 6 -->
@@ -1190,8 +1190,8 @@
 
                 <!-- Row 9 -->
                 <text x="160" y="386" text-anchor="middle" fill="#334155" font-size="11">报表分析</text>
-                <text x="455" y="386" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733; 10子模块+P90/P95/P99</text>
-                <text x="815" y="386" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733; 按需定制</text>
+                <text x="455" y="386" text-anchor="middle" fill="#2563eb" font-size="11">&#9733;&#9733;&#9733;&#9733; 10子模块+P90/P95/P99+CSAT 49份</text>
+                <text x="815" y="386" text-anchor="middle" fill="#059669" font-size="11">&#9733;&#9733;&#9733;&#9733;&#9733; 质检6KPI+AI评分+用户标签体系</text>
                 <line x1="40" y1="397" x2="1000" y2="397" stroke="#F1F5F9" stroke-width="1"/>
 
                 <!-- Row 10 -->
@@ -1211,16 +1211,16 @@
                 <!-- Table body row -->
                 <!-- LiveDesk scenarios -->
                 <text x="80" y="540" fill="#334155" font-size="11">- 快速上线，业务验证期</text>
-                <text x="560" y="540" fill="#334155" font-size="11">- AI 深度定制，自研模型集成</text>
+                <text x="560" y="540" fill="#334155" font-size="11">- AI深度定制(产品级人格/标签注入prompt)</text>
 
-                <text x="80" y="560" fill="#334155" font-size="11">- 中等规模客服团队 (10-50人)</text>
-                <text x="560" y="560" fill="#334155" font-size="11">- 数据合规要求高 (金融/医疗)</text>
+                <text x="80" y="560" fill="#334155" font-size="11">- 中等规模客服团队 (实测10人4团队)</text>
+                <text x="560" y="560" fill="#334155" font-size="11">- 精细权限管控 (实测52角色75账号RBAC)</text>
 
                 <text x="80" y="580" fill="#334155" font-size="11">- 国际化业务，多语言需求</text>
-                <text x="560" y="580" fill="#334155" font-size="11">- 高度定制化业务流程</text>
+                <text x="560" y="580" fill="#334155" font-size="11">- AI质检+风控 (评分/标签/拉黑体系)</text>
 
                 <text x="80" y="600" fill="#334155" font-size="11">- 无专职技术团队维护</text>
-                <text x="560" y="600" fill="#334155" font-size="11">- 大规模集群 (100+ 客服)</text>
+                <text x="560" y="600" fill="#334155" font-size="11">- 多渠道深度集成 (TG链接管理/截图引导)</text>
 
                 <!-- 5 Borrowable designs -->
                 <rect x="20" y="630" width="1000" height="350" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
@@ -1274,12 +1274,12 @@
 
                 <!-- Summary -->
                 <rect x="40" y="830" width="960" height="60" rx="8" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1"/>
-                <text x="520" y="855" text-anchor="middle" fill="#1e40af" font-size="12" font-weight="600">总结：LiveDesk 是成熟的 SaaS 客服系统，适合快速部署和国际化场景；</text>
-                <text x="520" y="875" text-anchor="middle" fill="#1e40af" font-size="12" font-weight="600">自研方案适合需要深度 AI 定制、数据合规和大规模扩展的企业级场景。</text>
+                <text x="520" y="855" text-anchor="middle" fill="#1e40af" font-size="12" font-weight="600">总结：LiveDesk 渠道丰富(30+)、开箱即用、翻译体验好，但 AI 能力偏基础(可配未启用)，CSAT 仅 20.41%；</text>
+                <text x="520" y="875" text-anchor="middle" fill="#1e40af" font-size="12" font-weight="600">自研方案 AI 解决率 78.8%、质检评分+用户标签+按产品定制人格，适合深度 AI 运营和精细风控场景。</text>
 
                 <!-- Recommendation -->
                 <rect x="40" y="910" width="960" height="50" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-                <text x="520" y="940" text-anchor="middle" fill="#92400E" font-size="13" font-weight="700">推荐策略：先用 LiveDesk 快速验证业务，借鉴其设计亮点到自研系统，逐步迁移核心能力。</text>
+                <text x="520" y="940" text-anchor="middle" fill="#92400E" font-size="13" font-weight="700">推荐策略：借鉴 LiveDesk 的工单/OnHold/P90指标/翻译体系，结合自研的AI质检/用户标签/产品人格/RBAC 权限体系。</text>
             </svg>
         </div>
     </div>
@@ -1290,7 +1290,7 @@
 <div class="footer">
     <div class="divider"></div>
     <p>极光LiveDesk在线客服系统 — 系统流程图文档</p>
-    <p>数据来源：EngageLab LiveDesk 功能文档 · 操作文档 · 服务分析</p>
+    <p>数据来源：EngageLab LiveDesk 实际系统浏览 · 自建AI客服系统实际浏览 · 实测数据对比</p>
     <p style="margin-top:8px;">整理时间：2026-05-30</p>
 </div>
 
