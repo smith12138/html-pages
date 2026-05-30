@@ -75,8 +75,12 @@
         .project-badge { font-size: 12px; color: #6366f1; background: #eef2ff; padding: 4px 10px; border-radius: 8px; font-weight: 600; flex-shrink: 0; }
 
         /* ── Timeline (right sidebar) ── */
-        .sidebar {}
-        .timeline { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; }
+        .sidebar { position: sticky; top: 20px; align-self: start; }
+        .timeline { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; max-height: calc(100vh - 120px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d1d5db transparent; }
+        .timeline::-webkit-scrollbar { width: 4px; }
+        .timeline::-webkit-scrollbar-track { background: transparent; }
+        .timeline::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        .timeline::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
         .timeline-list { list-style: none; position: relative; padding-left: 20px; }
         .timeline-list::before {
             content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px;
@@ -267,7 +271,7 @@
     // ── Timeline ──
     function renderTimeline() {
         const allPages = DATA.projects.flatMap(proj => proj.pages.map(p => ({ ...p, project: proj.name })));
-        const sorted = allPages.sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+        const sorted = allPages.sort((a, b) => b.date.localeCompare(a.date));
         const el = document.getElementById('timeline');
         if (!sorted.length) { el.parentElement.style.display = 'none'; return; }
         el.innerHTML = `<ul class="timeline-list">${sorted.map(p => {
