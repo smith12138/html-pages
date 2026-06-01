@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<rect width="720" height="1280" fill="#f3f6fb"/>
+<g>
+<rect x="0" y="0" width="720" height="40" fill="transparent"/>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#1a1a1a">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#1a1a1a"/>
+  <rect x="24" y="4" width="2" height="6" fill="#1a1a1a"/>
+</g>
+<g transform="translate(540,22)" fill="#1a1a1a">
+  <rect x="0" y="6" width="3" height="3"/><rect x="5" y="4" width="3" height="5"/>
+  <rect x="10" y="2" width="3" height="7"/><rect x="15" y="0" width="3" height="9"/>
+</g>
+<g transform="translate(625,20)" fill="#1a1a1a">
+  <path d="M0,8 Q6,2 12,8" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
+  <circle cx="6" cy="8" r="1.5"/>
+</g>
+</g>
+
+<!-- App bar -->
+<rect x="0" y="40" width="720" height="80" fill="#ffffff"/>
+<polyline points="74,68 50,84 74,100" fill="none" stroke="#1d2226" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="92" text-anchor="middle" font-size="28" font-weight="700" fill="#1d2226">Comprovante de pagamento</text>
+
+<!-- ==== Caixa 1: DATA/HORA ==== -->
+<rect x="38" y="152" width="644" height="44" rx="6" fill="none" stroke="#e74c3c" stroke-width="3"/>
+<text x="50" y="186" font-size="22" font-weight="600" fill="#1d2226">26 abr 2026 - 17:39:14</text>
+<rect x="490" y="142" width="190" height="28" rx="4" fill="#e74c3c"/>
+<text x="585" y="162" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">Data e Hora</text>
+
+<!-- Valor (com marcação) -->
+<rect x="44" y="208" width="632" height="60" rx="10" fill="#ffffff"/>
+<text x="68" y="246" font-size="22" fill="#9aa6b2">Valor</text>
+<rect x="430" y="216" width="240" height="44" rx="6" fill="none" stroke="#e74c3c" stroke-width="3"/>
+<text x="654" y="246" text-anchor="end" font-size="32" font-weight="700" fill="#1d2226">R$ 100,00</text>
+<rect x="498" y="270" width="160" height="28" rx="4" fill="#e74c3c"/>
+<text x="578" y="290" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">Valor</text>
+
+<rect x="44" y="312" width="632" height="60" rx="10" fill="#ffffff"/>
+<text x="68" y="350" font-size="22" fill="#9aa6b2">Tipo de transferência</text>
+<text x="652" y="350" text-anchor="end" font-size="26" font-weight="600" fill="#1d2226">Pix</text>
+
+<!-- ID da transação (com marcação) -->
+<text x="68" y="404" font-size="22" fill="#9aa6b2">ID da transação</text>
+<rect x="38" y="412" width="644" height="84" rx="6" fill="none" stroke="#e74c3c" stroke-width="3"/>
+<rect x="44" y="416" width="632" height="38" rx="6" fill="#ffffff"/>
+<text x="652" y="442" text-anchor="end" font-size="20" font-weight="600" fill="#1d2226">E182361202026043</text>
+<rect x="44" y="456" width="632" height="38" rx="6" fill="#ffffff"/>
+<text x="652" y="482" text-anchor="end" font-size="20" font-weight="600" fill="#1d2226">02038s1400ed41ad</text>
+<rect x="466" y="500" width="220" height="28" rx="4" fill="#e74c3c"/>
+<text x="576" y="520" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">ID da Transação</text>
+
+<!-- Destino (Beneficiário) com marcação -->
+<text x="50" y="566" font-size="22" font-weight="700" fill="#1d2226">Destino</text>
+<rect x="38" y="582" width="644" height="180" rx="10" fill="none" stroke="#e74c3c" stroke-width="3"/>
+<rect x="44" y="588" width="632" height="170" rx="8" fill="#ffffff"/>
+<text x="68" y="620" font-size="20" fill="#9aa6b2">Nome</text>
+<text x="652" y="620" text-anchor="end" font-size="22" font-weight="600" fill="#1d2226">SMART CLUSTER SERVICOS</text>
+<text x="652" y="646" text-anchor="end" font-size="22" font-weight="600" fill="#1d2226">TECNOLOGICOS LTDA</text>
+<text x="68" y="688" font-size="20" fill="#9aa6b2">CNPJ</text>
+<text x="652" y="688" text-anchor="end" font-size="22" font-weight="600" fill="#1d2226">64757419000175</text>
+<text x="68" y="724" font-size="20" fill="#9aa6b2">Instituição</text>
+<text x="652" y="724" text-anchor="end" font-size="22" font-weight="600" fill="#1d2226">BRX</text>
+<rect x="492" y="764" width="190" height="28" rx="4" fill="#e74c3c"/>
+<text x="587" y="784" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">Beneficiário</text>
+
+<!-- Origem (Pagador) com marcação -->
+<text x="50" y="826" font-size="22" font-weight="700" fill="#1d2226">Origem</text>
+<rect x="38" y="842" width="644" height="180" rx="10" fill="none" stroke="#e74c3c" stroke-width="3"/>
+<rect x="44" y="848" width="632" height="170" rx="8" fill="#ffffff"/>
+<text x="68" y="880" font-size="20" fill="#9aa6b2">Nome</text>
+<text x="652" y="880" text-anchor="end" font-size="22" font-weight="600" fill="#1d2226">Alani da Silva Oliveira</text>
+<text x="68" y="922" font-size="20" fill="#9aa6b2">Instituição</text>
+<text x="652" y="922" text-anchor="end" font-size="22" font-weight="600" fill="#1d2226">NU PAGAMENTOS - IP</text>
+<text x="68" y="964" font-size="20" fill="#9aa6b2">CPF</text>
+<text x="652" y="964" text-anchor="end" font-size="22" font-weight="600" fill="#1d2226">***.997.524.-**</text>
+<rect x="510" y="1024" width="170" height="28" rx="4" fill="#e74c3c"/>
+<text x="595" y="1044" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">Pagador</text>
+
+<!-- Legend banner -->
+<rect x="36" y="1086" width="648" height="170" rx="10" fill="#fff5f3" stroke="#e74c3c" stroke-width="2"/>
+<text x="60" y="1124" font-size="22" font-weight="700" fill="#e74c3c">4 Elementos Obrigatórios:</text>
+<text x="60" y="1158" font-size="18" fill="#1d2226">  Data/Hora       Valor</text>
+<text x="60" y="1192" font-size="18" fill="#1d2226">  ID da Transação       Beneficiário</text>
+<text x="60" y="1226" font-size="18" fill="#1d2226">  Pagador (origem)</text>
+
+</svg>

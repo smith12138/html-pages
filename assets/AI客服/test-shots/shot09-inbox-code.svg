@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<defs>
+  <linearGradient id="bg9" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0e1f1c"/>
+    <stop offset="1" stop-color="#0a1614"/>
+  </linearGradient>
+</defs>
+<rect width="720" height="1280" fill="url(#bg9)"/>
+<g>
+<rect x="0" y="0" width="720" height="40" fill="transparent"/>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#ffffff">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#ffffff"/>
+  <rect x="24" y="4" width="2" height="6" fill="#ffffff"/>
+</g>
+<g transform="translate(540,22)" fill="#ffffff">
+  <rect x="0" y="6" width="3" height="3"/><rect x="5" y="4" width="3" height="5"/>
+  <rect x="10" y="2" width="3" height="7"/><rect x="15" y="0" width="3" height="9"/>
+</g>
+<g transform="translate(625,20)" fill="#ffffff">
+  <path d="M0,8 Q6,2 12,8" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+  <circle cx="6" cy="8" r="1.5"/>
+</g>
+</g>
+
+<!-- App bar -->
+<rect x="0" y="40" width="720" height="100" fill="#142623"/>
+<rect x="36" y="62" width="60" height="56" rx="10" fill="none" stroke="#a7e5b8" stroke-width="2.5"/>
+<polyline points="74,80 60,90 74,100" fill="none" stroke="#a7e5b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="104" text-anchor="middle" font-size="32" font-weight="800" fill="#a7e5b8">Detalhes</text>
+
+<!-- Title -->
+<text x="44" y="220" font-size="38" font-weight="900" fill="#ffffff">7893943</text>
+
+<!-- Body lines -->
+<text x="44" y="280" font-size="24" fill="#6a847e">7893943</text>
+<text x="44" y="332" font-size="24" fill="#6a847e">Caro jogador, você tem moedas de ouro não reclamadas.</text>
+<text x="44" y="370" font-size="24" fill="#6a847e">Venha resgatá-las!  Código:  DMHVSEKC</text>
+<text x="44" y="422" font-size="24" fill="#6a847e">Clique para resgatar  <tspan font-size="22" fill="#7eb5a0">▶</tspan></text>
+<text x="44" y="466" font-size="24" fill="#6a847e">Tempo limite:  24 horas</text>
+<text x="44" y="514" font-size="24" fill="#6a847e">VIP Atendimento ao Cliente</text>
+<text x="44" y="544" font-size="20" fill="#5a7a72">(https://direct.lc.chat/19592166/)</text>
+
+<!-- Highlight box around DMHVSEKC -->
+<rect x="320" y="346" width="170" height="36" rx="6" fill="none" stroke="#f7d873" stroke-width="2"/>
+
+<!-- empty area styled -->
+
+</svg>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<defs>
+  <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1a1308"/>
+    <stop offset="1" stop-color="#2a1f0a"/>
+  </linearGradient>
+  <linearGradient id="btn3" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#a8c93a"/>
+    <stop offset="1" stop-color="#7ba023"/>
+  </linearGradient>
+</defs>
+<rect width="720" height="1280" fill="url(#bg3)"/>
+<g>
+<rect x="0" y="0" width="720" height="40" fill="transparent"/>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#ffffff">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#ffffff"/>
+  <rect x="24" y="4" width="2" height="6" fill="#ffffff"/>
+</g>
+<g transform="translate(540,22)" fill="#ffffff">
+  <rect x="0" y="6" width="3" height="3"/><rect x="5" y="4" width="3" height="5"/>
+  <rect x="10" y="2" width="3" height="7"/><rect x="15" y="0" width="3" height="9"/>
+</g>
+<g transform="translate(625,20)" fill="#ffffff">
+  <path d="M0,8 Q6,2 12,8" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+  <circle cx="6" cy="8" r="1.5"/>
+</g>
+</g>
+
+<!-- Top bar -->
+<rect x="0" y="40" width="720" height="90" fill="#241a08"/>
+<rect x="36" y="62" width="60" height="48" rx="10" fill="none" stroke="#f0c040" stroke-width="2.5"/>
+<polyline points="74,76 60,86 74,96" fill="none" stroke="#f0c040" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="98" text-anchor="middle" font-size="32" font-weight="700" fill="#f0c040">Saque</text>
+
+<!-- Canais de Saque -->
+<text x="48" y="186" font-size="22" font-weight="600" fill="#9a8b5e">Canais de Saque</text>
+<rect x="44" y="206" width="170" height="74" rx="10" fill="#3a5a16" stroke="#5a8a26" stroke-width="2"/>
+<text x="129" y="254" text-anchor="middle" font-size="28" font-weight="700" fill="#cfee8a">PIX</text>
+
+<line x1="36" y1="330" x2="684" y2="330" stroke="#3a2e0f" stroke-width="1.5"/>
+
+<!-- Saldo -->
+<text x="360" y="392" text-anchor="middle" font-size="26" fill="#9a8b5e">Conta Saldo</text>
+<text x="360" y="464" text-anchor="middle" font-size="62" font-weight="800" fill="#f7c842">R$ 2,22</text>
+
+<!-- Input -->
+<rect x="44" y="510" width="632" height="92" rx="8" fill="#0e0a02" stroke="#3a2e0f" stroke-width="1.5"/>
+<text x="84" y="566" font-size="32" font-weight="600" fill="#3a2e0f">R$</text>
+<text x="150" y="566" font-size="28" fill="#5c4a1c">Saque mínimo: R$ 20,00</text>
+
+<!-- Método de Retirada -->
+<text x="48" y="668" font-size="26" font-weight="600" fill="#9a8b5e">Método de Retirada</text>
+<rect x="44" y="690" width="170" height="74" rx="10" fill="#3a2e0f" stroke="#806020" stroke-width="1.5"/>
+<text x="129" y="738" text-anchor="middle" font-size="28" font-weight="700" fill="#f0c040">CPF</text>
+
+<!-- AVISO em pt-BR (substituto da anotação em chinês) -->
+<g>
+  <rect x="58" y="800" width="604" height="84" rx="8" fill="#ffffff"/>
+  <polygon points="58,800 58,824 36,812" fill="#ffffff"/>
+  <rect x="60" y="800" width="6" height="84" fill="#e74c3c"/>
+  <text x="84" y="852" font-size="26" font-weight="700" fill="#e74c3c">! </text>
+  <text x="124" y="852" font-size="26" font-weight="600" fill="#1d2226">
+    Salve as informações antes de sacar!
+  </text>
+</g>
+
+<!-- pseudo NOME (coberto) -->
+<rect x="44" y="900" width="632" height="74" rx="8" fill="#0e0a02" stroke="#3a2e0f" stroke-width="1.5"/>
+<text x="68" y="948" font-size="28" fill="#3a2e0f">Por favor, preencha seu nome</text>
+
+<!-- CPF -->
+<text x="48" y="1018" font-size="22" fill="#9a8b5e">CPF</text>
+<rect x="44" y="1038" width="632" height="74" rx="8" fill="#0e0a02" stroke="#3a2e0f" stroke-width="1.5"/>
+<text x="68" y="1086" font-size="28" fill="#5c4a1c">Por favor, insira 11 dígitos.</text>
+
+<!-- Salvar (destaque) -->
+<rect x="44" y="1150" width="632" height="86" rx="8" fill="url(#btn3)"/>
+<text x="360" y="1206" text-anchor="middle" font-size="30" font-weight="800" fill="#1a2a06">Salvar</text>
+
+</svg>

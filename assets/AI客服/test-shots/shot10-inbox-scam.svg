@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<rect width="720" height="1280" fill="#f3f6fb"/>
+<g>
+<rect x="0" y="0" width="720" height="40" fill="transparent"/>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#1a1a1a">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#1a1a1a"/>
+  <rect x="24" y="4" width="2" height="6" fill="#1a1a1a"/>
+</g>
+<g transform="translate(540,22)" fill="#1a1a1a">
+  <rect x="0" y="6" width="3" height="3"/><rect x="5" y="4" width="3" height="5"/>
+  <rect x="10" y="2" width="3" height="7"/><rect x="15" y="0" width="3" height="9"/>
+</g>
+<g transform="translate(625,20)" fill="#1a1a1a">
+  <path d="M0,8 Q6,2 12,8" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
+  <circle cx="6" cy="8" r="1.5"/>
+</g>
+</g>
+
+<!-- App bar -->
+<rect x="0" y="40" width="720" height="86" fill="#ffffff"/>
+<polyline points="74,68 50,84 74,100" fill="none" stroke="#1d2226" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="98" text-anchor="middle" font-size="30" font-weight="700" fill="#1d2226">Mensagens</text>
+
+<!-- Timestamp -->
+<text x="652" y="186" text-anchor="end" font-size="22" fill="#9aa6b2">2026-05-27  16:02:24</text>
+
+<!-- Mensagem (bolha) -->
+<rect x="44" y="216" width="620" height="380" rx="14" fill="#f1edff"/>
+<text x="76" y="280" font-size="26" fill="#1d2226">Veja só, no Facebook apareceu uma menina,</text>
+<text x="76" y="316" font-size="26" fill="#1d2226">ela disse que é a dona desta plataforma e</text>
+<text x="76" y="352" font-size="26" fill="#1d2226">garante que é tudo verdade. Se você baixar</text>
+<text x="76" y="388" font-size="26" fill="#1d2226">o app e se cadastrar, eles te dão 100 dólares.</text>
+<text x="76" y="448" font-size="22" fill="#7a6cb0" font-style="italic">Clique no link para receber:</text>
+<text x="76" y="486" font-size="22" font-weight="600" fill="#3a4dff" text-decoration="underline">http://fb-bonus-100usd.win/?ref=2026</text>
+
+<!-- Origin label -->
+<g transform="translate(620,560)">
+  <circle r="18" fill="#ddd"/>
+  <text y="6" text-anchor="middle" font-size="16" font-weight="700" fill="#666">🌐</text>
+</g>
+<text x="600" y="566" text-anchor="end" font-size="20" fill="#9aa6b2">original</text>
+
+<!-- second timestamp -->
+<text x="652" y="624" text-anchor="end" font-size="22" fill="#9aa6b2">2026-05-27  16:02:35</text>
+<g transform="translate(600,612)" stroke="#9aa6b2" stroke-width="2.5" fill="none">
+  <path d="M-12,0 a8,8 0 0 1 8,-8 l6,0 a8,8 0 0 1 0,16 l-6,0"/>
+  <path d="M12,0 a8,8 0 0 0 -8,8 l-6,0 a8,8 0 0 0 0,-16 l6,0" transform="translate(0,-4)"/>
+</g>
+
+<!-- AVISO de segurança -->
+<rect x="44" y="700" width="632" height="260" rx="12" fill="#fff5f3" stroke="#e74c3c" stroke-width="3"/>
+<text x="76" y="752" font-size="28" font-weight="800" fill="#e74c3c">  ATENÇÃO: Conteúdo suspeito</text>
+<text x="76" y="800" font-size="22" fill="#1d2226">Origem desconhecida. NÃO clique no link.</text>
+<text x="76" y="836" font-size="22" fill="#1d2226">Verifique sempre nos canais oficiais da plataforma:</text>
+<text x="76" y="876" font-size="22" font-weight="700" fill="#1a8a6a">  Área Promoção  /  Canal Oficial Telegram</text>
+<text x="76" y="920" font-size="22" fill="#1d2226">Atendimento legítimo nunca pede para baixar</text>
+<text x="76" y="952" font-size="22" fill="#1d2226">links externos para receber bônus.</text>
+
+</svg>

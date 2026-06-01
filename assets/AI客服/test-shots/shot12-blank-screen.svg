@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<defs>
+  <radialGradient id="bg12" cx="0.5" cy="0.5" r="0.7">
+    <stop offset="0" stop-color="#1a1a1a"/>
+    <stop offset="1" stop-color="#000000"/>
+  </radialGradient>
+</defs>
+<rect width="720" height="1280" fill="url(#bg12)"/>
+<g>
+<rect x="0" y="0" width="720" height="40" fill="transparent"/>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#ffffff">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#ffffff"/>
+  <rect x="24" y="4" width="2" height="6" fill="#ffffff"/>
+</g>
+<g transform="translate(540,22)" fill="#ffffff">
+  <rect x="0" y="6" width="3" height="3"/><rect x="5" y="4" width="3" height="5"/>
+  <rect x="10" y="2" width="3" height="7"/><rect x="15" y="0" width="3" height="9"/>
+</g>
+<g transform="translate(625,20)" fill="#ffffff">
+  <path d="M0,8 Q6,2 12,8" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+  <circle cx="6" cy="8" r="1.5"/>
+</g>
+</g>
+<!-- Noise/static feel -->
+<g opacity="0.04" fill="#ffffff">
+  <rect x="10" y="200" width="3" height="3"/>
+  <rect x="120" y="240" width="2" height="2"/>
+  <rect x="250" y="180" width="2" height="2"/>
+  <rect x="400" y="320" width="3" height="3"/>
+  <rect x="550" y="280" width="2" height="2"/>
+  <rect x="660" y="420" width="3" height="3"/>
+  <rect x="80" y="500" width="2" height="2"/>
+  <rect x="220" y="660" width="3" height="3"/>
+  <rect x="380" y="780" width="2" height="2"/>
+  <rect x="510" y="820" width="2" height="2"/>
+  <rect x="640" y="900" width="3" height="3"/>
+  <rect x="100" y="950" width="2" height="2"/>
+  <rect x="260" y="1080" width="3" height="3"/>
+  <rect x="420" y="1140" width="2" height="2"/>
+</g>
+
+</svg>
