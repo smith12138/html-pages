@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<defs>
+  <linearGradient id="bg13" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1a1308"/>
+    <stop offset="1" stop-color="#2a1f0a"/>
+  </linearGradient>
+</defs>
+<rect width="720" height="1280" fill="url(#bg13)"/>
+<g>
+<rect x="0" y="0" width="720" height="40" fill="transparent"/>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#ffffff">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#ffffff"/>
+  <rect x="24" y="4" width="2" height="6" fill="#ffffff"/>
+</g>
+<g transform="translate(540,22)" fill="#ffffff">
+  <rect x="0" y="6" width="3" height="3"/><rect x="5" y="4" width="3" height="5"/>
+  <rect x="10" y="2" width="3" height="7"/><rect x="15" y="0" width="3" height="9"/>
+</g>
+</g>
+
+<rect x="0" y="40" width="720" height="90" fill="#241a08"/>
+<rect x="36" y="62" width="60" height="48" rx="10" fill="none" stroke="#f0c040" stroke-width="2.5"/>
+<polyline points="74,76 60,86 74,96" fill="none" stroke="#f0c040" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="98" text-anchor="middle" font-size="30" font-weight="800" fill="#f0c040">Histórico de Saque</text>
+
+<!-- Tab bar -->
+<g transform="translate(0,140)" font-size="22" font-weight="700">
+  <text x="90" y="40" fill="#f7c842" text-anchor="middle">Todos</text>
+  <rect x="50" y="56" width="80" height="3" fill="#f7c842"/>
+  <text x="260" y="40" fill="#9a8b5e" text-anchor="middle">Em análise</text>
+  <text x="450" y="40" fill="#9a8b5e" text-anchor="middle">Sucesso</text>
+  <text x="620" y="40" fill="#9a8b5e" text-anchor="middle">Falha</text>
+</g>
+
+<!-- Item 1 (success - highlighted) -->
+<rect x="32" y="226" width="656" height="200" rx="12" fill="#2a2010" stroke="#5a4218" stroke-width="1.5"/>
+<text x="56" y="266" font-size="22" fill="#9a8b5e">Valor solicitado</text>
+<text x="56" y="312" font-size="40" font-weight="900" fill="#f7c842">R$ 150,00</text>
+<!-- status pill -->
+<rect x="510" y="248" width="158" height="42" rx="21" fill="#1a8a3a"/>
+<text x="589" y="277" text-anchor="middle" font-size="22" font-weight="800" fill="#ffffff">Sucesso</text>
+<!-- details rows -->
+<line x1="56" y1="340" x2="664" y2="340" stroke="#3a2e0f" stroke-width="1"/>
+<text x="56" y="372" font-size="20" fill="#7a6a3a">Método</text>
+<text x="664" y="372" text-anchor="end" font-size="20" font-weight="600" fill="#f0c040">PIX</text>
+<text x="56" y="404" font-size="20" fill="#7a6a3a">Data e Hora</text>
+<text x="664" y="404" text-anchor="end" font-size="20" font-weight="600" fill="#f0c040">30/05/2026 14:18</text>
+
+<!-- Item 2 -->
+<rect x="32" y="450" width="656" height="200" rx="12" fill="#2a2010" stroke="#3a2e0f" stroke-width="1.5"/>
+<text x="56" y="490" font-size="22" fill="#9a8b5e">Valor solicitado</text>
+<text x="56" y="536" font-size="40" font-weight="900" fill="#f7c842">R$ 80,00</text>
+<rect x="510" y="472" width="158" height="42" rx="21" fill="#1a8a3a"/>
+<text x="589" y="501" text-anchor="middle" font-size="22" font-weight="800" fill="#ffffff">Sucesso</text>
+<line x1="56" y1="564" x2="664" y2="564" stroke="#3a2e0f" stroke-width="1"/>
+<text x="56" y="596" font-size="20" fill="#7a6a3a">Método</text>
+<text x="664" y="596" text-anchor="end" font-size="20" font-weight="600" fill="#f0c040">PIX</text>
+<text x="56" y="628" font-size="20" fill="#7a6a3a">Data e Hora</text>
+<text x="664" y="628" text-anchor="end" font-size="20" font-weight="600" fill="#f0c040">28/05/2026 10:42</text>
+
+<!-- Item 3 -->
+<rect x="32" y="674" width="656" height="200" rx="12" fill="#2a2010" stroke="#3a2e0f" stroke-width="1.5"/>
+<text x="56" y="714" font-size="22" fill="#9a8b5e">Valor solicitado</text>
+<text x="56" y="760" font-size="40" font-weight="900" fill="#f7c842">R$ 220,00</text>
+<rect x="510" y="696" width="158" height="42" rx="21" fill="#1a8a3a"/>
+<text x="589" y="725" text-anchor="middle" font-size="22" font-weight="800" fill="#ffffff">Sucesso</text>
+<line x1="56" y1="788" x2="664" y2="788" stroke="#3a2e0f" stroke-width="1"/>
+<text x="56" y="820" font-size="20" fill="#7a6a3a">Método</text>
+<text x="664" y="820" text-anchor="end" font-size="20" font-weight="600" fill="#f0c040">PIX</text>
+<text x="56" y="852" font-size="20" fill="#7a6a3a">Data e Hora</text>
+<text x="664" y="852" text-anchor="end" font-size="20" font-weight="600" fill="#f0c040">25/05/2026 16:05</text>
+
+<!-- Caption -->
+<rect x="32" y="916" width="656" height="86" rx="10" fill="#3a2810"/>
+<text x="360" y="950" text-anchor="middle" font-size="22" font-weight="700" fill="#f7c842">Todas as solicitações foram processadas com sucesso</text>
+<text x="360" y="982" text-anchor="middle" font-size="20" fill="#9a8b5e">mas o valor ainda não chegou na conta bancária</text>
+
+</svg>

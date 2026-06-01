@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<defs>
+  <linearGradient id="card14a" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#5a3aa6"/>
+    <stop offset="1" stop-color="#2a1a8a"/>
+  </linearGradient>
+  <linearGradient id="card14b" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#1a8a6a"/>
+    <stop offset="1" stop-color="#0a5a4a"/>
+  </linearGradient>
+</defs>
+<rect width="720" height="1280" fill="#1a1a1a"/>
+<g>
+<rect x="0" y="0" width="720" height="40" fill="transparent"/>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#ffffff">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#ffffff"/>
+  <rect x="24" y="4" width="2" height="6" fill="#ffffff"/>
+</g>
+<g transform="translate(540,22)" fill="#ffffff">
+  <rect x="0" y="6" width="3" height="3"/><rect x="5" y="4" width="3" height="5"/>
+  <rect x="10" y="2" width="3" height="7"/><rect x="15" y="0" width="3" height="9"/>
+</g>
+</g>
+
+<!-- App bar -->
+<rect x="0" y="40" width="720" height="80" fill="#1a1a1a"/>
+<polyline points="74,68 50,84 74,100" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="92" text-anchor="middle" font-size="28" font-weight="700" fill="#ffffff">Foto do Cartão / PIX</text>
+
+<!-- Caption -->
+<text x="360" y="156" text-anchor="middle" font-size="22" fill="#a0a0a0">Frente</text>
+
+<!-- Card front -->
+<g transform="translate(60,180)">
+  <rect width="600" height="370" rx="22" fill="url(#card14a)"/>
+  <!-- bank logo -->
+  <text x="36" y="60" font-size="32" font-weight="900" fill="#ffeb3b">NU</text>
+  <text x="76" y="60" font-size="22" font-weight="700" fill="#ffffff">Pagamentos</text>
+  <!-- chip -->
+  <rect x="36" y="120" width="64" height="50" rx="6" fill="#f7c842"/>
+  <rect x="44" y="128" width="48" height="34" rx="3" fill="none" stroke="#1a1308" stroke-width="1.5"/>
+  <line x1="44" y1="138" x2="92" y2="138" stroke="#1a1308" stroke-width="1.2"/>
+  <line x1="44" y1="148" x2="92" y2="148" stroke="#1a1308" stroke-width="1.2"/>
+  <!-- card number -->
+  <text x="36" y="240" font-size="28" font-weight="700" fill="#ffffff" letter-spacing="3">5283  ****  ****  4127</text>
+  <!-- holder name -->
+  <text x="36" y="294" font-size="14" fill="#c0b8d6">TITULAR / NOME</text>
+  <text x="36" y="320" font-size="22" font-weight="700" fill="#ffffff">MARIA F. SILVA OLIVEIRA</text>
+  <!-- expiry -->
+  <text x="420" y="294" font-size="14" fill="#c0b8d6">VALIDADE</text>
+  <text x="420" y="320" font-size="22" font-weight="700" fill="#ffffff">10/29</text>
+  <!-- Bandeira -->
+  <g transform="translate(486,346)">
+    <circle cx="0" cy="0" r="18" fill="#eb001b"/>
+    <circle cx="22" cy="0" r="18" fill="#f79e1b"/>
+  </g>
+</g>
+
+<!-- Caption -->
+<text x="360" y="596" text-anchor="middle" font-size="22" fill="#a0a0a0">Verso</text>
+
+<!-- Card back -->
+<g transform="translate(60,620)">
+  <rect width="600" height="370" rx="22" fill="url(#card14b)"/>
+  <!-- magstripe -->
+  <rect x="0" y="40" width="600" height="58" fill="#1a1308"/>
+  <!-- signature panel -->
+  <rect x="36" y="160" width="380" height="56" fill="#f7f7f7"/>
+  <text x="44" y="194" font-size="22" font-style="italic" fill="#1a1a1a">Maria F. S. Oliveira</text>
+  <rect x="424" y="160" width="140" height="56" fill="#ffffff"/>
+  <text x="494" y="194" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1a1a">CVV 327</text>
+  <!-- CPF info -->
+  <text x="36" y="280" font-size="16" fill="#c0e8d8">CPF DO TITULAR</text>
+  <text x="36" y="312" font-size="26" font-weight="700" fill="#ffffff" letter-spacing="2">118.858.893-13</text>
+  <!-- Bank details -->
+  <text x="36" y="348" font-size="16" fill="#c0e8d8">AG 0001  CC 87654321-0</text>
+</g>
+
+<!-- Watermark -->
+<text x="360" y="1056" text-anchor="middle" font-size="18" fill="#5a5a5a">Imagem para fins de verificação - PIX</text>
+
+</svg>
