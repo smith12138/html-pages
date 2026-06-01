@@ -52,7 +52,10 @@ tr.done td.ck-col{opacity:1}
 .prog .bar{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
 .prog .fill{height:100%;background:#059669;border-radius:3px;transition:width .3s}
 .prog .txt{font-size:12px;color:#6b7280;white-space:nowrap;font-weight:600}
-.prog .clr{font-size:11px;color:#dc2626;cursor:pointer;border:1px solid #fecaca;background:#fff;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.prog .btn{font-size:11px;cursor:pointer;border:1px solid;background:#fff;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.prog .sel{color:#059669;border-color:#bbf7d0}
+.prog .sel:hover{background:#ecfdf5}
+.prog .clr{color:#dc2626;border-color:#fecaca}
 .prog .clr:hover{background:#fef2f2}
 @media(max-width:768px){body{padding:12px}.stats{flex-direction:column}.tc{display:block;overflow-x:auto}.toc ul{columns:1}}
 </style>
@@ -420,10 +423,14 @@ document.querySelectorAll('.tc').forEach(function(t){
 var fb=document.querySelector('.filter-bar');
 if(fb&&cbs.length){
   var d=document.createElement('div');d.className='prog';
-  d.innerHTML='<span class="txt" id="pTxt"></span><div class="bar"><div class="fill" id="pFill"></div></div><button class="clr" id="pClr">清除全部</button>';
+  d.innerHTML='<span class="txt" id="pTxt"></span><div class="bar"><div class="fill" id="pFill"></div></div><button class="btn sel" id="pSel">全选</button><button class="btn clr" id="pClr">清空</button>';
   fb.parentNode.insertBefore(d,fb.nextSibling);
+  document.getElementById('pSel').addEventListener('click',function(){
+    cbs.forEach(function(c){c.checked=true;c.closest('tr').classList.add('done');
+      var i=c.closest('tr').querySelector('.id');if(i)localStorage.setItem(P+i.textContent.trim(),'1');
+    });upd();
+  });
   document.getElementById('pClr').addEventListener('click',function(){
-    if(!confirm('确认清除所有勾选状态？'))return;
     cbs.forEach(function(c){c.checked=false;c.closest('tr').classList.remove('done');
       var i=c.closest('tr').querySelector('.id');if(i)localStorage.removeItem(P+i.textContent.trim());
     });upd();
