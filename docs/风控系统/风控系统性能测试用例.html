@@ -61,6 +61,13 @@ tr.done td.ck-col{opacity:1}
 .prog .sel:hover{background:#ecfdf5}
 .prog .clr{color:#dc2626;border-color:#fecaca}
 .prog .clr:hover{background:#fef2f2}
+.finfo{position:fixed;left:20px;bottom:28px;background:#fff;border-radius:12px;padding:14px 18px;box-shadow:0 2px 16px rgba(0,0,0,.12);border:1px solid #e5e7eb;z-index:9990;display:flex;gap:18px}
+.finfo .fi{text-align:center;line-height:1.2}
+.finfo .fi .n{font-size:22px;font-weight:700;display:block}
+.finfo .fi .l{color:#6b7280;font-size:10px}
+.finfo .fi.f-done .n{color:#059669}
+.finfo .fi.f-left .n{color:#d97706}
+.finfo .fi.f-total .n{color:#dc2626}
 @media(max-width:768px){body{padding:12px}.stats{flex-direction:column}.tc{display:block;overflow-x:auto}.toc ul{columns:1}}
 </style>
 </head>
@@ -457,11 +464,16 @@ if(fb&&cbs.length){
     });upd();
   });
 }
+var fi=document.createElement('div');fi.className='finfo';
+fi.innerHTML='<div class="fi f-done"><span class="n" id="fiD">0</span><span class="l">已执行</span></div><div class="fi f-left"><span class="n" id="fiL">0</span><span class="l">剩余</span></div><div class="fi f-total"><span class="n" id="fiT">0</span><span class="l">总用例</span></div>';
+document.body.appendChild(fi);
 function upd(){
   var done=cbs.filter(function(c){return c.checked}).length,total=cbs.length;
   var el=document.getElementById('pTxt'),f=document.getElementById('pFill');
   if(el)el.textContent='执行进度 '+done+'/'+total;
   if(f)f.style.width=(total?done/total*100:0)+'%';
+  var fd=document.getElementById('fiD'),fl=document.getElementById('fiL'),ft=document.getElementById('fiT');
+  if(fd){fd.textContent=done;fl.textContent=total-done;ft.textContent=total}
 }
 upd();
 })();
