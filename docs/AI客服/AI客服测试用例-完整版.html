@@ -461,19 +461,21 @@ document.getElementById('lbCopyUrl').addEventListener('click',function(){
   navigator.clipboard.writeText(src).then(function(){showToast('图片URL已复制')}).catch(function(){showToast('复制失败，请手动复制URL')});
 });
 document.getElementById('lbCopy').addEventListener('click',function(){
-  var img=document.getElementById('lbImg');
-  fetch(img.src).then(function(r){return r.blob()}).then(function(blob){
-    var type=blob.type||'image/png';
-    if(window.ClipboardItem){
-      var item=new ClipboardItem({[type]:blob});
-      return navigator.clipboard.write([item]);
-    }else{throw new Error('ClipboardItem not supported')}
-  }).then(function(){showToast('图片已复制到剪贴板')}).catch(function(e){
-    // Fallback: copy via canvas to PNG
-    try{
-      var c=document.createElement('canvas');var i=new Image();i.crossOrigin='anonymous';i.onload=function(){c.width=i.naturalWidth;c.height=i.naturalHeight;c.getContext('2d').drawImage(i,0,0);c.toBlob(function(b){var item=new ClipboardItem({'image/png':b});navigator.clipboard.write([item]).then(function(){showToast('图片已复制到剪贴板')}).catch(function(){showToast('复制失败：'+e.message)})})};i.src=document.getElementById('lbImg').src;
-    }catch(ex){showToast('复制失败：'+e.message)}
-  });
+  var src=document.getElementById('lbImg').src;
+  var i=new Image();i.crossOrigin='anonymous';
+  i.onload=function(){
+    var w=i.naturalWidth||800,h=i.naturalHeight||600;
+    var c=document.createElement('canvas');c.width=w;c.height=h;
+    c.getContext('2d').drawImage(i,0,0,w,h);
+    c.toBlob(function(b){
+      if(!b){showToast('图片转换失败');return}
+      navigator.clipboard.write([new ClipboardItem({'image/png':b})]).then(function(){
+        showToast('图片已复制到剪贴板');
+      }).catch(function(e){showToast('复制失败：'+e.message)});
+    },'image/png');
+  };
+  i.onerror=function(){showToast('图片加载失败')};
+  i.src=src;
 });
 window.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb()});
 // Checkbox progress tracking
