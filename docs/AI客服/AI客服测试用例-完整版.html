@@ -60,6 +60,17 @@ ol.steps li{margin-bottom:3px}
 .lb-tip{color:#fff;font-size:12px;opacity:.7}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:9999;opacity:0;transition:opacity .25s}
 .toast.show{opacity:1}
+.ck-col{width:36px;text-align:center;padding:8px 4px !important}
+.ck{width:16px;height:16px;cursor:pointer;accent-color:#059669}
+tr.done{background:#f0fdf4 !important}
+tr.done td:not(.ck-col){opacity:.45;text-decoration:line-through;text-decoration-color:#cbd5e1}
+tr.done td.ck-col{opacity:1}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px;background:#fff;border-radius:10px;border:1px solid #e5e7eb}
+.prog .bar{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.prog .fill{height:100%;background:#059669;border-radius:3px;transition:width .3s}
+.prog .txt{font-size:12px;color:#6b7280;white-space:nowrap;font-weight:600}
+.prog .clr{font-size:11px;color:#dc2626;cursor:pointer;border:1px solid #fecaca;background:#fff;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.prog .clr:hover{background:#fef2f2}
 @media(max-width:900px){body{padding:12px}.stats{flex-direction:column}.tc{display:block;overflow-x:auto}.toc ul{columns:1}.shot{width:96px}}
 </style>
 </head>
@@ -462,6 +473,46 @@ document.getElementById('lbCopy').addEventListener('click',function(){
   });
 });
 window.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb()});
+// Checkbox progress tracking
+(function(){
+var P='tc_'+location.pathname.replace(/[^a-z0-9]/gi,'_')+'_',cbs=[];
+document.querySelectorAll('.tc').forEach(function(t){
+  var th=document.createElement('th');th.className='ck-col';th.textContent='✓';
+  var hr=t.querySelector('thead tr');if(hr)hr.insertBefore(th,hr.firstChild);
+  t.querySelectorAll('tbody tr').forEach(function(tr){
+    var idC=tr.querySelector('.id'),id=idC?idC.textContent.trim():'';
+    var td=document.createElement('td');td.className='ck-col';
+    var cb=document.createElement('input');cb.type='checkbox';cb.className='ck';
+    cb.checked=localStorage.getItem(P+id)==='1';
+    if(cb.checked)tr.classList.add('done');
+    cb.addEventListener('change',function(){
+      if(cb.checked){localStorage.setItem(P+id,'1');tr.classList.add('done')}
+      else{localStorage.removeItem(P+id);tr.classList.remove('done')}
+      upd();
+    });
+    td.appendChild(cb);tr.insertBefore(td,tr.firstChild);cbs.push(cb);
+  });
+});
+var fb=document.querySelector('.filter-bar');
+if(fb&&cbs.length){
+  var d=document.createElement('div');d.className='prog';
+  d.innerHTML='<span class="txt" id="pTxt"></span><div class="bar"><div class="fill" id="pFill"></div></div><button class="clr" id="pClr">清除全部</button>';
+  fb.parentNode.insertBefore(d,fb.nextSibling);
+  document.getElementById('pClr').addEventListener('click',function(){
+    if(!confirm('确认清除所有勾选状态？'))return;
+    cbs.forEach(function(c){c.checked=false;c.closest('tr').classList.remove('done');
+      var i=c.closest('tr').querySelector('.id');if(i)localStorage.removeItem(P+i.textContent.trim());
+    });upd();
+  });
+}
+function upd(){
+  var done=cbs.filter(function(c){return c.checked}).length,total=cbs.length;
+  var el=document.getElementById('pTxt'),f=document.getElementById('pFill');
+  if(el)el.textContent='执行进度 '+done+'/'+total;
+  if(f)f.style.width=(total?done/total*100:0)+'%';
+}
+upd();
+})();
 </script>
 </body>
 </html>
