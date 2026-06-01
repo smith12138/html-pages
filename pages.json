@@ -61,6 +61,16 @@
           "title": "AI客服系统测试用例",
           "category": "testcase",
           "date": "2026-05-22",
+          "tags": [
+            "功能测试",
+            "AI客服"
+          ]
+        },
+        {
+          "file": "docs/AI客服/AI客服测试用例-完整版.html",
+          "title": "AI客服测试用例-完整版",
+          "category": "requirement",
+          "date": "2026-06-01",
           "tags": []
         }
       ]
