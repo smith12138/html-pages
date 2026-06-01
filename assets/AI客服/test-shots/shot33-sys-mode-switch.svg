@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+<rect width="720" height="1280" fill="#ffffff"/>
+<g>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#1a1a1a">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#1a1a1a"/>
+  <rect x="24" y="4" width="2" height="6" fill="#1a1a1a"/>
+</g>
+<g transform="translate(540,22)" fill="#1a1a1a">
+  <rect x="0" y="6" width="3" height="3"/><rect x="5" y="4" width="3" height="5"/>
+  <rect x="10" y="2" width="3" height="7"/><rect x="15" y="0" width="3" height="9"/>
+</g>
+</g>
+<rect x="0" y="40" width="720" height="100" fill="#7a6acc"/>
+<text x="48" y="84" font-size="22" font-weight="700" fill="#ffffff">TF7XQX8AAF</text>
+<rect x="280" y="92" width="120" height="34" rx="6" fill="#f0eff7"/>
+<text x="340" y="116" text-anchor="middle" font-size="18" font-weight="700" fill="#7a6acc">CP1/A7X</text>
+<text x="50" y="190" font-size="14" fill="#a0a0a0">TF7XQX8AAF  13:47</text>
+<rect x="40" y="200" width="200" height="56" rx="10" fill="#f0f0f0"/>
+<text x="60" y="236" font-size="20" fill="#1a1a1a">哦哦，ok，可以了</text>
+<rect x="240" y="296" width="240" height="56" rx="8" fill="#fff3c4" stroke="#f0c040" stroke-width="2"/>
+<text x="360" y="316" text-anchor="middle" font-size="14" fill="#a0a0a0">●  系统  13:47</text>
+<text x="360" y="340" text-anchor="middle" font-size="18" font-weight="700" fill="#c95820">[系统] 对话已切换为AI模式</text>
+<text x="50" y="400" font-size="14" fill="#a0a0a0">TF7XQX8AAF  13:48</text>
+<rect x="40" y="410" width="120" height="56" rx="10" fill="#f0f0f0"/>
+<text x="60" y="446" font-size="20" fill="#1a1a1a">在吗</text>
+<text x="676" y="500" text-anchor="end" font-size="14" fill="#a0a0a0">AI  13:48</text>
+<rect x="200" y="510" width="480" height="240" rx="10" fill="#e3d6f5"/>
+<text x="220" y="544" font-size="20" font-weight="700" fill="#1a1a1a">亲，您好呀! 请问您想咨询哪方面呢?</text>
+<text x="220" y="578" font-size="18" fill="#c95820">●  充值未到账</text>
+<text x="220" y="608" font-size="18" fill="#c95820">●  无法提现</text>
+<text x="220" y="638" font-size="18" fill="#c95820">●  提现未到账</text>
+<text x="220" y="668" font-size="18" fill="#c95820">●  账户相关问题</text>
+<text x="220" y="698" font-size="18" fill="#c95820">●  游戏异常</text>
+<text x="220" y="728" font-size="18" fill="#c95820">●  活动奖励</text>
+<rect x="200" y="800" width="320" height="180" rx="8" fill="#fdebec" stroke="#e74c3c" stroke-width="2"/>
+<text x="360" y="828" text-anchor="middle" font-size="14" fill="#a0a0a0">●  系统  13:47</text>
+<text x="360" y="858" text-anchor="middle" font-size="18" font-weight="700" fill="#e74c3c">【问题未解决·转人工】</text>
+<text x="220" y="892" font-size="16" fill="#1a1a1a">平台: CP1</text>
+<text x="220" y="916" font-size="16" fill="#1a1a1a">产品: A7X</text>
+<text x="220" y="940" font-size="16" fill="#1a1a1a">账户ID: 777888855</text>
+<text x="220" y="964" font-size="16" fill="#1a1a1a">问题类型: 充值未到账</text>
+<rect x="0" y="1190" width="720" height="90" fill="#ffffff" stroke="#d0d0d0" stroke-width="1"/>
+<rect x="40" y="1208" width="600" height="56" rx="28" fill="#f0f0f0"/>
+</svg>
