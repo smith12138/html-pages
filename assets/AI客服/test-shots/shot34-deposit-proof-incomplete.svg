@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<rect width="720" height="1280" fill="#f3f6fb"/>
+<g>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#1a1a1a">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#1a1a1a"/>
+  <rect x="24" y="4" width="2" height="6" fill="#1a1a1a"/>
+</g>
+</g>
+
+<!-- App bar -->
+<rect x="0" y="40" width="720" height="80" fill="#ffffff"/>
+<polyline points="74,68 50,84 74,100" fill="none" stroke="#1d2226" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="92" text-anchor="middle" font-size="28" font-weight="700" fill="#1d2226">Comprovante de pagamento</text>
+
+<!-- Subtitle - timestamp partial / cropped at top -->
+<rect x="38" y="138" width="644" height="44" rx="6" fill="#ffeaea" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="50" y="168" font-size="22" fill="#9aa6b2" opacity="0.45">26 abr 2026 - 17:3?:??</text>
+<text x="666" y="168" text-anchor="end" font-size="14" font-weight="700" fill="#e74c3c">cortado</text>
+
+<!-- Valor (only partial - amount obscured) -->
+<rect x="44" y="208" width="632" height="60" rx="10" fill="#ffffff"/>
+<text x="68" y="246" font-size="22" fill="#9aa6b2">Valor</text>
+<rect x="430" y="216" width="240" height="44" fill="#cccccc"/>
+<text x="552" y="248" text-anchor="middle" font-size="22" font-weight="700" fill="#666666">R$ ??.??</text>
+<rect x="498" y="270" width="160" height="28" rx="4" fill="#e74c3c"/>
+<text x="578" y="290" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">obscurecido</text>
+
+<rect x="44" y="312" width="632" height="60" rx="10" fill="#ffffff"/>
+<text x="68" y="350" font-size="22" fill="#9aa6b2">Tipo de transferência</text>
+<text x="652" y="350" text-anchor="end" font-size="26" font-weight="600" fill="#1d2226">Pix</text>
+
+<!-- ID da transação MISSING (cut off / empty) -->
+<rect x="38" y="392" width="644" height="120" rx="10" fill="#ffeaea" stroke="#e74c3c" stroke-width="3" stroke-dasharray="6 5"/>
+<text x="58" y="424" font-size="22" font-weight="700" fill="#e74c3c">ID da transação</text>
+<text x="58" y="464" font-size="26" font-style="italic" fill="#9aa6b2">(faltando — campo cortado da imagem)</text>
+<text x="58" y="498" font-size="18" fill="#e74c3c">  Campo essencial não fornecido</text>
+
+<!-- Destino partial - only one of three fields -->
+<text x="50" y="556" font-size="22" font-weight="700" fill="#1d2226">Destino</text>
+<rect x="38" y="572" width="644" height="120" rx="10" fill="#ffeaea" stroke="#e74c3c" stroke-width="3" stroke-dasharray="6 5"/>
+<rect x="44" y="578" width="632" height="106" rx="8" fill="#ffffff"/>
+<text x="68" y="610" font-size="20" fill="#9aa6b2">Nome</text>
+<text x="652" y="610" text-anchor="end" font-size="22" font-weight="600" fill="#1d2226">SMART CLUSTER ...</text>
+<line x1="68" y1="628" x2="652" y2="628" stroke="#eef2f6" stroke-width="1"/>
+<text x="68" y="662" font-size="22" font-style="italic" fill="#9aa6b2">(CNPJ, Instituição — não disponíveis)</text>
+<rect x="492" y="694" width="190" height="28" rx="4" fill="#e74c3c"/>
+<text x="587" y="714" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Beneficiário incompleto</text>
+
+<!-- Origem TOTALLY MISSING -->
+<text x="50" y="752" font-size="22" font-weight="700" fill="#1d2226">Origem</text>
+<rect x="38" y="768" width="644" height="100" rx="10" fill="#ffeaea" stroke="#e74c3c" stroke-width="3" stroke-dasharray="6 5"/>
+<text x="360" y="820" text-anchor="middle" font-size="26" font-weight="800" fill="#e74c3c">Pagador  faltando</text>
+<text x="360" y="852" text-anchor="middle" font-size="18" fill="#9aa6b2">Seção totalmente recortada</text>
+
+<!-- Watermark/banner indicating the proof is incomplete -->
+<rect x="36" y="906" width="648" height="200" rx="12" fill="#fff5f3" stroke="#e74c3c" stroke-width="3"/>
+<text x="60" y="944" font-size="22" font-weight="800" fill="#e74c3c">  Comprovante INCOMPLETO</text>
+<text x="60" y="982" font-size="18" fill="#1d2226">Faltam elementos obrigatórios:</text>
+<text x="80" y="1014" font-size="18" fill="#1d2226">  Data e Hora exata (parcialmente cortado)</text>
+<text x="80" y="1042" font-size="18" fill="#1d2226">  Valor (obscurecido)</text>
+<text x="80" y="1070" font-size="18" fill="#1d2226">  ID da Transação (faltando)</text>
+<text x="80" y="1098" font-size="18" fill="#1d2226">  Pagador / Origem (cortado)</text>
+
+</svg>
