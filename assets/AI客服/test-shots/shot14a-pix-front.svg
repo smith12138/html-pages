@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<defs>
+  <linearGradient id="cardF" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#5a3aa6"/>
+    <stop offset="1" stop-color="#2a1a8a"/>
+  </linearGradient>
+</defs>
+<rect width="720" height="1280" fill="#1a1a1a"/>
+<g>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#ffffff">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#ffffff"/>
+  <rect x="24" y="4" width="2" height="6" fill="#ffffff"/>
+</g>
+</g>
+
+<rect x="0" y="40" width="720" height="80" fill="#1a1a1a"/>
+<polyline points="74,68 50,84 74,100" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="92" text-anchor="middle" font-size="28" font-weight="700" fill="#ffffff">Foto 1 — Cartão PIX Frente</text>
+
+<text x="360" y="158" text-anchor="middle" font-size="22" fill="#a0a0a0">Cartão bancário usado para PIX — Frente</text>
+
+<g transform="translate(60,220)">
+  <rect width="600" height="380" rx="22" fill="url(#cardF)" filter="url(#shf)"/>
+
+  <!-- Bank logo -->
+  <text x="36" y="64" font-size="34" font-weight="900" fill="#ffeb3b">NU</text>
+  <text x="86" y="64" font-size="24" font-weight="700" fill="#ffffff">Pagamentos</text>
+
+  <!-- Chip -->
+  <rect x="36" y="124" width="78" height="58" rx="8" fill="#f7c842"/>
+  <rect x="46" y="134" width="58" height="38" rx="4" fill="none" stroke="#1a1308" stroke-width="2"/>
+  <line x1="46" y1="144" x2="104" y2="144" stroke="#1a1308" stroke-width="1.5"/>
+  <line x1="46" y1="158" x2="104" y2="158" stroke="#1a1308" stroke-width="1.5"/>
+  <line x1="76" y1="134" x2="76" y2="172" stroke="#1a1308" stroke-width="1.5"/>
+
+  <!-- Contactless icon -->
+  <g transform="translate(150,150)" fill="none" stroke="#ffffff" stroke-width="2.5">
+    <path d="M0,-12 A12,12 0 0 1 0,12"/>
+    <path d="M8,-18 A18,18 0 0 1 8,18"/>
+    <path d="M16,-24 A24,24 0 0 1 16,24"/>
+  </g>
+
+  <!-- Card number (full) -->
+  <text x="36" y="250" font-size="32" font-weight="800" fill="#ffffff" letter-spacing="4">5283 4901 7754 4127</text>
+
+  <!-- Holder -->
+  <text x="36" y="296" font-size="14" font-weight="600" fill="#c0b8d6">TITULAR DO CARTÃO</text>
+  <text x="36" y="328" font-size="26" font-weight="800" fill="#ffffff">MARIA F. SILVA OLIVEIRA</text>
+
+  <!-- Expiry -->
+  <text x="420" y="296" font-size="14" font-weight="600" fill="#c0b8d6">VALIDADE</text>
+  <text x="420" y="328" font-size="26" font-weight="800" fill="#ffffff">10/29</text>
+
+  <!-- Bandeira (Mastercard mock) -->
+  <g transform="translate(516,356)">
+    <circle cx="0" cy="0" r="22" fill="#eb001b"/>
+    <circle cx="26" cy="0" r="22" fill="#f79e1b"/>
+    <text x="13" y="46" text-anchor="middle" font-size="10" font-weight="700" fill="#ffffff">mastercard</text>
+  </g>
+</g>
+
+<!-- Info data summary below -->
+<rect x="36" y="660" width="648" height="220" rx="12" fill="#2a2a2a" stroke="#5a5a5a" stroke-width="1"/>
+<text x="60" y="700" font-size="20" font-weight="700" fill="#f7d873">Dados do cartão (PIX):</text>
+<text x="60" y="734" font-size="18" fill="#ffffff">Número:  <tspan font-weight="700">5283 4901 7754 4127</tspan></text>
+<text x="60" y="764" font-size="18" fill="#ffffff">Titular:  <tspan font-weight="700">MARIA F. SILVA OLIVEIRA</tspan></text>
+<text x="60" y="794" font-size="18" fill="#ffffff">Validade:  <tspan font-weight="700">10/29</tspan></text>
+<text x="60" y="824" font-size="18" fill="#ffffff">Banco:  <tspan font-weight="700">NU Pagamentos (260)</tspan></text>
+<text x="60" y="854" font-size="18" fill="#ffffff">Chave PIX (CPF):  <tspan font-weight="700">118.858.893-13</tspan></text>
+
+<text x="360" y="1170" text-anchor="middle" font-size="20" fill="#a0a0a0">Foto enviada pelo usuário para verificação</text>
+
+</svg>

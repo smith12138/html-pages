@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<defs>
+  <linearGradient id="cpfbg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f3f0e0"/>
+    <stop offset="1" stop-color="#e6dfc0"/>
+  </linearGradient>
+</defs>
+<rect width="720" height="1280" fill="#1a1a1a"/>
+<g>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#ffffff">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#ffffff"/>
+  <rect x="24" y="4" width="2" height="6" fill="#ffffff"/>
+</g>
+</g>
+
+<rect x="0" y="40" width="720" height="80" fill="#1a1a1a"/>
+<polyline points="74,68 50,84 74,100" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="92" text-anchor="middle" font-size="28" font-weight="700" fill="#ffffff">Foto 1 — CPF Frente</text>
+
+<!-- Subtitle -->
+<text x="360" y="158" text-anchor="middle" font-size="22" fill="#a0a0a0">Documento original — face frontal</text>
+
+<!-- Large CPF card -->
+<g transform="translate(50,200)">
+  <rect width="620" height="900" rx="16" fill="url(#cpfbg)" stroke="#a08c40" stroke-width="3"/>
+
+  <!-- Header banner -->
+  <rect x="0" y="0" width="620" height="110" fill="#1a5a8a"/>
+  <text x="310" y="60" text-anchor="middle" font-size="28" font-weight="800" fill="#ffffff">REPÚBLICA FEDERATIVA DO BRASIL</text>
+  <text x="310" y="92" text-anchor="middle" font-size="20" font-weight="700" fill="#cfe1f0">MINISTÉRIO DA FAZENDA</text>
+
+  <!-- Subheader -->
+  <text x="310" y="158" text-anchor="middle" font-size="24" font-weight="800" fill="#1a3a6a">CADASTRO DE PESSOAS FÍSICAS</text>
+
+  <!-- Photo placeholder (large) -->
+  <rect x="42" y="200" width="220" height="280" rx="6" fill="#c5b58a" stroke="#7a6020" stroke-width="2"/>
+  <circle cx="152" cy="290" r="60" fill="#a08c40"/>
+  <path d="M70,472 Q152,340 234,472 Z" fill="#a08c40"/>
+  <text x="152" y="498" text-anchor="middle" font-size="20" fill="#7a6020">FOTO</text>
+
+  <!-- Info fields -->
+  <text x="298" y="220" font-size="18" font-weight="700" fill="#5a4a10">NOME</text>
+  <text x="298" y="260" font-size="28" font-weight="800" fill="#1a1a1a">MARIA FERNANDA</text>
+  <text x="298" y="294" font-size="28" font-weight="800" fill="#1a1a1a">SILVA OLIVEIRA</text>
+
+  <text x="298" y="356" font-size="18" font-weight="700" fill="#5a4a10">DATA DE NASCIMENTO</text>
+  <text x="298" y="396" font-size="26" font-weight="700" fill="#1a1a1a">14/03/1992</text>
+
+  <text x="298" y="456" font-size="18" font-weight="700" fill="#5a4a10">CPF</text>
+  <text x="298" y="500" font-size="32" font-weight="900" fill="#1a1a1a" letter-spacing="3">118.858.893-13</text>
+
+  <!-- Hologram/seal mock -->
+  <g transform="translate(540,580)" opacity="0.7">
+    <circle r="48" fill="none" stroke="#a08c40" stroke-width="3"/>
+    <text y="-6" text-anchor="middle" font-size="10" font-weight="700" fill="#a08c40">RFB</text>
+    <text y="8" text-anchor="middle" font-size="10" font-weight="700" fill="#a08c40">BRASIL</text>
+  </g>
+
+  <!-- Footer -->
+  <line x1="42" y1="640" x2="578" y2="640" stroke="#a08c40" stroke-width="1.5"/>
+  <text x="42" y="676" font-size="16" fill="#7a6020">VÁLIDO EM TODO O TERRITÓRIO NACIONAL</text>
+
+  <!-- Holder identifier number -->
+  <text x="42" y="730" font-size="18" font-weight="700" fill="#5a4a10">NÚMERO DE INSCRIÇÃO</text>
+  <text x="42" y="764" font-size="22" font-weight="700" fill="#1a1a1a">SP-118.858.893-13</text>
+
+  <!-- Watermark -->
+  <text x="310" y="830" text-anchor="middle" font-size="38" font-weight="900" fill="#a08c40" opacity="0.18">CPF · BRASIL</text>
+</g>
+
+<text x="360" y="1170" text-anchor="middle" font-size="20" fill="#a0a0a0">Foto enviada pelo usuário para verificação</text>
+
+</svg>

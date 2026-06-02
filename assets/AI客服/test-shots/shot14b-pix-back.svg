@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+
+<defs>
+  <linearGradient id="cardB" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#1a8a6a"/>
+    <stop offset="1" stop-color="#0a5a4a"/>
+  </linearGradient>
+</defs>
+<rect width="720" height="1280" fill="#1a1a1a"/>
+<g>
+<text x="40" y="26" font-size="18" font-weight="600" fill="#ffffff">09:41</text>
+<g transform="translate(580,18)">
+  <rect x="0" y="0" width="22" height="14" rx="3" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="2" y="2" width="16" height="10" rx="1" fill="#ffffff"/>
+  <rect x="24" y="4" width="2" height="6" fill="#ffffff"/>
+</g>
+</g>
+
+<rect x="0" y="40" width="720" height="80" fill="#1a1a1a"/>
+<polyline points="74,68 50,84 74,100" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360" y="92" text-anchor="middle" font-size="28" font-weight="700" fill="#ffffff">Foto 2 — Cartão PIX Verso</text>
+
+<text x="360" y="158" text-anchor="middle" font-size="22" fill="#a0a0a0">Cartão bancário — Verso</text>
+
+<g transform="translate(60,220)">
+  <rect width="600" height="380" rx="22" fill="url(#cardB)"/>
+
+  <!-- Magnetic stripe -->
+  <rect x="0" y="40" width="600" height="68" fill="#1a1308"/>
+
+  <!-- Signature panel -->
+  <rect x="36" y="186" width="400" height="58" fill="#f7f7f7"/>
+  <text x="56" y="222" font-size="24" font-style="italic" fill="#1a1a1a">Maria F. S. Oliveira</text>
+
+  <!-- CVV box -->
+  <rect x="448" y="186" width="120" height="58" fill="#ffffff"/>
+  <text x="508" y="222" text-anchor="middle" font-size="22" font-weight="800" fill="#1a1a1a">CVV 327</text>
+
+  <!-- CPF on back -->
+  <text x="36" y="284" font-size="14" font-weight="600" fill="#c0e8d8">CPF DO TITULAR</text>
+  <text x="36" y="320" font-size="28" font-weight="800" fill="#ffffff" letter-spacing="2">118.858.893-13</text>
+
+  <!-- Bank details -->
+  <text x="36" y="350" font-size="14" font-weight="600" fill="#c0e8d8">DADOS BANCÁRIOS</text>
+  <text x="36" y="372" font-size="16" font-weight="600" fill="#ffffff">AG 0001  CC 87654321-0  Banco NU (260)</text>
+</g>
+
+<!-- Info data summary -->
+<rect x="36" y="660" width="648" height="240" rx="12" fill="#2a2a2a" stroke="#5a5a5a" stroke-width="1"/>
+<text x="60" y="700" font-size="20" font-weight="700" fill="#a7e5b8">Dados complementares (Verso):</text>
+<text x="60" y="734" font-size="18" fill="#ffffff">CVV:  <tspan font-weight="700">327</tspan></text>
+<text x="60" y="764" font-size="18" fill="#ffffff">Agência:  <tspan font-weight="700">0001</tspan></text>
+<text x="60" y="794" font-size="18" fill="#ffffff">Conta Corrente:  <tspan font-weight="700">87654321-0</tspan></text>
+<text x="60" y="824" font-size="18" fill="#ffffff">CPF Titular:  <tspan font-weight="700">118.858.893-13</tspan></text>
+<text x="60" y="854" font-size="18" fill="#ffffff">Assinatura:  <tspan font-weight="700">Maria F. S. Oliveira</tspan></text>
+<text x="60" y="884" font-size="18" fill="#ffffff">Banco:  <tspan font-weight="700">NU Pagamentos S.A. (cód. 260)</tspan></text>
+
+<text x="360" y="1170" text-anchor="middle" font-size="20" fill="#a0a0a0">Foto enviada pelo usuário para verificação</text>
+
+</svg>
