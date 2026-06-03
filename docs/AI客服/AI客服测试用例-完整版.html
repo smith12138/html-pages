@@ -62,9 +62,10 @@ ol.steps li{margin-bottom:3px}
 .toast.show{opacity:1}
 .ck-col{width:36px;text-align:center;padding:8px 4px !important}
 .ck{width:16px;height:16px;cursor:pointer;accent-color:#059669}
-tr.done{background:#f0fdf4 !important}
-tr.done td:not(.ck-col){opacity:.45;text-decoration:line-through;text-decoration-color:#cbd5e1}
-tr.done td.ck-col{opacity:1}
+/* 已执行：仅左侧 3px 绿色细条 + TC-ID 旁边一个绿色 ✓，内容完全可读 */
+tr.done td:first-child{box-shadow:inset 3px 0 0 #10b981}
+tr.done td.id{color:#059669;font-weight:700}
+tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13px}
 .prog{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px;background:#fff;border-radius:10px;border:1px solid #e5e7eb}
 .prog .bar{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
 .prog .fill{height:100%;background:#059669;border-radius:3px;transition:width .3s}
