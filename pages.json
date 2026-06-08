@@ -266,6 +266,16 @@
             "选型评估",
             "全渠道客服"
           ]
+        },
+        {
+          "file": "docs/SaleSmartly/SaleSmartly系统流程图.html",
+          "title": "SaleSmartly系统流程图",
+          "category": "flow",
+          "date": "2026-06-08",
+          "tags": [
+            "流程图",
+            "系统架构"
+          ]
         }
       ]
     }
