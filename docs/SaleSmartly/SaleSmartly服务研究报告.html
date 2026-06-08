@@ -851,6 +851,35 @@ SaleSmartly 的渠道覆盖广度在同类产品中处于领先水平。特别�
 <p style="margin-top:4px">基于 salesmartly.com 官网 · app.salesmartly.com 控制台 · help.salesmartly.com 帮助中心</p>
 </div>
 
+<!-- 浮动按钮组 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75;text-decoration:none}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+@media(max-width:640px){.fab-group{right:14px;bottom:20px;gap:8px}.fab{width:38px;height:38px}.fab svg{width:16px;height:16px}}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/?project=salesmartly" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+</script>
+
 </div>
 </body>
 </html>
