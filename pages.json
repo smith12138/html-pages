@@ -248,6 +248,26 @@
           "tags": []
         }
       ]
+    },
+    {
+      "id": "salesmartly",
+      "name": "SaleSmartly",
+      "description": "跨境全渠道私域沟通SaaS平台",
+      "color": "#7c3aed",
+      "pages": [
+        {
+          "file": "docs/SaleSmartly/SaleSmartly服务研究报告.html",
+          "title": "SaleSmartly服务研究报告",
+          "category": "feedback",
+          "date": "2026-06-08",
+          "tags": [
+            "研究报告",
+            "竞品分析",
+            "选型评估",
+            "全渠道客服"
+          ]
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaleSmartly 服务研究报告</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.7;padding:24px}
+.container{max-width:1100px;margin:0 auto}
+
+.header{background:linear-gradient(135deg,#1a103c,#2d1b69);color:#fff;padding:40px 36px;border-radius:14px;margin-bottom:28px;box-shadow:0 6px 24px rgba(26,16,60,.4);position:relative;overflow:hidden}
+.header::before{content:"";position:absolute;top:-60%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
+.header::after{content:"";position:absolute;bottom:-40%;left:-5%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%}
+.header-content{position:relative;z-index:1}
+.header-badge{display:inline-block;background:rgba(124,58,237,.3);border:1px solid rgba(167,139,250,.4);color:#c4b5fd;padding:3px 14px;border-radius:16px;font-size:11px;letter-spacing:2px;margin-bottom:14px;text-transform:uppercase}
+.header h1{font-size:28px;margin-bottom:6px;font-weight:700;letter-spacing:1px}
+.header .sub{font-size:15px;opacity:.82;margin-bottom:16px;line-height:1.5}
+.header .meta-row{display:flex;gap:24px;font-size:13px;opacity:.72;flex-wrap:wrap}
+.header .meta-row span{display:flex;align-items:center;gap:5px}
+.header .meta-row .dot{width:6px;height:6px;border-radius:50%;background:#7c3aed;display:inline-block}
+
+.stats{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:120px;background:#fff;padding:18px;border-radius:10px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.stat-card .num{font-size:34px;font-weight:700}
+.stat-card .label{font-size:12px;color:#888;margin-top:4px}
+.c-pur .num{color:#7c3aed}.c-blu .num{color:#2563eb}.c-grn .num{color:#059669}.c-ora .num{color:#d97706}.c-red .num{color:#dc2626}
+
+.toc{background:#fff;border-radius:12px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid #2d1b69}
+.toc h2{font-size:18px;color:#2d1b69;margin-bottom:14px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:4px 24px}
+.toc ul{list-style:none;padding:0}.toc li{padding:4px 0}.toc a{color:#2d1b69;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}.toc a:hover{color:#7c3aed;text-decoration:underline}
+
+.report-section{background:#fff;border-radius:12px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden}
+.report-section .sec-head{padding:20px 28px 14px;border-bottom:1px solid #f0f0f0}
+.report-section .sec-head h2{font-size:18px;font-weight:700;color:#1e293b}
+.report-section .sec-head .desc{font-size:13px;color:#888;margin-top:4px}
+.report-section .sec-body{padding:24px 28px}
+.report-section .sec-body h3{font-size:16px;font-weight:700;color:#2d1b69;margin:24px 0 10px;padding-left:12px;border-left:3px solid #7c3aed}
+.report-section .sec-body h3:first-child{margin-top:0}
+.report-section .sec-body h4{font-size:15px;font-weight:600;color:#334155;margin:18px 0 8px}
+.report-section .sec-body p{font-size:14px;color:#475569;margin-bottom:12px;line-height:1.85}
+.report-section .sec-body ul,.report-section .sec-body ol{padding-left:22px;margin-bottom:12px}
+.report-section .sec-body li{font-size:13.5px;color:#475569;margin-bottom:5px;line-height:1.7}
+.report-section .sec-body li strong{color:#1e293b}
+
+.insight{background:#f5f3ff;border-left:3px solid #7c3aed;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#334155;line-height:1.8}
+.insight strong{color:#2d1b69}
+.warn-box{background:#fffbeb;border-left:3px solid #d97706;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#92400e;line-height:1.8}
+.good-box{background:#ecfdf5;border-left:3px solid #059669;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#065f46;line-height:1.8}
+
+.stbl{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+.stbl th{background:#1a103c;color:#e2e8f0;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #2d1b69;font-size:12px}
+.stbl th:first-child{border-radius:8px 0 0 0}
+.stbl th:last-child{border-radius:0 8px 0 0}
+.stbl td{padding:10px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top;line-height:1.6;color:#475569}
+.stbl tr:hover{background:#f8fafc}
+.stbl tr:last-child td:first-child{border-radius:0 0 0 8px}
+.stbl tr:last-child td:last-child{border-radius:0 0 8px 0}
+
+.stars{color:#f59e0b;font-size:14px;letter-spacing:1px}
+.stars-dim{color:#d1d5db;font-size:14px;letter-spacing:1px}
+
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:10px;margin-right:4px}
+.tag-red{background:#fee2e2;color:#dc2626}
+.tag-green{background:#d1fae5;color:#047857}
+.tag-yellow{background:#fef3c7;color:#b45309}
+.tag-gray{background:#f1f5f9;color:#64748b}
+.tag-blue{background:#dbeafe;color:#1d4ed8}
+.tag-purple{background:#ede9fe;color:#7c3aed}
+
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:10px 0}
+.ch-tag{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px;padding:6px 10px;text-align:center;font-size:12px;font-weight:600;color:#2d1b69}
+.ch-tag.hot{border-color:#fbbf24;background:#fffbeb;color:#92400e}
+
+.vs-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
+.vs-card{padding:16px 20px;border-radius:10px;border:1px solid #e2e8f0}
+.vs-card h4{font-size:14px;font-weight:700;margin-bottom:8px}
+.vs-card p{font-size:13px;color:#475569;line-height:1.7;margin-bottom:4px}
+.vs-ss{background:#f5f3ff;border-color:#ddd6fe}
+.vs-ss h4{color:#2d1b69}
+.vs-ld{background:#f0f4ff;border-color:#dbeafe}
+.vs-ld h4{color:#1e3a5f}
+.vs-self{background:#f0fdf4;border-color:#bbf7d0}
+.vs-self h4{color:#047857}
+
+.subsec{margin:14px 0;padding:16px 20px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0}
+.subsec h4{font-size:14px;font-weight:600;color:#2d1b69;margin-bottom:8px}
+.subsec p{font-size:13.5px;color:#475569;margin-bottom:8px;line-height:1.8}
+
+.borrow-item{margin:16px 0;padding:18px 22px;background:#f8fafc;border-radius:10px;border-left:4px solid #7c3aed}
+.borrow-item h4{font-size:15px;font-weight:700;color:#2d1b69;margin-bottom:6px}
+.borrow-item p{font-size:13.5px;color:#475569;line-height:1.8;margin-bottom:6px}
+.borrow-item .how{font-size:12.5px;color:#64748b;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid #e2e8f0;margin-top:6px;line-height:1.7}
+
+.price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:14px 0}
+.price-card{padding:18px 16px;border-radius:10px;border:1px solid #e2e8f0;text-align:center;background:#fff}
+.price-card.featured{border-color:#7c3aed;box-shadow:0 0 0 2px rgba(124,58,237,.15)}
+.price-card h4{font-size:16px;font-weight:700;color:#1e293b;margin-bottom:4px}
+.price-card .price{font-size:28px;font-weight:700;color:#7c3aed;margin:8px 0}
+.price-card .price small{font-size:13px;color:#94a3b8;font-weight:400}
+.price-card .desc{font-size:12px;color:#64748b;margin-bottom:10px}
+.price-card ul{list-style:none;padding:0;text-align:left}
+.price-card li{font-size:12px;color:#475569;padding:3px 0;border-bottom:1px solid #f1f5f9}
+
+.flow-wrap{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:14px 0;padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px}
+.flow-step{background:#fff;border:2px solid #2d1b69;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;color:#2d1b69}
+.flow-step-ai{background:#f5f3ff;border:2px solid #7c3aed;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;color:#7c3aed}
+.flow-step-end{background:#f0fdf4;border:2px solid #059669;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;color:#059669}
+.flow-arrow{color:#94a3b8;font-size:16px;font-weight:700}
+
+.footer{text-align:center;padding:24px;color:#94a3b8;font-size:12px;margin-top:12px}
+.footer .divider{width:60px;height:2px;background:#e2e8f0;margin:0 auto 14px}
+
+@media(max-width:768px){body{padding:12px}.header{padding:24px 20px}.header h1{font-size:22px}.stats{flex-direction:column}.report-section .sec-body{padding:16px 18px}.report-section .sec-head{padding:16px 18px 12px}.toc-grid{grid-template-columns:1fr}.vs-row{grid-template-columns:1fr}.ch-grid{grid-template-columns:repeat(3,1fr)}.price-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== HEADER ========== -->
+<div class="header">
+<div class="header-content">
+<div class="header-badge">Research Report</div>
+<h1>SaleSmartly 服务研究报告</h1>
+<div class="sub">跨境全渠道私域沟通工具的产品体验与功能拆解</div>
+<div class="meta-row">
+<span><span class="dot"></span>调研周期：2026年6月</span>
+<span><span class="dot"></span>调研人：产品技术部</span>
+<span><span class="dot"></span>当前项目：TT在线客服</span>
+<span><span class="dot"></span>文档版本：v1.0（官网 + 控制台 + 帮助中心）</span>
+</div>
+</div>
+</div>
+
+<!-- ========== STATS ========== -->
+<div class="stats">
+<div class="stat-card c-pur"><div class="num">8</div><div class="label">核心模块</div></div>
+<div class="stat-card c-blu"><div class="num">20+</div><div class="label">可接入渠道</div></div>
+<div class="stat-card c-grn"><div class="num">134</div><div class="label">翻译语言数</div></div>
+<div class="stat-card c-ora"><div class="num">300K+</div><div class="label">全球客户数</div></div>
+</div>
+
+<!-- ========== TOC ========== -->
+<div class="toc" id="toc">
+<h2>目录</h2>
+<div class="toc-grid">
+<div>
+<ul>
+<li><a href="#summary">报告摘要</a></li>
+<li><a href="#s1">一、产品定位与公司背景</a></li>
+<li><a href="#s2">二、系统架构与模块拆解</a></li>
+<li><a href="#s3">三、功能深度评估</a></li>
+<li><a href="#s4">四、渠道接入体系</a></li>
+</ul>
+</div>
+<div>
+<ul>
+<li><a href="#s5">五、定价与计费模型</a></li>
+<li><a href="#s6">六、安全合规与认证</a></li>
+<li><a href="#s7">七、与 LiveDesk / 自研系统对标分析</a></li>
+<li><a href="#s8">八、值得借鉴的设计（5项）</a></li>
+<li><a href="#s9">九、选型建议与结论</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- ========== SUMMARY ========== -->
+<div class="report-section" id="summary">
+<div class="sec-head">
+<h2>报告摘要</h2>
+</div>
+<div class="sec-body">
+<p>SaleSmartly 是广州标品软件有限公司（海外主体 SAASBASE PTE. LTD）于 2021 年推出的跨境全渠道私域沟通 SaaS 平台，定位为"企业出海的全渠道私域沟通工具"，主打社交媒体渠道聚合 + AI 智能客服 + 营销自动化三位一体的能力组合。截至 2026 年 6 月，官方宣称拥有超过 300,000 家全球客户，日均处理 1000 万+ 次客户聊天和 5000 万+ 条消息。</p>
+
+<p>我们在 TT 在线客服项目的竞品调研阶段对 SaleSmartly 进行了系统性的研究，覆盖了官网功能页面（12 个功能页 + 9 个解决方案页）、帮助中心文档、控制台实际体验（app.salesmartly.com）和定价体系。整体印象：SaleSmartly 是一个面向跨境电商和出海企业的全渠道沟通平台，在渠道覆盖广度（20+ 种渠道类型，远超 LiveDesk 的 10 种）、营销能力（消息群发 + 分流链接 + EDM 代发）、AI 智能体编排（支持接入 HelpKnow / Coze / Dify / OpenAI Assistants / 扣子等多平台）方面有明显优势。但在企业级客服深度（无独立工单系统、无对话状态机）、权限精细度、数据分析专业度方面不如 LiveDesk。</p>
+
+<p>和极光 LiveDesk 的"专业客服工具"定位不同，SaleSmartly 更像是一个"全渠道获客 + 客服 + 营销"一体化平台。它不只是解决"客户来了怎么接"的问题，还试图解决"怎么把客户引过来"和"怎么把客户激活起来"的问题。这个产品思路对跨境电商场景很务实，但对我们 TT 项目以"AI 客服质量"为核心诉求的场景来说，它的 AI 深度和客服专业度仍然不够。</p>
+</div>
+</div>
+
+<!-- ========== S1: 产品定位 ========== -->
+<div class="report-section" id="s1">
+<div class="sec-head">
+<h2>一、产品定位与公司背景</h2>
+</div>
+<div class="sec-body">
+
+<h3>公司信息</h3>
+
+<table class="stbl">
+<tr><th>项目</th><th>信息</th></tr>
+<tr><td><strong>公司名称</strong></td><td>广州标品软件有限公司 / SAASBASE PTE. LTD（海外主体）</td></tr>
+<tr><td><strong>成立时间</strong></td><td>2021 年</td></tr>
+<tr><td><strong>总部</strong></td><td>广州</td></tr>
+<tr><td><strong>产品定位</strong></td><td>企业出海的全渠道私域沟通工具</td></tr>
+<tr><td><strong>目标客户</strong></td><td>跨境电商卖家、出海企业、独立站运营、B2B 外贸团队</td></tr>
+<tr><td><strong>官方数据</strong></td><td>300,000+ 全球客户 · 10,000+ 企业客户 · 42% 转化率</td></tr>
+<tr><td><strong>安全认证</strong></td><td>ISO 27001 · ISO 27701 · CCRC</td></tr>
+<tr><td><strong>战略合作</strong></td><td>Meta 官方合作伙伴 · Shoplazza · 菜鸟物流科技</td></tr>
+<tr><td><strong>联系邮箱</strong></td><td>投诉建议 service@salesmartly.com · 商务 marketing@salesmartly.com</td></tr>
+</table>
+
+<h3>产品定位分析</h3>
+
+<p>SaleSmartly 的核心叙事是"消息驱动增长"——通过汇聚全球社交媒体和私域触点，帮助出海企业在 WhatsApp、Facebook Messenger、TikTok、Instagram、Telegram、LINE、Email、VKontakte、WeChat、Zalo、YouTube 等 20+ 渠道上进行统一的客户沟通、营销推广和服务支持。</p>
+
+<p>和 LiveDesk 的纯"客服工具"定位不同，SaleSmartly 明确覆盖了三个场景：<strong>获客引流</strong>（分流链接/活码、广告分析）、<strong>客户服务</strong>（全渠道聊天、AI 机器人、自动化）、<strong>营销转化</strong>（消息群发、EDM 代发、消息模板）。这是一个更"宽"的产品定位，试图成为跨境企业的"客户全生命周期沟通平台"。</p>
+
+<div class="insight">
+<strong>定位对比：</strong>LiveDesk = 专业在线客服 SaaS（对话 + 工单 + 分析），SaleSmartly = 全渠道获客+客服+营销一体化平台。两者的功能边界有大量重叠（聊天、AI 机器人、翻译、团队协作、数据分析），但 SaleSmartly 多出了营销群发、分流链接、广告分析、订单管理等模块，LiveDesk 则多出了独立工单系统、五态状态机、P90/P95 分位统计等专业客服能力。
+</div>
+
+</div>
+</div>
+
+<!-- ========== S2: 系统架构 ========== -->
+<div class="report-section" id="s2">
+<div class="sec-head">
+<h2>二、系统架构与模块拆解</h2>
+<div class="desc">基于控制台实际登录和官方帮助中心的模块级拆解</div>
+</div>
+<div class="sec-body">
+
+<p>登录 app.salesmartly.com 后，左侧导航栏展示了 SaleSmartly 的 8 个核心模块。整体架构采用典型的左侧窄导航 + 右侧主内容区布局，与 LiveDesk 的三栏式布局思路一致，但模块划分更偏向"全链路运营"而非"纯客服"。</p>
+
+<table class="stbl">
+<tr><th>模块</th><th>路由</th><th>一句话定位</th><th>对应 LiveDesk 模块</th></tr>
+<tr><td><strong>聊天</strong></td><td>/next/chat</td><td>核心对话处理模块，支持我的/AI成员/待分配/全部/团队/自定义视图</td><td>Conversations</td></tr>
+<tr><td><strong>客户</strong></td><td>/next/contact/all</td><td>CRM 模块：客户列表、会话管理、表单、订单、标签、话术库、素材库</td><td>Contacts</td></tr>
+<tr><td><strong>营销</strong></td><td>/next/marketing/broadcast</td><td>消息群发 + EDM代发 + 消息模板 + 分流链接</td><td>❌ 无对应</td></tr>
+<tr><td><strong>自动化</strong></td><td>/next/automation-flow</td><td>可视化自动化流程编排</td><td>Settings → Automation Rules</td></tr>
+<tr><td><strong>报告</strong></td><td>/next/reports</td><td>AI 分析、客户分析、服务概览、在线时长、大报表、广告分析</td><td>Insight Analysis</td></tr>
+<tr><td><strong>集成</strong></td><td>/next/connect</td><td>20+ 渠道的统一接入与管理</td><td>Settings → Channels</td></tr>
+<tr><td><strong>团队</strong></td><td>/next/team/member</td><td>成员管理 + 角色管理</td><td>Agents</td></tr>
+<tr><td><strong>设置</strong></td><td>/next/setting</td><td>应用商店、项目管理、聊天设置、自定义字段、监控日志</td><td>Settings</td></tr>
+</table>
+
+<div class="insight">
+<strong>架构差异：</strong>SaleSmartly 把"营销"作为独立的一级模块，这是 LiveDesk 完全没有的。同时，SaleSmartly 的"客户"模块远比 LiveDesk 的 Contacts 丰富——除了基础的联系人管理，还集成了会话管理、表单管理、订单列表、邀评列表、商品列表、话术库、素材库等功能。但 SaleSmartly 没有独立的工单（Tickets）模块，这是一个明显的缺口。
+</div>
+
+<h3>客户模块子功能拆解</h3>
+
+<p>SaleSmartly 的客户模块承载了大量 LiveDesk 分散在不同模块中的功能：</p>
+
+<table class="stbl">
+<tr><th>子模块</th><th>功能定位</th></tr>
+<tr><td><strong>客户列表</strong></td><td>联系人 CRM，支持多条件组合筛选、批量添加、数据导出</td></tr>
+<tr><td><strong>会话管理 → 会话列表</strong></td><td>历史会话记录与搜索</td></tr>
+<tr><td><strong>搜索聊天内容</strong></td><td>全文搜索聊天记录</td></tr>
+<tr><td><strong>表单管理</strong></td><td>预聊天表单、信息收集表单</td></tr>
+<tr><td><strong>订单列表</strong></td><td>电商订单管理（LiveDesk 无此能力）</td></tr>
+<tr><td><strong>邀评列表</strong></td><td>满意度评价管理</td></tr>
+<tr><td><strong>商品列表</strong></td><td>商品信息管理（LiveDesk 无此能力）</td></tr>
+<tr><td><strong>标签管理</strong></td><td>访客标签 + 会话标签（双层标签体系）</td></tr>
+<tr><td><strong>话术库</strong></td><td>快捷回复模板（等同 LiveDesk 预设回复）</td></tr>
+<tr><td><strong>素材库</strong></td><td>图片/视频/文件素材集中管理</td></tr>
+</table>
+
+<h3>报告模块子功能拆解</h3>
+
+<table class="stbl">
+<tr><th>子模块</th><th>功能定位</th></tr>
+<tr><td><strong>AI 分析</strong> <span class="tag tag-purple">NEW</span></td><td>AI 能力使用分析（新功能）</td></tr>
+<tr><td><strong>客户分析</strong></td><td>新增客户数、去重后客户数、重复数，支持按成员/渠道/时间多维度下钻</td></tr>
+<tr><td><strong>服务概览</strong></td><td>核心客服指标仪表盘</td></tr>
+<tr><td><strong>在线时长</strong></td><td>成员在线时长统计与分析</td></tr>
+<tr><td><strong>大报表</strong></td><td>综合数据报表，支持导出与分享</td></tr>
+<tr><td><strong>广告分析</strong></td><td>Facebook 广告 + 消息广告效果分析（LiveDesk 无此能力）</td></tr>
+</table>
+
+<h3>设置模块子功能拆解</h3>
+
+<table class="stbl">
+<tr><th>子模块</th><th>功能定位</th></tr>
+<tr><td><strong>应用商店</strong></td><td>第三方服务集成：翻译（Google/DeepL/阿里/腾讯/有道/火山/AWS 7 种）、SendCloud、DuoPlus 云手机验证、TikTok 广告追踪</td></tr>
+<tr><td><strong>项目管理</strong></td><td>多项目管理</td></tr>
+<tr><td><strong>聊天设置</strong></td><td>翻译配置、会话分配规则</td></tr>
+<tr><td><strong>聊天工具设置</strong></td><td>聊天窗口工具栏定制</td></tr>
+<tr><td><strong>自定义字段</strong></td><td>联系人/会话自定义属性</td></tr>
+<tr><td><strong>企业开发配置</strong></td><td>API / SDK / Webhook 对接</td></tr>
+<tr><td><strong>项目设置</strong></td><td>项目基础信息配置</td></tr>
+<tr><td><strong>监控日志</strong></td><td>登录日志 + 在线日志 + 操作日志（三类）</td></tr>
+</table>
+
+</div>
+</div>
+
+<!-- ========== S3: 功能深度评估 ========== -->
+<div class="report-section" id="s3">
+<div class="sec-head">
+<h2>三、功能深度评估</h2>
+<div class="desc">基于控制台实际体验和官方文档的逐模块分析</div>
+</div>
+<div class="sec-body">
+
+<h3>聊天模块 -- 核心主战场</h3>
+
+<p>聊天模块是 SaleSmartly 的核心，入口在左侧导航第一个位置。登录后可以看到 6 种视图：我的、AI 成员、待分配、全部、团队、自定义视图（分个人视图和公共视图）。下面还有未读、未回、单聊、群组、免打扰等筛选维度。</p>
+
+<p>和 LiveDesk 对比，SaleSmartly 的聊天模块有几个显著特点：</p>
+
+<ul>
+<li><strong>群组聊天支持</strong>：SaleSmartly 明确支持群组对话管理（LiveDesk 只支持单聊），这对 Telegram 群聊和 WhatsApp 群组场景很重要。</li>
+<li><strong>AI 成员视图</strong>：独立的 AI 成员视图可以单独查看所有 AI 正在处理的对话，类似 LiveDesk 的 AI-Replying 状态过滤，但以"成员"维度来区分而非"状态"维度。</li>
+<li><strong>免打扰模式</strong>：对话可以设为免打扰状态，类似 LiveDesk 的 Snoozed 但语义不同——Snoozed 是暂挂等待，免打扰是不推送通知但对话仍然活跃。</li>
+<li><strong>自定义视图</strong>：支持个人视图和公共视图两种类型，公共视图对团队共享可见，这比 LiveDesk 的自定义视图更灵活。</li>
+</ul>
+
+<p>从帮助中心文档可以看到，聊天模块还集成了以下能力：多功能聊天窗（富文本编辑器）、话术库快捷回复、客户语言翻译、AI 辅助回复、AI 知识库、订单信息集成到对话中。</p>
+
+<div class="warn-box">
+<strong>缺失项：</strong>SaleSmartly 没有 LiveDesk 的五态生命周期管理（Open / AI-Replying / Snoozed / Resolved / Closed），也没有看到右键菜单快速操作、Internal Note 内部备注（仅在对话中可见的内部讨论）等功能。对话的状态管理似乎比较简单，没有 LiveDesk 那种精细的状态机设计。
+</div>
+
+<h3>AI 能力 -- 最大的差异化亮点</h3>
+
+<p>这是 SaleSmartly 和 LiveDesk 拉开差距最大的地方。SaleSmartly 的 AI 体系不是一个黑盒的内置 AI Agent，而是一个开放的 AI 智能体编排平台。</p>
+
+<h4>AI Agent 管理中枢</h4>
+<p>SaleSmartly 支持统一接入并管理多种外部 AI 智能体平台：</p>
+
+<div class="ch-grid">
+<div class="ch-tag hot">HelpKnow</div>
+<div class="ch-tag hot">Coze（扣子）</div>
+<div class="ch-tag hot">Dify</div>
+<div class="ch-tag">OpenAI Assistants</div>
+<div class="ch-tag">自定义 API</div>
+</div>
+
+<p>企业可以根据业务需求灵活编排多个 Agent 协作，实现从客服接待、销售转化到数据洞察的智能化流程。每个智能体可独立学习与进化。这比 LiveDesk 只有一个内置 GPTBots Agent 的模式灵活太多了——LiveDesk 的 AI 是"给你什么用什么"，SaleSmartly 是"你想用什么就接什么"。</p>
+
+<h4>AI 接待员</h4>
+<p>7×24 小时自动接待客户，自动识别客户意图，实时生成精准回复，支持多语言自动翻译。可以引导客户完成询价、下单、预约等关键动作。</p>
+
+<h4>AI 智能助手</h4>
+<p>在人工客服处理对话时提供实时辅助：起草回复、调整语气、翻译内容、修正语法、简化表达、生成对话摘要。可以学习客服团队的语言风格与知识库，保持品牌一致性。</p>
+
+<h4>AI 能力中心</h4>
+<p>提供自定义扩展接口：</p>
+<ul>
+<li><strong>自动抓取与同步</strong>：自动读取订单、物流、库存等外部数据源</li>
+<li><strong>客户画像生成</strong>：基于历史对话与行为数据自动生成客户画像与偏好标签</li>
+<li><strong>智能流程执行</strong>：AI 触发内部系统操作，如创建工单、发起退款、推送 CRM 更新</li>
+<li><strong>知识库驱动应答</strong>：与企业文档、FAQ、产品资料库深度结合</li>
+<li><strong>业务插件生态</strong>：接入 ERP、CRM、电商后台等第三方工具</li>
+</ul>
+
+<div class="vs-row">
+<div class="vs-card vs-ss">
+<h4>SaleSmartly AI</h4>
+<p>开放 AI 平台：支持接入 HelpKnow / Coze / Dify / OpenAI 等</p>
+<p>多 Agent 编排协作，各 Agent 独立学习进化</p>
+<p>AI 能力中心：自动抓取数据、画像生成、流程执行</p>
+<p>AI 智能助手辅助人工：起草/翻译/语气调整/摘要</p>
+<p>知识库驱动：链接抓取 + 实时更新</p>
+<p>群聊机器人 + 模拟真人回复</p>
+</div>
+<div class="vs-card vs-ld">
+<h4>LiveDesk AI</h4>
+<p>封闭模型：仅 GPTBots Agent 集成，模型不可选</p>
+<p>单一 Agent（A8-Demo v1.0.2）+ FAE-DEMO 知识库</p>
+<p>问题分类（GPTBots API）+ 消息优化指令</p>
+<p>解决置信度 / FCR / 自动推断（订阅制付费）</p>
+<p>MT-Flash / MT-Plus 双翻译模型</p>
+<p>AI-Replying 独立状态 + Hand-off 转人工</p>
+</div>
+</div>
+
+<div class="good-box">
+SaleSmartly 的 AI 架构设计比 LiveDesk 先进一个代际。LiveDesk 是"内置一个 AI"，SaleSmartly 是"让你接入任意 AI"。对于 AI 能力快速迭代的当下，后者的架构显然更有生命力。但要注意的是：AI 质量最终取决于接入的模型和知识库质量，SaleSmartly 提供的是"框架"而非"能力本身"。
+</div>
+
+<h3>翻译能力 -- 134 种语言</h3>
+
+<p>SaleSmartly 支持 134 种语言的实时翻译，且在应用商店中集成了 7 种翻译引擎供选择：Google Translate、DeepL、阿里翻译、腾讯翻译、有道翻译、火山翻译、AWS Translate。用户可以根据语种和质量需求灵活切换翻译引擎。</p>
+
+<p>对比之下，LiveDesk 只有 MT-Flash 和 MT-Plus 两种翻译模型，且翻译消耗 AI 积分。SaleSmartly 在翻译引擎的选择丰富度上有明显优势。</p>
+
+<h3>营销能力 -- LiveDesk 完全没有的维度</h3>
+
+<p>营销模块是 SaleSmartly 区别于纯客服工具的最大差异点：</p>
+
+<table class="stbl">
+<tr><th>功能</th><th>说明</th><th>支持渠道</th></tr>
+<tr><td><strong>消息群发</strong></td><td>一键向多渠道客户批量发送消息，支持标签/来源/行为分组</td><td>WhatsApp API/APP · Messenger · Instagram · Telegram Bot/APP · Email · LINE · TikTok · VKontakte · 聊天插件</td></tr>
+<tr><td><strong>EDM 代发</strong></td><td>第三方邮件代发服务，支持域名绑定</td><td>Email</td></tr>
+<tr><td><strong>消息模板</strong></td><td>WhatsApp API 模板 + Email 模板 + Messenger 模板</td><td>WhatsApp API · Email · Messenger</td></tr>
+<tr><td><strong>分流链接</strong></td><td>为不同渠道生成专属分流链接与二维码，追踪来源与效果</td><td>全渠道</td></tr>
+</table>
+
+<p>分流链接功能特别值得关注：支持动态修改链接目标而无需重新生成二维码、实时统计扫码与点击数据、多账号分流降低封号风险。这对跨境电商的获客引流非常实用。</p>
+
+<h3>自动化 -- 可视化流程编排</h3>
+
+<p>SaleSmartly 的自动化模块是一个独立的一级入口（/next/automation-flow），提供可视化的流程编排界面。和 LiveDesk 的 ECA 规则引擎（事件-条件-操作）相比，SaleSmartly 的自动化更偏向"流程图式"的编排：</p>
+
+<ul>
+<li><strong>触发器与规则</strong>：根据联系人消息自动回复，自动分类并分入不同列表</li>
+<li><strong>智能工作流</strong>：根据客户属性和行为创建规则，选择自动化场景，添加步骤优化流程</li>
+<li><strong>聊天机器人构建</strong>：构建机器人鉴定潜在客户并回答常见问题</li>
+<li><strong>外部请求操作</strong>：支持在自动化流程中调用外部 API</li>
+</ul>
+
+<div class="insight">
+<strong>自动化对比：</strong>LiveDesk 的 ECA 引擎更适合规则型自动化（"如果…则…"），SaleSmartly 的流程编排更适合多步骤复杂场景（"先判断→再查询→再回复→最后打标签"）。两者各有侧重，但 SaleSmartly 在自动化与外部系统集成方面更开放。
+</div>
+
+<h3>数据分析 -- 兼顾客服与营销</h3>
+
+<p>报告模块提供 6 个分析维度：AI 分析（新增）、客户分析、服务概览、在线时长、大报表、广告分析。客户分析页面支持按接待成员、社媒渠道、社媒账号、统计时间（月/周/天/小时）等多维度下钻，支持数据导出和报表分享。</p>
+
+<p>特别值得注意的是<strong>广告分析</strong>模块——包含 Facebook 广告和消息广告两个子页面，可以追踪广告投放到客户沟通的完整转化链路。这是 LiveDesk 完全没有的能力，对跨境电商的广告 ROI 分析非常有价值。</p>
+
+<div class="warn-box">
+<strong>不足：</strong>从目前看到的报告模块来看，SaleSmartly 没有 LiveDesk 那种专业级的 P90/P95/P99 分位统计、24 小时流量热力图、Agent Utilization 利用率等深度客服指标。数据分析的维度更偏"业务运营"而非"客服效能"。同时，也没有 LiveDesk 那种 AI 质检相关的指标（解决置信度、FCR 识别）。
+</div>
+
+<h3>团队管理 -- 简洁但有 AI 成员概念</h3>
+
+<p>团队模块包含成员管理和角色管理两个子页面。一个创新点是 SaleSmartly 引入了"AI 成员"的概念——AI Agent 可以作为团队成员被管理和分配，和人工客服并列。这比 LiveDesk 把 AI Agent 和 Human Agent 放在完全不同维度的做法更统一。</p>
+
+<p>帮助中心提到了客户隐私加密展示功能和成员权限设置。但从控制台来看，角色体系比较简单（没有看到 LiveDesk 那种 Admin/Agent 以外的复杂角色），也远不如自研系统的 52 个自定义角色 + 按钮级权限控制。</p>
+
+</div>
+</div>
+
+<!-- ========== S4: 渠道接入 ========== -->
+<div class="report-section" id="s4">
+<div class="sec-head">
+<h2>四、渠道接入体系</h2>
+<div class="desc">20+ 种渠道，覆盖主流社交媒体和即时通讯</div>
+</div>
+<div class="sec-body">
+
+<p>SaleSmartly 的渠道接入体系是其最大的产品亮点之一。控制台集成页面（/next/connect/channels/all）展示了完整的可接入渠道列表，覆盖广度远超 LiveDesk 的 10 种：</p>
+
+<table class="stbl">
+<tr><th>渠道</th><th>接入方式</th><th>标签</th><th>备注</th></tr>
+<tr><td><strong>WhatsApp App</strong></td><td>个人号便捷接入</td><td><span class="tag tag-red">热门</span> <span class="tag tag-gray">云托管号</span></td><td>快速起号触达用户</td></tr>
+<tr><td><strong>WhatsApp API</strong></td><td>官方 Business API</td><td><span class="tag tag-red">热门</span> <span class="tag tag-blue">官方通道</span></td><td>品牌私域沟通桥梁，支持模板消息</td></tr>
+<tr><td><strong>Messenger</strong></td><td>连接 Facebook 主页</td><td><span class="tag tag-red">热门</span> <span class="tag tag-blue">官方通道</span></td><td>全球最大社交平台私域沉淀</td></tr>
+<tr><td><strong>Instagram</strong></td><td>管理主页私信与互动</td><td><span class="tag tag-blue">官方通道</span></td><td>运营社媒粉丝提升品牌转化</td></tr>
+<tr><td><strong>Telegram App</strong></td><td>接入 Telegram 生态</td><td><span class="tag tag-gray">云托管号</span></td><td>实时响应私域社群消息</td></tr>
+<tr><td><strong>Telegram Bot</strong></td><td>官方机器人通道</td><td><span class="tag tag-blue">官方通道</span></td><td>自动化客服推荐</td></tr>
+<tr><td><strong>Email</strong></td><td>统一收发多平台邮件</td><td><span class="tag tag-red">热门</span></td><td>线索跟进与客户留存</td></tr>
+<tr><td><strong>YouTube 评论</strong></td><td>管理视频粉丝互动</td><td></td><td>流量转化为高价值线索</td></tr>
+<tr><td><strong>TikTok App</strong></td><td>个人账号接入</td><td><span class="tag tag-gray">云托管号</span></td><td>轻量管理消息互动</td></tr>
+<tr><td><strong>TikTok 商业号</strong></td><td>官方商业号授权</td><td><span class="tag tag-blue">官方通道</span></td><td>打通私信互动与广告转化闭环</td></tr>
+<tr><td><strong>聊天插件</strong></td><td>网站嵌入 LiveChat Widget</td><td><span class="tag tag-red">热门</span></td><td>独立站标配</td></tr>
+<tr><td><strong>微信客服</strong></td><td>微信生态在线客服</td><td></td><td>微信生态内服务</td></tr>
+<tr><td><strong>LINE App</strong></td><td>个人号扫码接入</td><td><span class="tag tag-gray">云托管号</span></td><td>跟进东南亚客户</td></tr>
+<tr><td><strong>LINE</strong></td><td>官方 LINE 接入</td><td><span class="tag tag-blue">官方通道</span></td><td>东南亚市场本地化</td></tr>
+<tr><td><strong>企业微信</strong></td><td>连接企业微信</td><td><span class="tag tag-purple">Beta</span></td><td>内部协作</td></tr>
+<tr><td><strong>微信</strong></td><td>连接个人微信</td><td><span class="tag tag-purple">Beta</span></td><td>私域用户沉淀</td></tr>
+<tr><td><strong>Zalo App</strong></td><td>覆盖越南及东南亚</td><td><span class="tag tag-gray">云托管号</span></td><td>本地化客户服务</td></tr>
+<tr><td><strong>Slack</strong></td><td>无缝集成</td><td></td><td>内部办公与客户服务</td></tr>
+<tr><td><strong>VKontakte</strong></td><td>连接 VK 渠道</td><td></td><td>触达俄语区市场</td></tr>
+</table>
+
+<h3>渠道分类体系</h3>
+
+<p>SaleSmartly 独创了"官方通道"和"云托管号"两种渠道分类：</p>
+
+<div class="vs-row">
+<div class="vs-card vs-ss">
+<h4>官方通道</h4>
+<p>通过平台官方 API/授权接入</p>
+<p>合规性高、功能完整</p>
+<p>适合品牌化运营</p>
+<p>如：WhatsApp API、Messenger、TikTok 商业号</p>
+</div>
+<div class="vs-card" style="background:#fffbeb;border-color:#fde68a">
+<h4>云托管号</h4>
+<p>个人号通过云端托管方式接入</p>
+<p>接入门槛低、快速起步</p>
+<p>适合快速验证和中小规模运营</p>
+<p>如：WhatsApp App、Telegram App、TikTok App</p>
+</div>
+</div>
+
+<div class="good-box">
+SaleSmartly 的渠道覆盖广度在同类产品中处于领先水平。特别是同时支持同一平台的"个人号"和"API/商业号"两种接入模式（WhatsApp App + WhatsApp API、Telegram App + Telegram Bot、TikTok App + TikTok 商业号），让不同规模的企业都能找到适合的接入方式。此外，YouTube 评论、Zalo、VKontakte 等渠道是 LiveDesk 完全不支持的。
+</div>
+
+</div>
+</div>
+
+<!-- ========== S5: 定价 ========== -->
+<div class="report-section" id="s5">
+<div class="sec-head">
+<h2>五、定价与计费模型</h2>
+</div>
+<div class="sec-body">
+
+<h3>套餐体系</h3>
+
+<div class="price-grid">
+<div class="price-card">
+<h4>Free</h4>
+<div class="desc">满足个人基础聊天</div>
+<div class="price">$0<small>/月</small></div>
+<ul>
+<li>2 位成员</li>
+<li>1 个官方通道 + 1 个云托管号</li>
+<li>100 月活联系人</li>
+<li>1 万/月 AI 助理积分</li>
+<li>7×12 售后服务</li>
+</ul>
+</div>
+<div class="price-card featured">
+<h4>Pro</h4>
+<div class="desc">适用于成长型/专业客服团队</div>
+<div class="price">$12.72<small>/月（年付）</small></div>
+<ul>
+<li>可扩展成员数</li>
+<li>10 个官方通道</li>
+<li>无限月活联系人</li>
+<li>10 万/月 AI 助理积分</li>
+<li>渠道分流链接 + 营销群发</li>
+<li>品牌移除</li>
+</ul>
+</div>
+<div class="price-card">
+<h4>Max</h4>
+<div class="desc">适用于成熟型企业/组织</div>
+<div class="price">$159.20<small>/月（年付）</small></div>
+<ul>
+<li>可扩展成员数</li>
+<li>30 个官方通道</li>
+<li>无限月活联系人</li>
+<li>100 万/月 AI 助理积分</li>
+<li>专属客户经理</li>
+<li>聊天记录导出 + API + Webhook</li>
+</ul>
+</div>
+<div class="price-card">
+<h4>Custom</h4>
+<div class="desc">适用于规模化/大型企业</div>
+<div class="price" style="font-size:18px;color:#64748b">专属定制报价</div>
+<ul>
+<li>定制团队规模</li>
+<li>定制通道数量</li>
+<li>定制 AI 积分</li>
+<li>专属客户经理</li>
+<li>灵活报价方案</li>
+</ul>
+</div>
+</div>
+
+<h3>付费周期折扣</h3>
+
+<table class="stbl">
+<tr><th>付费周期</th><th>折扣</th><th>Pro 月价</th><th>Max 月价</th></tr>
+<tr><td>月付</td><td>原价</td><td>$15.90</td><td>$199.00</td></tr>
+<tr><td>季付</td><td>-10%</td><td>$14.31</td><td>$179.10</td></tr>
+<tr><td>半年付</td><td>-15%</td><td>$13.52</td><td>$169.15</td></tr>
+<tr><td>年付</td><td>-20%</td><td>$12.72</td><td>$159.20</td></tr>
+<tr><td>两年付</td><td>-25%</td><td>$11.93</td><td>$149.25</td></tr>
+</table>
+
+<h3>附加组件</h3>
+
+<table class="stbl">
+<tr><th>组件</th><th>价格</th><th>说明</th></tr>
+<tr><td><strong>AI 助理积分</strong></td><td>低至 $0.375 / 每万积分</td><td>用于 AI 对话、翻译、摘要等功能</td></tr>
+<tr><td><strong>Email 服务</strong></td><td>低至 $2 / 每千封</td><td>第三方邮件代发服务</td></tr>
+</table>
+
+<h3>Free vs Pro 功能差异（关键项）</h3>
+
+<table class="stbl">
+<tr><th>功能</th><th>Free</th><th>Pro+</th></tr>
+<tr><td>成员数</td><td>2 人</td><td>可扩展</td></tr>
+<tr><td>月活联系人</td><td>100 人</td><td>无限</td></tr>
+<tr><td>访客轨迹</td><td>❌</td><td>✅</td></tr>
+<tr><td>客户管理</td><td>❌</td><td>✅</td></tr>
+<tr><td>会话质检</td><td>❌</td><td>✅</td></tr>
+<tr><td>数据导出</td><td>❌</td><td>✅</td></tr>
+<tr><td>消息群发</td><td>❌</td><td>✅</td></tr>
+<tr><td>分流链接</td><td>❌</td><td>✅</td></tr>
+<tr><td>数据报表</td><td>❌</td><td>✅</td></tr>
+<tr><td>成员管理</td><td>❌</td><td>✅</td></tr>
+<tr><td>品牌清除</td><td>❌</td><td>✅</td></tr>
+<tr><td>API 接口</td><td>❌</td><td>仅 Max+</td></tr>
+</table>
+
+<div class="insight">
+<strong>定价分析：</strong>SaleSmartly 的定价策略非常激进。Pro 版年付仅 $12.72/月，对比 LiveDesk（需要联系销售报价）显得非常透明且低价。Free 版虽然限制较多（100 月活联系人），但足以验证产品能力。不过要注意 API 接口仅 Max 及以上版本提供，这对需要系统集成的企业级场景意味着至少 $159.20/月的起步价。
+</div>
+
+</div>
+</div>
+
+<!-- ========== S6: 安全合规 ========== -->
+<div class="report-section" id="s6">
+<div class="sec-head">
+<h2>六、安全合规与认证</h2>
+</div>
+<div class="sec-body">
+
+<table class="stbl">
+<tr><th>认证</th><th>说明</th></tr>
+<tr><td><strong>ISO 27001</strong></td><td>国际信息安全管理体系认证，以风险管理为核心</td></tr>
+<tr><td><strong>ISO 27701</strong></td><td>隐私信息管理扩展标准，保护个人隐私</td></tr>
+<tr><td><strong>CCRC</strong></td><td>中国网络安全审查认证中心，信息安全服务资质评价</td></tr>
+<tr><td><strong>Meta 官方合作伙伴</strong></td><td>数据安全认证、平台合规审计、官方 API 授权</td></tr>
+</table>
+
+<h3>数据保护措施</h3>
+
+<ul>
+<li><strong>合规采集</strong>：按适用法律收集个人数据，事先取得用户同意</li>
+<li><strong>最小共享</strong>：严格控制数据披露范围</li>
+<li><strong>多层安全</strong>：多重保护机制保障数据安全</li>
+<li><strong>安全存储</strong>：全球合规对齐的数据存储与管理</li>
+<li><strong>用户权利</strong>：支持查询、修改、删除、撤回同意、注销账号</li>
+</ul>
+
+<h3>AI 伦理原则</h3>
+
+<p>SaleSmartly 公开承诺五项 AI 伦理原则：AI 应创造正面价值、AI 必须避免偏见和歧视、AI 应安全可信赖、人类监督必须占主导、透明性和可追责性。</p>
+
+<h3>监控日志体系</h3>
+
+<p>控制台提供三类监控日志：登录日志（记录谁在什么时候登录）、在线日志（记录在线/离线状态变更）、操作日志（记录关键操作）。所有套餐（含 Free）均可使用。</p>
+
+<div class="insight">
+<strong>合规评价：</strong>SaleSmartly 在安全认证方面和 LiveDesk 处于同一水平（都有 ISO 27001/27701），但多了 CCRC 认证和 AI 伦理声明。不过，对于 TT 项目"数据不能存放在第三方平台"的硬性要求来说，无论认证多完善，SaaS 模式本身就是不可接受的。
+</div>
+
+</div>
+</div>
+
+<!-- ========== S7: 对标分析 ========== -->
+<div class="report-section" id="s7">
+<div class="sec-head">
+<h2>七、与 LiveDesk / 自研系统对标分析</h2>
+<div class="desc">15 个维度的三方横向对比</div>
+</div>
+<div class="sec-body">
+
+<table class="stbl">
+<tr><th>维度</th><th>SaleSmartly</th><th>LiveDesk</th><th>自研系统</th><th>分析</th></tr>
+<tr>
+<td><strong>产品定位</strong></td>
+<td><span class="tag tag-purple">全渠道获客+客服+营销</span></td>
+<td><span class="tag tag-blue">专业在线客服</span></td>
+<td><span class="tag tag-green">AI 驱动的客服系统</span></td>
+<td>三者定位差异明显，SaleSmartly 最宽，自研最深</td>
+</tr>
+<tr>
+<td><strong>渠道覆盖</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;</span></td>
+<td>SaleSmartly 20+渠道（含 YouTube/Zalo/微信/Slack），绝对领先</td>
+</tr>
+<tr>
+<td><strong>AI 架构</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>SaleSmartly 开放 AI 平台优于 LiveDesk 封闭模型，但不如自研全栈可控</td>
+</tr>
+<tr>
+<td><strong>AI 深度</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>SaleSmartly 提供框架但不控制模型质量；自研有 78.8% AI 解决率实证</td>
+</tr>
+<tr>
+<td><strong>工单系统</strong></td>
+<td><span class="stars">&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>SaleSmartly 无独立工单模块，LiveDesk 有完整工单体系</td>
+</tr>
+<tr>
+<td><strong>对话状态机</strong></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td>LiveDesk 五态模型最成熟；SaleSmartly 和自研目前都偏简单</td>
+</tr>
+<tr>
+<td><strong>营销能力</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>SaleSmartly 消息群发+分流链接+EDM+广告分析，完胜</td>
+</tr>
+<tr>
+<td><strong>翻译能力</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td>SaleSmartly 134 语言 + 7 翻译引擎，绝对领先</td>
+</tr>
+<tr>
+<td><strong>定价透明度</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>SaleSmartly 价格公开透明；LiveDesk 需联系销售</td>
+</tr>
+<tr>
+<td><strong>数据控制</strong></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>两个 SaaS 产品数据都在第三方；自研数据完全自主</td>
+</tr>
+<tr>
+<td><strong>权限体系</strong></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>两个 SaaS 角色体系都简单；自研 52 角色 + 按钮级权限</td>
+</tr>
+<tr>
+<td><strong>自动化</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>SaleSmartly 可视化流程 vs LiveDesk ECA 引擎，各有千秋</td>
+</tr>
+<tr>
+<td><strong>电商集成</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td><span class="stars">&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;&#9733;</span></td>
+<td>SaleSmartly 有订单/商品管理、广告分析，电商基因明显</td>
+</tr>
+<tr>
+<td><strong>上手成本</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
+<td>两个 SaaS 都是注册即用；自研需要持续开发投入</td>
+</tr>
+<tr>
+<td><strong>客服专业度</strong></td>
+<td><span class="stars">&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
+<td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
+<td>LiveDesk 在工单/状态机/分位统计/热力图等客服深度上最专业</td>
+</tr>
+</table>
+
+<div class="insight">
+<strong>三方对比总结：</strong>SaleSmartly 的优势在"宽度"——渠道覆盖最广（20+）、营销能力最强、翻译引擎最多（7种 134语言）、AI 平台最开放（支持接入 Coze/Dify/OpenAI 等）、定价最透明且最低。LiveDesk 的优势在"客服深度"——工单系统完整、五态状态机成熟、数据分析专业。自研系统的优势在"控制力"——AI 全栈可控、数据自主、权限精细、质检体系完善。三者各有明确的适用场景。
+</div>
+
+</div>
+</div>
+
+<!-- ========== S8: 值得借鉴 ========== -->
+<div class="report-section" id="s8">
+<div class="sec-head">
+<h2>八、值得借鉴的设计（5项）</h2>
+<div class="desc">从 SaleSmartly 中提炼的可落地设计点</div>
+</div>
+<div class="sec-body">
+
+<div class="borrow-item">
+<h4>1. 开放 AI 智能体编排平台</h4>
+<p>SaleSmartly 不把 AI 做成黑盒，而是提供一个 AI Agent 管理中枢，支持接入 HelpKnow、Coze、Dify、OpenAI Assistants 等多个 AI 平台的智能体。每个智能体可以独立配置、独立学习、协同工作。这个架构设计比 LiveDesk 只能用内置 GPTBots 的方案灵活太多。</p>
+<div class="how"><strong>借鉴思路：</strong>虽然我们自研系统已经全栈控制 AI（Qwen3-30B + RAG），但"多 Agent 协作"的思路值得借鉴。比如对不同产品线配置不同的 AI Agent（不同知识库、不同人格、不同语言策略），让它们独立进化、独立评估质量指标，而非用一个大一统的 Agent 处理所有场景。</div>
+</div>
+
+<div class="borrow-item">
+<h4>2. 云托管号 + 官方通道双模式接入</h4>
+<p>SaleSmartly 对同一平台（WhatsApp、Telegram、TikTok、LINE）同时提供"个人号云托管"和"官方 API"两种接入方式。个人号门槛低、启动快，适合验证阶段；官方通道合规性高、功能完整，适合规模化运营。这个"双模式"设计让不同阶段的企业都能快速接入。</p>
+<div class="how"><strong>借鉴思路：</strong>我们自研系统目前 Telegram 渠道只有 Bot 模式，可以考虑增加 Telegram App（个人号）接入模式，降低新产品线的接入门槛。同理，WhatsApp 也可以先走个人号快速验证，再切换到 API 模式。</div>
+</div>
+
+<div class="borrow-item">
+<h4>3. 分流链接/活码体系</h4>
+<p>为不同渠道、不同营销活动生成专属链接和二维码，实时追踪来源和效果，支持动态修改目标而不需要重新生成二维码。这个功能非常适合"多产品、多站点、多渠道"的运营场景——每个产品的每个推广渠道有独立的链接，数据可以精确归因。</p>
+<div class="how"><strong>借鉴思路：</strong>可以在自研系统中增加"渠道码"功能，为每个 Telegram Bot / LiveChat Widget 生成带追踪参数的短链。后端记录来源归因，在客户画像和数据报表中展示渠道转化数据。技术上就是短链服务 + UTM 参数 + 数据埋点，实现成本不高。预计 1 周。</div>
+</div>
+
+<div class="borrow-item">
+<h4>4. AI 成员作为团队成员管理</h4>
+<p>SaleSmartly 把 AI Agent 当作"团队成员"来管理，在聊天模块中有独立的"AI 成员"视图，AI 成员和人工成员并列、统一调度。这比 LiveDesk 把 AI 和人工放在完全不同维度的做法更直觉、更易管理。</p>
+<div class="how"><strong>借鉴思路：</strong>在自研系统的成员管理中引入"AI 成员"概念，每个 AI Agent 有独立的名称、头像、在线状态、处理能力上限。在对话分配时，AI 成员和人工成员统一进入分配队列，根据配置优先级和并发负载自动选择。这样做的好处是管理者可以像管理人工客服一样管理 AI，查看 AI 成员的处理量、解决率、质检分数等指标。</div>
+</div>
+
+<div class="borrow-item">
+<h4>5. 多翻译引擎可选架构</h4>
+<p>SaleSmartly 的应用商店集成了 7 种翻译引擎（Google/DeepL/阿里/腾讯/有道/火山/AWS），用户可以按语种和质量需求灵活选择。这比 LiveDesk 只有两种内置翻译模型（MT-Flash/MT-Plus）灵活得多，也比自研系统的单一翻译方案有更好的容灾和质量优化空间。</p>
+<div class="how"><strong>借鉴思路：</strong>在自研系统的翻译模块中实现翻译引擎抽象层，支持配置多个翻译引擎并设置优先级。比如葡萄牙语用 DeepL（质量最高），东南亚语种用 Google Translate（覆盖最广），中文用阿里翻译（中文场景最优化）。可以做 A/B 测试对比不同引擎的翻译质量和响应速度。预计 1 周。</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== S9: 结论 ========== -->
+<div class="report-section" id="s9">
+<div class="sec-head">
+<h2>九、选型建议与结论</h2>
+</div>
+<div class="sec-body">
+
+<h3>什么时候该选 SaleSmartly</h3>
+
+<p>如果你的团队处于这样的状态——跨境电商或出海企业，需要同时管理 5 个以上社交媒体渠道的客户消息，有营销群发和客户触达的强需求，团队规模 5-30 人，对 AI 回复质量没有极致要求（有合理的 AI 就行），预算敏感（Pro 版年付仅 $12.72/月），不需要独立工单系统——那 SaleSmartly 是一个非常有竞争力的选择。它的渠道覆盖广度、营销能力、翻译引擎选择和定价透明度是同类产品中的佼佼者。</p>
+
+<h3>什么时候该选 LiveDesk</h3>
+
+<p>如果你的核心诉求是专业的客服运营——需要完整的工单系统处理复杂问题，需要精细的对话状态管理（五态生命周期），需要 P90/P95 分位统计等专业级数据分析，团队角色和权限管理有一定要求，不太需要营销群发功能——那 LiveDesk 在客服深度上更胜一筹。</p>
+
+<h3>TT 项目的最终建议</h3>
+
+<div class="subsec">
+<p>综合 SaleSmartly、LiveDesk 和自研系统的三方对比，我们对 TT 项目的建议没有变化：<strong>继续走自研路线。</strong></p>
+
+<p>核心理由不变：AI 回复质量直接影响用户留存（自研 78.8% AI 解决率 vs SaaS 产品的不可控 AI 质量），数据不能存放在第三方平台（合规硬性要求），Telegram 渠道需要协议级深度对接（自研已有 5 条 Telegram 渠道 + 独立账号绑定），权限体系需要 52 个自定义角色 + 按钮级权限（任何 SaaS 都做不到这个粒度）。</p>
+
+<p>但 SaleSmartly 给了我们一些新的设计启发：</p>
+
+<ul>
+<li><strong>AI 智能体编排</strong>的思路值得引入——对不同产品线配置不同 AI Agent，独立管理和评估</li>
+<li><strong>分流链接/渠道码</strong>功能值得开发——精确归因每个渠道的转化效果</li>
+<li><strong>多翻译引擎</strong>架构值得实现——按语种选择最优翻译引擎</li>
+<li><strong>AI 成员</strong>概念值得借鉴——让 AI 和人工客服在同一维度统一管理</li>
+</ul>
+
+<p>加上此前从 LiveDesk 提炼的 6 个借鉴点（工单系统、五态状态机、右键菜单、Overview 仪表盘、分位统计、ECA 引擎），自研系统的演进路线图已经相当清晰。</p>
+</div>
+
+<h3>结论</h3>
+
+<p>SaleSmartly 和 LiveDesk 代表了两种不同的产品哲学：SaleSmartly 选择了"做宽"，在渠道覆盖、营销能力、AI 开放性上发力，面向跨境电商的全链路需求；LiveDesk 选择了"做深"，在客服专业度、工单系统、数据分析精细度上打磨，面向专业客服团队的运营需求。两者在全渠道聊天、AI 机器人、团队协作、翻译等核心能力上有大量重叠，但侧重点和适用场景明确不同。</p>
+
+<p>对 TT 项目而言，两款 SaaS 产品都不能替代自研路线，但都提供了有价值的设计参考。SaleSmartly 的贡献在于"开放 AI 平台 + 多模式渠道接入 + 营销获客闭环"的产品思路，LiveDesk 的贡献在于"工单系统 + 状态机 + 分位统计 + ECA 引擎"的客服专业度。将两者的最佳实践融入自研系统，是这两次竞品调研最实际的产出。</p>
+
+</div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer">
+<div class="divider"></div>
+<p>SaleSmartly 服务研究报告 · 产品技术部 · 2026年6月</p>
+<p style="margin-top:4px">基于 salesmartly.com 官网 · app.salesmartly.com 控制台 · help.salesmartly.com 帮助中心</p>
+</div>
+
+</div>
+</body>
+</html>
