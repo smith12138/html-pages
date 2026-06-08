@@ -276,6 +276,18 @@
             "流程图",
             "系统架构"
           ]
+        },
+        {
+          "file": "docs/SaleSmartly/SaleSmartly产品功能规格说明书.html",
+          "title": "SaleSmartly产品功能规格说明书",
+          "category": "requirement",
+          "date": "2026-06-08",
+          "tags": [
+            "PRD",
+            "功能规格",
+            "原型图",
+            "优先级矩阵"
+          ]
         }
       ]
     }

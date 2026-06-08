@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaleSmartly 产品功能规格说明书</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.7;padding:24px}
+.container{max-width:1200px;margin:0 auto}
+
+.header{background:linear-gradient(135deg,#1a103c,#2d1b69,#4c1d95);color:#fff;padding:44px 40px;border-radius:16px;margin-bottom:28px;box-shadow:0 8px 32px rgba(26,16,60,.45);position:relative;overflow:hidden}
+.header::before{content:"";position:absolute;top:-60%;right:-8%;width:450px;height:450px;background:radial-gradient(circle,rgba(124,58,237,.15) 0%,transparent 70%);border-radius:50%}
+.header::after{content:"";position:absolute;bottom:-50%;left:-5%;width:350px;height:350px;background:radial-gradient(circle,rgba(167,139,250,.1) 0%,transparent 70%);border-radius:50%}
+.header-content{position:relative;z-index:1}
+.header-badge{display:inline-block;background:rgba(124,58,237,.35);border:1px solid rgba(167,139,250,.45);color:#c4b5fd;padding:3px 14px;border-radius:16px;font-size:11px;letter-spacing:2px;margin-bottom:14px;text-transform:uppercase}
+.header h1{font-size:30px;margin-bottom:6px;font-weight:800;letter-spacing:1px}
+.header .sub{font-size:15px;opacity:.82;margin-bottom:16px;line-height:1.6}
+.header .meta-row{display:flex;gap:24px;font-size:13px;opacity:.72;flex-wrap:wrap}
+.header .meta-row span{display:flex;align-items:center;gap:5px}
+.header .meta-row .dot{width:6px;height:6px;border-radius:50%;background:#a78bfa;display:inline-block}
+
+.stats{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:100px;background:#fff;padding:18px;border-radius:10px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.stat-card .num{font-size:32px;font-weight:700}
+.stat-card .label{font-size:12px;color:#888;margin-top:4px}
+.c-pur .num{color:#7c3aed}.c-blu .num{color:#2563eb}.c-grn .num{color:#059669}.c-ora .num{color:#d97706}.c-red .num{color:#dc2626}.c-pink .num{color:#ec4899}
+
+.toc{background:#fff;border-radius:12px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid #4c1d95}
+.toc h2{font-size:18px;color:#2d1b69;margin-bottom:14px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:4px 28px}
+.toc ul{list-style:none;padding:0}.toc li{padding:3px 0}.toc a{color:#2d1b69;text-decoration:none;font-size:13.5px;font-weight:500;transition:color .2s}.toc a:hover{color:#7c3aed;text-decoration:underline}
+.toc .toc-label{display:inline-block;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;margin-right:4px;vertical-align:middle}
+.tl-spec{background:#ede9fe;color:#7c3aed}
+.tl-proto{background:#dbeafe;color:#2563eb}
+.tl-matrix{background:#d1fae5;color:#059669}
+
+.section{background:#fff;border-radius:12px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden}
+.sec-head{padding:20px 28px 14px;border-bottom:1px solid #f0f0f0}
+.sec-head h2{font-size:18px;font-weight:700;color:#1e293b}
+.sec-head .desc{font-size:13px;color:#888;margin-top:4px}
+.sec-body{padding:24px 28px}
+.sec-body h3{font-size:16px;font-weight:700;color:#2d1b69;margin:28px 0 10px;padding-left:12px;border-left:3px solid #7c3aed}
+.sec-body h3:first-child{margin-top:0}
+.sec-body h4{font-size:14.5px;font-weight:600;color:#334155;margin:18px 0 8px}
+.sec-body p{font-size:14px;color:#475569;margin-bottom:12px;line-height:1.85}
+.sec-body ul,.sec-body ol{padding-left:22px;margin-bottom:12px}
+.sec-body li{font-size:13.5px;color:#475569;margin-bottom:5px;line-height:1.7}
+.sec-body li strong{color:#1e293b}
+
+.stbl{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+.stbl th{background:#1a103c;color:#e2e8f0;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #2d1b69;font-size:12px;white-space:nowrap}
+.stbl th:first-child{border-radius:8px 0 0 0}.stbl th:last-child{border-radius:0 8px 0 0}
+.stbl td{padding:10px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top;line-height:1.6;color:#475569}
+.stbl tr:hover{background:#f8fafc}
+.stbl tr:last-child td:first-child{border-radius:0 0 0 8px}.stbl tr:last-child td:last-child{border-radius:0 0 8px 0}
+
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:4px;vertical-align:middle}
+.tag-p0{background:#fecdd3;color:#be123c}
+.tag-p1{background:#fed7aa;color:#c2410c}
+.tag-p2{background:#fef08a;color:#a16207}
+.tag-p3{background:#d1fae5;color:#047857}
+.tag-core{background:#ede9fe;color:#7c3aed}
+.tag-ai{background:#dbeafe;color:#2563eb}
+.tag-mkt{background:#fce7f3;color:#be185d}
+.tag-new{background:#ecfdf5;color:#059669}
+
+.insight{background:#f5f3ff;border-left:3px solid #7c3aed;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#334155;line-height:1.8}
+.insight strong{color:#2d1b69}
+.warn-box{background:#fffbeb;border-left:3px solid #d97706;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#92400e;line-height:1.8}
+.good-box{background:#ecfdf5;border-left:3px solid #059669;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#065f46;line-height:1.8}
+
+.proto-wrap{margin:20px 0;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fafbfc}
+.proto-title{background:#f1f5f9;padding:10px 18px;font-size:13px;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:8px}
+.proto-title .pt-badge{font-size:10px;font-weight:700;background:#7c3aed;color:#fff;padding:2px 8px;border-radius:10px}
+.proto-svg{padding:16px;overflow-x:auto}
+
+.feature-card{margin:16px 0;padding:18px 22px;background:#f8fafc;border-radius:10px;border-left:4px solid #7c3aed}
+.feature-card h4{font-size:15px;font-weight:700;color:#2d1b69;margin-bottom:6px}
+.feature-card p{font-size:13.5px;color:#475569;line-height:1.8;margin-bottom:6px}
+.fc-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.fc-meta span{font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px;background:#fff;border:1px solid #e2e8f0;color:#64748b}
+
+.us-card{margin:10px 0;padding:14px 18px;background:#fff;border:1px solid #e2e8f0;border-radius:8px}
+.us-card .us-title{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:4px}
+.us-card .us-body{font-size:12.5px;color:#64748b;line-height:1.7}
+.us-card .us-ac{font-size:12px;color:#059669;margin-top:6px;padding-top:6px;border-top:1px dashed #e2e8f0;line-height:1.7}
+
+.priority-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.pg-card{padding:14px;border-radius:10px;text-align:center}
+.pg-card .pg-level{font-size:20px;font-weight:800;margin-bottom:4px}
+.pg-card .pg-label{font-size:11px;font-weight:600;margin-bottom:8px}
+.pg-card .pg-count{font-size:28px;font-weight:800}
+.pg-card .pg-desc{font-size:11px;margin-top:2px}
+.pg-p0{background:#fff1f2;color:#be123c;border:1px solid #fecdd3}
+.pg-p1{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+.pg-p2{background:#fefce8;color:#a16207;border:1px solid #fef08a}
+.pg-p3{background:#ecfdf5;color:#047857;border:1px solid #bbf7d0}
+
+@media(max-width:768px){
+.priority-grid{grid-template-columns:repeat(2,1fr)}
+.toc-grid{grid-template-columns:1fr}
+.stats{flex-wrap:wrap}
+.stat-card{min-width:calc(50% - 10px)}
+}
+
+.footer{text-align:center;padding:32px 0 12px;color:#94a3b8;font-size:13px}
+.footer .divider{height:1px;background:linear-gradient(90deg,transparent,#d4d4d8,transparent);margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== HEADER ========== -->
+<div class="header">
+<div class="header-content">
+<div class="header-badge">PRD &middot; Product Requirements Document</div>
+<h1>SaleSmartly 产品功能规格说明书</h1>
+<div class="sub">基于 SaleSmartly 全渠道私域沟通平台的功能点细化、原型图设计与优先级规划</div>
+<div class="meta-row">
+<span><span class="dot"></span>产品经理：产品技术部</span>
+<span><span class="dot"></span>版本：v1.0</span>
+<span><span class="dot"></span>日期：2026年6月</span>
+<span><span class="dot"></span>状态：评审中</span>
+</div>
+</div>
+</div>
+
+<!-- ========== STATS ========== -->
+<div class="stats">
+<div class="stat-card c-pur"><div class="num">8</div><div class="label">一级模块</div></div>
+<div class="stat-card c-blu"><div class="num">42</div><div class="label">二级功能点</div></div>
+<div class="stat-card c-grn"><div class="num">156</div><div class="label">三级功能项</div></div>
+<div class="stat-card c-ora"><div class="num">6</div><div class="label">原型页面</div></div>
+<div class="stat-card c-pink"><div class="num">28</div><div class="label">用户故事</div></div>
+</div>
+
+<!-- ========== TOC ========== -->
+<div class="toc" id="toc">
+<h2>目录</h2>
+<div class="toc-grid">
+<div>
+<ul>
+<li><a href="#s0"><span class="toc-label tl-spec">概述</span>产品定位与核心价值</a></li>
+<li><a href="#s1"><span class="toc-label tl-spec">模块1</span>聊天模块 Chat</a></li>
+<li><a href="#s2"><span class="toc-label tl-spec">模块2</span>客户模块 Contact</a></li>
+<li><a href="#s3"><span class="toc-label tl-spec">模块3</span>营销模块 Marketing</a></li>
+<li><a href="#s4"><span class="toc-label tl-spec">模块4</span>自动化模块 Automation</a></li>
+</ul>
+</div>
+<div>
+<ul>
+<li><a href="#s5"><span class="toc-label tl-spec">模块5</span>报告模块 Reports</a></li>
+<li><a href="#s6"><span class="toc-label tl-spec">模块6</span>集成模块 Connect</a></li>
+<li><a href="#s7"><span class="toc-label tl-spec">模块7</span>团队 &amp; 设置</a></li>
+<li><a href="#s8"><span class="toc-label tl-proto">原型</span>核心页面原型图</a></li>
+<li><a href="#s9"><span class="toc-label tl-matrix">矩阵</span>功能优先级矩阵</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- ========== S0: 产品定位 ========== -->
+<div class="section" id="s0">
+<div class="sec-head">
+<h2>产品定位与核心价值</h2>
+<div class="desc">SaleSmartly 的产品全景与目标用户画像</div>
+</div>
+<div class="sec-body">
+
+<h3>产品一句话定义</h3>
+<p>SaleSmartly 是一个面向跨境电商和出海企业的<strong>全渠道私域沟通 SaaS 平台</strong>，覆盖「获客引流 → 客户服务 → 营销转化」全链路，通过聚合 20+ 社交渠道、开放 AI 智能体平台和可视化自动化流程，帮助企业在全球市场实现高效的客户沟通与增长。</p>
+
+<h3>目标用户画像</h3>
+<table class="stbl">
+<tr><th>角色</th><th>场景</th><th>核心诉求</th><th>使用模块</th></tr>
+<tr><td><strong>跨境电商客服主管</strong></td><td>管理10+人客服团队，日均处理500+对话</td><td>统一管理多渠道消息、分配工单、监控响应质量</td><td>聊天、报告、团队</td></tr>
+<tr><td><strong>独立站运营经理</strong></td><td>负责Shopify站点，需要引流+转化</td><td>分流链接获客、消息群发复购、AI自动回复</td><td>营销、自动化、集成</td></tr>
+<tr><td><strong>一线客服人员</strong></td><td>同时处理WhatsApp/TG/FB等多渠道消息</td><td>快速回复、翻译、AI辅助、话术库</td><td>聊天、客户</td></tr>
+<tr><td><strong>B2B外贸业务员</strong></td><td>通过WhatsApp/Email跟进海外客户</td><td>客户信息管理、会话记录、订单关联</td><td>客户、聊天</td></tr>
+</table>
+
+<h3>核心价值主张</h3>
+<div class="good-box">
+<strong>三位一体：</strong>获客（分流链接+广告分析）+ 服务（全渠道聊天+AI客服）+ 营销（消息群发+自动化流程），形成「引流 → 服务 → 复购」闭环。这是 SaleSmartly 与纯客服工具（如 LiveDesk）最根本的差异。
+</div>
+
+</div>
+</div>
+
+<!-- ========== S1: 聊天模块 ========== -->
+<div class="section" id="s1">
+<div class="sec-head">
+<h2>模块一：聊天 Chat</h2>
+<div class="desc">核心对话处理模块 · 路由 /next/chat · 优先级 P0</div>
+</div>
+<div class="sec-body">
+
+<h3>功能点细化</h3>
+<table class="stbl">
+<tr><th style="width:60px">编号</th><th style="width:140px">功能点</th><th>功能描述</th><th style="width:60px">优先级</th></tr>
+<tr><td>C-01</td><td><strong>会话列表</strong></td><td>左侧展示所有对话列表，显示头像、昵称、最新消息摘要、时间戳、未读数、渠道图标、标签；支持搜索、排序（最新消息/创建时间）</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>C-02</td><td><strong>多视图切换</strong></td><td>预设视图：我的 / AI成员 / 待分配 / 全部 / 团队；快捷筛选：未读 / 未回 / 单聊 / 群组 / 免打扰</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>C-03</td><td><strong>自定义视图</strong></td><td>支持创建个人视图和公共视图，通过条件组合（渠道/标签/成员/时间范围等）定义过滤规则，公共视图对整个团队可见</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>C-04</td><td><strong>消息面板</strong></td><td>中间区域展示对话消息流，支持文本/图片/视频/文件/表情/语音/名片/位置等消息类型的收发与预览</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>C-05</td><td><strong>富文本编辑器</strong></td><td>底部输入区支持：表情选择、图片/文件上传、话术库快捷插入、@提及成员、消息模板选择</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>C-06</td><td><strong>AI 辅助回复</strong></td><td>输入区集成 AI 能力：AI 推荐回复（基于上下文生成建议回复）、AI 优化文本（润色已输入内容）、AI 翻译（实时翻译输入/输出内容）</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>C-07</td><td><strong>客户信息面板</strong></td><td>右侧展示当前对话客户信息：头像/昵称、渠道来源、标签、自定义字段、历史会话记录、关联订单</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>C-08</td><td><strong>会话分配</strong></td><td>支持手动分配（拖拽/右键菜单分配给指定成员）、自动分配（轮询/负载均衡/技能组匹配）</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>C-09</td><td><strong>群组聊天</strong></td><td>支持 Telegram 群组、WhatsApp 群组等群聊场景，群成员列表展示，群消息管理</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>C-10</td><td><strong>实时翻译</strong></td><td>支持 134 种语言自动翻译，7 大翻译引擎可选（Google/DeepL/阿里/腾讯/有道/火山/AWS），客户语言自动检测</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>C-11</td><td><strong>话术库</strong></td><td>预设快捷回复模板，支持分类管理、关键词触发、个人/团队话术分离，输入 / 触发快速插入</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>C-12</td><td><strong>消息状态</strong></td><td>显示消息发送状态：发送中/已发送/已送达/已读/发送失败，失败消息支持重发</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>C-13</td><td><strong>会话操作</strong></td><td>会话级操作：标记已读/未读、置顶、免打扰、关闭会话、转接给其他成员、添加标签</td><td><span class="tag tag-p0">P0</span></td></tr>
+</table>
+
+<h3>用户故事</h3>
+<div class="us-card">
+<div class="us-title">US-C01: 客服人员处理多渠道消息</div>
+<div class="us-body">作为一名客服人员，我希望在一个统一的界面中看到来自 WhatsApp、Telegram、Facebook 等所有渠道的客户消息，这样我就不需要在多个平台之间切换，提高工作效率。</div>
+<div class="us-ac">AC: 所有已接入渠道的新消息在3秒内出现在会话列表中 · 每条消息显示渠道来源图标 · 回复自动发送到对应渠道</div>
+</div>
+<div class="us-card">
+<div class="us-title">US-C02: 客服主管分配对话</div>
+<div class="us-body">作为客服主管，我希望看到所有待分配的对话，并能快速将对话分配给合适的客服人员或让系统自动按规则分配。</div>
+<div class="us-ac">AC: 待分配视图实时显示未分配对话数量 · 支持拖拽分配到指定成员 · 自动分配支持轮询/负载均衡两种策略</div>
+</div>
+<div class="us-card">
+<div class="us-title">US-C03: 跨语言客户服务</div>
+<div class="us-body">作为一名中文客服人员，我希望系统自动将客户发来的外语消息翻译为中文，并将我的中文回复自动翻译为客户的语言发送。</div>
+<div class="us-ac">AC: 客户消息下方显示中文译文 · 发送时可选择是否翻译 · 翻译引擎可在设置中切换 · 翻译延迟不超过2秒</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== S2: 客户模块 ========== -->
+<div class="section" id="s2">
+<div class="sec-head">
+<h2>模块二：客户 Contact</h2>
+<div class="desc">CRM 与客户资产管理 · 路由 /next/contact · 优先级 P0</div>
+</div>
+<div class="sec-body">
+
+<h3>功能点细化</h3>
+<table class="stbl">
+<tr><th style="width:60px">编号</th><th style="width:140px">功能点</th><th>功能描述</th><th style="width:60px">优先级</th></tr>
+<tr><td>CT-01</td><td><strong>客户列表</strong></td><td>全量客户 CRM 列表，字段包含：头像、昵称、邮箱、手机、渠道来源、标签、创建时间、最后活跃时间；支持多条件组合筛选与列自定义</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>CT-02</td><td><strong>客户详情页</strong></td><td>点击客户进入详情：基本信息卡片 + 自定义字段 + 会话历史 + 订单记录 + 标签 + 备注时间线</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>CT-03</td><td><strong>标签管理</strong></td><td>双层标签体系：访客标签（描述客户属性）+ 会话标签（描述对话内容），支持创建/编辑/删除/批量打标</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>CT-04</td><td><strong>会话管理</strong></td><td>子模块：会话列表（历史会话记录按时间排列）+ 搜索聊天内容（全文搜索聊天记录，支持关键词/时间/渠道/成员多条件筛选）</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>CT-05</td><td><strong>表单管理</strong></td><td>预聊天表单与信息收集表单：可视化表单编辑器，支持文本/下拉/单选/多选/日期等字段类型，收集的数据自动关联客户资料</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>CT-06</td><td><strong>订单列表</strong></td><td>电商订单集成：展示客户订单号、金额、状态、商品信息，支持从 Shopify/独立站同步订单数据</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>CT-07</td><td><strong>邀评管理</strong></td><td>满意度评价管理：会话结束后自动/手动发送满意度调查，收集1-5星评分和文字反馈</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>CT-08</td><td><strong>商品列表</strong></td><td>商品信息库：管理可在对话中发送的商品卡片，包含图片/名称/价格/链接，支持从电商平台同步</td><td><span class="tag tag-p3">P3</span></td></tr>
+<tr><td>CT-09</td><td><strong>话术库</strong></td><td>快捷回复模板管理：支持分类（个人/团队）、富媒体内容（文本+图片+链接）、快捷键触发、使用频率统计</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>CT-10</td><td><strong>素材库</strong></td><td>集中管理图片/视频/文件/文档素材，支持分类存储、快速搜索、直接在对话中引用发送</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>CT-11</td><td><strong>数据导入导出</strong></td><td>客户数据支持 CSV/Excel 批量导入和导出，字段映射配置，去重策略选择</td><td><span class="tag tag-p1">P1</span></td></tr>
+</table>
+
+<h3>用户故事</h3>
+<div class="us-card">
+<div class="us-title">US-CT01: 客户 360 视图</div>
+<div class="us-body">作为客服人员，我希望在和客户聊天时能一键查看该客户的完整档案（包括历史对话、订单、标签），这样我可以提供更精准的个性化服务。</div>
+<div class="us-ac">AC: 聊天界面右侧面板展示客户详情 · 历史会话按时间倒序排列 · 关联订单显示状态与金额 · 切换对话时客户信息同步更新</div>
+</div>
+<div class="us-card">
+<div class="us-title">US-CT02: 批量客户管理</div>
+<div class="us-body">作为运营经理，我希望能批量导入客户数据并批量打标签，以便后续进行精准营销推送。</div>
+<div class="us-ac">AC: 支持CSV上传最大10万条记录 · 字段自动映射+手动修正 · 导入后可选择自动添加指定标签 · 重复手机号/邮箱自动合并</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== S3: 营销模块 ========== -->
+<div class="section" id="s3">
+<div class="sec-head">
+<h2>模块三：营销 Marketing</h2>
+<div class="desc">消息群发与获客转化 · 路由 /next/marketing · 优先级 P1 <span class="tag tag-mkt">差异化</span></div>
+</div>
+<div class="sec-body">
+
+<h3>功能点细化</h3>
+<table class="stbl">
+<tr><th style="width:60px">编号</th><th style="width:140px">功能点</th><th>功能描述</th><th style="width:60px">优先级</th></tr>
+<tr><td>M-01</td><td><strong>消息群发</strong></td><td>支持向 WhatsApp/Facebook/Telegram/Email 等渠道批量发送营销消息；选择目标客户群（按标签/渠道/自定义条件筛选）；定时发送/立即发送</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>M-02</td><td><strong>消息模板</strong></td><td>WhatsApp 消息模板管理：创建/提交审核/查看审核状态；支持文本+变量+按钮+媒体组合模板</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>M-03</td><td><strong>EDM 代发</strong></td><td>邮件营销群发：支持 HTML 邮件模板编辑、变量替换、群发列表管理、发送进度跟踪</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>M-04</td><td><strong>分流链接</strong></td><td>获客工具：生成带参数的分流链接（类似活码），访客点击后按规则自动分配到指定客服/渠道；支持自定义落地页、A/B测试</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>M-05</td><td><strong>群发效果分析</strong></td><td>群发任务报告：发送量/送达量/阅读量/点击量/回复量/退订量，ROI 计算，趋势图表</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>M-06</td><td><strong>客户圈选</strong></td><td>营销受众管理：按条件组合（标签 AND/OR、渠道、活跃时间、自定义字段）圈选目标客户群，支持保存为人群包复用</td><td><span class="tag tag-p1">P1</span></td></tr>
+</table>
+
+<div class="insight">
+<strong>PM 洞察：</strong>营销模块是 SaleSmartly 与纯客服工具最核心的差异点。LiveDesk 完全不具备消息群发和分流链接能力。对于跨境电商场景，「服务后主动营销触达」是提升客户 LTV 的关键路径。分流链接 + 群发 + 自动化流程的组合，构成了一个完整的「再触达」闭环。
+</div>
+
+<h3>用户故事</h3>
+<div class="us-card">
+<div class="us-title">US-M01: 新品推广群发</div>
+<div class="us-body">作为运营经理，我希望向所有近30天有过购买记录的客户群发新品上架消息，通过 WhatsApp 模板消息推送，带有产品图片和购买链接按钮。</div>
+<div class="us-ac">AC: 圈选"30天内有订单"客户群 · 选择已审核通过的WhatsApp模板 · 预览消息效果 · 定时发送 · 实时查看送达/阅读数据</div>
+</div>
+<div class="us-card">
+<div class="us-title">US-M02: 分流链接获客</div>
+<div class="us-body">作为独立站运营，我希望生成一个分流链接放在网站首页，访客点击后自动进入 WhatsApp 对话，并按地区自动分配到对应语言的客服。</div>
+<div class="us-ac">AC: 生成唯一短链 · 配置分流规则（按浏览器语言/IP地区/时段） · 点击后自动创建对话 · 统计点击量与转化率</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== S4: 自动化模块 ========== -->
+<div class="section" id="s4">
+<div class="sec-head">
+<h2>模块四：自动化 Automation</h2>
+<div class="desc">可视化流程编排 · 路由 /next/automation-flow · 优先级 P1</div>
+</div>
+<div class="sec-body">
+
+<h3>功能点细化</h3>
+<table class="stbl">
+<tr><th style="width:60px">编号</th><th style="width:140px">功能点</th><th>功能描述</th><th style="width:60px">优先级</th></tr>
+<tr><td>A-01</td><td><strong>流程画布</strong></td><td>可视化拖拽式流程编辑器，支持节点连线、分支条件、循环、并行执行；画布支持缩放、拖拽移动、对齐辅助线</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>A-02</td><td><strong>触发器节点</strong></td><td>流程入口条件：新会话创建、消息关键词匹配、客户标签变更、时间触发（定时任务）、渠道特定事件、Webhook 外部触发</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>A-03</td><td><strong>条件分支节点</strong></td><td>IF/ELSE 逻辑分支：按客户属性（标签/渠道/语言/地区）、消息内容（关键词/正则匹配）、时间条件（工作时间/非工作时间）判断走不同路径</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>A-04</td><td><strong>动作节点</strong></td><td>可执行动作：发送消息（文本/模板/富媒体）、分配给成员/AI、添加/移除标签、更新客户字段、发送邮件、调用 Webhook、延时等待</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>A-05</td><td><strong>AI 智能体节点</strong></td><td>在流程中调用 AI 智能体：选择已配置的 AI Agent（HelpKnow/Coze/Dify/自定义），传入上下文参数，接收 AI 响应并流转</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>A-06</td><td><strong>流程模板</strong></td><td>预置常用自动化场景模板：欢迎语自动回复、非工作时间自动应答、关键词自动打标、新客户自动分配、满意度自动邀评</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>A-07</td><td><strong>执行日志</strong></td><td>每次流程触发的执行日志：触发时间/触发条件/经过节点/执行结果/耗时，支持按流程/时间/状态筛选</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>A-08</td><td><strong>版本管理</strong></td><td>流程版本历史：保存每次编辑版本，支持回滚到历史版本，灰度发布（部分流量走新版本）</td><td><span class="tag tag-p2">P2</span></td></tr>
+</table>
+
+<h3>用户故事</h3>
+<div class="us-card">
+<div class="us-title">US-A01: 自动欢迎与分流</div>
+<div class="us-body">作为客服主管，我希望设置一个自动化流程：新客户首次发消息时，先自动发送欢迎语和常见问题菜单，如果客户选择"售前咨询"则分配给销售组，选择"售后问题"则分配给客服组，30秒无回复则转给 AI 机器人。</div>
+<div class="us-ac">AC: 流程在新会话创建时自动触发 · 欢迎消息在1秒内发出 · 按客户回复关键词分流 · 30秒超时兜底到AI · 执行日志可追溯每次分流路径</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== S5: 报告模块 ========== -->
+<div class="section" id="s5">
+<div class="sec-head">
+<h2>模块五：报告 Reports</h2>
+<div class="desc">数据分析与运营洞察 · 路由 /next/reports · 优先级 P1</div>
+</div>
+<div class="sec-body">
+
+<h3>功能点细化</h3>
+<table class="stbl">
+<tr><th style="width:60px">编号</th><th style="width:140px">功能点</th><th>功能描述</th><th style="width:60px">优先级</th></tr>
+<tr><td>R-01</td><td><strong>服务概览</strong></td><td>核心 KPI 仪表盘：新增会话数、已处理数、平均响应时间、平均处理时长、满意度评分、会话渠道分布；支持日/周/月/自定义时间范围</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>R-02</td><td><strong>客户分析</strong></td><td>客户增长趋势：新增客户数、去重客户数、重复客户数；多维度下钻：按渠道/成员/时间段分析客户来源与转化</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>R-03</td><td><strong>AI 分析</strong></td><td>AI 客服效果分析：AI 处理会话占比、AI 解决率、AI→人工转接率、AI 响应质量评分、各 AI 智能体使用排行</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>R-04</td><td><strong>成员在线时长</strong></td><td>团队成员工作时长统计：每日在线时长、离线时长、忙碌时长，热力图展示工作时段分布</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>R-05</td><td><strong>大报表</strong></td><td>综合数据报表：聚合所有维度数据，支持自定义列选择、数据导出（CSV/Excel）、定时邮件报告</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>R-06</td><td><strong>广告分析</strong></td><td>Facebook/消息广告效果分析：广告花费、点击量、会话转化量、CPL（每线索成本）、ROAS（广告支出回报率）</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>R-07</td><td><strong>数据导出</strong></td><td>所有报表支持导出为 CSV/Excel/PDF 格式，可配置定时邮件发送报表到指定邮箱</td><td><span class="tag tag-p2">P2</span></td></tr>
+</table>
+
+</div>
+</div>
+
+<!-- ========== S6: 集成模块 ========== -->
+<div class="section" id="s6">
+<div class="sec-head">
+<h2>模块六：集成 Connect</h2>
+<div class="desc">全渠道接入管理 · 路由 /next/connect · 优先级 P0</div>
+</div>
+<div class="sec-body">
+
+<h3>功能点细化</h3>
+<table class="stbl">
+<tr><th style="width:60px">编号</th><th style="width:140px">功能点</th><th>功能描述</th><th style="width:60px">优先级</th></tr>
+<tr><td>I-01</td><td><strong>渠道总览</strong></td><td>以卡片/列表形式展示所有已接入和可接入渠道，显示各渠道在线状态、消息量、最后活跃时间</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>I-02</td><td><strong>官方通道接入</strong></td><td>通过 API 对接的官方渠道：WhatsApp Business API、Facebook Messenger、Instagram、Telegram Bot、LINE Official、Email（SMTP/IMAP）、LiveChat 网站插件、Shopify 插件</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>I-03</td><td><strong>云托管号接入</strong></td><td>个人账号云端托管模式：WhatsApp 个人号、Telegram 个人号、Messenger 个人号、Instagram 个人号、LINE 个人号；免 API 审核，扫码即用</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>I-04</td><td><strong>渠道配置</strong></td><td>每个渠道的独立配置：接入凭证管理、消息接收/发送开关、自动回复设置、AI 机器人绑定、工作时间设置</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>I-05</td><td><strong>LiveChat 插件</strong></td><td>网站在线聊天插件：可视化定制外观（颜色/位置/图标/气泡文字）、预聊天表单、离线消息收集、多语言切换</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>I-06</td><td><strong>Webhook 配置</strong></td><td>出站 Webhook：将消息事件/客户事件推送到外部系统；入站 Webhook：接收外部系统的指令触发动作</td><td><span class="tag tag-p2">P2</span></td></tr>
+</table>
+
+<h3>渠道覆盖矩阵</h3>
+<table class="stbl">
+<tr><th>分类</th><th>渠道名称</th><th>接入方式</th><th>消息类型</th></tr>
+<tr><td rowspan="2"><strong>即时通讯</strong></td><td>WhatsApp</td><td>Business API + 云托管号</td><td>文本/图片/视频/文件/模板/位置/名片</td></tr>
+<tr><td>Telegram</td><td>Bot API + 云托管号</td><td>文本/图片/视频/文件/Sticker/群聊</td></tr>
+<tr><td rowspan="3"><strong>社交媒体</strong></td><td>Facebook Messenger</td><td>Page API + 云托管号</td><td>文本/图片/视频/按钮/快速回复</td></tr>
+<tr><td>Instagram</td><td>API + 云托管号</td><td>文本/图片/Story回复/快拍提及</td></tr>
+<tr><td>TikTok</td><td>API</td><td>文本/图片/视频链接</td></tr>
+<tr><td rowspan="3"><strong>区域通讯</strong></td><td>LINE</td><td>Official Account + 云托管</td><td>文本/图片/视频/Flex消息/贴图</td></tr>
+<tr><td>Zalo</td><td>Official Account</td><td>文本/图片/文件</td></tr>
+<tr><td>VKontakte</td><td>Community API</td><td>文本/图片/视频</td></tr>
+<tr><td><strong>邮件</strong></td><td>Email</td><td>SMTP/IMAP</td><td>HTML邮件/附件</td></tr>
+<tr><td><strong>网站</strong></td><td>LiveChat</td><td>JS SDK 插件</td><td>文本/图片/文件/表单/富卡片</td></tr>
+</table>
+
+</div>
+</div>
+
+<!-- ========== S7: 团队与设置 ========== -->
+<div class="section" id="s7">
+<div class="sec-head">
+<h2>模块七：团队 &amp; 设置</h2>
+<div class="desc">组织管理与系统配置 · 路由 /next/team &amp; /next/setting</div>
+</div>
+<div class="sec-body">
+
+<h3>团队管理功能点</h3>
+<table class="stbl">
+<tr><th style="width:60px">编号</th><th style="width:140px">功能点</th><th>功能描述</th><th style="width:60px">优先级</th></tr>
+<tr><td>T-01</td><td><strong>成员管理</strong></td><td>邀请/编辑/删除团队成员，设置头像/昵称/邮箱/手机，查看成员在线状态与当前会话数</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>T-02</td><td><strong>角色权限</strong></td><td>预设角色（管理员/主管/客服/只读）+ 自定义角色，模块级权限控制（可见/可操作/不可见）</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>T-03</td><td><strong>技能组</strong></td><td>按语言/业务线/渠道划分技能组，会话分配时匹配技能组实现精准路由</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>T-04</td><td><strong>工作时间</strong></td><td>为团队/个人设置工作时间段和时区，非工作时间自动切换到 AI 或离线模式</td><td><span class="tag tag-p1">P1</span></td></tr>
+</table>
+
+<h3>系统设置功能点</h3>
+<table class="stbl">
+<tr><th style="width:60px">编号</th><th style="width:140px">功能点</th><th>功能描述</th><th style="width:60px">优先级</th></tr>
+<tr><td>S-01</td><td><strong>AI 平台配置</strong></td><td>AI 智能体统一管理：接入 HelpKnow / Coze / Dify / OpenAI Assistants / 自定义 API；为每个 AI 配置角色（接待员/助手/能力中心/群聊机器人）和知识库</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>S-02</td><td><strong>翻译设置</strong></td><td>翻译引擎选择与优先级配置：Google / DeepL / 阿里 / 腾讯 / 有道 / 火山 / AWS 七大引擎</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>S-03</td><td><strong>应用商店</strong></td><td>第三方服务集成市场：翻译服务、SendCloud 邮件、DuoPlus 云手机验证、TikTok 广告追踪等，一键安装/卸载</td><td><span class="tag tag-p2">P2</span></td></tr>
+<tr><td>S-04</td><td><strong>自定义字段</strong></td><td>联系人/会话自定义属性管理：创建文本/数字/日期/下拉/多选类型字段，用于 CRM 扩展</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>S-05</td><td><strong>聊天分配规则</strong></td><td>全局会话分配策略：轮询 / 负载均衡 / 技能组优先 / 渠道指定 / 客户上次接待人优先</td><td><span class="tag tag-p0">P0</span></td></tr>
+<tr><td>S-06</td><td><strong>API/SDK 配置</strong></td><td>开放 API 管理：API Key 生成/撤销、Webhook URL 配置、SDK 嵌入代码生成、API 调用日志</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>S-07</td><td><strong>监控日志</strong></td><td>三类日志：登录日志（谁/何时/IP/设备）、在线日志（在线/离线状态变更）、操作日志（关键操作审计追踪）</td><td><span class="tag tag-p1">P1</span></td></tr>
+<tr><td>S-08</td><td><strong>项目管理</strong></td><td>多项目（多品牌/多店铺）管理：独立的渠道接入、成员、数据空间，项目间切换</td><td><span class="tag tag-p2">P2</span></td></tr>
+</table>
+
+</div>
+</div>
+
+<!-- ========== S8: 原型图 ========== -->
+<div class="section" id="s8">
+<div class="sec-head">
+<h2>核心页面原型图</h2>
+<div class="desc">6 个关键页面的线框原型，展示布局结构、信息层级和交互逻辑</div>
+</div>
+<div class="sec-body">
+
+<!-- ===== 原型1: 聊天主界面 ===== -->
+<h3>原型一：聊天主界面</h3>
+<p>聊天模块是用户停留时间最长的页面，采用经典的三栏布局：左侧会话列表 + 中间消息区 + 右侧客户信息面板。</p>
+
+<div class="proto-wrap">
+<div class="proto-title"><span class="pt-badge">WIREFRAME</span> 聊天主界面 /next/chat — 三栏布局</div>
+<div class="proto-svg">
+<svg viewBox="0 0 1100 620" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<!-- Background -->
+<rect width="1100" height="620" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+<!-- Left Nav Bar (56px) -->
+<rect x="0" y="0" width="56" height="620" rx="12" fill="#1a103c"/>
+<rect x="12" y="0" width="44" height="620" fill="#1a103c"/>
+<circle cx="28" cy="28" r="14" fill="#7c3aed"/>
+<text x="28" y="33" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">S</text>
+<rect x="14" y="60" width="28" height="28" rx="6" fill="rgba(255,255,255,.15)"/>
+<text x="28" y="79" text-anchor="middle" fill="#c4b5fd" font-size="11">💬</text>
+<rect x="14" y="96" width="28" height="28" rx="6" fill="none"/>
+<text x="28" y="115" text-anchor="middle" fill="#8b8b9e" font-size="11">👤</text>
+<rect x="14" y="132" width="28" height="28" rx="6" fill="none"/>
+<text x="28" y="151" text-anchor="middle" fill="#8b8b9e" font-size="11">📢</text>
+<rect x="14" y="168" width="28" height="28" rx="6" fill="none"/>
+<text x="28" y="187" text-anchor="middle" fill="#8b8b9e" font-size="11">⚡</text>
+<rect x="14" y="204" width="28" height="28" rx="6" fill="none"/>
+<text x="28" y="223" text-anchor="middle" fill="#8b8b9e" font-size="11">📊</text>
+<rect x="14" y="240" width="28" height="28" rx="6" fill="none"/>
+<text x="28" y="259" text-anchor="middle" fill="#8b8b9e" font-size="11">🔗</text>
+
+<!-- Session List (280px) -->
+<rect x="56" y="0" width="280" height="620" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<!-- Search -->
+<rect x="70" y="12" width="252" height="34" rx="8" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+<text x="86" y="33" fill="#94a3b8" font-size="12">🔍 搜索会话...</text>
+<!-- View Tabs -->
+<rect x="70" y="56" width="48" height="24" rx="4" fill="#7c3aed"/>
+<text x="94" y="72" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">我的</text>
+<text x="140" y="72" fill="#64748b" font-size="11">AI成员</text>
+<text x="190" y="72" fill="#64748b" font-size="11">待分配</text>
+<text x="240" y="72" fill="#64748b" font-size="11">全部</text>
+<text x="283" y="72" fill="#64748b" font-size="11">团队</text>
+<!-- Filter chips -->
+<rect x="70" y="88" width="40" height="20" rx="10" fill="#ede9fe"/>
+<text x="90" y="101" text-anchor="middle" fill="#7c3aed" font-size="10" font-weight="600">未读</text>
+<rect x="114" y="88" width="40" height="20" rx="10" fill="#f1f5f9"/>
+<text x="134" y="101" text-anchor="middle" fill="#64748b" font-size="10">未回</text>
+<rect x="158" y="88" width="40" height="20" rx="10" fill="#f1f5f9"/>
+<text x="178" y="101" text-anchor="middle" fill="#64748b" font-size="10">单聊</text>
+<rect x="202" y="88" width="40" height="20" rx="10" fill="#f1f5f9"/>
+<text x="222" y="101" text-anchor="middle" fill="#64748b" font-size="10">群组</text>
+
+<!-- Session Items -->
+<rect x="56" y="116" width="280" height="70" fill="#f5f3ff" stroke-left="3px" />
+<rect x="56" y="116" width="3" height="70" fill="#7c3aed"/>
+<circle cx="84" cy="144" r="18" fill="#dbeafe"/>
+<text x="84" y="148" text-anchor="middle" fill="#2563eb" font-size="10" font-weight="700">JD</text>
+<rect x="108" y="128" width="14" height="14" rx="3" fill="#25D366"/>
+<text x="115" y="139" text-anchor="middle" fill="#fff" font-size="7" font-weight="700">W</text>
+<text x="128" y="138" fill="#1e293b" font-size="13" font-weight="600">John Davis</text>
+<text x="290" y="138" text-anchor="end" fill="#94a3b8" font-size="10">2分钟前</text>
+<text x="108" y="156" fill="#64748b" font-size="11">Hi, I want to ask about the...</text>
+<rect x="290" y="148" width="18" height="18" rx="9" fill="#ef4444"/>
+<text x="299" y="160" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">3</text>
+
+<rect x="56" y="186" width="280" height="70" fill="#fff"/>
+<circle cx="84" cy="214" r="18" fill="#fce7f3"/>
+<text x="84" y="218" text-anchor="middle" fill="#be185d" font-size="10" font-weight="700">LS</text>
+<rect x="108" y="198" width="14" height="14" rx="3" fill="#0088cc"/>
+<text x="115" y="209" text-anchor="middle" fill="#fff" font-size="7" font-weight="700">T</text>
+<text x="128" y="208" fill="#1e293b" font-size="13" font-weight="600">李思远</text>
+<text x="290" y="208" text-anchor="end" fill="#94a3b8" font-size="10">15分钟前</text>
+<text x="108" y="226" fill="#64748b" font-size="11">好的，我已经收到了物流...</text>
+
+<rect x="56" y="256" width="280" height="70" fill="#fff"/>
+<circle cx="84" cy="284" r="18" fill="#d1fae5"/>
+<text x="84" y="288" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">MK</text>
+<rect x="108" y="268" width="14" height="14" rx="3" fill="#1877F2"/>
+<text x="115" y="279" text-anchor="middle" fill="#fff" font-size="7" font-weight="700">f</text>
+<text x="128" y="278" fill="#1e293b" font-size="13" font-weight="600">Maria K.</text>
+<text x="290" y="278" text-anchor="end" fill="#94a3b8" font-size="10">1小时前</text>
+<text x="108" y="296" fill="#64748b" font-size="11">Can you send me the track...</text>
+
+<rect x="56" y="326" width="280" height="70" fill="#fff"/>
+<circle cx="84" cy="354" r="18" fill="#fef3c7"/>
+<text x="84" y="358" text-anchor="middle" fill="#b45309" font-size="10" font-weight="700">AH</text>
+<rect x="108" y="338" width="14" height="14" rx="3" fill="#E4405F"/>
+<text x="115" y="349" text-anchor="middle" fill="#fff" font-size="7" font-weight="700">I</text>
+<text x="128" y="348" fill="#1e293b" font-size="13" font-weight="600">Ahmed H.</text>
+<text x="128" y="366" fill="#64748b" font-size="11">🤖 AI 正在处理...</text>
+<rect x="262" y="354" width="30" height="16" rx="8" fill="#ede9fe"/>
+<text x="277" y="365" text-anchor="middle" fill="#7c3aed" font-size="9" font-weight="600">AI</text>
+
+<!-- Middle: Message Area (460px) -->
+<rect x="336" y="0" width="460" height="620" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<!-- Header -->
+<rect x="336" y="0" width="460" height="52" fill="#fff" stroke="#e2e8f0" stroke-width="0 0 1 0"/>
+<line x1="336" y1="52" x2="796" y2="52" stroke="#e2e8f0"/>
+<text x="356" y="30" fill="#1e293b" font-size="15" font-weight="700">John Davis</text>
+<text x="356" y="45" fill="#94a3b8" font-size="11">WhatsApp · 在线 · 最后活跃 2分钟前</text>
+<rect x="728" y="14" width="24" height="24" rx="6" fill="#f1f5f9"/>
+<text x="740" y="31" text-anchor="middle" fill="#64748b" font-size="12">📌</text>
+<rect x="758" y="14" width="24" height="24" rx="6" fill="#f1f5f9"/>
+<text x="770" y="31" text-anchor="middle" fill="#64748b" font-size="12">⋯</text>
+
+<!-- Messages -->
+<!-- Customer message -->
+<rect x="360" y="72" width="260" height="50" rx="10" fill="#f1f5f9"/>
+<text x="374" y="92" fill="#334155" font-size="12.5">Hi, I want to ask about the shipping</text>
+<text x="374" y="108" fill="#334155" font-size="12.5">time for order #SS20260601</text>
+<text x="604" y="108" fill="#94a3b8" font-size="10">10:32</text>
+<!-- Translation -->
+<rect x="360" y="126" width="240" height="28" rx="6" fill="#ede9fe" stroke="#ddd6fe" stroke-width="1"/>
+<text x="374" y="144" fill="#7c3aed" font-size="11">🌐 你好，我想问一下订单的物流时间</text>
+
+<!-- Agent reply -->
+<rect x="476" y="168" width="300" height="50" rx="10" fill="#7c3aed"/>
+<text x="490" y="188" fill="#fff" font-size="12.5">您好！订单 #SS20260601 已发货，</text>
+<text x="490" y="204" fill="#fff" font-size="12.5">预计3-5个工作日到达 ✅</text>
+<text x="760" y="204" fill="rgba(255,255,255,.6)" font-size="10">10:33</text>
+<!-- Read status -->
+<text x="762" y="218" fill="#94a3b8" font-size="10">✓✓ 已读</text>
+
+<!-- AI suggestion -->
+<rect x="360" y="240" width="400" height="44" rx="8" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1" stroke-dasharray="4"/>
+<text x="374" y="258" fill="#059669" font-size="11" font-weight="600">🤖 AI 建议回复：</text>
+<text x="374" y="274" fill="#065f46" font-size="11">Would you like me to provide the tracking number?</text>
+
+<!-- Customer reply -->
+<rect x="360" y="300" width="200" height="34" rx="10" fill="#f1f5f9"/>
+<text x="374" y="322" fill="#334155" font-size="12.5">Yes please, thank you!</text>
+<text x="544" y="322" fill="#94a3b8" font-size="10">10:35</text>
+
+<!-- Input Area -->
+<rect x="336" y="530" width="460" height="90" fill="#fff"/>
+<line x1="336" y1="530" x2="796" y2="530" stroke="#e2e8f0"/>
+<!-- Toolbar -->
+<text x="360" y="550" fill="#94a3b8" font-size="13">😊</text>
+<text x="388" y="550" fill="#94a3b8" font-size="13">📎</text>
+<text x="416" y="550" fill="#94a3b8" font-size="13">📷</text>
+<text x="444" y="550" fill="#94a3b8" font-size="13">⚡</text>
+<text x="472" y="550" fill="#7c3aed" font-size="13">🤖</text>
+<text x="500" y="550" fill="#94a3b8" font-size="13">🌐</text>
+<!-- Input box -->
+<rect x="356" y="560" width="370" height="46" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+<text x="370" y="588" fill="#94a3b8" font-size="12">输入消息...  按 / 触发话术库</text>
+<!-- Send button -->
+<rect x="734" y="566" width="50" height="34" rx="8" fill="#7c3aed"/>
+<text x="759" y="588" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">发送</text>
+
+<!-- Right: Customer Info Panel (304px) -->
+<rect x="796" y="0" width="304" height="620" fill="#fafbfc" stroke="#e2e8f0" stroke-width="1"/>
+<!-- Customer profile -->
+<circle cx="948" cy="50" r="30" fill="#dbeafe"/>
+<text x="948" y="55" text-anchor="middle" fill="#2563eb" font-size="16" font-weight="700">JD</text>
+<text x="948" y="96" text-anchor="middle" fill="#1e293b" font-size="15" font-weight="700">John Davis</text>
+<text x="948" y="114" text-anchor="middle" fill="#64748b" font-size="12">john.davis@gmail.com</text>
+<text x="948" y="130" text-anchor="middle" fill="#64748b" font-size="12">+1 (555) 123-4567</text>
+<!-- Tags -->
+<rect x="876" y="142" width="44" height="20" rx="10" fill="#dbeafe"/>
+<text x="898" y="155" text-anchor="middle" fill="#2563eb" font-size="10" font-weight="600">VIP</text>
+<rect x="924" y="142" width="62" height="20" rx="10" fill="#fef3c7"/>
+<text x="955" y="155" text-anchor="middle" fill="#b45309" font-size="10" font-weight="600">高意向</text>
+<rect x="990" y="142" width="50" height="20" rx="10" fill="#d1fae5"/>
+<text x="1015" y="155" text-anchor="middle" fill="#059669" font-size="10" font-weight="600">美国</text>
+
+<!-- Info sections -->
+<line x1="816" y1="174" x2="1080" y2="174" stroke="#e2e8f0"/>
+<text x="816" y="196" fill="#1e293b" font-size="13" font-weight="600">客户信息</text>
+<text x="816" y="218" fill="#94a3b8" font-size="11">渠道来源</text>
+<text x="1000" y="218" text-anchor="end" fill="#475569" font-size="11">WhatsApp</text>
+<text x="816" y="238" fill="#94a3b8" font-size="11">创建时间</text>
+<text x="1000" y="238" text-anchor="end" fill="#475569" font-size="11">2026-05-15</text>
+<text x="816" y="258" fill="#94a3b8" font-size="11">总会话数</text>
+<text x="1000" y="258" text-anchor="end" fill="#475569" font-size="11">12</text>
+<text x="816" y="278" fill="#94a3b8" font-size="11">总订单数</text>
+<text x="1000" y="278" text-anchor="end" fill="#475569" font-size="11">3 ($456.00)</text>
+
+<line x1="816" y1="296" x2="1080" y2="296" stroke="#e2e8f0"/>
+<text x="816" y="318" fill="#1e293b" font-size="13" font-weight="600">最近订单</text>
+<rect x="816" y="328" width="264" height="52" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="828" y="348" fill="#1e293b" font-size="11" font-weight="600">#SS20260601</text>
+<text x="1068" y="348" text-anchor="end" fill="#059669" font-size="11" font-weight="600">已发货</text>
+<text x="828" y="368" fill="#64748b" font-size="11">Wireless Earbuds × 2</text>
+<text x="1068" y="368" text-anchor="end" fill="#475569" font-size="11">$89.00</text>
+
+<line x1="816" y1="394" x2="1080" y2="394" stroke="#e2e8f0"/>
+<text x="816" y="416" fill="#1e293b" font-size="13" font-weight="600">历史会话</text>
+<rect x="816" y="426" width="264" height="36" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="828" y="448" fill="#64748b" font-size="11">2026-05-28 · 物流查询 · 已解决</text>
+<rect x="816" y="466" width="264" height="36" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="828" y="488" fill="#64748b" font-size="11">2026-05-15 · 首次咨询 · 已转化</text>
+
+<!-- Legend -->
+<rect x="10" y="586" width="1080" height="28" rx="6" fill="#f1f5f9"/>
+<text x="30" y="604" fill="#64748b" font-size="11">📐 布局说明：左导航 56px · 会话列表 280px · 消息区域 460px（自适应） · 客户面板 304px（可折叠）</text>
+</svg>
+</div>
+</div>
+
+<!-- ===== 原型2: 客户列表 ===== -->
+<h3>原型二：客户管理列表</h3>
+<p>客户模块采用数据表格 + 侧边详情面板的交互模式，方便批量操作和快速浏览客户信息。</p>
+
+<div class="proto-wrap">
+<div class="proto-title"><span class="pt-badge">WIREFRAME</span> 客户列表 /next/contact/all — 表格 + 筛选</div>
+<div class="proto-svg">
+<svg viewBox="0 0 1100 480" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<rect width="1100" height="480" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+<!-- Left Nav (simplified) -->
+<rect x="0" y="0" width="56" height="480" rx="12" fill="#1a103c"/>
+<rect x="12" y="0" width="44" height="480" fill="#1a103c"/>
+<circle cx="28" cy="28" r="14" fill="#7c3aed"/>
+<text x="28" y="33" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">S</text>
+<rect x="14" y="96" width="28" height="28" rx="6" fill="rgba(255,255,255,.15)"/>
+<text x="28" y="115" text-anchor="middle" fill="#c4b5fd" font-size="11">👤</text>
+
+<!-- Main Content -->
+<!-- Header Bar -->
+<rect x="56" y="0" width="1044" height="52" fill="#fff" stroke="#e2e8f0" stroke-width="0 0 1 0"/>
+<line x1="56" y1="52" x2="1100" y2="52" stroke="#e2e8f0"/>
+<text x="78" y="32" fill="#1e293b" font-size="16" font-weight="700">客户列表</text>
+<text x="165" y="32" fill="#94a3b8" font-size="12">共 12,583 位客户</text>
+
+<!-- Action buttons -->
+<rect x="860" y="14" width="70" height="28" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+<text x="895" y="33" text-anchor="middle" fill="#475569" font-size="11" font-weight="600">导出</text>
+<rect x="938" y="14" width="70" height="28" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+<text x="973" y="33" text-anchor="middle" fill="#475569" font-size="11" font-weight="600">导入</text>
+<rect x="1016" y="14" width="70" height="28" rx="6" fill="#7c3aed"/>
+<text x="1051" y="33" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">+ 添加</text>
+
+<!-- Sub tabs -->
+<rect x="78" y="62" width="64" height="28" rx="6" fill="#7c3aed"/>
+<text x="110" y="80" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">客户列表</text>
+<text x="168" y="80" fill="#64748b" font-size="11">会话管理</text>
+<text x="234" y="80" fill="#64748b" font-size="11">表单管理</text>
+<text x="300" y="80" fill="#64748b" font-size="11">订单列表</text>
+<text x="366" y="80" fill="#64748b" font-size="11">标签管理</text>
+<text x="432" y="80" fill="#64748b" font-size="11">话术库</text>
+<text x="490" y="80" fill="#64748b" font-size="11">素材库</text>
+
+<!-- Filter bar -->
+<rect x="78" y="100" width="1000" height="36" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="88" y="108" width="80" height="20" rx="4" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="128" y="122" text-anchor="middle" fill="#475569" font-size="10">渠道 ▾</text>
+<rect x="176" y="108" width="80" height="20" rx="4" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="216" y="122" text-anchor="middle" fill="#475569" font-size="10">标签 ▾</text>
+<rect x="264" y="108" width="100" height="20" rx="4" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="314" y="122" text-anchor="middle" fill="#475569" font-size="10">创建时间 ▾</text>
+<rect x="372" y="108" width="80" height="20" rx="4" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="412" y="122" text-anchor="middle" fill="#475569" font-size="10">负责人 ▾</text>
+<rect x="900" y="108" width="160" height="20" rx="4" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="920" y="122" fill="#94a3b8" font-size="10">🔍 搜索昵称/邮箱/手机</text>
+
+<!-- Table Header -->
+<rect x="78" y="146" width="1000" height="32" rx="0" fill="#1a103c"/>
+<rect x="78" y="146" width="1000" height="1" rx="0" fill="#1a103c"/>
+<text x="98" y="166" fill="#e2e8f0" font-size="11" font-weight="600">☐</text>
+<text x="128" y="166" fill="#e2e8f0" font-size="11" font-weight="600">客户</text>
+<text x="308" y="166" fill="#e2e8f0" font-size="11" font-weight="600">邮箱</text>
+<text x="488" y="166" fill="#e2e8f0" font-size="11" font-weight="600">渠道</text>
+<text x="578" y="166" fill="#e2e8f0" font-size="11" font-weight="600">标签</text>
+<text x="738" y="166" fill="#e2e8f0" font-size="11" font-weight="600">最后活跃</text>
+<text x="868" y="166" fill="#e2e8f0" font-size="11" font-weight="600">会话数</text>
+<text x="958" y="166" fill="#e2e8f0" font-size="11" font-weight="600">操作</text>
+
+<!-- Row 1 -->
+<rect x="78" y="178" width="1000" height="44" fill="#fff"/>
+<text x="98" y="204" fill="#94a3b8" font-size="11">☐</text>
+<circle cx="138" cy="200" r="14" fill="#dbeafe"/>
+<text x="138" y="204" text-anchor="middle" fill="#2563eb" font-size="9" font-weight="700">JD</text>
+<text x="160" y="196" fill="#1e293b" font-size="12" font-weight="600">John Davis</text>
+<text x="160" y="210" fill="#94a3b8" font-size="10">+1 555-123-4567</text>
+<text x="308" y="204" fill="#475569" font-size="11">john.davis@gmail.com</text>
+<rect x="488" y="192" width="18" height="18" rx="4" fill="#25D366"/>
+<text x="497" y="205" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">W</text>
+<rect x="578" y="192" width="30" height="18" rx="9" fill="#dbeafe"/>
+<text x="593" y="204" text-anchor="middle" fill="#2563eb" font-size="9" font-weight="600">VIP</text>
+<rect x="612" y="192" width="48" height="18" rx="9" fill="#fef3c7"/>
+<text x="636" y="204" text-anchor="middle" fill="#b45309" font-size="9" font-weight="600">高意向</text>
+<text x="738" y="204" fill="#475569" font-size="11">2分钟前</text>
+<text x="888" y="204" text-anchor="middle" fill="#475569" font-size="11">12</text>
+<text x="958" y="204" fill="#7c3aed" font-size="11">查看 · 编辑</text>
+
+<!-- Row 2 -->
+<rect x="78" y="222" width="1000" height="44" fill="#f8fafc"/>
+<text x="98" y="248" fill="#94a3b8" font-size="11">☐</text>
+<circle cx="138" cy="244" r="14" fill="#fce7f3"/>
+<text x="138" y="248" text-anchor="middle" fill="#be185d" font-size="9" font-weight="700">LS</text>
+<text x="160" y="240" fill="#1e293b" font-size="12" font-weight="600">李思远</text>
+<text x="160" y="254" fill="#94a3b8" font-size="10">+86 138****5678</text>
+<text x="308" y="248" fill="#475569" font-size="11">lisiyuan@163.com</text>
+<rect x="488" y="236" width="18" height="18" rx="4" fill="#0088cc"/>
+<text x="497" y="249" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">T</text>
+<rect x="578" y="236" width="48" height="18" rx="9" fill="#d1fae5"/>
+<text x="602" y="248" text-anchor="middle" fill="#059669" font-size="9" font-weight="600">已购买</text>
+<text x="738" y="248" fill="#475569" font-size="11">15分钟前</text>
+<text x="888" y="248" text-anchor="middle" fill="#475569" font-size="11">8</text>
+<text x="958" y="248" fill="#7c3aed" font-size="11">查看 · 编辑</text>
+
+<!-- Row 3 -->
+<rect x="78" y="266" width="1000" height="44" fill="#fff"/>
+<text x="98" y="292" fill="#94a3b8" font-size="11">☐</text>
+<circle cx="138" cy="288" r="14" fill="#d1fae5"/>
+<text x="138" y="292" text-anchor="middle" fill="#059669" font-size="9" font-weight="700">MK</text>
+<text x="160" y="284" fill="#1e293b" font-size="12" font-weight="600">Maria K.</text>
+<text x="160" y="298" fill="#94a3b8" font-size="10">+49 170****9012</text>
+<text x="308" y="292" fill="#475569" font-size="11">maria.k@outlook.de</text>
+<rect x="488" y="280" width="18" height="18" rx="4" fill="#1877F2"/>
+<text x="497" y="293" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">f</text>
+<rect x="578" y="280" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="593" y="292" text-anchor="middle" fill="#b45309" font-size="9" font-weight="600">新客</text>
+<text x="738" y="292" fill="#475569" font-size="11">1小时前</text>
+<text x="888" y="292" text-anchor="middle" fill="#475569" font-size="11">3</text>
+<text x="958" y="292" fill="#7c3aed" font-size="11">查看 · 编辑</text>
+
+<!-- Pagination -->
+<rect x="78" y="440" width="1000" height="32" rx="0" fill="#fff"/>
+<text x="98" y="460" fill="#94a3b8" font-size="11">显示 1-20 / 共 12,583 条</text>
+<rect x="900" y="446" width="24" height="20" rx="4" fill="#f1f5f9"/>
+<text x="912" y="460" text-anchor="middle" fill="#94a3b8" font-size="11">‹</text>
+<rect x="928" y="446" width="24" height="20" rx="4" fill="#7c3aed"/>
+<text x="940" y="460" text-anchor="middle" fill="#fff" font-size="11">1</text>
+<rect x="956" y="446" width="24" height="20" rx="4" fill="#f1f5f9"/>
+<text x="968" y="460" text-anchor="middle" fill="#475569" font-size="11">2</text>
+<rect x="984" y="446" width="24" height="20" rx="4" fill="#f1f5f9"/>
+<text x="996" y="460" text-anchor="middle" fill="#475569" font-size="11">3</text>
+<text x="1022" y="460" fill="#94a3b8" font-size="11">...</text>
+<rect x="1038" y="446" width="24" height="20" rx="4" fill="#f1f5f9"/>
+<text x="1050" y="460" text-anchor="middle" fill="#94a3b8" font-size="11">›</text>
+</svg>
+</div>
+</div>
+
+<!-- ===== 原型3: 自动化流程编辑器 ===== -->
+<h3>原型三：自动化流程编辑器</h3>
+<p>自动化模块的核心交互是可视化流程画布，用户通过拖拽节点和连线来构建自动化逻辑。</p>
+
+<div class="proto-wrap">
+<div class="proto-title"><span class="pt-badge">WIREFRAME</span> 自动化流程编辑器 /next/automation-flow — 画布式交互</div>
+<div class="proto-svg">
+<svg viewBox="0 0 1100 520" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<defs>
+<marker id="arrow-f" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#7c3aed"/></marker>
+<marker id="arrow-g" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#94a3b8"/></marker>
+</defs>
+<rect width="1100" height="520" rx="12" fill="#fafbfc" stroke="#e2e8f0" stroke-width="1"/>
+
+<!-- Top toolbar -->
+<rect x="0" y="0" width="1100" height="48" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="0 0 1 0"/>
+<rect x="0" y="12" width="1100" height="36" fill="#fff"/>
+<text x="24" y="30" fill="#94a3b8" font-size="12">← 返回列表</text>
+<text x="140" y="30" fill="#1e293b" font-size="15" font-weight="700">新客户自动欢迎流程</text>
+<rect x="380" y="12" width="50" height="24" rx="4" fill="#d1fae5"/>
+<text x="405" y="28" text-anchor="middle" fill="#059669" font-size="10" font-weight="600">已启用</text>
+<rect x="940" y="12" width="60" height="24" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+<text x="970" y="28" text-anchor="middle" fill="#475569" font-size="11">日志</text>
+<rect x="1010" y="12" width="70" height="24" rx="6" fill="#7c3aed"/>
+<text x="1045" y="28" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">保存</text>
+
+<!-- Left node panel -->
+<rect x="0" y="48" width="180" height="472" fill="#fff" stroke="#e2e8f0" stroke-width="0 1 0 0"/>
+<text x="16" y="76" fill="#1e293b" font-size="13" font-weight="600">节点面板</text>
+<text x="16" y="100" fill="#94a3b8" font-size="11">触发器</text>
+<rect x="16" y="108" width="148" height="30" rx="6" fill="#fef3c7" stroke="#fde68a" stroke-width="1"/>
+<text x="40" y="128" fill="#b45309" font-size="11">⚡ 新会话触发</text>
+<rect x="16" y="144" width="148" height="30" rx="6" fill="#fef3c7" stroke="#fde68a" stroke-width="1"/>
+<text x="40" y="164" fill="#b45309" font-size="11">🔑 关键词触发</text>
+<text x="16" y="194" fill="#94a3b8" font-size="11">条件</text>
+<rect x="16" y="202" width="148" height="30" rx="6" fill="#dbeafe" stroke="#bfdbfe" stroke-width="1"/>
+<text x="40" y="222" fill="#1d4ed8" font-size="11">🔀 IF/ELSE 分支</text>
+<rect x="16" y="238" width="148" height="30" rx="6" fill="#dbeafe" stroke="#bfdbfe" stroke-width="1"/>
+<text x="40" y="258" fill="#1d4ed8" font-size="11">⏰ 延时等待</text>
+<text x="16" y="288" fill="#94a3b8" font-size="11">动作</text>
+<rect x="16" y="296" width="148" height="30" rx="6" fill="#d1fae5" stroke="#a7f3d0" stroke-width="1"/>
+<text x="40" y="316" fill="#047857" font-size="11">💬 发送消息</text>
+<rect x="16" y="332" width="148" height="30" rx="6" fill="#d1fae5" stroke="#a7f3d0" stroke-width="1"/>
+<text x="40" y="352" fill="#047857" font-size="11">👤 分配成员</text>
+<rect x="16" y="368" width="148" height="30" rx="6" fill="#d1fae5" stroke="#a7f3d0" stroke-width="1"/>
+<text x="40" y="388" fill="#047857" font-size="11">🏷️ 添加标签</text>
+<rect x="16" y="404" width="148" height="30" rx="6" fill="#ede9fe" stroke="#ddd6fe" stroke-width="1"/>
+<text x="40" y="424" fill="#7c3aed" font-size="11">🤖 AI 智能体</text>
+
+<!-- Canvas area -->
+<!-- Trigger Node -->
+<rect x="420" y="68" width="200" height="56" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+<text x="445" y="92" fill="#b45309" font-size="11" font-weight="700">⚡ 触发器</text>
+<text x="445" y="110" fill="#92400e" font-size="11">当新会话创建时</text>
+<line x1="520" y1="124" x2="520" y2="158" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-f)"/>
+
+<!-- Action: Send Welcome -->
+<rect x="420" y="160" width="200" height="56" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+<text x="445" y="184" fill="#047857" font-size="11" font-weight="700">💬 发送消息</text>
+<text x="445" y="202" fill="#065f46" font-size="11">发送欢迎语 + 菜单按钮</text>
+<line x1="520" y1="216" x2="520" y2="250" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-f)"/>
+
+<!-- Condition: Wait for reply -->
+<rect x="420" y="252" width="200" height="56" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+<text x="445" y="276" fill="#1d4ed8" font-size="11" font-weight="700">⏰ 等待回复</text>
+<text x="445" y="294" fill="#1e40af" font-size="11">等待客户回复，超时30秒</text>
+
+<!-- Branch: keyword match -->
+<line x1="520" y1="308" x2="520" y2="342" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-f)"/>
+<path d="M520,344 L520,370" stroke="none"/>
+<!-- Diamond shape for condition -->
+<polygon points="520,340 590,370 520,400 450,370" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+<text x="520" y="366" text-anchor="middle" fill="#1d4ed8" font-size="10" font-weight="700">关键词</text>
+<text x="520" y="380" text-anchor="middle" fill="#1d4ed8" font-size="10">匹配?</text>
+
+<!-- Left branch: 售前 -->
+<line x1="450" y1="370" x2="310" y2="370" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-f)"/>
+<text x="380" y="362" fill="#7c3aed" font-size="10" font-weight="600">"售前"</text>
+<rect x="220" y="344" width="160" height="52" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+<text x="240" y="366" fill="#047857" font-size="11" font-weight="700">👤 分配</text>
+<text x="240" y="384" fill="#065f46" font-size="11">→ 销售组</text>
+
+<!-- Right branch: 售后 -->
+<line x1="590" y1="370" x2="730" y2="370" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-f)"/>
+<text x="660" y="362" fill="#7c3aed" font-size="10" font-weight="600">"售后"</text>
+<rect x="660" y="344" width="160" height="52" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+<text x="680" y="366" fill="#047857" font-size="11" font-weight="700">👤 分配</text>
+<text x="680" y="384" fill="#065f46" font-size="11">→ 客服组</text>
+
+<!-- Bottom branch: timeout -->
+<line x1="520" y1="400" x2="520" y2="440" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrow-g)"/>
+<text x="536" y="424" fill="#94a3b8" font-size="10">超时</text>
+<rect x="420" y="442" width="200" height="52" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+<text x="445" y="464" fill="#7c3aed" font-size="11" font-weight="700">🤖 AI 智能体</text>
+<text x="445" y="482" fill="#5B21B6" font-size="11">转给 AI 机器人处理</text>
+
+<!-- Zoom controls -->
+<rect x="1030" y="470" width="56" height="36" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="1046" y="492" fill="#475569" font-size="13">−</text>
+<line x1="1058" y1="476" x2="1058" y2="500" stroke="#e2e8f0"/>
+<text x="1072" y="492" fill="#475569" font-size="13">+</text>
+</svg>
+</div>
+</div>
+
+<!-- ===== 原型4: 营销群发 ===== -->
+<h3>原型四：营销群发界面</h3>
+<p>营销群发是 SaleSmartly 的差异化功能，采用步骤式引导交互（选择渠道 → 圈选受众 → 编辑内容 → 确认发送）。</p>
+
+<div class="proto-wrap">
+<div class="proto-title"><span class="pt-badge">WIREFRAME</span> 消息群发 /next/marketing/broadcast — 步骤式引导</div>
+<div class="proto-svg">
+<svg viewBox="0 0 1100 460" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<rect width="1100" height="460" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+<!-- Header -->
+<rect x="0" y="0" width="1100" height="48" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="0 0 1 0"/>
+<rect x="0" y="12" width="1100" height="36" fill="#fff"/>
+<text x="24" y="30" fill="#1e293b" font-size="16" font-weight="700">创建群发任务</text>
+
+<!-- Steps indicator -->
+<rect x="300" y="10" width="500" height="28" rx="14" fill="#f1f5f9"/>
+<circle cx="380" cy="24" r="10" fill="#7c3aed"/>
+<text x="380" y="28" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">1</text>
+<text x="400" y="28" fill="#7c3aed" font-size="11" font-weight="600">选择渠道</text>
+<line x1="450" y1="24" x2="490" y2="24" stroke="#e2e8f0" stroke-width="2"/>
+<circle cx="510" cy="24" r="10" fill="#7c3aed"/>
+<text x="510" y="28" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">2</text>
+<text x="530" y="28" fill="#7c3aed" font-size="11" font-weight="600">圈选受众</text>
+<line x1="590" y1="24" x2="630" y2="24" stroke="#e2e8f0" stroke-width="2"/>
+<circle cx="650" cy="24" r="10" fill="#e2e8f0"/>
+<text x="650" y="28" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="700">3</text>
+<text x="670" y="28" fill="#94a3b8" font-size="11">编辑内容</text>
+<line x1="730" y1="24" x2="740" y2="24" stroke="#e2e8f0" stroke-width="2"/>
+<circle cx="760" cy="24" r="10" fill="#e2e8f0"/>
+<text x="760" y="28" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="700">4</text>
+<text x="780" y="28" fill="#94a3b8" font-size="11">确认发送</text>
+
+<!-- Left: 渠道已选 -->
+<rect x="30" y="64" width="500" height="380" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="50" y="92" fill="#1e293b" font-size="14" font-weight="700">步骤 2：圈选目标受众</text>
+<text x="50" y="110" fill="#94a3b8" font-size="12">已选渠道：WhatsApp Business</text>
+
+<!-- Condition builder -->
+<rect x="50" y="124" width="460" height="36" rx="8" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+<text x="66" y="146" fill="#7c3aed" font-size="12" font-weight="600">筛选条件</text>
+
+<rect x="50" y="170" width="460" height="32" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="58" y="176" width="80" height="20" rx="4" fill="#ede9fe"/>
+<text x="98" y="190" text-anchor="middle" fill="#7c3aed" font-size="10" font-weight="600">标签 包含</text>
+<rect x="146" y="176" width="70" height="20" rx="4" fill="#dbeafe"/>
+<text x="181" y="190" text-anchor="middle" fill="#2563eb" font-size="10" font-weight="600">已购买</text>
+<text x="228" y="190" fill="#94a3b8" font-size="11">AND</text>
+<rect x="260" y="176" width="100" height="20" rx="4" fill="#ede9fe"/>
+<text x="310" y="190" text-anchor="middle" fill="#7c3aed" font-size="10" font-weight="600">最后活跃 ≤</text>
+<rect x="368" y="176" width="60" height="20" rx="4" fill="#dbeafe"/>
+<text x="398" y="190" text-anchor="middle" fill="#2563eb" font-size="10" font-weight="600">30天</text>
+<text x="488" y="190" fill="#7c3aed" font-size="12">+ 条件</text>
+
+<!-- Result preview -->
+<rect x="50" y="216" width="460" height="36" rx="6" fill="#ecfdf5" stroke="#bbf7d0" stroke-width="1"/>
+<text x="66" y="238" fill="#059669" font-size="12" font-weight="600">✓ 匹配 2,847 位客户</text>
+<text x="390" y="238" fill="#059669" font-size="11">预览列表 →</text>
+
+<!-- Customer preview list -->
+<rect x="50" y="264" width="460" height="28" rx="0" fill="#f1f5f9"/>
+<text x="66" y="282" fill="#64748b" font-size="10" font-weight="600">客户</text>
+<text x="260" y="282" fill="#64748b" font-size="10" font-weight="600">渠道号</text>
+<text x="410" y="282" fill="#64748b" font-size="10" font-weight="600">标签</text>
+
+<text x="66" y="308" fill="#1e293b" font-size="11">John Davis</text>
+<text x="260" y="308" fill="#475569" font-size="11">+1 555-***-4567</text>
+<rect x="410" y="296" width="30" height="16" rx="8" fill="#dbeafe"/>
+<text x="425" y="307" text-anchor="middle" fill="#2563eb" font-size="9">VIP</text>
+
+<text x="66" y="332" fill="#1e293b" font-size="11">Maria K.</text>
+<text x="260" y="332" fill="#475569" font-size="11">+49 170-***-9012</text>
+<rect x="410" y="320" width="42" height="16" rx="8" fill="#d1fae5"/>
+<text x="431" y="331" text-anchor="middle" fill="#059669" font-size="9">已购买</text>
+
+<text x="66" y="356" fill="#1e293b" font-size="11">Ahmed H.</text>
+<text x="260" y="356" fill="#475569" font-size="11">+971 50-***-3456</text>
+<rect x="410" y="344" width="48" height="16" rx="8" fill="#fef3c7"/>
+<text x="434" y="355" text-anchor="middle" fill="#b45309" font-size="9">高意向</text>
+
+<text x="250" y="390" text-anchor="middle" fill="#94a3b8" font-size="11">... 共 2,847 位</text>
+
+<!-- Right: 消息预览 -->
+<rect x="560" y="64" width="510" height="380" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="580" y="92" fill="#1e293b" font-size="14" font-weight="700">消息预览</text>
+
+<!-- Phone mockup -->
+<rect x="700" y="110" width="240" height="310" rx="20" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+<rect x="710" y="140" width="220" height="270" rx="4" fill="#fff"/>
+<!-- WhatsApp header -->
+<rect x="710" y="140" width="220" height="36" fill="#075E54"/>
+<text x="730" y="163" fill="#fff" font-size="11" font-weight="600">Your Store</text>
+<!-- Message bubble -->
+<rect x="724" y="190" width="190" height="130" rx="8" fill="#DCF8C6"/>
+<text x="736" y="210" fill="#1e293b" font-size="10" font-weight="600">🎉 新品上架通知</text>
+<text x="736" y="226" fill="#334155" font-size="10">Hi {{name}},</text>
+<text x="736" y="242" fill="#334155" font-size="10">我们的新品系列已经上</text>
+<text x="736" y="256" fill="#334155" font-size="10">架！限时 8 折优惠。</text>
+<rect x="736" y="268" width="166" height="24" rx="6" fill="#25D366"/>
+<text x="819" y="284" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">🛒 立即查看</text>
+<rect x="736" y="296" width="166" height="24" rx="6" fill="rgba(37,211,102,.15)" stroke="#25D366" stroke-width="1"/>
+<text x="819" y="312" text-anchor="middle" fill="#25D366" font-size="10" font-weight="600">💬 咨询客服</text>
+
+<!-- Bottom buttons -->
+<rect x="30" y="414" width="80" height="28" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+<text x="70" y="432" text-anchor="middle" fill="#475569" font-size="11">← 上一步</text>
+<rect x="990" y="414" width="80" height="28" rx="6" fill="#7c3aed"/>
+<text x="1030" y="432" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">下一步 →</text>
+</svg>
+</div>
+</div>
+
+<!-- ===== 原型5: 数据报表 ===== -->
+<h3>原型五：数据报表仪表盘</h3>
+<p>报告模块的核心是 KPI 仪表盘，提供一目了然的服务概览。</p>
+
+<div class="proto-wrap">
+<div class="proto-title"><span class="pt-badge">WIREFRAME</span> 服务概览 /next/reports — 仪表盘布局</div>
+<div class="proto-svg">
+<svg viewBox="0 0 1100 440" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<rect width="1100" height="440" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+<!-- Header -->
+<rect x="0" y="0" width="1100" height="48" rx="12" fill="#fff"/>
+<rect x="0" y="12" width="1100" height="36" fill="#fff"/>
+<line x1="0" y1="48" x2="1100" y2="48" stroke="#e2e8f0"/>
+<text x="24" y="30" fill="#1e293b" font-size="16" font-weight="700">服务概览</text>
+<!-- Sub tabs -->
+<text x="150" y="30" fill="#7c3aed" font-size="12" font-weight="600">服务概览</text>
+<text x="230" y="30" fill="#64748b" font-size="12">客户分析</text>
+<text x="310" y="30" fill="#64748b" font-size="12">AI 分析</text>
+<text x="380" y="30" fill="#64748b" font-size="12">在线时长</text>
+<text x="460" y="30" fill="#64748b" font-size="12">大报表</text>
+<text x="520" y="30" fill="#64748b" font-size="12">广告分析</text>
+<!-- Date picker -->
+<rect x="900" y="12" width="180" height="24" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+<text x="920" y="28" fill="#475569" font-size="11">📅 2026-06-01 ~ 06-08</text>
+
+<!-- KPI Cards Row -->
+<rect x="24" y="64" width="160" height="80" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="40" y="86" fill="#94a3b8" font-size="11">新增会话</text>
+<text x="40" y="118" fill="#1e293b" font-size="26" font-weight="800">1,284</text>
+<text x="132" y="118" fill="#059669" font-size="11">↑ 12%</text>
+
+<rect x="200" y="64" width="160" height="80" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="216" y="86" fill="#94a3b8" font-size="11">已处理</text>
+<text x="216" y="118" fill="#1e293b" font-size="26" font-weight="800">1,156</text>
+<text x="312" y="118" fill="#059669" font-size="11">90%</text>
+
+<rect x="376" y="64" width="160" height="80" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="392" y="86" fill="#94a3b8" font-size="11">平均响应时间</text>
+<text x="392" y="118" fill="#1e293b" font-size="26" font-weight="800">28s</text>
+<text x="450" y="118" fill="#059669" font-size="11">↓ 8%</text>
+
+<rect x="552" y="64" width="160" height="80" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="568" y="86" fill="#94a3b8" font-size="11">平均处理时长</text>
+<text x="568" y="118" fill="#1e293b" font-size="26" font-weight="800">4.2m</text>
+<text x="626" y="118" fill="#ef4444" font-size="11">↑ 3%</text>
+
+<rect x="728" y="64" width="160" height="80" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="744" y="86" fill="#94a3b8" font-size="11">满意度</text>
+<text x="744" y="118" fill="#1e293b" font-size="26" font-weight="800">4.6</text>
+<text x="790" y="118" fill="#f59e0b" font-size="11">★★★★★</text>
+
+<rect x="904" y="64" width="172" height="80" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="920" y="86" fill="#94a3b8" font-size="11">AI 解决率</text>
+<text x="920" y="118" fill="#7c3aed" font-size="26" font-weight="800">67%</text>
+<text x="988" y="118" fill="#059669" font-size="11">↑ 5%</text>
+
+<!-- Chart area: Trend -->
+<rect x="24" y="160" width="700" height="260" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="44" y="186" fill="#1e293b" font-size="13" font-weight="600">会话量趋势</text>
+<text x="620" y="186" fill="#7c3aed" font-size="11">● 新增</text>
+<text x="670" y="186" fill="#059669" font-size="11">● 已处理</text>
+<!-- Simplified chart -->
+<polyline points="60,360 140,330 220,340 300,290 380,300 460,260 540,250 620,270 700,240" fill="none" stroke="#7c3aed" stroke-width="2"/>
+<polyline points="60,370 140,345 220,350 300,310 380,315 460,280 540,270 620,285 700,260" fill="none" stroke="#059669" stroke-width="2" stroke-dasharray="4"/>
+<!-- X axis labels -->
+<text x="60" y="395" fill="#94a3b8" font-size="10">6/1</text>
+<text x="220" y="395" fill="#94a3b8" font-size="10">6/2</text>
+<text x="380" y="395" fill="#94a3b8" font-size="10">6/3</text>
+<text x="540" y="395" fill="#94a3b8" font-size="10">6/4</text>
+<text x="700" y="395" fill="#94a3b8" font-size="10">6/5</text>
+
+<!-- Right: Channel distribution -->
+<rect x="740" y="160" width="336" height="260" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="760" y="186" fill="#1e293b" font-size="13" font-weight="600">渠道分布</text>
+<!-- Donut chart placeholder -->
+<circle cx="908" cy="270" r="60" fill="none" stroke="#e2e8f0" stroke-width="20"/>
+<circle cx="908" cy="270" r="60" fill="none" stroke="#25D366" stroke-width="20" stroke-dasharray="140 237" stroke-dashoffset="0"/>
+<circle cx="908" cy="270" r="60" fill="none" stroke="#0088cc" stroke-width="20" stroke-dasharray="75 302" stroke-dashoffset="-140"/>
+<circle cx="908" cy="270" r="60" fill="none" stroke="#1877F2" stroke-width="20" stroke-dasharray="56 321" stroke-dashoffset="-215"/>
+<circle cx="908" cy="270" r="60" fill="none" stroke="#E4405F" stroke-width="20" stroke-dasharray="38 339" stroke-dashoffset="-271"/>
+<text x="908" y="268" text-anchor="middle" fill="#1e293b" font-size="14" font-weight="700">1,284</text>
+<text x="908" y="284" text-anchor="middle" fill="#94a3b8" font-size="10">总会话</text>
+<!-- Legend -->
+<rect x="760" y="352" width="10" height="10" rx="2" fill="#25D366"/>
+<text x="776" y="362" fill="#475569" font-size="10">WhatsApp 37%</text>
+<rect x="760" y="370" width="10" height="10" rx="2" fill="#0088cc"/>
+<text x="776" y="380" fill="#475569" font-size="10">Telegram 20%</text>
+<rect x="880" y="352" width="10" height="10" rx="2" fill="#1877F2"/>
+<text x="896" y="362" fill="#475569" font-size="10">Facebook 15%</text>
+<rect x="880" y="370" width="10" height="10" rx="2" fill="#E4405F"/>
+<text x="896" y="380" fill="#475569" font-size="10">Instagram 10%</text>
+<rect x="1000" y="352" width="10" height="10" rx="2" fill="#e2e8f0"/>
+<text x="1016" y="362" fill="#475569" font-size="10">其他 18%</text>
+</svg>
+</div>
+</div>
+
+<!-- ===== 原型6: 渠道接入 ===== -->
+<h3>原型六：渠道接入管理</h3>
+<p>渠道接入是 SaleSmartly 的基础能力，采用卡片式渠道市场 + 独立配置面板的模式。</p>
+
+<div class="proto-wrap">
+<div class="proto-title"><span class="pt-badge">WIREFRAME</span> 渠道管理 /next/connect/channels — 卡片式布局</div>
+<div class="proto-svg">
+<svg viewBox="0 0 1100 420" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<rect width="1100" height="420" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+<!-- Header -->
+<rect x="0" y="0" width="1100" height="48" rx="12" fill="#fff"/>
+<rect x="0" y="12" width="1100" height="36" fill="#fff"/>
+<line x1="0" y1="48" x2="1100" y2="48" stroke="#e2e8f0"/>
+<text x="24" y="30" fill="#1e293b" font-size="16" font-weight="700">渠道接入</text>
+<!-- Tabs -->
+<rect x="140" y="10" width="60" height="28" rx="6" fill="#7c3aed"/>
+<text x="170" y="28" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">全部</text>
+<text x="228" y="28" fill="#64748b" font-size="11">已接入</text>
+<text x="290" y="28" fill="#64748b" font-size="11">官方通道</text>
+<text x="366" y="28" fill="#64748b" font-size="11">云托管号</text>
+
+<!-- Channel cards grid -->
+<!-- Row 1 -->
+<!-- WhatsApp -->
+<rect x="24" y="64" width="200" height="100" rx="10" fill="#fff" stroke="#25D366" stroke-width="2"/>
+<rect x="40" y="80" width="36" height="36" rx="10" fill="#25D366"/>
+<text x="58" y="104" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">W</text>
+<text x="86" y="94" fill="#1e293b" font-size="13" font-weight="700">WhatsApp</text>
+<text x="86" y="110" fill="#94a3b8" font-size="10">Business API</text>
+<rect x="160" y="80" width="48" height="20" rx="10" fill="#d1fae5"/>
+<text x="184" y="93" text-anchor="middle" fill="#059669" font-size="9" font-weight="600">已接入</text>
+<text x="40" y="148" fill="#64748b" font-size="10">消息量: 4,521/周</text>
+<text x="160" y="148" fill="#7c3aed" font-size="10">配置 →</text>
+
+<!-- Telegram -->
+<rect x="240" y="64" width="200" height="100" rx="10" fill="#fff" stroke="#0088cc" stroke-width="2"/>
+<rect x="256" y="80" width="36" height="36" rx="10" fill="#0088cc"/>
+<text x="274" y="104" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">T</text>
+<text x="302" y="94" fill="#1e293b" font-size="13" font-weight="700">Telegram</text>
+<text x="302" y="110" fill="#94a3b8" font-size="10">Bot + 云托管</text>
+<rect x="376" y="80" width="48" height="20" rx="10" fill="#d1fae5"/>
+<text x="400" y="93" text-anchor="middle" fill="#059669" font-size="9" font-weight="600">已接入</text>
+<text x="256" y="148" fill="#64748b" font-size="10">消息量: 2,103/周</text>
+<text x="376" y="148" fill="#7c3aed" font-size="10">配置 →</text>
+
+<!-- Facebook -->
+<rect x="456" y="64" width="200" height="100" rx="10" fill="#fff" stroke="#1877F2" stroke-width="2"/>
+<rect x="472" y="80" width="36" height="36" rx="10" fill="#1877F2"/>
+<text x="490" y="104" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">f</text>
+<text x="518" y="94" fill="#1e293b" font-size="13" font-weight="700">Messenger</text>
+<text x="518" y="110" fill="#94a3b8" font-size="10">Page API</text>
+<rect x="592" y="80" width="48" height="20" rx="10" fill="#d1fae5"/>
+<text x="616" y="93" text-anchor="middle" fill="#059669" font-size="9" font-weight="600">已接入</text>
+<text x="472" y="148" fill="#64748b" font-size="10">消息量: 1,856/周</text>
+<text x="592" y="148" fill="#7c3aed" font-size="10">配置 →</text>
+
+<!-- Instagram -->
+<rect x="672" y="64" width="200" height="100" rx="10" fill="#fff" stroke="#E4405F" stroke-width="2"/>
+<rect x="688" y="80" width="36" height="36" rx="10" fill="#E4405F"/>
+<text x="706" y="104" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">I</text>
+<text x="734" y="94" fill="#1e293b" font-size="13" font-weight="700">Instagram</text>
+<text x="734" y="110" fill="#94a3b8" font-size="10">API 接入</text>
+<rect x="808" y="80" width="48" height="20" rx="10" fill="#d1fae5"/>
+<text x="832" y="93" text-anchor="middle" fill="#059669" font-size="9" font-weight="600">已接入</text>
+<text x="688" y="148" fill="#64748b" font-size="10">消息量: 987/周</text>
+<text x="808" y="148" fill="#7c3aed" font-size="10">配置 →</text>
+
+<!-- Email -->
+<rect x="888" y="64" width="200" height="100" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+<rect x="904" y="80" width="36" height="36" rx="10" fill="#6366f1"/>
+<text x="922" y="104" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">@</text>
+<text x="950" y="94" fill="#1e293b" font-size="13" font-weight="700">Email</text>
+<text x="950" y="110" fill="#94a3b8" font-size="10">SMTP / IMAP</text>
+<rect x="1024" y="80" width="48" height="20" rx="10" fill="#fef3c7"/>
+<text x="1048" y="93" text-anchor="middle" fill="#b45309" font-size="9" font-weight="600">未接入</text>
+<rect x="950" y="136" width="70" height="24" rx="6" fill="#7c3aed"/>
+<text x="985" y="152" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">+ 接入</text>
+
+<!-- Row 2 -->
+<rect x="24" y="180" width="200" height="100" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+<rect x="40" y="196" width="36" height="36" rx="10" fill="#06C755"/>
+<text x="58" y="220" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">L</text>
+<text x="86" y="210" fill="#1e293b" font-size="13" font-weight="700">LINE</text>
+<text x="86" y="226" fill="#94a3b8" font-size="10">Official Account</text>
+<rect x="160" y="196" width="48" height="20" rx="10" fill="#fef3c7"/>
+<text x="184" y="209" text-anchor="middle" fill="#b45309" font-size="9" font-weight="600">未接入</text>
+
+<rect x="240" y="180" width="200" height="100" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+<rect x="256" y="196" width="36" height="36" rx="10" fill="#000"/>
+<text x="274" y="220" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">T</text>
+<text x="302" y="210" fill="#1e293b" font-size="13" font-weight="700">TikTok</text>
+<text x="302" y="226" fill="#94a3b8" font-size="10">Business API</text>
+<rect x="376" y="196" width="48" height="20" rx="10" fill="#fef3c7"/>
+<text x="400" y="209" text-anchor="middle" fill="#b45309" font-size="9" font-weight="600">未接入</text>
+
+<rect x="456" y="180" width="200" height="100" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+<rect x="472" y="196" width="36" height="36" rx="10" fill="#0077B5"/>
+<text x="490" y="220" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">VK</text>
+<text x="518" y="210" fill="#1e293b" font-size="13" font-weight="700">VKontakte</text>
+<text x="518" y="226" fill="#94a3b8" font-size="10">Community API</text>
+<rect x="592" y="196" width="48" height="20" rx="10" fill="#fef3c7"/>
+<text x="616" y="209" text-anchor="middle" fill="#b45309" font-size="9" font-weight="600">未接入</text>
+
+<rect x="672" y="180" width="200" height="100" rx="10" fill="#fff" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6"/>
+<text x="772" y="224" text-anchor="middle" fill="#7c3aed" font-size="13" font-weight="600">LiveChat</text>
+<text x="772" y="244" text-anchor="middle" fill="#94a3b8" font-size="10">网站在线聊天插件</text>
+<rect x="735" y="254" width="72" height="24" rx="6" fill="#7c3aed"/>
+<text x="771" y="270" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">获取代码</text>
+
+<!-- Stats bar -->
+<rect x="24" y="380" width="1052" height="28" rx="6" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+<text x="44" y="398" fill="#5B21B6" font-size="11" font-weight="600">接入概览：已接入 4 个渠道 · 总消息量 9,467/周 · 活跃渠道 4 · 可用渠道 20+</text>
+</svg>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========== S9: 优先级矩阵 ========== -->
+<div class="section" id="s9">
+<div class="sec-head">
+<h2>功能优先级矩阵</h2>
+<div class="desc">基于用户价值和实现复杂度的四象限优先级划分</div>
+</div>
+<div class="sec-body">
+
+<h3>优先级分布</h3>
+
+<div class="priority-grid">
+<div class="pg-card pg-p0">
+<div class="pg-level">P0</div>
+<div class="pg-label">必须有 / Must Have</div>
+<div class="pg-count">18</div>
+<div class="pg-desc">核心功能，MVP必备</div>
+</div>
+<div class="pg-card pg-p1">
+<div class="pg-level">P1</div>
+<div class="pg-label">应该有 / Should Have</div>
+<div class="pg-count">22</div>
+<div class="pg-desc">重要功能，首版上线</div>
+</div>
+<div class="pg-card pg-p2">
+<div class="pg-level">P2</div>
+<div class="pg-label">可以有 / Could Have</div>
+<div class="pg-count">14</div>
+<div class="pg-desc">增值功能，二期迭代</div>
+</div>
+<div class="pg-card pg-p3">
+<div class="pg-level">P3</div>
+<div class="pg-label">锦上添花 / Nice to Have</div>
+<div class="pg-count">2</div>
+<div class="pg-desc">远期规划</div>
+</div>
+</div>
+
+<h3>P0 核心功能清单</h3>
+<table class="stbl">
+<tr><th>模块</th><th>功能项</th><th>理由</th><th>预计工时</th></tr>
+<tr><td><strong>聊天</strong></td><td>会话列表 + 消息面板 + 客户信息面板</td><td>产品核心交互入口，没有它其他一切无意义</td><td>3-4周</td></tr>
+<tr><td><strong>聊天</strong></td><td>多视图切换（我的/待分配/全部）</td><td>客服团队基本的工作流分工</td><td>1周</td></tr>
+<tr><td><strong>聊天</strong></td><td>AI 辅助回复 + 实时翻译</td><td>SaleSmartly 最核心的差异化能力</td><td>2-3周</td></tr>
+<tr><td><strong>聊天</strong></td><td>会话分配（手动+自动）</td><td>多人协作的基础</td><td>1-2周</td></tr>
+<tr><td><strong>聊天</strong></td><td>富文本编辑器 + 多消息类型</td><td>支持各渠道消息类型是基本能力</td><td>2周</td></tr>
+<tr><td><strong>聊天</strong></td><td>会话操作（标记/置顶/关闭/转接）</td><td>日常工作流必备操作</td><td>1周</td></tr>
+<tr><td><strong>客户</strong></td><td>客户列表 + 详情页</td><td>CRM 是客服服务质量的基础</td><td>2周</td></tr>
+<tr><td><strong>集成</strong></td><td>渠道总览 + 官方通道接入</td><td>没有渠道就没有消息来源</td><td>3-4周</td></tr>
+<tr><td><strong>集成</strong></td><td>渠道配置（凭证/开关/AI绑定）</td><td>渠道管理的基本操作</td><td>1周</td></tr>
+<tr><td><strong>团队</strong></td><td>成员管理 + 角色权限</td><td>多人协作的权限基础</td><td>1-2周</td></tr>
+<tr><td><strong>设置</strong></td><td>AI 平台配置</td><td>AI 能力是产品核心，必须首版支持</td><td>2周</td></tr>
+<tr><td><strong>设置</strong></td><td>会话分配规则配置</td><td>分配策略需要管理后台配置</td><td>1周</td></tr>
+<tr><td><strong>自动化</strong></td><td>触发器 + 条件分支 + 动作节点</td><td>自动化是效率提升的关键，最基础的流程能力</td><td>3周</td></tr>
+<tr><td><strong>报告</strong></td><td>服务概览仪表盘</td><td>管理层需要看到核心指标</td><td>2周</td></tr>
+</table>
+
+<div class="insight">
+<strong>MVP 范围建议：</strong>P0 功能预计需要 <strong>22-28 人周</strong>（约 5-7 周，4人团队），覆盖完整的「渠道接入 → 消息收发 → AI辅助 → 会话管理 → 团队协作 → 数据概览」闭环。P1 功能（营销群发、自动化流程、高级报表等）建议在 MVP 稳定后的第二个 Sprint 迭代。
+</div>
+
+<h3>功能依赖关系</h3>
+<div class="proto-wrap">
+<div class="proto-title"><span class="pt-badge">DEPENDENCY</span> 模块间依赖关系图</div>
+<div class="proto-svg">
+<svg viewBox="0 0 1100 300" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+<defs>
+<marker id="dep-arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#7c3aed"/></marker>
+</defs>
+<rect width="1100" height="300" rx="8" fill="#fafbfc"/>
+
+<!-- Layer 0: Foundation -->
+<text x="20" y="268" fill="#94a3b8" font-size="11" font-weight="600">Layer 0 基础层</text>
+<rect x="180" y="240" width="140" height="44" rx="8" fill="#1a103c"/>
+<text x="250" y="267" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">集成 Connect</text>
+<rect x="380" y="240" width="140" height="44" rx="8" fill="#1a103c"/>
+<text x="450" y="267" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">团队 Team</text>
+<rect x="580" y="240" width="140" height="44" rx="8" fill="#1a103c"/>
+<text x="650" y="267" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">设置 Settings</text>
+
+<!-- Layer 1: Core -->
+<text x="20" y="188" fill="#94a3b8" font-size="11" font-weight="600">Layer 1 核心层</text>
+<rect x="280" y="160" width="140" height="44" rx="8" fill="#7c3aed"/>
+<text x="350" y="187" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">聊天 Chat</text>
+<rect x="480" y="160" width="140" height="44" rx="8" fill="#7c3aed"/>
+<text x="550" y="187" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">客户 Contact</text>
+
+<!-- Layer 2: Enhancement -->
+<text x="20" y="108" fill="#94a3b8" font-size="11" font-weight="600">Layer 2 增强层</text>
+<rect x="180" y="80" width="140" height="44" rx="8" fill="#2563eb"/>
+<text x="250" y="107" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">自动化 Auto</text>
+<rect x="380" y="80" width="140" height="44" rx="8" fill="#2563eb"/>
+<text x="450" y="107" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">报告 Reports</text>
+
+<!-- Layer 3: Growth -->
+<text x="20" y="38" fill="#94a3b8" font-size="11" font-weight="600">Layer 3 增长层</text>
+<rect x="280" y="10" width="160" height="44" rx="8" fill="#059669"/>
+<text x="360" y="37" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">营销 Marketing</text>
+
+<!-- Arrows -->
+<line x1="250" y1="240" x2="320" y2="204" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#dep-arrow)"/>
+<line x1="450" y1="240" x2="380" y2="204" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#dep-arrow)"/>
+<line x1="650" y1="240" x2="580" y2="204" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#dep-arrow)"/>
+<line x1="350" y1="160" x2="550" y2="124" stroke="#2563eb" stroke-width="1.5" marker-end="url(#dep-arrow)"/>
+<line x1="350" y1="160" x2="280" y2="124" stroke="#2563eb" stroke-width="1.5" marker-end="url(#dep-arrow)"/>
+<line x1="550" y1="160" x2="480" y2="124" stroke="#2563eb" stroke-width="1.5" marker-end="url(#dep-arrow)"/>
+<line x1="250" y1="80" x2="330" y2="54" stroke="#059669" stroke-width="1.5" marker-end="url(#dep-arrow)"/>
+<line x1="550" y1="160" x2="400" y2="54" stroke="#059669" stroke-width="1.5" marker-end="url(#dep-arrow)"/>
+
+<!-- Legend -->
+<rect x="780" y="20" width="290" height="120" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="800" y="44" fill="#1e293b" font-size="12" font-weight="600">依赖说明</text>
+<rect x="800" y="56" width="12" height="12" rx="3" fill="#1a103c"/>
+<text x="818" y="67" fill="#475569" font-size="11">基础层：先建，其他模块依赖</text>
+<rect x="800" y="76" width="12" height="12" rx="3" fill="#7c3aed"/>
+<text x="818" y="87" fill="#475569" font-size="11">核心层：产品核心价值承载</text>
+<rect x="800" y="96" width="12" height="12" rx="3" fill="#2563eb"/>
+<text x="818" y="107" fill="#475569" font-size="11">增强层：依赖核心层数据</text>
+<rect x="800" y="116" width="12" height="12" rx="3" fill="#059669"/>
+<text x="818" y="127" fill="#475569" font-size="11">增长层：依赖客户+自动化</text>
+</svg>
+</div>
+</div>
+
+<h3>版本迭代规划</h3>
+<table class="stbl">
+<tr><th>版本</th><th>里程碑</th><th>功能范围</th><th>预计周期</th></tr>
+<tr><td><strong>v1.0 MVP</strong></td><td>核心闭环</td><td>P0 全部功能：渠道接入 + 聊天 + AI + 客户 + 团队 + 基础报告</td><td>6-8周</td></tr>
+<tr><td><strong>v1.1</strong></td><td>自动化上线</td><td>自动化流程编辑器 + 触发器 + 条件分支 + 常用动作节点</td><td>3-4周</td></tr>
+<tr><td><strong>v1.2</strong></td><td>营销能力</td><td>消息群发 + 分流链接 + 客户圈选 + 群发效果分析</td><td>3-4周</td></tr>
+<tr><td><strong>v2.0</strong></td><td>数据驱动</td><td>完整报表体系 + 广告分析 + AI 分析 + 定时报告</td><td>4-6周</td></tr>
+<tr><td><strong>v2.1</strong></td><td>生态扩展</td><td>应用商店 + Webhook + 开放 API + 云托管号全量接入</td><td>4-6周</td></tr>
+</table>
+
+<div class="warn-box">
+<strong>风险提示：</strong>渠道接入是整个产品的地基，但也是最大的不确定性来源——每个渠道的 API 稳定性、审核周期、消息类型支持度各不相同。建议 MVP 阶段优先接入 WhatsApp + Telegram + LiveChat 三个渠道（覆盖最核心的跨境场景），其他渠道逐步迭代。
+</div>
+
+</div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer">
+<div class="divider"></div>
+<p>SaleSmartly 产品功能规格说明书 · 产品技术部 · 2026年6月</p>
+<p style="margin-top:4px">基于 salesmartly.com 官网 · app.salesmartly.com 控制台 · help.salesmartly.com 帮助中心</p>
+</div>
+
+<!-- 浮动按钮组 -->
+<style>
+.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75;text-decoration:none}
+.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.fab svg{width:18px;height:18px}
+.fab-back{background:#fff;color:#555}
+.fab-top{background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff}
+.fab-bottom{background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff}
+.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
+.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
+.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
+@media(max-width:640px){.fab-group{right:14px;bottom:20px;gap:8px}.fab{width:38px;height:38px}.fab svg{width:16px;height:16px}}
+</style>
+<div class="fab-group">
+<a class="fab fab-back" href="/html-pages/?project=salesmartly" title="返回首页">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+</div>
+<script>
+(function(){var ft=document.querySelector('.fab-top'),fb=document.querySelector('.fab-bottom');function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle('visible',st>300);fb.classList.toggle('visible',st<dh-wh-300)}window.addEventListener('scroll',ck,{passive:true});ck()})();
+</script>
+
+</div>
+</body>
+</html>
