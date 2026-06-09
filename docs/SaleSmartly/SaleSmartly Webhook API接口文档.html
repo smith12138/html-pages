@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaleSmartly Webhook API 接口文档</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.7;padding:24px}
+.container{max-width:1100px;margin:0 auto}
+
+.header{background:linear-gradient(135deg,#1a103c,#2d1b69);color:#fff;padding:40px 36px;border-radius:14px;margin-bottom:28px;box-shadow:0 6px 24px rgba(26,16,60,.4);position:relative;overflow:hidden}
+.header::before{content:"";position:absolute;top:-60%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
+.header::after{content:"";position:absolute;bottom:-40%;left:-5%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%}
+.header-content{position:relative;z-index:1}
+.header-badge{display:inline-block;background:rgba(124,58,237,.3);border:1px solid rgba(167,139,250,.4);color:#c4b5fd;padding:3px 14px;border-radius:16px;font-size:11px;letter-spacing:2px;margin-bottom:14px;text-transform:uppercase}
+.header h1{font-size:28px;margin-bottom:6px;font-weight:700;letter-spacing:1px}
+.header .sub{font-size:15px;opacity:.82;margin-bottom:16px;line-height:1.5}
+.header .meta-row{display:flex;gap:24px;font-size:13px;opacity:.72;flex-wrap:wrap}
+.header .meta-row span{display:flex;align-items:center;gap:5px}
+.header .meta-row .dot{width:6px;height:6px;border-radius:50%;background:#7c3aed;display:inline-block}
+
+.stats{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:120px;background:#fff;padding:18px;border-radius:10px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.stat-card .num{font-size:34px;font-weight:700}
+.stat-card .label{font-size:12px;color:#888;margin-top:4px}
+.c-pur .num{color:#7c3aed}.c-blu .num{color:#2563eb}.c-grn .num{color:#059669}.c-ora .num{color:#d97706}.c-red .num{color:#dc2626}
+
+.toc{background:#fff;border-radius:12px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid #2d1b69}
+.toc h2{font-size:18px;color:#2d1b69;margin-bottom:14px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:4px 24px}
+.toc ul{list-style:none;padding:0}.toc li{padding:4px 0}.toc a{color:#2d1b69;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}.toc a:hover{color:#7c3aed;text-decoration:underline}
+
+.report-section{background:#fff;border-radius:12px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden}
+.report-section .sec-head{padding:20px 28px 14px;border-bottom:1px solid #f0f0f0}
+.report-section .sec-head h2{font-size:18px;font-weight:700;color:#1e293b}
+.report-section .sec-head .desc{font-size:13px;color:#888;margin-top:4px}
+.report-section .sec-body{padding:24px 28px}
+.report-section .sec-body h3{font-size:16px;font-weight:700;color:#2d1b69;margin:24px 0 10px;padding-left:12px;border-left:3px solid #7c3aed}
+.report-section .sec-body h3:first-child{margin-top:0}
+.report-section .sec-body h4{font-size:15px;font-weight:600;color:#334155;margin:18px 0 8px}
+.report-section .sec-body p{font-size:14px;color:#475569;margin-bottom:12px;line-height:1.85}
+.report-section .sec-body ul,.report-section .sec-body ol{padding-left:22px;margin-bottom:12px}
+.report-section .sec-body li{font-size:13.5px;color:#475569;margin-bottom:5px;line-height:1.7}
+.report-section .sec-body li strong{color:#1e293b}
+
+.insight{background:#f5f3ff;border-left:3px solid #7c3aed;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#334155;line-height:1.8}
+.insight strong{color:#2d1b69}
+.warn-box{background:#fffbeb;border-left:3px solid #d97706;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#92400e;line-height:1.8}
+.good-box{background:#ecfdf5;border-left:3px solid #059669;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px;color:#065f46;line-height:1.8}
+
+.stbl{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+.stbl th{background:#1a103c;color:#e2e8f0;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #2d1b69;font-size:12px}
+.stbl th:first-child{border-radius:8px 0 0 0}
+.stbl th:last-child{border-radius:0 8px 0 0}
+.stbl td{padding:10px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top;line-height:1.6;color:#475569}
+.stbl tr:hover{background:#f8fafc}
+.stbl tr:last-child td:first-child{border-radius:0 0 0 8px}
+.stbl tr:last-child td:last-child{border-radius:0 0 8px 0}
+
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:10px;margin-right:4px}
+.tag-red{background:#fee2e2;color:#dc2626}
+.tag-green{background:#d1fae5;color:#047857}
+.tag-yellow{background:#fef3c7;color:#b45309}
+.tag-blue{background:#dbeafe;color:#1d4ed8}
+.tag-purple{background:#ede9fe;color:#7c3aed}
+.tag-gray{background:#f1f5f9;color:#64748b}
+
+.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:10px;padding:18px 22px;font-family:"SF Mono","Fira Code","Consolas",monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:12px 0;position:relative}
+.code-block .lang{position:absolute;top:8px;right:14px;font-size:10px;color:#6c7086;text-transform:uppercase;letter-spacing:1px}
+.code-block .key{color:#89b4fa}
+.code-block .str{color:#a6e3a1}
+.code-block .num{color:#fab387}
+.code-block .cmt{color:#6c7086;font-style:italic}
+
+.endpoint{display:inline-flex;align-items:center;gap:8px;background:#1a103c;color:#fff;padding:6px 16px;border-radius:8px;font-size:13px;font-family:monospace;margin:8px 0}
+.endpoint .method{background:#7c3aed;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:1px}
+
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0}
+.ch-tag{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px;padding:6px 10px;text-align:center;font-size:12px;font-weight:600;color:#2d1b69}
+
+.api-nav{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.api-nav a{display:flex;align-items:center;gap:8px;padding:12px 20px;background:#fff;border-radius:10px;text-decoration:none;color:#1e293b;font-size:14px;font-weight:600;box-shadow:0 2px 10px rgba(0,0,0,.05);border:2px solid transparent;transition:all .2s}
+.api-nav a:hover,.api-nav a.active{border-color:#7c3aed;color:#7c3aed;background:#f5f3ff}
+.api-nav .nav-num{background:#7c3aed;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-badge">API Reference</div>
+    <h1>SaleSmartly Webhook API 接口文档</h1>
+    <div class="sub">SaleSmartly 全渠道 Webhook 接口技术文档 — 涵盖消息接收、事件推送与主动发送三大接口模块</div>
+    <div class="meta-row">
+      <span><span class="dot"></span>文档来源：salesmartly-webhook.apifox.cn</span>
+      <span><span class="dot"></span>协议：HTTPS POST + JSON</span>
+      <span><span class="dot"></span>整理日期：2026-06-09</span>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat-card c-pur"><div class="num">3</div><div class="label">接口模块</div></div>
+  <div class="stat-card c-blu"><div class="num">6</div><div class="label">消息类型</div></div>
+  <div class="stat-card c-grn"><div class="num">10+</div><div class="label">支持渠道</div></div>
+  <div class="stat-card c-ora"><div class="num">7</div><div class="label">接口地址</div></div>
+  <div class="stat-card c-red"><div class="num">15</div><div class="label">请求示例</div></div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>目录</h2>
+  <div class="toc-grid">
+    <ul>
+      <li><a href="#sec1">一、Webhook 接收消息接口</a></li>
+      <li><a href="#sec1-1">&emsp;1.1 概述与配置参数</a></li>
+      <li><a href="#sec1-2">&emsp;1.2 请求地址与签名验证</a></li>
+      <li><a href="#sec1-3">&emsp;1.3 消息数据格式（6种类型）</a></li>
+      <li><a href="#sec1-4">&emsp;1.4 请求示例</a></li>
+      <li><a href="#sec1-5">&emsp;1.5 返回格式</a></li>
+    </ul>
+    <ul>
+      <li><a href="#sec2">二、Webhook 接收事件接口</a></li>
+      <li><a href="#sec2-1">&emsp;2.1 事件类型概览</a></li>
+      <li><a href="#sec2-2">&emsp;2.2 数据格式（3种事件）</a></li>
+      <li><a href="#sec2-3">&emsp;2.3 请求示例</a></li>
+      <li><a href="#sec3">三、主动发送消息接口</a></li>
+      <li><a href="#sec3-1">&emsp;3.1 各渠道接口地址</a></li>
+      <li><a href="#sec3-2">&emsp;3.2 消息格式与示例</a></li>
+      <li><a href="#sec4">四、渠道编码对照表</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Section 1: Webhook 接收消息 -->
+<!-- ============================================================ -->
+<div class="report-section" id="sec1">
+  <div class="sec-head"><h2>一、Webhook 接收消息接口</h2><div class="desc">接收用户发送的各类消息（暂不支持群消息）</div></div>
+  <div class="sec-body">
+
+    <h3 id="sec1-1">1.1 概述与配置参数</h3>
+    <p>需根据 SaleSmartly 的规范，对添加的 Webhook 地址实现一个 POST 请求接口。当系统接收到新消息时，会调用该 Webhook 将消息推送至配置的地址。</p>
+    <table class="stbl">
+      <tr><th>配置参数</th><th>类型</th><th>说明</th></tr>
+      <tr><td><strong>url</strong></td><td>String</td><td>Webhook 的请求地址</td></tr>
+      <tr><td><strong>secret</strong></td><td>String</td><td>用于 Webhook 端验证请求是否来自 SaleSmartly 官方</td></tr>
+    </table>
+
+    <h3 id="sec1-2">1.2 请求地址与签名验证</h3>
+    <div class="endpoint"><span class="method">POST</span> http(s)://host?timestamp=TIMESTAMP&amp;signature=SIGNATURE</div>
+    <p>地址中携带的参数用于安全校验：</p>
+    <ul>
+      <li><strong>timestamp</strong> — 请求时间戳</li>
+      <li><strong>signature</strong> — 签名校验值，Webhook 端可据此判断请求是否来自 SaleSmartly 官方</li>
+    </ul>
+    <div class="insight">
+      <strong>签名算法：</strong>将参数名称按字典序排序后，衔接到 secret 后进行 MD5 加密。<br>
+      示例：<code>md5(secret&amp;data=123&amp;event=message)</code>
+    </div>
+    <p><strong>Header：</strong><code>content-type: "application/json"</code></p>
+    <table class="stbl">
+      <tr><th>Body 参数</th><th>类型</th><th>说明</th></tr>
+      <tr><td><strong>event</strong></td><td>String</td><td>推送 Webhook 的事件名。<code>"message"</code> 表示新消息推送</td></tr>
+      <tr><td><strong>data</strong></td><td>Object</td><td>新消息的数据体（格式见下方）</td></tr>
+    </table>
+
+    <h3 id="sec1-3">1.3 消息数据格式（data 字段）</h3>
+    <p>以下为 data 中各消息类型的字段说明。所有类型共有以下公共字段：</p>
+    <table class="stbl">
+      <tr><th>公共字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td><strong>msg_type</strong> *</td><td>String</td><td>消息类型标识（见下方各类型）</td></tr>
+      <tr><td><strong>chat_user_id</strong> *</td><td>String</td><td>用户 ID</td></tr>
+      <tr><td><strong>sequence_id</strong> *</td><td>Int</td><td>消息 ID</td></tr>
+      <tr><td><strong>send_time</strong> *</td><td>String</td><td>消息发送时间</td></tr>
+      <tr><td><strong>msg</strong> *</td><td>String/Object</td><td>消息内容</td></tr>
+      <tr><td><strong>chat_session_id</strong> *</td><td>String</td><td>会话 ID</td></tr>
+      <tr><td><strong>chat_session_encrypt_id</strong> *</td><td>String</td><td>会话加密 ID</td></tr>
+      <tr><td><strong>channel</strong> *</td><td>Int</td><td>社媒渠道编码（见渠道对照表）</td></tr>
+      <tr><td><strong>channel_uid</strong> *</td><td>String</td><td>社媒渠道 ID</td></tr>
+      <tr><td><strong>sender_type</strong> *</td><td>String</td><td>发送方：1=用户，2=项目成员</td></tr>
+      <tr><td><strong>sender</strong> *</td><td>String</td><td>发送人（用户 ID 或项目成员 ID）</td></tr>
+      <tr><td><strong>sys_user_id</strong> *</td><td>Int</td><td>当前接待客服 ID（0=未分配，-1=机器人）</td></tr>
+      <tr><td><strong>channel_name</strong> *</td><td>String</td><td>当前社媒名称</td></tr>
+    </table>
+
+    <h4>类型一：text（文本消息）</h4>
+    <table class="stbl">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td>msg_type</td><td>String</td><td><code>"text"</code></td></tr>
+      <tr><td>msg</td><td>String</td><td>文本消息内容</td></tr>
+      <tr><td>quote_chat</td><td>String</td><td>引用回复内容（可选）</td></tr>
+    </table>
+    <div class="good-box">支持渠道：Messenger(1)、Plugin(2)、Instagram(5)、Line(6)、WhatsApp API(7)、WhatsApp APP(12)、Telegram(15)、TikTok(16)</div>
+
+    <h4>类型二：button（按钮点击）</h4>
+    <table class="stbl">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td>msg_type</td><td>String</td><td><code>"button"</code></td></tr>
+      <tr><td>msg</td><td>String</td><td>按钮文本内容</td></tr>
+      <tr><td>payload</td><td>Object</td><td>按钮信息（含 type、button_reply.id、button_reply.title）</td></tr>
+    </table>
+    <div class="good-box">支持渠道：Messenger(1)、Line(6)、WhatsApp API(7)</div>
+
+    <h4>类型三：image（图片消息）</h4>
+    <table class="stbl">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td>msg_type</td><td>String</td><td><code>"image"</code></td></tr>
+      <tr><td>msg</td><td>String</td><td>图片 URL 地址</td></tr>
+    </table>
+    <div class="good-box">支持渠道：Messenger(1)、Plugin(2)、Instagram(5)、Line(6)、WhatsApp API(7)、WhatsApp APP(12)、Telegram(15)、TikTok(16)</div>
+
+    <h4>类型四：file（文件消息）</h4>
+    <table class="stbl">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td>msg_type</td><td>String</td><td><code>"file"</code></td></tr>
+      <tr><td>msg</td><td>String</td><td>文件 URL 地址</td></tr>
+    </table>
+    <div class="good-box">支持渠道：Messenger(1)、Plugin(2)、Instagram(5)、WhatsApp API(7)、WhatsApp APP(12)、Telegram(15)</div>
+
+    <h4>类型五：system_message（系统消息）</h4>
+    <table class="stbl">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td>msg_type</td><td>String</td><td><code>"system_message"</code></td></tr>
+      <tr><td>msg</td><td>Object</td><td>系统事件内容（WhatsApp 进/退群通知等）</td></tr>
+    </table>
+    <p><strong>msg 对象字段：</strong></p>
+    <table class="stbl">
+      <tr><th>字段</th><th>说明</th></tr>
+      <tr><td>type</td><td>事件名称：<code>join_group</code> / <code>leave_group</code></td></tr>
+      <tr><td>name</td><td>用户 WhatsApp 昵称</td></tr>
+      <tr><td>origin_phone</td><td>用户手机号码（带国家区号）</td></tr>
+      <tr><td>country_code</td><td>国家区号（如 +1）</td></tr>
+      <tr><td>phone</td><td>用户号码（不带国家区号）</td></tr>
+      <tr><td>group_name</td><td>群组名称</td></tr>
+      <tr><td>group_uid</td><td>群组 ID</td></tr>
+      <tr><td>event_id</td><td>事件 ID</td></tr>
+      <tr><td>timestamps</td><td>进/退群时间</td></tr>
+    </table>
+    <div class="warn-box">仅支持渠道：WhatsApp APP(12)</div>
+
+    <h4>类型六：email（邮件消息）</h4>
+    <table class="stbl">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td>msg_type</td><td>String</td><td><code>"email"</code></td></tr>
+      <tr><td>msg</td><td>Object</td><td>邮件内容（含 title、msg、attachments）</td></tr>
+    </table>
+    <p><strong>msg 对象字段：</strong></p>
+    <table class="stbl">
+      <tr><th>字段</th><th>说明</th></tr>
+      <tr><td>title</td><td>邮件标题</td></tr>
+      <tr><td>msg</td><td>邮件正文（HTML 格式）</td></tr>
+      <tr><td>attachments</td><td>附件列表（JSON 数组）</td></tr>
+    </table>
+    <div class="warn-box">仅支持渠道：Email(3)</div>
+
+    <h3 id="sec1-4">1.4 请求示例</h3>
+
+    <h4>示例 1：文本消息（含引用回复）</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"event"</span>: <span class="str">"message"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"sequence_id"</span>: <span class="str">"1695787977126000"</span>,
+    <span class="key">"msg_type"</span>: <span class="str">"text"</span>,
+    <span class="key">"msg"</span>: <span class="str">"222222"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695787977082"</span>,
+    <span class="key">"quote_chat"</span>: {
+      <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+      <span class="key">"sequence_id"</span>: <span class="str">"1695799154673000"</span>,
+      <span class="key">"msg_type"</span>: <span class="str">"button"</span>,
+      <span class="key">"msg"</span>: <span class="str">"椰子饼干ok吗"</span>,
+      <span class="key">"send_time"</span>: <span class="num">1695799154645</span>,
+      <span class="key">"chat_session_id"</span>: <span class="num">130925</span>
+    },
+    <span class="key">"chat_session_id"</span>: <span class="num">130925</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"sender_type"</span>: <span class="num">1</span>,
+    <span class="key">"sys_user_id"</span>: <span class="num">0</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>示例 2：按钮消息</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"event"</span>: <span class="str">"message"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"sequence_id"</span>: <span class="str">"1695799154673000"</span>,
+    <span class="key">"msg_type"</span>: <span class="str">"button"</span>,
+    <span class="key">"msg"</span>: <span class="str">"椰子饼干ok吗"</span>,
+    <span class="key">"send_time"</span>: <span class="num">1695799154645</span>,
+    <span class="key">"payload"</span>: {
+      <span class="key">"type"</span>: <span class="str">"button_reply"</span>,
+      <span class="key">"button_reply"</span>: {
+        <span class="key">"id"</span>: <span class="str">"ACT:24545"</span>,
+        <span class="key">"title"</span>: <span class="str">"椰子饼干ok吗"</span>
+      }
+    },
+    <span class="key">"chat_session_id"</span>: <span class="num">130925</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"sender_type"</span>: <span class="num">1</span>,
+    <span class="key">"sys_user_id"</span>: <span class="num">0</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>示例 3：图片消息</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"event"</span>: <span class="str">"message"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"sequence_id"</span>: <span class="str">"1695799154673000"</span>,
+    <span class="key">"msg_type"</span>: <span class="str">"image"</span>,
+    <span class="key">"msg"</span>: <span class="str">"https://mix-ads.oss-ap-southeast-1.aliyuncs.com/xxx/xxx.jpeg"</span>,
+    <span class="key">"send_time"</span>: <span class="num">1695799154645</span>,
+    <span class="key">"chat_session_id"</span>: <span class="num">130925</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"sender_type"</span>: <span class="num">1</span>,
+    <span class="key">"sys_user_id"</span>: <span class="num">0</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>示例 4：文件消息</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"event"</span>: <span class="str">"message"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"sequence_id"</span>: <span class="str">"1695799154673000"</span>,
+    <span class="key">"msg_type"</span>: <span class="str">"file"</span>,
+    <span class="key">"msg"</span>: <span class="str">"https://mix-ads.oss-ap-southeast-1.aliyuncs.com/xxx/xxx.word"</span>,
+    <span class="key">"send_time"</span>: <span class="num">1695799154645</span>,
+    <span class="key">"chat_session_id"</span>: <span class="num">130925</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"sender_type"</span>: <span class="num">1</span>,
+    <span class="key">"sys_user_id"</span>: <span class="num">0</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>示例 5：系统消息（WhatsApp 进/退群）</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"event"</span>: <span class="str">"message"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"sequence_id"</span>: <span class="str">"1695799154673000"</span>,
+    <span class="key">"msg_type"</span>: <span class="str">"system_message"</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"type"</span>: <span class="str">"join_group"</span>,
+      <span class="key">"name"</span>: <span class="str">"test"</span>,
+      <span class="key">"origin_phone"</span>: <span class="str">"123321124"</span>,
+      <span class="key">"country_code"</span>: <span class="str">"+1"</span>,
+      <span class="key">"phone"</span>: <span class="str">"23321124"</span>,
+      <span class="key">"group_name"</span>: <span class="str">"test"</span>,
+      <span class="key">"group_uid"</span>: <span class="str">"123321124@c.us"</span>,
+      <span class="key">"event_id"</span>: <span class="str">"notification_17349"</span>,
+      <span class="key">"timestamps"</span>: <span class="str">"1720000000"</span>
+    },
+    <span class="key">"send_time"</span>: <span class="num">1695799154645</span>,
+    <span class="key">"chat_session_id"</span>: <span class="num">130925</span>,
+    <span class="key">"channel"</span>: <span class="num">12</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"sender_type"</span>: <span class="num">1</span>,
+    <span class="key">"sys_user_id"</span>: <span class="num">0</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>示例 6：邮件消息</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"event"</span>: <span class="str">"message"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"sequence_id"</span>: <span class="str">"1695799154673000"</span>,
+    <span class="key">"msg_type"</span>: <span class="str">"email"</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"title"</span>: <span class="str">"title"</span>,
+      <span class="key">"msg"</span>: <span class="str">"&lt;p&gt;hello&lt;/p&gt;"</span>,
+      <span class="key">"attachments"</span>: <span class="str">"[]"</span>
+    },
+    <span class="key">"send_time"</span>: <span class="num">1695799154645</span>,
+    <span class="key">"chat_session_id"</span>: <span class="num">130925</span>,
+    <span class="key">"channel"</span>: <span class="num">12</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"sender_type"</span>: <span class="num">1</span>,
+    <span class="key">"sys_user_id"</span>: <span class="num">0</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h3 id="sec1-5">1.5 返回格式</h3>
+    <div class="warn-box"><strong>注意：</strong>Email 渠道暂不支持返回消息。</div>
+
+    <h4>异常返回</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"code"</span>: <span class="num">-1</span>,
+  <span class="key">"msg"</span>: <span class="str">"错误原因"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"sequence_id"</span>: <span class="str">"1695799154673000"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>文本消息返回（msg_type: 1）</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"code"</span>: <span class="num">0</span>,
+  <span class="key">"msg"</span>: <span class="str">"Success"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">1</span>,
+    <span class="key">"msg"</span>: <span class="str">"椰子饼干吗"</span>,
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>图片消息返回（msg_type: 2）</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"code"</span>: <span class="num">0</span>,
+  <span class="key">"msg"</span>: <span class="str">"Success"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">2</span>,
+    <span class="key">"msg"</span>: <span class="str">"https://123.jpg"</span>,
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>商品选择按钮返回（msg_type: 3）</h4>
+    <p>适用渠道：WhatsApp API、Messenger、Line</p>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"code"</span>: <span class="num">0</span>,
+  <span class="key">"msg"</span>: <span class="str">"Success"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">3</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"template1"</span>: {
+        <span class="key">"image"</span>: <span class="str">"https://ss.com"</span>,
+        <span class="key">"title"</span>: <span class="str">"商品1"</span>,
+        <span class="key">"buttons"</span>: {
+          <span class="key">"button1"</span>: { <span class="key">"id"</span>: <span class="str">"ACT:1"</span>, <span class="key">"text"</span>: <span class="str">"choose"</span> }
+        }
+      },
+      <span class="key">"template2"</span>: {
+        <span class="key">"image"</span>: <span class="str">"https://ss.com"</span>,
+        <span class="key">"title"</span>: <span class="str">"商品2"</span>,
+        <span class="key">"buttons"</span>: {
+          <span class="key">"button1"</span>: { <span class="key">"id"</span>: <span class="str">"ACT:2"</span>, <span class="key">"text"</span>: <span class="str">"choose"</span> }
+        }
+      }
+    },
+    <span class="cmt">// ... 最多支持 5 个 template</span>
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>商品信息推送返回（msg_type: 3 - 文本模板）</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"code"</span>: <span class="num">0</span>,
+  <span class="key">"msg"</span>: <span class="str">"Success"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">3</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"template"</span>: {
+        <span class="key">"image"</span>: <span class="str">"https://ss.com"</span>,
+        <span class="key">"text"</span>: <span class="str">"您选择商品是手套，链接：https://ss.com"</span>
+      }
+    },
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+    <h4>商品轮播推送返回（msg_type: 27）</h4>
+    <p>适用渠道：Messenger、Line</p>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"code"</span>: <span class="num">0</span>,
+  <span class="key">"msg"</span>: <span class="str">"Success"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">27</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"template"</span>: {
+        <span class="key">"generic"</span>: [
+          {
+            <span class="key">"title"</span>: <span class="str">"Welcome!"</span>,
+            <span class="key">"image_url"</span>: <span class="str">"https://example.com/image.png"</span>,
+            <span class="key">"subtitle"</span>: <span class="str">"We have the right hat for everyone."</span>,
+            <span class="key">"buttons"</span>: [
+              { <span class="key">"id"</span>: <span class="str">"ACT:1"</span>, <span class="key">"text"</span>: <span class="str">"Start Chatting"</span> }
+            ] <span class="cmt">// 最多 3 个 button</span>
+          }
+        ] <span class="cmt">// 最多 10 个 generic</span>
+      }
+    },
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">2</span>,
+    <span class="key">"channel_uid"</span>: <span class="str">"123@c.us"</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>
+  }
+}</div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Section 2: Webhook 接收事件 -->
+<!-- ============================================================ -->
+<div class="report-section" id="sec2">
+  <div class="sec-head"><h2>二、Webhook 接收事件接口</h2><div class="desc">接收客户新增、更新及设备状态变更等事件推送</div></div>
+  <div class="sec-body">
+
+    <h3 id="sec2-1">2.1 事件类型概览</h3>
+    <p>与消息接收接口相同的配置方式和签名验证规则，但 event 字段值不同。</p>
+    <div class="insight"><strong>签名示例：</strong><code>md5(secret&amp;data=123&amp;event=add_user)</code></div>
+
+    <table class="stbl">
+      <tr><th>Body 参数</th><th>类型</th><th>说明</th></tr>
+      <tr><td><strong>event</strong></td><td>String</td><td>事件名：<code>add_user</code>=新增客户、<code>update_user</code>=客户信息更新、<code>device_event</code>=设备状态变更</td></tr>
+      <tr><td><strong>data</strong></td><td>Object</td><td>事件数据体</td></tr>
+    </table>
+
+    <h3 id="sec2-2">2.2 数据格式</h3>
+
+    <h4>事件一：add_user（新增客户）</h4>
+    <table class="stbl">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td><strong>chat_user_id</strong> *</td><td>String</td><td>用户 ID</td></tr>
+      <tr><td><strong>name</strong> *</td><td>String</td><td>名称</td></tr>
+      <tr><td><strong>remark_name</strong> *</td><td>String</td><td>备注名</td></tr>
+      <tr><td><strong>phone</strong> *</td><td>String</td><td>手机号码</td></tr>
+      <tr><td><strong>email</strong> *</td><td>String</td><td>邮箱</td></tr>
+      <tr><td><strong>remark</strong> *</td><td>String</td><td>备注</td></tr>
+      <tr><td><strong>channel</strong> *</td><td>Int</td><td>社媒渠道编码（见渠道对照表）</td></tr>
+      <tr><td><strong>labels</strong> *</td><td>String</td><td>标签 JSON 数组：<code>[{"id":36577,"label_name":"3"}]</code></td></tr>
+      <tr><td><strong>custom_field</strong> *</td><td>String</td><td>自定义字段 JSON（仅返回更新的字段）：<code>{"field1":36577,"field2":[36577,36566]}</code></td></tr>
+      <tr><td><strong>ad_referral</strong> *</td><td>String</td><td>广告 ID 信息 JSON：<code>{"ad_id":123,"ad_title":"title"}</code></td></tr>
+      <tr><td><strong>sys_user_id</strong> *</td><td>Int</td><td>接待成员 ID</td></tr>
+      <tr><td><strong>channel_name</strong> *</td><td>String</td><td>当前社媒名称</td></tr>
+      <tr><td><strong>created_time</strong> *</td><td>Int</td><td>创建时间（Unix 时间戳）</td></tr>
+      <tr><td><strong>updated_time</strong> *</td><td>Int</td><td>更新时间（Unix 时间戳）</td></tr>
+    </table>
+    <div class="good-box">支持渠道：Messenger(1)、聊天插件(2)、Email(3)、Telegram(4)、Instagram(5)、Line(6)、WhatsApp API(7)、Facebook主页评论(8)、Slack(10)、企业微信(11)、WhatsApp APP(12)、Instagram评论(13)、Telegram App(15)、TikTok App(16)、TikTok评论(17)、VKontakte(18)</div>
+
+    <h4>事件二：update_user（客户信息更新）</h4>
+    <p>字段结构与 <code>add_user</code> 完全相同，额外注意：</p>
+    <ul>
+      <li><strong>sys_user_id</strong>：0=未分配，-1=机器人</li>
+      <li><strong>custom_field</strong>：仅返回进行更新的自定义字段，不返回全部</li>
+    </ul>
+    <div class="good-box">额外支持渠道（相比 add_user 新增）：Zalo(19)、TikTok商业号(20)、TikTok商业号评论(21)</div>
+
+    <h4>事件三：device_event（设备状态变更）</h4>
+    <div class="warn-box">目前仅支持 WhatsApp APP 渠道。手动断开连接的账号失效状态不会推送，每天下午6点的设备失效汇总通知不推送。</div>
+    <table class="stbl">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td><strong>id</strong> *</td><td>Int</td><td>云设备 ID</td></tr>
+      <tr><td><strong>name</strong> *</td><td>String</td><td>设备名称</td></tr>
+      <tr><td><strong>phone</strong> *</td><td>String</td><td>手机号码</td></tr>
+      <tr><td><strong>avatar</strong> *</td><td>String</td><td>云设备头像</td></tr>
+      <tr><td><strong>channel</strong> *</td><td>Int</td><td>社媒渠道：12=WhatsApp APP、15=Telegram App、16=TikTok App、19=Zalo</td></tr>
+      <tr><td><strong>status</strong> *</td><td>Int</td><td>0=未连接、1=有效、2=失效</td></tr>
+      <tr><td><strong>channel_name</strong> *</td><td>String</td><td>当前社媒名称</td></tr>
+      <tr><td><strong>created_time</strong> *</td><td>Int</td><td>创建时间</td></tr>
+      <tr><td><strong>updated_time</strong> *</td><td>Int</td><td>更新时间</td></tr>
+    </table>
+
+    <h3 id="sec2-3">2.3 请求示例</h3>
+
+    <h4>示例 1：新增客户（add_user）</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"event"</span>: <span class="str">"add_user"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"chat_user_id"</span>: <span class="str">"2213217a81"</span>,
+    <span class="key">"name"</span>: <span class="str">"测试"</span>,
+    <span class="key">"remark_name"</span>: <span class="str">""</span>,
+    <span class="key">"phone"</span>: <span class="str">""</span>,
+    <span class="key">"email"</span>: <span class="str">"1@1.cc"</span>,
+    <span class="key">"channel"</span>: <span class="num">12</span>,
+    <span class="key">"remark"</span>: <span class="str">""</span>,
+    <span class="key">"labels"</span>: [
+      { <span class="key">"id"</span>: <span class="num">36577</span>, <span class="key">"label_name"</span>: <span class="str">"3"</span> }
+    ],
+    <span class="key">"custom_field"</span>: {
+      <span class="key">"custom_field_name1"</span>: <span class="num">111</span>,
+      <span class="key">"custom_field_name2"</span>: [<span class="num">222</span>, <span class="num">333</span>]
+    },
+    <span class="key">"ad_referral"</span>: {
+      <span class="key">"ad_id"</span>: <span class="num">111</span>,
+      <span class="key">"ad_title"</span>: <span class="str">"title"</span>
+    },
+    <span class="key">"sys_user_id"</span>: <span class="num">1</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>,
+    <span class="key">"created_time"</span>: <span class="num">1732689659</span>,
+    <span class="key">"updated_time"</span>: <span class="num">1732776394</span>
+  }
+}</div>
+
+    <h4>示例 2：客户信息更新（update_user）</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"event"</span>: <span class="str">"update_user"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"chat_user_id"</span>: <span class="str">"2213217a81"</span>,
+    <span class="key">"name"</span>: <span class="str">"测试"</span>,
+    <span class="key">"remark_name"</span>: <span class="str">""</span>,
+    <span class="key">"phone"</span>: <span class="str">""</span>,
+    <span class="key">"email"</span>: <span class="str">"1@1.cc"</span>,
+    <span class="key">"channel"</span>: <span class="num">12</span>,
+    <span class="key">"remark"</span>: <span class="str">""</span>,
+    <span class="key">"labels"</span>: [
+      { <span class="key">"id"</span>: <span class="num">36577</span>, <span class="key">"label_name"</span>: <span class="str">"3"</span> }
+    ],
+    <span class="key">"custom_field"</span>: {
+      <span class="key">"custom_field_name1"</span>: <span class="num">111</span>,
+      <span class="key">"custom_field_name2"</span>: [<span class="num">222</span>, <span class="num">333</span>]
+    },
+    <span class="key">"ad_referral"</span>: {
+      <span class="key">"ad_id"</span>: <span class="num">111</span>,
+      <span class="key">"ad_title"</span>: <span class="str">"title"</span>
+    },
+    <span class="key">"sys_user_id"</span>: <span class="num">1</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>,
+    <span class="key">"created_time"</span>: <span class="num">1732689659</span>,
+    <span class="key">"updated_time"</span>: <span class="num">1732776394</span>
+  }
+}</div>
+
+    <h4>示例 3：设备状态变更（device_event）</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"event"</span>: <span class="str">"device_event"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"id"</span>: <span class="num">123</span>,
+    <span class="key">"name"</span>: <span class="str">"测试号"</span>,
+    <span class="key">"phone"</span>: <span class="str">"123456"</span>,
+    <span class="key">"avatar"</span>: <span class="str">"https://123.jpg"</span>,
+    <span class="key">"channel"</span>: <span class="num">12</span>,
+    <span class="key">"status"</span>: <span class="num">2</span>,
+    <span class="key">"channel_name"</span>: <span class="str">"testName"</span>,
+    <span class="key">"created_time"</span>: <span class="num">1732689659</span>,
+    <span class="key">"updated_time"</span>: <span class="num">1732776394</span>
+  }
+}</div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Section 3: 主动发送消息 -->
+<!-- ============================================================ -->
+<div class="report-section" id="sec3">
+  <div class="sec-head"><h2>三、主动发送消息接口</h2><div class="desc">通过 SaleSmartly 接口主动向用户推送消息</div></div>
+  <div class="sec-body">
+
+    <h3 id="sec3-1">3.1 各渠道接口地址</h3>
+    <p>根据目标渠道选择对应的接口地址，统一使用 POST 请求：</p>
+    <table class="stbl">
+      <tr><th>渠道</th><th>接口地址</th></tr>
+      <tr><td><strong>WhatsApp API</strong></td><td><code>https://webhook.salesmartly.com/whatsapp/send</code></td></tr>
+      <tr><td><strong>Messenger</strong></td><td><code>https://webhook.salesmartly.com/messenger/send</code></td></tr>
+      <tr><td><strong>Line</strong></td><td><code>https://webhook.salesmartly.com/line/send</code></td></tr>
+      <tr><td><strong>WhatsApp APP</strong></td><td><code>https://webhook.salesmartly.com/individual_whatsapp/send</code></td></tr>
+      <tr><td><strong>Instagram</strong></td><td><code>https://webhook.salesmartly.com/instagram/send</code></td></tr>
+      <tr><td><strong>Plugin（聊天插件）</strong></td><td><code>https://webhook.salesmartly.com/plugin/send</code></td></tr>
+      <tr><td><strong>Telegram APP</strong></td><td><code>https://webhook.salesmartly.com/telegram_app/send</code></td></tr>
+    </table>
+
+    <h4>请求参数</h4>
+    <div class="endpoint"><span class="method">POST</span> http(s)://host?timestamp=TIMESTAMP&amp;signature=webhook_token</div>
+    <p><strong>Header：</strong><code>content-type: "application/json"</code></p>
+    <table class="stbl">
+      <tr><th>配置参数</th><th>类型</th><th>说明</th></tr>
+      <tr><td><strong>url</strong></td><td>String</td><td>SaleSmartly 接口地址（见上表）</td></tr>
+      <tr><td><strong>signature</strong></td><td>String</td><td>用于接口验证信息有效性（即 webhook_token）</td></tr>
+      <tr><td><strong>data</strong></td><td>JSON</td><td>需要推送的消息数据</td></tr>
+    </table>
+
+    <h3 id="sec3-2">3.2 消息格式与示例</h3>
+
+    <h4>data 通用字段</h4>
+    <table class="stbl">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td><strong>msg_type</strong> *</td><td>String</td><td>默认为 <code>3</code>（轮播消息为 <code>27</code>）</td></tr>
+      <tr><td><strong>msg</strong> *</td><td>Object</td><td>消息内容（template 结构）</td></tr>
+      <tr><td><strong>chat_user_id</strong> *</td><td>String</td><td>用户 ID</td></tr>
+      <tr><td><strong>chat_session_id</strong> *</td><td>String</td><td>会话 ID</td></tr>
+      <tr><td><strong>send_time</strong> *</td><td>String</td><td>消息发送时间</td></tr>
+    </table>
+
+    <h4>示例 1：回复文本消息</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">3</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"template1"</span>: {
+        <span class="key">"text"</span>: <span class="str">"您选择商品是手套，链接：https://ss.com"</span>
+      },
+      <span class="key">"template2"</span>: {
+        <span class="key">"text"</span>: <span class="str">"您选择商品是手套，链接：https://ss.com"</span>
+      }
+      <span class="cmt">// 最多支持 5 个 template</span>
+    },
+    <span class="key">"chat_user_id"</span>: <span class="str">"6537425481afde78d31e7651"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">1</span>
+  }
+}</div>
+
+    <h4>示例 2：回复文本按钮消息</h4>
+    <div class="warn-box">WhatsApp APP、Telegram APP、Plugin 和 Instagram 渠道不支持此格式</div>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">3</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"template1"</span>: {
+        <span class="key">"title"</span>: <span class="str">"椰子饼干ok吗1"</span>,
+        <span class="key">"buttons"</span>: {
+          <span class="key">"button1"</span>: { <span class="key">"id"</span>: <span class="str">"ACT:1"</span>, <span class="key">"text"</span>: <span class="str">"choose"</span> }
+        }
+      },
+      <span class="key">"template2"</span>: {
+        <span class="key">"title"</span>: <span class="str">"椰子饼干ok吗2"</span>,
+        <span class="key">"buttons"</span>: {
+          <span class="key">"button1"</span>: { <span class="key">"id"</span>: <span class="str">"ACT:2"</span>, <span class="key">"text"</span>: <span class="str">"choose"</span> }
+        }
+      }
+    },
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">2</span>
+  }
+}</div>
+
+    <h4>示例 3：回复图片+文本按钮消息</h4>
+    <div class="warn-box">WhatsApp APP、Telegram APP、Plugin 和 Instagram 渠道不支持此格式</div>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">3</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"template1"</span>: {
+        <span class="key">"image"</span>: <span class="str">"https://ss.com"</span>,
+        <span class="key">"title"</span>: <span class="str">"椰子饼干ok吗1"</span>,
+        <span class="key">"buttons"</span>: {
+          <span class="key">"button1"</span>: { <span class="key">"id"</span>: <span class="str">"ACT:1"</span>, <span class="key">"text"</span>: <span class="str">"choose"</span> }
+        }
+      },
+      <span class="key">"template2"</span>: {
+        <span class="key">"image"</span>: <span class="str">"https://ss.com"</span>,
+        <span class="key">"title"</span>: <span class="str">"椰子饼干ok吗2"</span>,
+        <span class="key">"buttons"</span>: {
+          <span class="key">"button1"</span>: { <span class="key">"id"</span>: <span class="str">"ACT:2"</span>, <span class="key">"text"</span>: <span class="str">"choose"</span> }
+        }
+      }
+    },
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">2</span>
+  }
+}</div>
+
+    <h4>示例 4：回复图片+文本消息</h4>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">3</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"template1"</span>: {
+        <span class="key">"image"</span>: <span class="str">"https://ss.com"</span>,
+        <span class="key">"text"</span>: <span class="str">"您选择商品是手套，链接：https://ss.com"</span>
+      },
+      <span class="key">"template2"</span>: {
+        <span class="key">"image"</span>: <span class="str">"https://ss.com"</span>,
+        <span class="key">"text"</span>: <span class="str">"您选择商品是手套，链接：https://ss.com"</span>
+      }
+    },
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">7</span>
+  }
+}</div>
+
+    <h4>示例 5：回复商品轮播消息</h4>
+    <div class="good-box">仅支持 Messenger 和 Line 渠道</div>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">27</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"template"</span>: {
+        <span class="key">"generic"</span>: [
+          {
+            <span class="key">"title"</span>: <span class="str">"Welcome!"</span>,
+            <span class="key">"image_url"</span>: <span class="str">"https://example.com/image.png"</span>,
+            <span class="key">"subtitle"</span>: <span class="str">"We have the right hat for everyone."</span>,
+            <span class="key">"buttons"</span>: [
+              { <span class="key">"id"</span>: <span class="str">"ACT:1"</span>, <span class="key">"text"</span>: <span class="str">"Start Chatting"</span> }
+            ] <span class="cmt">// 最多 3 个 button</span>
+          }
+        ] <span class="cmt">// 最多 10 个 generic</span>
+      }
+    },
+    <span class="key">"chat_user_id"</span>: <span class="str">"65094291e106072b7e40ff21"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">2</span>
+  }
+}</div>
+
+    <h4>示例 6：回复文件消息</h4>
+    <div class="good-box">支持渠道：WhatsApp API、Telegram APP、WhatsApp APP、Plugin、Messenger</div>
+    <div class="code-block"><span class="lang">JSON</span>{
+  <span class="key">"data"</span>: {
+    <span class="key">"msg_type"</span>: <span class="num">3</span>,
+    <span class="key">"msg"</span>: {
+      <span class="key">"template1"</span>: {
+        <span class="key">"file"</span>: <span class="str">"https://www.com/company_image.txt"</span>
+      },
+      <span class="key">"template2"</span>: {
+        <span class="key">"file"</span>: <span class="str">"https://www.com/company_image.txt"</span>
+      }
+      <span class="cmt">// 最多支持 5 个 template</span>
+    },
+    <span class="key">"chat_user_id"</span>: <span class="str">"6537425481afde78d31e7651"</span>,
+    <span class="key">"chat_session_id"</span>: <span class="str">"130925"</span>,
+    <span class="key">"send_time"</span>: <span class="str">"1695799154645"</span>,
+    <span class="key">"channel"</span>: <span class="num">1</span>
+  }
+}</div>
+
+    <h4>返回格式</h4>
+    <table class="stbl">
+      <tr><th>场景</th><th>code</th><th>msg</th></tr>
+      <tr><td>正常返回</td><td><code>0</code></td><td>具体消息</td></tr>
+      <tr><td>异常返回</td><td><code>-1</code></td><td>错误原因</td></tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Section 4: 渠道编码对照表 -->
+<!-- ============================================================ -->
+<div class="report-section" id="sec4">
+  <div class="sec-head"><h2>四、渠道编码对照表</h2><div class="desc">所有接口共用的 channel 编码与渠道名称映射</div></div>
+  <div class="sec-body">
+    <table class="stbl">
+      <tr><th>编码</th><th>渠道名称</th><th>接收消息</th><th>接收事件</th><th>主动发送</th></tr>
+      <tr><td>1</td><td>Messenger</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td>2</td><td>聊天插件（Plugin）</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td>3</td><td>Email</td><td>&#10003;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>4</td><td>Telegram</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>5</td><td>Instagram</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td>6</td><td>Line</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td>7</td><td>WhatsApp API</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td>8</td><td>Facebook 主页评论</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>10</td><td>Slack</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>11</td><td>企业微信</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>12</td><td>WhatsApp APP</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td>13</td><td>Instagram 评论</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>15</td><td>Telegram App</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+      <tr><td>16</td><td>TikTok App</td><td>&#10003;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>17</td><td>TikTok 评论</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>18</td><td>VKontakte</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>19</td><td>Zalo</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>20</td><td>TikTok 商业号</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+      <tr><td>21</td><td>TikTok 商业号评论</td><td>&#10007;</td><td>&#10003;</td><td>&#10007;</td></tr>
+    </table>
+
+    <div class="insight">
+      <strong>说明：</strong><br>
+      &bull; 编码 9、14 未使用<br>
+      &bull; 主动发送接口各渠道的消息格式支持情况不同，详见第三节各示例中的限制说明<br>
+      &bull; Email 渠道不支持返回消息（Webhook 接收消息后不可回复）
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center;padding:28px 0;color:#94a3b8;font-size:12px">
+  SaleSmartly Webhook API 接口文档 &middot; 整理自 salesmartly-webhook.apifox.cn &middot; 2026-06-09
+</div>
+
+</div>
+</body>
+</html>

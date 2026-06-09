@@ -288,6 +288,18 @@
             "原型图",
             "优先级矩阵"
           ]
+        },
+        {
+          "file": "docs/SaleSmartly/SaleSmartly Webhook API接口文档.html",
+          "title": "SaleSmartly Webhook API接口文档",
+          "category": "requirement",
+          "date": "2026-06-09",
+          "tags": [
+            "Webhook",
+            "API",
+            "接口文档",
+            "消息推送"
+          ]
         }
       ]
     }
