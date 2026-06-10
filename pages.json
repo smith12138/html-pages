@@ -300,6 +300,17 @@
             "接口文档",
             "消息推送"
           ]
+        },
+        {
+          "file": "docs/SaleSmartly/SaleSmartly聊天插件测试页.html",
+          "title": "SaleSmartly聊天插件测试页",
+          "category": "testcase",
+          "date": "2026-06-10",
+          "tags": [
+            "Chat Plugin",
+            "在线测试",
+            "聊天插件"
+          ]
         }
       ]
     }
