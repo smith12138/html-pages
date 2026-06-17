@@ -5,7 +5,6 @@
 <link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SaleSmartly Chat Plugin Test</title>
-<script src="https://plugin-code.salesmartly.com/js/project_709900_775686_1781662486.js" defer></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.7;min-height:100vh}
@@ -65,6 +64,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .t-yellow{background:#fef3c7;color:#b45309}
 .t-red{background:#fee2e2;color:#dc2626}
 
+.product-switcher{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.product-btn{display:flex;align-items:center;gap:12px;padding:14px 20px;background:#fff;border:2px solid #e5e7eb;border-radius:12px;cursor:pointer;transition:all .2s;flex:1;min-width:200px}
+.product-btn:hover{border-color:#7c3aed;box-shadow:0 4px 16px rgba(124,58,237,.08)}
+.product-btn.active{border-color:#7c3aed;background:#f5f3ff;box-shadow:0 4px 16px rgba(124,58,237,.12)}
+.product-btn .p-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;flex-shrink:0}
+.product-btn .p-name{font-size:15px;font-weight:700;color:#1e293b}
+.product-btn .p-id{font-size:11px;color:#9ca3af;font-family:monospace;margin-top:2px}
+.product-btn.active .p-name{color:#7c3aed}
+.custom-input-row{display:flex;gap:8px;align-items:center;margin-top:8px}
+.custom-input-row input{flex:1;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;font-family:monospace;color:#1e293b;outline:none;transition:border-color .2s}
+.custom-input-row input:focus{border-color:#7c3aed}
+.custom-input-row button{padding:8px 16px;border:none;background:#7c3aed;color:#fff;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s}
+.custom-input-row button:hover{background:#6d28d9}
+
 .chat-hint{position:fixed;bottom:100px;right:24px;background:#1a103c;color:#fff;padding:12px 20px;border-radius:12px 12px 0 12px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:999;animation:hintPop .5s ease-out;max-width:240px;line-height:1.5}
 .chat-hint::after{content:"";position:absolute;bottom:-8px;right:0;border:8px solid transparent;border-top-color:#1a103c;border-right-color:#1a103c}
 .chat-hint .close{position:absolute;top:4px;right:8px;background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:16px;line-height:1}
@@ -92,6 +105,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <div class="container">
 
+<!-- Product Switcher -->
+<div class="card" style="margin-bottom:28px">
+  <div class="card-head"><h2><span class="dot"></span>选择产品</h2></div>
+  <div class="card-body">
+    <div class="product-switcher" id="productSwitcher"></div>
+    <div class="custom-input-row">
+      <input type="text" id="customScript" placeholder="自定义脚本，如：project_123456_789012_1234567890">
+      <button onclick="loadCustom()">加载</button>
+    </div>
+  </div>
+</div>
+
 <!-- Status Bar -->
 <div class="status-bar">
   <div class="status-card">
@@ -108,8 +133,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
       <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     </div>
     <div class="status-info">
-      <div class="label">渠道类型</div>
-      <div class="value">Chat Plugin (网页插件)</div>
+      <div class="label">当前产品</div>
+      <div class="value" id="currentProduct" style="color:#7c3aed">-</div>
     </div>
   </div>
   <div class="status-card">
@@ -123,17 +148,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
   </div>
 </div>
 
-<!-- Info + Actions Grid -->
+<!-- Actions -->
 <div class="grid">
   <div class="card">
-    <div class="card-head"><h2><span class="dot"></span>插件配置信息</h2></div>
-    <div class="card-body">
-      <div class="info-row"><span class="k">Project ID</span><span class="v"><code>725936</code></span></div>
-      <div class="info-row"><span class="k">Plugin ID</span><span class="v"><code>766848</code></span></div>
-      <div class="info-row"><span class="k">Timestamp</span><span class="v"><code>1781060190</code></span></div>
-      <div class="info-row"><span class="k">加载方式</span><span class="v">defer (推荐)</span></div>
-      <div class="info-row"><span class="k">脚本域名</span><span class="v">plugin-code.salesmartly.com</span></div>
-      <div class="info-row"><span class="k">协议</span><span class="v">HTTPS</span></div>
+    <div class="card-head"><h2><span class="dot"></span>当前插件配置</h2></div>
+    <div class="card-body" id="configInfo">
+      <div class="info-row"><span class="k">状态</span><span class="v">未加载</span></div>
     </div>
   </div>
   <div class="card">
@@ -243,33 +263,128 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 
 <script>
+var PRODUCTS = [
+  { id: 'b777',   name: 'B777',   color: '#2563eb', script: 'project_709900_775686_1781662486' },
+  { id: 'brslot', name: 'BRSLOT', color: '#dc2626', script: 'project_709900_775690_1781662621' }
+];
+var currentProduct = null;
+var BASE = 'https://plugin-code.salesmartly.com/js/';
+
 function log(msg, type) {
-  const box = document.getElementById('logBox');
-  const now = new Date().toTimeString().slice(0,8);
-  const cls = type === 'ok' ? 'ok' : type === 'warn' ? 'warn' : type === 'err' ? 'err' : '';
+  var box = document.getElementById('logBox');
+  var now = new Date().toTimeString().slice(0,8);
+  var cls = type === 'ok' ? 'ok' : type === 'warn' ? 'warn' : type === 'err' ? 'err' : '';
   box.innerHTML += '<div><span class="time">[' + now + ']</span> <span class="' + cls + '">' + msg + '</span></div>';
   box.scrollTop = box.scrollHeight;
 }
 
-function checkPlugin() {
-  const el = document.getElementById('pluginStatus');
-  const ssIframe = document.querySelector('iframe[src*="salesmartly"]');
-  const ssDiv = document.querySelector('[id*="salesmartly"]') || document.querySelector('[class*="salesmartly"]');
-  const ssScript = document.querySelector('script[src*="salesmartly"]');
+function removePlugin() {
+  document.querySelectorAll('script[src*="salesmartly"]').forEach(function(el) { el.remove(); });
+  document.querySelectorAll('iframe[src*="salesmartly"]').forEach(function(el) { el.remove(); });
+  document.querySelectorAll('[id*="salesmartly"],[class*="salesmartly"],[id*="ssm"],[class*="ssm"]').forEach(function(el) { el.remove(); });
+}
 
+function clearAllCache() {
+  localStorage.clear();
+  sessionStorage.clear();
+  document.cookie.split(';').forEach(function(c) {
+    var name = c.split('=')[0].trim();
+    if (name) {
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=' + location.hostname;
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.' + location.hostname;
+    }
+  });
+  if (window.indexedDB) {
+    ['salesmartly','ssm','SaleSmartly'].forEach(function(n) { try { indexedDB.deleteDatabase(n); } catch(e) {} });
+  }
+}
+
+function loadPlugin(scriptName, productName) {
+  removePlugin();
+  var parts = scriptName.replace('project_','').split('_');
+  document.getElementById('configInfo').innerHTML =
+    '<div class="info-row"><span class="k">产品</span><span class="v" style="color:#7c3aed;font-weight:700">' + (productName || '自定义') + '</span></div>' +
+    '<div class="info-row"><span class="k">Project ID</span><span class="v"><code>' + (parts[0]||'-') + '</code></span></div>' +
+    '<div class="info-row"><span class="k">Plugin ID</span><span class="v"><code>' + (parts[1]||'-') + '</code></span></div>' +
+    '<div class="info-row"><span class="k">Timestamp</span><span class="v"><code>' + (parts[2]||'-') + '</code></span></div>' +
+    '<div class="info-row"><span class="k">脚本文件</span><span class="v" style="font-size:11px;word-break:break-all"><code>' + scriptName + '.js</code></span></div>' +
+    '<div class="info-row"><span class="k">加载方式</span><span class="v">defer</span></div>';
+  document.getElementById('currentProduct').textContent = productName || scriptName;
+  var s = document.createElement('script');
+  s.src = BASE + scriptName + '.js';
+  s.defer = true;
+  s.onload = function() {
+    log('[' + (productName || '自定义') + '] 插件脚本加载完成', 'ok');
+    setTimeout(checkPlugin, 2500);
+  };
+  s.onerror = function() { log('[' + (productName || '自定义') + '] 插件脚本加载失败', 'err'); };
+  document.head.appendChild(s);
+  log('正在加载 ' + (productName || '自定义') + ' 插件...', 'warn');
+}
+
+function switchProduct(id, skipCache) {
+  var p = PRODUCTS.find(function(x) { return x.id === id; });
+  if (!p) return;
+  if (currentProduct === id && !skipCache) return;
+  currentProduct = id;
+  document.querySelectorAll('.product-btn').forEach(function(el) {
+    el.classList.toggle('active', el.dataset.id === id);
+  });
+  if (!skipCache) {
+    log('切换产品: ' + p.name + '，清除缓存中...', 'warn');
+    removePlugin();
+    clearAllCache();
+  }
+  var url = new URL(location.href);
+  url.searchParams.set('product', id);
+  history.replaceState(null, '', url.toString());
+  loadPlugin(p.script, p.name);
+}
+
+function loadCustom() {
+  var input = document.getElementById('customScript').value.trim();
+  if (!input) return;
+  input = input.replace(/^<script[^>]*>/i, '').replace(/<\/script>/i, '');
+  input = input.replace(/^https?:\/\/plugin-code\.salesmartly\.com\/js\//i, '');
+  input = input.replace(/\.js$/i, '');
+  if (!input) { log('请输入有效的脚本标识', 'err'); return; }
+  currentProduct = null;
+  document.querySelectorAll('.product-btn').forEach(function(el) { el.classList.remove('active'); });
+  log('加载自定义插件: ' + input, 'warn');
+  removePlugin();
+  clearAllCache();
+  loadPlugin(input, '自定义');
+}
+
+function renderProducts() {
+  var container = document.getElementById('productSwitcher');
+  container.innerHTML = PRODUCTS.map(function(p) {
+    return '<div class="product-btn" data-id="' + p.id + '" onclick="switchProduct(\'' + p.id + '\')">' +
+      '<div class="p-icon" style="background:' + p.color + '">' + p.name.charAt(0) + '</div>' +
+      '<div><div class="p-name">' + p.name + '</div>' +
+      '<div class="p-id">' + p.script + '</div></div></div>';
+  }).join('');
+}
+
+function checkPlugin() {
+  var el = document.getElementById('pluginStatus');
+  var ssIframe = document.querySelector('iframe[src*="salesmartly"]');
+  var ssDiv = document.querySelector('[id*="salesmartly"]') || document.querySelector('[class*="salesmartly"]');
+  var ssScript = document.querySelector('script[src*="salesmartly"]');
   if (ssIframe || ssDiv) {
     el.textContent = '已加载';
     el.className = 'value online';
-    log('插件检测通过 - 聊天组件已渲染到页面', 'ok');
+    log('插件检测通过 - 聊天组件已渲染', 'ok');
   } else if (ssScript) {
     el.textContent = '脚本已加载';
     el.className = 'value pending';
-    log('插件脚本已加载，但聊天组件尚未渲染', 'warn');
+    log('插件脚本已加载，组件尚未渲染', 'warn');
   } else {
     el.textContent = '未检测到';
     el.className = 'value';
     el.style.color = '#dc2626';
-    log('未检测到 SaleSmartly 插件元素', 'err');
+    log('未检测到插件元素', 'err');
   }
 }
 
@@ -282,73 +397,22 @@ function openChat() {
     var chatBtn = document.querySelector('[id*="salesmartly"] button') ||
                   document.querySelector('[class*="salesmartly"]') ||
                   document.querySelector('iframe[src*="salesmartly"]');
-    if (chatBtn) {
-      chatBtn.click();
-      log('已点击插件按钮', 'ok');
-    } else {
-      log('请直接点击页面右下角的聊天气泡图标', 'warn');
-    }
+    if (chatBtn) { chatBtn.click(); log('已点击插件按钮', 'ok'); }
+    else { log('请直接点击页面右下角的聊天气泡图标', 'warn'); }
   }
 }
 
 function reloadPlugin() {
-  log('重新加载插件...', 'warn');
-  var old = document.querySelector('script[src*="salesmartly"]');
-  if (old) old.remove();
-  var s = document.createElement('script');
-  s.src = 'https://plugin-code.salesmartly.com/js/project_709900_775686_1781662486.js';
-  s.defer = true;
-  s.onload = function() { log('插件脚本重新加载完成', 'ok'); setTimeout(checkPlugin, 2000); };
-  s.onerror = function() { log('插件脚本加载失败', 'err'); };
-  document.head.appendChild(s);
+  if (!currentProduct) { log('请先选择一个产品', 'warn'); return; }
+  log('重新加载当前插件...', 'warn');
+  switchProduct(currentProduct, false);
 }
 
 function resetIdentity() {
   log('正在清除所有缓存数据...', 'warn');
-  var countLS = 0, countSS = 0, countCK = 0;
-  var keysToRemove = [];
-  for (var i = 0; i < localStorage.length; i++) {
-    keysToRemove.push(localStorage.key(i));
-  }
-  keysToRemove.forEach(function(k) {
-    if (k.toLowerCase().indexOf('salesmartly') !== -1 || k.toLowerCase().indexOf('ssm') !== -1 || k.toLowerCase().indexOf('ss_') !== -1 || k.indexOf('chat') !== -1 || k.indexOf('visitor') !== -1 || k.indexOf('user_id') !== -1) {
-      localStorage.removeItem(k); countLS++;
-    }
-  });
-  if (countLS === 0) { localStorage.clear(); countLS = localStorage.length === 0 ? -1 : 0; }
-  keysToRemove = [];
-  for (var j = 0; j < sessionStorage.length; j++) {
-    keysToRemove.push(sessionStorage.key(j));
-  }
-  keysToRemove.forEach(function(k) {
-    if (k.toLowerCase().indexOf('salesmartly') !== -1 || k.toLowerCase().indexOf('ssm') !== -1 || k.toLowerCase().indexOf('ss_') !== -1 || k.indexOf('chat') !== -1 || k.indexOf('visitor') !== -1 || k.indexOf('user_id') !== -1) {
-      sessionStorage.removeItem(k); countSS++;
-    }
-  });
-  if (countSS === 0) { sessionStorage.clear(); countSS = -1; }
-  document.cookie.split(';').forEach(function(c) {
-    var name = c.split('=')[0].trim();
-    if (name) {
-      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
-      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=' + location.hostname;
-      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.' + location.hostname;
-      countCK++;
-    }
-  });
-  var iframes = document.querySelectorAll('iframe[src*="salesmartly"]');
-  iframes.forEach(function(el) { el.remove(); });
-  var widgets = document.querySelectorAll('[id*="salesmartly"],[class*="salesmartly"],[id*="ssm"],[class*="ssm"]');
-  widgets.forEach(function(el) { el.remove(); });
-  var scripts = document.querySelectorAll('script[src*="salesmartly"]');
-  scripts.forEach(function(el) { el.remove(); });
-  if (window.indexedDB) {
-    var dbs = ['salesmartly','ssm','SaleSmartly'];
-    dbs.forEach(function(name) { try { indexedDB.deleteDatabase(name); } catch(e) {} });
-  }
-  log('localStorage: ' + (countLS === -1 ? '全部清除' : countLS + ' 项'), 'ok');
-  log('sessionStorage: ' + (countSS === -1 ? '全部清除' : countSS + ' 项'), 'ok');
-  log('Cookies: ' + countCK + ' 项已清除', 'ok');
-  log('插件 DOM 元素已移除', 'ok');
+  removePlugin();
+  clearAllCache();
+  log('缓存已全部清除', 'ok');
   log('2秒后自动刷新，以新访客身份加载...', 'warn');
   setTimeout(function() { location.reload(true); }, 2000);
 }
@@ -361,13 +425,20 @@ function clearLog() {
 document.getElementById('envInfo').textContent =
   /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop (' + window.innerWidth + 'x' + window.innerHeight + ')';
 
-window.addEventListener('load', function() {
-  log('页面加载完成', 'ok');
+renderProducts();
+
+(function init() {
+  var params = new URLSearchParams(location.search);
+  var pid = params.get('product');
+  if (pid && PRODUCTS.find(function(p) { return p.id === pid; })) {
+    switchProduct(pid, true);
+  } else {
+    switchProduct(PRODUCTS[0].id, true);
+  }
   setTimeout(function() {
-    checkPlugin();
     document.getElementById('chatHint').style.display = 'block';
   }, 3000);
-});
+})();
 </script>
 
 <style>
