@@ -152,6 +152,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
           <span class="ico" style="background:#eff6ff"><svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg></span>
           重新加载插件
         </button>
+        <button class="test-btn" onclick="resetIdentity()" style="border-color:#ef4444">
+          <span class="ico" style="background:#fee2e2"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M15 9l-6 6M9 9l6 6"/></svg></span>
+          清除缓存换新号
+        </button>
         <button class="test-btn" onclick="clearLog()">
           <span class="ico" style="background:#fef3c7"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>
           清除日志
@@ -297,6 +301,56 @@ function reloadPlugin() {
   s.onload = function() { log('插件脚本重新加载完成', 'ok'); setTimeout(checkPlugin, 2000); };
   s.onerror = function() { log('插件脚本加载失败', 'err'); };
   document.head.appendChild(s);
+}
+
+function resetIdentity() {
+  log('正在清除所有缓存数据...', 'warn');
+  var countLS = 0, countSS = 0, countCK = 0;
+  var keysToRemove = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    keysToRemove.push(localStorage.key(i));
+  }
+  keysToRemove.forEach(function(k) {
+    if (k.toLowerCase().indexOf('salesmartly') !== -1 || k.toLowerCase().indexOf('ssm') !== -1 || k.toLowerCase().indexOf('ss_') !== -1 || k.indexOf('chat') !== -1 || k.indexOf('visitor') !== -1 || k.indexOf('user_id') !== -1) {
+      localStorage.removeItem(k); countLS++;
+    }
+  });
+  if (countLS === 0) { localStorage.clear(); countLS = localStorage.length === 0 ? -1 : 0; }
+  keysToRemove = [];
+  for (var j = 0; j < sessionStorage.length; j++) {
+    keysToRemove.push(sessionStorage.key(j));
+  }
+  keysToRemove.forEach(function(k) {
+    if (k.toLowerCase().indexOf('salesmartly') !== -1 || k.toLowerCase().indexOf('ssm') !== -1 || k.toLowerCase().indexOf('ss_') !== -1 || k.indexOf('chat') !== -1 || k.indexOf('visitor') !== -1 || k.indexOf('user_id') !== -1) {
+      sessionStorage.removeItem(k); countSS++;
+    }
+  });
+  if (countSS === 0) { sessionStorage.clear(); countSS = -1; }
+  document.cookie.split(';').forEach(function(c) {
+    var name = c.split('=')[0].trim();
+    if (name) {
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=' + location.hostname;
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.' + location.hostname;
+      countCK++;
+    }
+  });
+  var iframes = document.querySelectorAll('iframe[src*="salesmartly"]');
+  iframes.forEach(function(el) { el.remove(); });
+  var widgets = document.querySelectorAll('[id*="salesmartly"],[class*="salesmartly"],[id*="ssm"],[class*="ssm"]');
+  widgets.forEach(function(el) { el.remove(); });
+  var scripts = document.querySelectorAll('script[src*="salesmartly"]');
+  scripts.forEach(function(el) { el.remove(); });
+  if (window.indexedDB) {
+    var dbs = ['salesmartly','ssm','SaleSmartly'];
+    dbs.forEach(function(name) { try { indexedDB.deleteDatabase(name); } catch(e) {} });
+  }
+  log('localStorage: ' + (countLS === -1 ? '全部清除' : countLS + ' 项'), 'ok');
+  log('sessionStorage: ' + (countSS === -1 ? '全部清除' : countSS + ' 项'), 'ok');
+  log('Cookies: ' + countCK + ' 项已清除', 'ok');
+  log('插件 DOM 元素已移除', 'ok');
+  log('2秒后自动刷新，以新访客身份加载...', 'warn');
+  setTimeout(function() { location.reload(true); }, 2000);
 }
 
 function clearLog() {
