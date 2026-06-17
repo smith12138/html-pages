@@ -12,7 +12,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .header{background:linear-gradient(135deg,#1a103c,#2d1b69);color:#fff;padding:40px 36px;position:relative;overflow:hidden}
 .header::before{content:"";position:absolute;top:-60%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
 .header-content{position:relative;z-index:1;max-width:1100px;margin:0 auto}
-.header-badge{display:inline-block;background:rgba(124,58,237,.3);border:1px solid rgba(167,139,250,.4);color:#c4b5fd;padding:3px 14px;border-radius:16px;font-size:11px;letter-spacing:2px;margin-bottom:14px;text-transform:uppercase}
+.header-badge{display:inline-block;padding:3px 14px;border-radius:16px;font-size:11px;letter-spacing:2px;margin-bottom:14px;text-transform:uppercase;border:1px solid}
 .header h1{font-size:28px;margin-bottom:6px;font-weight:700}
 .header .sub{font-size:15px;opacity:.82;line-height:1.5}
 
@@ -48,6 +48,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .test-btn .ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .test-btn .ico svg{width:16px;height:16px}
 
+.env-tabs{display:flex;gap:8px;margin-bottom:16px}
+.env-tab{padding:9px 22px;border:2px solid #e5e7eb;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px;background:#fff;transition:all .2s;display:flex;align-items:center;gap:8px}
+.env-tab:hover{border-color:#d1d5db;background:#f9fafb}
+.env-tab .env-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.env-tab .env-count{font-size:11px;font-weight:500;color:#9ca3af;background:#f3f4f6;padding:1px 8px;border-radius:10px;margin-left:2px}
+.env-tab.active.test{border-color:#f59e0b;background:#fffbeb;color:#92400e}
+.env-tab.active.test .env-count{background:#fef3c7;color:#b45309}
+.env-tab.active.prod{border-color:#059669;background:#ecfdf5;color:#047857}
+.env-tab.active.prod .env-count{background:#d1fae5;color:#047857}
+.search-row{margin-bottom:12px;display:none}
+.search-row.visible{display:block}
+.search-row input{width:100%;padding:9px 14px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;outline:none;transition:border-color .2s}
+.search-row input:focus{border-color:#7c3aed}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;max-height:360px;overflow-y:auto;padding:2px}
+.product-chip{padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .15s;background:#fff}
+.product-chip:hover{border-color:#a78bfa;background:#faf5ff}
+.product-chip.active{border-color:#7c3aed;background:#f5f3ff;box-shadow:0 2px 8px rgba(124,58,237,.1)}
+.product-chip .chip-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.product-chip .chip-name{font-size:13px;font-weight:600;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.product-chip.active .chip-name{color:#7c3aed}
+.product-empty{grid-column:1/-1;text-align:center;color:#9ca3af;font-size:13px;padding:20px 0}
+.custom-input-row{display:flex;gap:8px;align-items:center;margin-top:12px}
+.custom-input-row input{flex:1;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;font-family:monospace;color:#1e293b;outline:none;transition:border-color .2s}
+.custom-input-row input:focus{border-color:#7c3aed}
+.custom-input-row button{padding:8px 16px;border:none;background:#7c3aed;color:#fff;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s}
+.custom-input-row button:hover{background:#6d28d9}
+
 .scenario-section{margin-bottom:28px}
 .scenario-section h2{font-size:16px;font-weight:700;color:#1e293b;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .scenario-section h2 .dot{width:8px;height:8px;border-radius:50%;background:#059669}
@@ -63,20 +90,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .t-purple{background:#ede9fe;color:#7c3aed}
 .t-yellow{background:#fef3c7;color:#b45309}
 .t-red{background:#fee2e2;color:#dc2626}
-
-.product-switcher{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
-.product-btn{display:flex;align-items:center;gap:12px;padding:14px 20px;background:#fff;border:2px solid #e5e7eb;border-radius:12px;cursor:pointer;transition:all .2s;flex:1;min-width:200px}
-.product-btn:hover{border-color:#7c3aed;box-shadow:0 4px 16px rgba(124,58,237,.08)}
-.product-btn.active{border-color:#7c3aed;background:#f5f3ff;box-shadow:0 4px 16px rgba(124,58,237,.12)}
-.product-btn .p-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;flex-shrink:0}
-.product-btn .p-name{font-size:15px;font-weight:700;color:#1e293b}
-.product-btn .p-id{font-size:11px;color:#9ca3af;font-family:monospace;margin-top:2px}
-.product-btn.active .p-name{color:#7c3aed}
-.custom-input-row{display:flex;gap:8px;align-items:center;margin-top:8px}
-.custom-input-row input{flex:1;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;font-family:monospace;color:#1e293b;outline:none;transition:border-color .2s}
-.custom-input-row input:focus{border-color:#7c3aed}
-.custom-input-row button{padding:8px 16px;border:none;background:#7c3aed;color:#fff;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s}
-.custom-input-row button:hover{background:#6d28d9}
 
 .chat-hint{position:fixed;bottom:100px;right:24px;background:#1a103c;color:#fff;padding:12px 20px;border-radius:12px 12px 0 12px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:999;animation:hintPop .5s ease-out;max-width:240px;line-height:1.5}
 .chat-hint::after{content:"";position:absolute;bottom:-8px;right:0;border:8px solid transparent;border-top-color:#1a103c;border-right-color:#1a103c}
@@ -97,7 +110,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 <div class="header">
   <div class="header-content">
-    <div class="header-badge">Test Environment</div>
+    <div class="header-badge" id="envBadge" style="background:rgba(245,158,11,.3);border-color:rgba(252,211,77,.4);color:#fcd34d">测试环境</div>
     <h1>SaleSmartly Chat Plugin Test</h1>
     <div class="sub">聊天插件功能验证页面 — 用于测试 SaleSmartly 在线客服插件的接入与交互</div>
   </div>
@@ -109,7 +122,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 <div class="card" style="margin-bottom:28px">
   <div class="card-head"><h2><span class="dot"></span>选择产品</h2></div>
   <div class="card-body">
-    <div class="product-switcher" id="productSwitcher"></div>
+    <div class="env-tabs" id="envTabs"></div>
+    <div class="search-row" id="searchRow">
+      <input type="text" id="searchInput" placeholder="搜索产品名称..." oninput="filterProducts()">
+    </div>
+    <div class="product-grid" id="productGrid"></div>
     <div class="custom-input-row">
       <input type="text" id="customScript" placeholder="自定义脚本，如：project_123456_789012_1234567890">
       <button onclick="loadCustom()">加载</button>
@@ -251,7 +268,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 
 <div class="footer">
-  SaleSmartly Chat Plugin Test Page &middot; Project 725936
+  SaleSmartly Chat Plugin Test Page
 </div>
 
 </div>
@@ -263,12 +280,62 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 
 <script>
-var PRODUCTS = [
-  { id: 'b777',   name: 'B777',   color: '#2563eb', script: 'project_709900_775686_1781662486' },
-  { id: 'brslot', name: 'BRSLOT', color: '#dc2626', script: 'project_709900_775690_1781662621' }
-];
+var ENVIRONMENTS = {
+  test: {
+    name: '测试环境',
+    products: [
+      { id: 'b777-test',   name: 'B777',   script: 'project_709900_775686_1781662486' },
+      { id: 'brslot-test', name: 'BRSLOT', script: 'project_709900_775690_1781662621' }
+    ]
+  },
+  prod: {
+    name: '生产环境',
+    products: [
+      { id: '11x',       name: '11X',         script: 'project_725936_773939_1781531691' },
+      { id: '159',       name: '159',         script: 'project_725936_773947_1781531932' },
+      { id: '17game',    name: '17Game',      script: 'project_725936_773973_1781532612' },
+      { id: '1xspin',    name: '1xspin',      script: 'project_725936_775135_1781611430' },
+      { id: '33s',       name: '33S',         script: 'project_725936_774703_1781593527' },
+      { id: '3betcs',    name: '3betcs.com',  script: 'project_725936_774697_1781593392' },
+      { id: '3u',        name: '3U',          script: 'project_725936_773959_1781532270' },
+      { id: '67game',    name: '67Game',      script: 'project_725936_773975_1781532763' },
+      { id: '7br',       name: '7br',         script: 'project_725936_774710_1781593693' },
+      { id: '7luck',     name: '7luck',       script: 'project_725936_775927_1781672041' },
+      { id: '7pg',       name: '7pg',         script: 'project_725936_775928_1781672053' },
+      { id: '7ss',       name: '7SS',         script: 'project_725936_773163_1781497859' },
+      { id: '7xx',       name: '7XX',         script: 'project_725936_749488_1779871354' },
+      { id: '88sgame',   name: '88SGame',     script: 'project_725936_774691_1781593191' },
+      { id: '997game',   name: '997Game',     script: 'project_725936_774694_1781593270' },
+      { id: 'a7x',       name: 'A7x',        script: 'project_725936_774700_1781593451' },
+      { id: 'b777-prod', name: 'B777',        script: 'project_725936_767293_1781079042' },
+      { id: 'brplay7',   name: 'Brplay7',     script: 'project_725936_774717_1781593875' },
+      { id: 'brl77',     name: 'Brl77',       script: 'project_725936_775930_1781672081' },
+      { id: 'brlucky',   name: 'Brlucky',     script: 'project_725936_775929_1781672070' },
+      { id: 'brslot-prod', name: 'Brslot',    script: 'project_725936_766848_1781060190' },
+      { id: 'f7',        name: 'F7',          script: 'project_725936_773970_1781532479' },
+      { id: 'g77',       name: 'G77',         script: 'project_725936_774712_1781593739' },
+      { id: 'ganha9',    name: 'Ganha9',      script: 'project_725936_773942_1781531842' },
+      { id: 'o77',       name: 'o77',         script: 'project_725936_773961_1781532327' },
+      { id: 'picowin',   name: 'Picowin',     script: 'project_725936_773889_1781529562' },
+      { id: 'slotfun',   name: 'Slotfun',     script: 'project_725936_773962_1781532380' },
+      { id: 'sp7',       name: 'SP7',         script: 'project_725936_774720_1781593978' },
+      { id: 'tanobet',   name: 'TanoBet',     script: 'project_725936_774695_1781593313' },
+      { id: 'vana7',     name: 'Vana7',       script: 'project_725936_774718_1781593921' },
+      { id: 'win77',     name: 'Win77',       script: 'project_725936_774707_1781593618' }
+    ]
+  }
+};
+
+var currentEnv = 'test';
 var currentProduct = null;
 var BASE = 'https://plugin-code.salesmartly.com/js/';
+var COLORS = ['#6366f1','#ec4899','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ef4444','#14b8a6','#f97316','#06b6d4','#84cc16','#a855f7'];
+
+function nameColor(name) {
+  var h = 0;
+  for (var i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h);
+  return COLORS[Math.abs(h) % COLORS.length];
+}
 
 function log(msg, type) {
   var box = document.getElementById('logBox');
@@ -300,16 +367,33 @@ function clearAllCache() {
   }
 }
 
+function findProduct(id) {
+  var envs = Object.keys(ENVIRONMENTS);
+  for (var i = 0; i < envs.length; i++) {
+    var p = ENVIRONMENTS[envs[i]].products.find(function(x) { return x.id === id; });
+    if (p) return p;
+  }
+  return null;
+}
+
+function findProductEnv(id) {
+  var envs = Object.keys(ENVIRONMENTS);
+  for (var i = 0; i < envs.length; i++) {
+    if (ENVIRONMENTS[envs[i]].products.find(function(x) { return x.id === id; })) return envs[i];
+  }
+  return null;
+}
+
 function loadPlugin(scriptName, productName) {
   removePlugin();
   var parts = scriptName.replace('project_','').split('_');
   document.getElementById('configInfo').innerHTML =
     '<div class="info-row"><span class="k">产品</span><span class="v" style="color:#7c3aed;font-weight:700">' + (productName || '自定义') + '</span></div>' +
+    '<div class="info-row"><span class="k">环境</span><span class="v"><code>' + ENVIRONMENTS[currentEnv].name + '</code></span></div>' +
     '<div class="info-row"><span class="k">Project ID</span><span class="v"><code>' + (parts[0]||'-') + '</code></span></div>' +
     '<div class="info-row"><span class="k">Plugin ID</span><span class="v"><code>' + (parts[1]||'-') + '</code></span></div>' +
     '<div class="info-row"><span class="k">Timestamp</span><span class="v"><code>' + (parts[2]||'-') + '</code></span></div>' +
-    '<div class="info-row"><span class="k">脚本文件</span><span class="v" style="font-size:11px;word-break:break-all"><code>' + scriptName + '.js</code></span></div>' +
-    '<div class="info-row"><span class="k">加载方式</span><span class="v">defer</span></div>';
+    '<div class="info-row"><span class="k">脚本文件</span><span class="v" style="font-size:11px;word-break:break-all"><code>' + scriptName + '.js</code></span></div>';
   document.getElementById('currentProduct').textContent = productName || scriptName;
   var s = document.createElement('script');
   s.src = BASE + scriptName + '.js';
@@ -320,23 +404,84 @@ function loadPlugin(scriptName, productName) {
   };
   s.onerror = function() { log('[' + (productName || '自定义') + '] 插件脚本加载失败', 'err'); };
   document.head.appendChild(s);
-  log('正在加载 ' + (productName || '自定义') + ' 插件...', 'warn');
+  log('正在加载 ' + (productName || '自定义') + ' (' + ENVIRONMENTS[currentEnv].name + ') ...', 'warn');
+}
+
+function updateEnvBadge() {
+  var badge = document.getElementById('envBadge');
+  badge.textContent = ENVIRONMENTS[currentEnv].name;
+  if (currentEnv === 'test') {
+    badge.style.background = 'rgba(245,158,11,.3)';
+    badge.style.borderColor = 'rgba(252,211,77,.4)';
+    badge.style.color = '#fcd34d';
+  } else {
+    badge.style.background = 'rgba(5,150,105,.3)';
+    badge.style.borderColor = 'rgba(110,231,183,.4)';
+    badge.style.color = '#6ee7b7';
+  }
+}
+
+function renderEnvTabs() {
+  var tabs = document.getElementById('envTabs');
+  tabs.innerHTML = Object.keys(ENVIRONMENTS).map(function(k) {
+    var env = ENVIRONMENTS[k];
+    return '<button class="env-tab ' + k + (currentEnv === k ? ' active' : '') + '" onclick="switchEnv(\'' + k + '\')">' +
+      '<span class="env-dot" style="background:' + (k === 'test' ? '#f59e0b' : '#059669') + '"></span>' +
+      env.name +
+      '<span class="env-count">' + env.products.length + '</span>' +
+      '</button>';
+  }).join('');
+}
+
+function renderProducts() {
+  var grid = document.getElementById('productGrid');
+  var products = ENVIRONMENTS[currentEnv].products;
+  var searchRow = document.getElementById('searchRow');
+  var search = document.getElementById('searchInput');
+  if (currentEnv === 'prod') { searchRow.classList.add('visible'); }
+  else { searchRow.classList.remove('visible'); if (search) search.value = ''; }
+  var filter = (search && currentEnv === 'prod') ? search.value.toLowerCase() : '';
+  var filtered = filter ? products.filter(function(p) { return p.name.toLowerCase().indexOf(filter) !== -1; }) : products;
+  grid.innerHTML = filtered.length ? filtered.map(function(p) {
+    return '<div class="product-chip' + (currentProduct === p.id ? ' active' : '') + '" data-id="' + p.id + '" onclick="switchProduct(\'' + p.id + '\')">' +
+      '<span class="chip-dot" style="background:' + nameColor(p.name) + '"></span>' +
+      '<span class="chip-name">' + p.name + '</span></div>';
+  }).join('') : '<div class="product-empty">未找到匹配的产品</div>';
+}
+
+function filterProducts() { renderProducts(); }
+
+function switchEnv(env) {
+  if (!ENVIRONMENTS[env] || currentEnv === env) return;
+  currentEnv = env;
+  updateEnvBadge();
+  renderEnvTabs();
+  renderProducts();
+  var url = new URL(location.href);
+  url.searchParams.set('env', env);
+  url.searchParams.delete('product');
+  history.replaceState(null, '', url.toString());
 }
 
 function switchProduct(id, skipCache) {
-  var p = PRODUCTS.find(function(x) { return x.id === id; });
+  var p = findProduct(id);
   if (!p) return;
   if (currentProduct === id && !skipCache) return;
+  var env = findProductEnv(id);
+  if (env && env !== currentEnv) {
+    currentEnv = env;
+    updateEnvBadge();
+    renderEnvTabs();
+  }
   currentProduct = id;
-  document.querySelectorAll('.product-btn').forEach(function(el) {
-    el.classList.toggle('active', el.dataset.id === id);
-  });
+  renderProducts();
   if (!skipCache) {
     log('切换产品: ' + p.name + '，清除缓存中...', 'warn');
     removePlugin();
     clearAllCache();
   }
   var url = new URL(location.href);
+  url.searchParams.set('env', currentEnv);
   url.searchParams.set('product', id);
   history.replaceState(null, '', url.toString());
   loadPlugin(p.script, p.name);
@@ -350,21 +495,11 @@ function loadCustom() {
   input = input.replace(/\.js$/i, '');
   if (!input) { log('请输入有效的脚本标识', 'err'); return; }
   currentProduct = null;
-  document.querySelectorAll('.product-btn').forEach(function(el) { el.classList.remove('active'); });
+  renderProducts();
   log('加载自定义插件: ' + input, 'warn');
   removePlugin();
   clearAllCache();
   loadPlugin(input, '自定义');
-}
-
-function renderProducts() {
-  var container = document.getElementById('productSwitcher');
-  container.innerHTML = PRODUCTS.map(function(p) {
-    return '<div class="product-btn" data-id="' + p.id + '" onclick="switchProduct(\'' + p.id + '\')">' +
-      '<div class="p-icon" style="background:' + p.color + '">' + p.name.charAt(0) + '</div>' +
-      '<div><div class="p-name">' + p.name + '</div>' +
-      '<div class="p-id">' + p.script + '</div></div></div>';
-  }).join('');
 }
 
 function checkPlugin() {
@@ -425,19 +560,27 @@ function clearLog() {
 document.getElementById('envInfo').textContent =
   /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop (' + window.innerWidth + 'x' + window.innerHeight + ')';
 
+renderEnvTabs();
 renderProducts();
 
 (function init() {
   var params = new URLSearchParams(location.search);
+  var env = params.get('env');
   var pid = params.get('product');
-  if (pid && PRODUCTS.find(function(p) { return p.id === pid; })) {
+  if (pid && findProduct(pid)) {
+    var pEnv = findProductEnv(pid);
+    if (pEnv && pEnv !== currentEnv) { currentEnv = pEnv; updateEnvBadge(); renderEnvTabs(); renderProducts(); }
     switchProduct(pid, true);
+  } else if (env && ENVIRONMENTS[env]) {
+    currentEnv = env;
+    updateEnvBadge();
+    renderEnvTabs();
+    renderProducts();
+    switchProduct(ENVIRONMENTS[env].products[0].id, true);
   } else {
-    switchProduct(PRODUCTS[0].id, true);
+    switchProduct(ENVIRONMENTS.test.products[0].id, true);
   }
-  setTimeout(function() {
-    document.getElementById('chatHint').style.display = 'block';
-  }, 3000);
+  setTimeout(function() { document.getElementById('chatHint').style.display = 'block'; }, 3000);
 })();
 </script>
 
