@@ -539,8 +539,12 @@ function openChat() {
 
 function reloadPlugin() {
   if (!currentProduct) { log('请先选择一个产品', 'warn'); return; }
-  log('重新加载当前插件...', 'warn');
-  switchProduct(currentProduct, false);
+  var p = findProduct(currentProduct);
+  if (!p) return;
+  log('重新加载 ' + p.name + ' 插件...', 'warn');
+  removePlugin();
+  clearAllCache();
+  loadPlugin(p.script, p.name);
 }
 
 function resetIdentity() {
