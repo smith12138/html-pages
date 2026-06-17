@@ -468,6 +468,15 @@ function switchProduct(id, skipCache) {
   if (!p) return;
   if (currentProduct === id && !skipCache) return;
   var env = findProductEnv(id);
+  if (!skipCache) {
+    removePlugin();
+    clearAllCache();
+    var url = new URL(location.href);
+    url.searchParams.set('env', env || currentEnv);
+    url.searchParams.set('product', id);
+    location.replace(url.toString());
+    return;
+  }
   if (env && env !== currentEnv) {
     currentEnv = env;
     updateEnvBadge();
@@ -475,11 +484,6 @@ function switchProduct(id, skipCache) {
   }
   currentProduct = id;
   renderProducts();
-  if (!skipCache) {
-    log('切换产品: ' + p.name + '，清除缓存中...', 'warn');
-    removePlugin();
-    clearAllCache();
-  }
   var url = new URL(location.href);
   url.searchParams.set('env', currentEnv);
   url.searchParams.set('product', id);
@@ -539,12 +543,9 @@ function openChat() {
 
 function reloadPlugin() {
   if (!currentProduct) { log('请先选择一个产品', 'warn'); return; }
-  var p = findProduct(currentProduct);
-  if (!p) return;
-  log('重新加载 ' + p.name + ' 插件...', 'warn');
   removePlugin();
   clearAllCache();
-  loadPlugin(p.script, p.name);
+  location.reload(true);
 }
 
 function resetIdentity() {
