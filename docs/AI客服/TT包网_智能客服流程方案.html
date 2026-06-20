@@ -75,7 +75,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
   <div class="meta-row">
     <span>● 渠道：TT 包网（TikTok）· Salesmartly 在线插件</span>
     <span>● 整理日期：2026-06-18</span>
-    <span>● 来源：SOP 流程图 + tt-workflow + 包网 API v1.1</span>
+    <span>● 来源：SOP 流程图 + tt-workflow + 包网 API v2.0</span>
   </div>
 </div>
 
@@ -106,7 +106,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
       <div class="chg-card c1"><h4>① UID 由插件携带，省去 AI 引导</h4>
         <p>前端在 Salesmartly 插件初始化时即携带 <b>用户ID(UID)</b> 与平台，我方后台通过 <b>Webhook 解析</b>获取。AI 无需再引导用户提供账户ID，收集环节直接复用 UID。</p></div>
       <div class="chg-card c2"><h4>② 接入包网 4 个开放 API</h4>
-        <p>包网提供 <b>玩家信息 / 充值订单 / 提现订单 / 奖励记录</b> 四个查询接口（Bearer Token 鉴权），AI 客服直接调用查询实时状态，替代/补充人工转发三方群。详见第五节。</p></div>
+        <p>包网提供 <b>玩家信息 / 充值订单 / 提现订单 / 奖励记录</b> 四个查询接口（<b>MD5 签名</b>鉴权，v2.0），AI 客服直接调用查询实时状态，替代/补充人工转发三方群。详见第五节。</p></div>
       <div class="chg-card c3"><h4>③ 补充更细的问题分支</h4>
         <p>引入 tt-workflow 的细分分支：提现 <b>10 态状态机</b>、充值 5 态、游戏错误 <b>spin/bet/reward</b>、页面问题、设备兼容、奖励记录分析与「奖励缺失」分支。</p></div>
     </div>
@@ -158,8 +158,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 
 <div class="sec" id="s5">
-  <div class="sec-head"><h2>五、包网开放 API 说明</h2><div class="desc">external-api v1.1 · Base URL <code>https://{tenant-domain}/api/external/v1</code> · Header <code>Authorization: Bearer &lt;token&gt;</code></div></div>
+  <div class="sec-head"><h2>五、包网开放 API 说明（v2.0）</h2><div class="desc">external-api v2.0（2026-06-19）· Base URL <code>https://{tenant-domain}/api/external/v1</code> · 认证：<b>MD5 签名</b></div></div>
   <div class="sec-body">
+    <div class="tip"><b>v2.0 认证变更 ⚠️：</b>由 v1.x 的 <code>Authorization: Bearer &lt;token&gt;</code>（JWT）改为 <b>MD5 签名</b>。每个请求都需附带 <code>app_id</code> + <code>timestamp</code> + <code>sign</code>。</div>
+    <p style="font-weight:600;color:#1e3a5f;margin:14px 0 4px">鉴权（MD5 签名）</p>
+    <ul style="margin:6px 0 12px 22px">
+      <li style="font-size:13.5px;margin-bottom:5px"><b>凭证</b>：<code>appId</code>（<code>ak_</code> 前缀）+ <code>secretKey</code>（64 位 hex，<b>仅创建时返回一次</b>，请妥善保管）。</li>
+      <li style="font-size:13.5px;margin-bottom:5px"><b>签名步骤</b>：① 收集除 <code>sign</code> 外所有参数 → ② 按 key 字典序升序（空值跳过）→ ③ 拼接 <code>key1=value1&amp;key2=value2</code> → ④ 末尾追加 <code>&amp;key=&lt;secretKey&gt;</code> → ⑤ 取 <b>MD5（32 位小写）</b>即为 <code>sign</code>。</li>
+      <li style="font-size:13.5px;margin-bottom:5px"><b>防重放</b>：必带 <code>timestamp</code>（Unix 秒），服务端校验 <b>±5 分钟</b>，超时或缺失即拒绝。</li>
+      <li style="font-size:13.5px;margin-bottom:5px"><b>POST 请求</b>：Body 字段与 Query 参数合并后一起签名，<code>sign</code> 本身不参与签名。</li>
+    </ul>
+    <div class="note">示例（GET 玩家信息）：拼接串 <code>app_id=ak_xxx&amp;timestamp=1750348800&amp;uid=149…&amp;key=&lt;secretKey&gt;</code> → <code>sign=md5(上串)</code> → 请求 <code>/player/profile?uid=149…&amp;app_id=ak_xxx&amp;timestamp=1750348800&amp;sign=&lt;MD5&gt;</code></div>
+    <p style="font-size:13px;color:#666;margin:12px 0 2px">下列接口的「请求」均为业务参数，<b>另需附加 app_id + timestamp + sign</b>（见上方签名说明）：</p>
     <table class="stbl">
       <tr><th style="width:170px">接口</th><th>请求</th><th>关键返回字段</th></tr>
       <tr><td><b>① 玩家信息</b><br><span class="tag tag-api">账户分支</span></td><td><code>GET /player/profile?uid=</code></td>
@@ -175,7 +185,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
       <span class="tag tag-cz">0 待支付</span><span class="tag tag-cz">1 回调成功</span><span class="tag tag-cz">2 下单失败</span><span class="tag tag-cz">3 回调失败</span><span class="tag tag-cz">4 已过期</span></p>
     <p><b>提现订单状态（status）：</b>
       <span class="tag tag-tx">0 出款中</span><span class="tag tag-tx">1 回调成功</span><span class="tag tag-tx">2 下单失败</span><span class="tag tag-tx">3 回调失败</span><span class="tag tag-tx">4 待下单</span><span class="tag tag-tx">5 待审核</span><span class="tag tag-tx">6 审核通过</span><span class="tag tag-tx">7 审核退还</span><span class="tag tag-tx">8 审核没收</span><span class="tag tag-tx">9 人工复审</span></p>
-    <div class="note">通用约定：金额单位为<b>分</b>（÷100 转元）；时间为 <b>UTC / ISO 8601</b>；订单号、手机号等敏感字段已<b>脱敏</b>；列表接口支持分页（pageSize 最大 100）。错误码：0 成功 / 7 业务失败 / 401 未认证 / 403 无权限。</div>
+    <div class="note">通用约定：所有请求附加 <b>app_id + timestamp + sign</b>；金额单位为<b>分</b>（÷100 转元）；时间为 <b>UTC / ISO 8601</b>；订单号、手机号等敏感字段已<b>脱敏</b>；列表接口支持分页（pageSize 最大 100）。错误码：0 成功 / 7 业务失败 / 401 未认证（缺 app_id / app_id 无效 / 凭证过期）/ 403 签名验证失败或无权限 / 404 资源不存在 / 500 服务器错误。</div>
   </div>
 </div>
 
