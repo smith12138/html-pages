@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TT 包网 · 智能客服测试用例（含测试截图）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1440px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1e3a5f,#0d7377);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:28px}
+.header h1{font-size:24px;margin-bottom:6px}.header .sub{font-size:14px;opacity:.85;margin-bottom:14px}
+.header .meta{display:flex;gap:24px;font-size:13px;opacity:.7;flex-wrap:wrap}
+.stats{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.stat{flex:1;min-width:120px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+.stat .num{font-size:30px;font-weight:700}.stat .label{font-size:12px;color:#6b7280;margin-top:2px}
+.c1 .num{color:#2563eb}.c2 .num{color:#dc2626}.c3 .num{color:#d97706}.c4 .num{color:#059669}.c5 .num{color:#7c3aed}.c6 .num{color:#6b7280}.c7 .num{color:#0ea5e9}
+.toc{background:#fff;border-radius:12px;padding:20px 24px;margin-bottom:28px;border:1px solid #e5e7eb;border-left:4px solid #0d7377}
+.toc h2{font-size:16px;color:#0d7377;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.toc .cnt{color:#9ca3af;font-size:12px;margin-left:4px}
+.sec{background:#fff;border-radius:12px;margin-bottom:24px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:18px 24px 12px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head h2{font-size:17px;font-weight:700;flex:1}.sec-head .cnt-badge{font-size:12px;color:#0d7377;background:#e7f6f7;padding:3px 10px;border-radius:8px;font-weight:600}
+.flow-ref{font-size:11px;color:#9ca3af;padding:8px 24px 12px;border-bottom:1px solid #f3f4f6;font-style:italic;line-height:1.5}
+.tc{width:100%;border-collapse:collapse;font-size:13px}
+.tc th{background:#f9fafb;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap}
+.tc td{padding:10px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top;line-height:1.6}
+.tc tr:hover{background:#fafbfc}
+.tc .id{color:#0d7377;font-weight:600;white-space:nowrap;width:74px}
+.prio{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.p0{background:#fef2f2;color:#dc2626}.p1{background:#fef3c7;color:#d97706}.p2{background:#ecfdf5;color:#059669}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;margin-right:3px;font-weight:600}
+.tag-func{background:#e7f6f7;color:#0d7377}.tag-edge{background:#fef3c7;color:#d97706}.tag-reg{background:#fef2f2;color:#dc2626}.tag-loc{background:#f0fdf4;color:#15803d}.tag-int{background:#e0f2fe;color:#0369a1}
+ol.steps{margin:0;padding-left:18px;font-size:12px;color:#374151}
+ol.steps li{margin-bottom:3px}
+.expect{font-size:12px;color:#374151}
+.expect strong{color:#059669}
+.expect .warn{color:#dc2626}
+.expect code{background:#eef3f8;color:#1f5f9e;padding:1px 5px;border-radius:4px;font-family:"SF Mono",Consolas,monospace;font-size:11.5px}
+.filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.fbtn{padding:5px 14px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer;font-weight:500;transition:all .15s}
+.fbtn:hover{border-color:#0d7377;color:#0d7377}.fbtn.active{background:#0d7377;border-color:#0d7377;color:#fff}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px;margin-top:20px}
+.shot{display:block;width:130px;max-height:180px;object-fit:contain;background:#fafafa;border:1px solid #e5e7eb;border-radius:6px;cursor:pointer;transition:transform .15s}
+.shot:hover{transform:scale(1.05);border-color:#0d7377}
+.shot-cap{font-size:10px;color:#6b7280;margin-top:4px;text-align:center;max-width:130px;line-height:1.3}
+.shot-cell{display:flex;flex-direction:column;align-items:center;gap:2px}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:14px;padding:30px}
+.lb.show{display:flex}
+.lb img{max-width:92vw;max-height:78vh;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.lb-actions{display:flex;gap:10px}
+.lb-btn{background:#fff;color:#1f2937;border:none;padding:8px 16px;font-size:13px;border-radius:6px;cursor:pointer;font-weight:500}
+.lb-btn:hover{background:#e5e7eb}
+.lb-close{position:absolute;top:18px;right:24px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;border:none;font-size:22px;cursor:pointer}
+.lb-close:hover{background:rgba(255,255,255,.25)}
+.lb-tip{color:#fff;font-size:12px;opacity:.7}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:9999;opacity:0;transition:opacity .25s}
+.toast.show{opacity:1}
+.ck-col{width:36px;text-align:center;padding:8px 4px !important}
+.ck{width:16px;height:16px;cursor:pointer;accent-color:#059669}
+tr.done td:first-child{box-shadow:inset 3px 0 0 #10b981}
+tr.done td.id{color:#059669;font-weight:700}
+tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13px}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px;background:#fff;border-radius:10px;border:1px solid #e5e7eb}
+.prog .bar{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.prog .fill{height:100%;background:#059669;border-radius:3px;transition:width .3s}
+.prog .txt{font-size:12px;color:#6b7280;white-space:nowrap;font-weight:600}
+.prog .btn{font-size:11px;cursor:pointer;border:1px solid;background:#fff;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.prog .sel{color:#059669;border-color:#bbf7d0}.prog .sel:hover{background:#ecfdf5}
+.prog .clr{color:#dc2626;border-color:#fecaca}.prog .clr:hover{background:#fef2f2}
+.finfo{position:fixed;left:20px;bottom:28px;background:#fff;border-radius:12px;padding:14px 18px;box-shadow:0 2px 16px rgba(0,0,0,.12);border:1px solid #e5e7eb;z-index:9990;display:flex;gap:18px}
+.finfo .fi{text-align:center;line-height:1.2}.finfo .fi .n{font-size:22px;font-weight:700;display:block}.finfo .fi .l{color:#6b7280;font-size:10px}
+.finfo .fi.f-done .n{color:#059669}.finfo .fi.f-left .n{color:#d97706}.finfo .fi.f-total .n{color:#0d7377}
+.fab{position:fixed;right:22px;bottom:26px;width:46px;height:46px;border-radius:50%;background:#fff;border:1px solid #e0e0e0;box-shadow:0 2px 12px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;color:#555;text-decoration:none;font-size:20px;opacity:.85;z-index:50}.fab:hover{opacity:1;transform:scale(1.08)}
+@media(max-width:900px){body{padding:12px}.stats{flex-direction:column}.tc{display:block;overflow-x:auto}.toc ul{columns:1}.shot{width:96px}.finfo{display:none}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+<h1>TT 包网 · 智能客服测试用例（含测试截图）</h1>
+<div class="sub">基于《TT 包网 · 智能客服流程方案》（精简 SOP + tt-workflow 8 子页）全节点拆解 · Salesmartly 插件接入 · 包网开放 API v2.0 · 真实客服测试截图</div>
+<div class="meta">
+<span>渠道：TT 包网（TikTok）/ Salesmartly 插件</span>
+<span>版本：v1.0</span>
+<span>整理时间：2026-06-20</span>
+<span>用例总数：<strong id="totalCases">0</strong></span>
+<span>含测试截图用例：<strong id="imgCases">0</strong></span>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat c1"><div class="num" id="s1">0</div><div class="label">充值</div></div>
+<div class="stat c2"><div class="num" id="s2">0</div><div class="label">提现</div></div>
+<div class="stat c3"><div class="num" id="s3">0</div><div class="label">CPF/账户</div></div>
+<div class="stat c4"><div class="num" id="s4">0</div><div class="label">活动奖励</div></div>
+<div class="stat c5"><div class="num" id="s5">0</div><div class="label">游戏/设备/页面</div></div>
+<div class="stat c7"><div class="num" id="s6">0</div><div class="label">API/集成</div></div>
+<div class="stat c6"><div class="num" id="s7">0</div><div class="label">闭环/通用</div></div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+<button class="fbtn active" data-f="all">全部</button>
+<button class="fbtn" data-f="func">功能</button>
+<button class="fbtn" data-f="edge">边界/异常</button>
+<button class="fbtn" data-f="int">集成/API</button>
+<button class="fbtn" data-f="loc">本地化</button>
+</div>
+
+<div class="toc">
+<h2>测试模块目录</h2>
+<ul>
+<li><a href="#m1">1. 入口 → 意图识别 & UID 自动携带</a><span class="cnt" id="mc1"></span></li>
+<li><a href="#m2">2. 充值未到账（②充值订单 API）</a><span class="cnt" id="mc2"></span></li>
+<li><a href="#m3">3. 提现（③提现订单 API · 10 态状态机）</a><span class="cnt" id="mc3"></span></li>
+<li><a href="#m4">4. CPF 绑定 / 修改</a><span class="cnt" id="mc4"></span></li>
+<li><a href="#m5">5. 账户（①玩家信息 API）</a><span class="cnt" id="mc5"></span></li>
+<li><a href="#m6">6. 活动奖励（④奖励记录 API）</a><span class="cnt" id="mc6"></span></li>
+<li><a href="#m7">7. 游戏错误（spin / bet / reward）</a><span class="cnt" id="mc7"></span></li>
+<li><a href="#m8">8. 设备兼容性</a><span class="cnt" id="mc8"></span></li>
+<li><a href="#m9">9. 页面问题（加载失败 / 访问拒绝）</a><span class="cnt" id="mc9"></span></li>
+<li><a href="#m10">10. 流程闭环（是否已解决）</a><span class="cnt" id="mc10"></span></li>
+<li><a href="#m11">11. 包网开放 API 集成 & MD5 签名鉴权（v2.0）</a><span class="cnt" id="mc11"></span></li>
+</ul>
+</div>
+
+<div class="sec" id="m1">
+<div class="sec-head"><h2>1. 入口 → 意图识别 & UID 自动携带</h2><span class="cnt-badge" id="mb1"></span></div>
+<div class="flow-ref">流程图节点：流程节点（SOP/总览页）：用户经 Salesmartly 插件进线 → 插件初始化携带 UID+平台 → Webhook 解析绑定 → LLM 识别意图 → 问题类型？（充值/提现/CPF/账户/游戏/活动），意图模糊→菜单</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-1001</td><td><span class="tag tag-func">功能</span></td><td>充值未到账意图识别</td><td>用户经 Salesmartly 插件进线</td><td><ol class="steps"><li>用户发送“充值一直没到账”</li><li>等待 AI 回复</li></ol></td><td class="expect"><strong>AI 识别为「充值未到账」</strong>，<strong>直接调用②充值订单 API</strong>（UID 由插件携带，无需向用户索要账户ID）；无订单时才请求充值凭证</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1002</td><td><span class="tag tag-func">功能</span></td><td>无法提现意图识别</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送“提现失败了”</li><li>等待 AI 回复</li></ol></td><td class="expect"><strong>AI 识别为「无法提现」</strong>，请求“提现失败的提示截图”（中葡双语）</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1003</td><td><span class="tag tag-func">功能</span></td><td>提现未到账意图识别</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送“我提现了显示成功但钱没到”</li><li>等待 AI 回复</li></ol></td><td class="expect"><strong>AI 识别为「提现未到账」</strong>（区别于“无法提现”），<strong>调用③提现订单 API</strong> 按状态分流</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1004</td><td><span class="tag tag-func">功能</span></td><td>CPF 意图识别</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送“CPF 填错了怎么改”</li><li>等待 AI 回复</li></ol></td><td class="expect"><strong>AI 识别为「CPF」</strong>，进入 CPF 绑定/修改引导</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1005</td><td><span class="tag tag-func">功能</span></td><td>账户问题意图识别</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送“忘记密码登不上去了”</li><li>等待 AI 回复</li></ol></td><td class="expect"><strong>AI 识别为「账户相关问题」</strong>，<strong>调用①玩家信息 API</strong> 查账号状态，引导找回/重置</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1006</td><td><span class="tag tag-func">功能</span></td><td>游戏异常意图识别</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送“游戏一直打不开转圈”</li><li>等待 AI 回复</li></ol></td><td class="expect"><strong>AI 识别为「游戏异常」</strong>，进入 spin/bet/reward 排查，建议清缓存重试</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-1007</td><td><span class="tag tag-func">功能</span></td><td>活动奖励意图识别</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送“有什么优惠活动吗 / 我的彩金没到”</li><li>等待 AI 回复</li></ol></td><td class="expect"><strong>AI 识别为「活动奖励」</strong>，请求活动名称/兑换码截图，必要时<strong>调用④奖励记录 API</strong></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-1008</td><td><span class="tag tag-int">集成</span></td><td>★ UID 由插件自动携带（核心改动）</td><td>用户经 Salesmartly 插件进线，前端已 setLoginInfo 携带 UID+平台</td><td><ol class="steps"><li>用户进线发起任意业务问题</li><li>查看会话系统消息 / 后台 Webhook 事件</li><li>观察 AI 是否索要账户ID</li></ol></td><td class="expect">后台经 <strong>Webhook 解析得到 UID + 平台</strong> 并完成会话绑定；<strong>AI 全程不再向用户索要账户ID</strong>，收集环节直接复用 UID。<span class='warn'>不得再出现“请提供您的账户ID”话术</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1009</td><td><span class="tag tag-int">集成</span></td><td>插件未携带 UID 的降级兜底</td><td>插件初始化异常，Webhook 未携带 UID</td><td><ol class="steps"><li>用户进线发起业务问题</li><li>Webhook 未解析到 UID</li></ol></td><td class="expect">AI <strong>降级请求用户手动提供账户ID</strong>并二次确认；<span class='warn'>不得因缺 UID 直接报错或静默</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1010</td><td><span class="tag tag-edge">边界</span></td><td>意图模糊（短句问候）→ 菜单引导</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送“你好”</li><li>等待 AI 回复</li></ol></td><td class="expect"><strong>AI 发送菜单</strong>含选项：① 充值未到账 ② 无法提现 ③ 提现未到账 ④ 账户问题 ⑤ 游戏异常 ⑥ 活动奖励。<span class='warn'>不能仅回复“请问有什么可以帮您”后无下文</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1011</td><td><span class="tag tag-edge">边界</span></td><td>纯截图输入 → 图片自动分流</td><td>用户经插件进线</td><td><ol class="steps"><li>用户不发文字，直接发送提现失败截图（含 “Você preciso apostar R$158,00 para sacar”）</li><li>AI 图片识别</li></ol></td><td class="expect"><strong>AI 识别为「无法提现-流水不足」</strong>，直接告知需完成流水，不再要求文字说明</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/withdraw-wager.jpg" data-cap="提现失败-流水未达标（R$158）"><div class="shot-cap">流水不足</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1012</td><td><span class="tag tag-edge">边界</span></td><td>无效/不匹配截图 → 不臆测</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送一张墨西哥银行转账明细（Motivo: Vih，非本平台凭证）</li><li>AI 图片识别</li></ol></td><td class="expect">AI 回复“该截图未提供任何可检索的信息，请重新发送清晰且与本平台相关的截图”。<span class='warn'>不臆测归类、不转人工</span></td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/no-info.jpg" data-cap="非本平台银行转账明细（不可检索）"><div class="shot-cap">无效截图</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1013</td><td><span class="tag tag-loc">本地化</span></td><td>葡语意图识别</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送 “Não consigo sacar”</li><li>等待 AI 回复</li></ol></td><td class="expect"><strong>AI 用葡语回复</strong>识别为提现问题，请求 “Pode mandar um print da mensagem de erro?”</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-1014</td><td><span class="tag tag-edge">边界</span></td><td>同时包含多个意图</td><td>用户经插件进线</td><td><ol class="steps"><li>用户发送“充值没到账而且我提现也失败了”</li></ol></td><td class="expect">AI 优先处理一个问题，处理完后再处理第二个；或主动询问优先解决哪个</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-1015</td><td><span class="tag tag-func">功能</span></td><td>杂项/其他咨询分类（misc）</td><td>用户经插件进线</td><td><ol class="steps"><li>用户咨询非充值/提现/账户等杂项问题（规则、客服时间、玩法）</li><li>AI 识别为杂项分类</li></ol></td><td class="expect">AI 走<strong>杂项分类</strong>：收集 UID+实体 → 查询知识库/TG 群 → 生成回复；无法解答则转人工</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m2">
+<div class="sec-head"><h2>2. 充值未到账（②充值订单 API）</h2><span class="cnt-badge" id="mb2"></span></div>
+<div class="flow-ref">流程图节点：流程节点（充值子页）：充值未到账 → 调用②充值订单 API（uid 自动）→ 按 status 分流（0待支付/1回调成功/2下单失败/3回调失败/4已过期）→ 无记录则请求充值凭证四要素</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-2001</td><td><span class="tag tag-int">集成</span></td><td>调用②充值订单 API（UID 自动）</td><td>AI 已识别为充值未到账，UID 已绑定</td><td><ol class="steps"><li>AI 携带 uid 调用 GET /recharge/orders</li><li>附加 app_id + timestamp + sign</li><li>解析返回订单列表</li></ol></td><td class="expect">成功返回订单（recharge_order_id / amount(分) / create_time / status / complete_time），<strong>按 status 自动分流</strong>，无需用户提供账户ID</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2002</td><td><span class="tag tag-func">功能</span></td><td>status=1 回调成功 → 已到账</td><td>②API 返回最新订单 status=1</td><td><ol class="steps"><li>AI 读取 status=1（回调成功）</li></ol></td><td class="expect">AI 回复“已核实本次充值成功到账啦~ 麻烦刷新账户余额确认哦”，附 amount（÷100 转元）与 complete_time</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2003</td><td><span class="tag tag-func">功能</span></td><td>status=0 待支付 → 支付未完成</td><td>②API 返回 status=0</td><td><ol class="steps"><li>AI 读取 status=0（待支付）</li></ol></td><td class="expect">AI 告知“该笔订单仍处于待支付状态，支付尚未完成，请重新发起或更换支付方式”</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2004</td><td><span class="tag tag-func">功能</span></td><td>status=2 下单失败</td><td>②API 返回 status=2</td><td><ol class="steps"><li>AI 读取 status=2（下单失败）</li></ol></td><td class="expect">AI 告知下单失败、款项未扣；如已扣款请提供凭证转人工核实</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2005</td><td><span class="tag tag-func">功能</span></td><td>status=3 回调失败 → 核实/转人工</td><td>②API 返回 status=3</td><td><ol class="steps"><li>AI 读取 status=3（回调失败）</li></ol></td><td class="expect">AI 告知“支付成功但回调失败，已为您加急核实”，<strong>创建人工工单</strong>，附订单号（脱敏）</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2006</td><td><span class="tag tag-func">功能</span></td><td>status=4 已过期</td><td>②API 返回 status=4</td><td><ol class="steps"><li>AI 读取 status=4（已过期）</li></ol></td><td class="expect">AI 告知订单已过期失效，引导重新发起充值</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-2007</td><td><span class="tag tag-int">集成</span></td><td>无订单记录 → 请求充值凭证</td><td>②API 返回空列表</td><td><ol class="steps"><li>AI 查无该用户的充值订单</li><li>回复请求凭证</li></ol></td><td class="expect">AI 回复“系统未查询到您的充值订单，请提供<strong>充值成功凭证截图</strong>（需含 支付时间/金额/收款户/付款户/交易ID）”</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/deposit-4elem.png" data-cap="充值凭证四要素标注"><div class="shot-cap">凭证四要素</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2008</td><td><span class="tag tag-int">集成</span></td><td>凭证四要素完整校验</td><td>AI 已请求充值凭证</td><td><ol class="steps"><li>用户发送完整凭证（含 支付时间 / 支付金额 / 收款户 / 付款户 / 交易ID）</li><li>AI 图片识别校验</li></ol></td><td class="expect">AI 识别四要素完整，结合 UID <strong>创建人工核实工单</strong>并附凭证；缺要素则提示补全</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/deposit-4elem.png" data-cap="充值凭证四要素：支付时间/金额/收款户/付款户/交易ID"><div class="shot-cap">凭证四要素标注</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2009</td><td><span class="tag tag-func">功能</span></td><td>完整电子支付凭证识别（SPEI/PIX）</td><td>AI 已请求充值凭证</td><td><ol class="steps"><li>用户发送银行电子回单（含 Monto / Clave de rastreo / Ordenante / Beneficiario）</li><li>AI 图片识别</li></ol></td><td class="expect">AI 提取金额、交易ID（Clave de rastreo）、收/付款户，校验与平台收款账户是否一致后核实</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/deposit-proof.jpg" data-cap="SPEI 电子支付凭证（完整）"><div class="shot-cap">完整支付凭证</div></div></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-2010</td><td><span class="tag tag-edge">边界</span></td><td>截图与问题不匹配（发了登录页/余额页）</td><td>AI 已请求充值凭证</td><td><ol class="steps"><li>用户发送游戏登录页/账户余额截图</li><li>AI 图片识别</li></ol></td><td class="expect">AI 回复“您发的截图和本次问题类型不太匹配呢~ 麻烦重新发一张「充值成功凭证」截图哦”。<span class='warn'>不创建核实工单</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2011</td><td><span class="tag tag-edge">边界</span></td><td>金额单位换算（分 → 元）</td><td>②API 返回 amount=30000（分）</td><td><ol class="steps"><li>AI 读取 amount 字段</li><li>向用户展示金额</li></ol></td><td class="expect">AI 展示为 <strong>R$300.00</strong>（amount÷100），<span class='warn'>不得直接显示 30000</span></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-2012</td><td><span class="tag tag-edge">边界</span></td><td>多笔订单分页定位</td><td>用户近期有多笔充值</td><td><ol class="steps"><li>②API 返回多页订单</li><li>AI 按 create_time 倒序定位最近一笔</li></ol></td><td class="expect">AI 准确定位用户所述的那笔订单（按时间/金额匹配），分页 pageSize≤100</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-2013</td><td><span class="tag tag-func">功能</span></td><td>重复订单识别（Duplicate Order）</td><td>②API 返回多笔金额相同/时间相近订单</td><td><ol class="steps"><li>AI 检测到疑似重复下单</li><li>读取 Duplicate Order 标记</li></ol></td><td class="expect">AI 提示“检测到重复充值订单”，避免重复入账，引导核对实际到账笔数</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-2014</td><td><span class="tag tag-func">功能</span></td><td>回调失败(3) 根本原因细分</td><td>②API 返回 status=3 回调失败</td><td><ol class="steps"><li>AI 读取根本原因 Root Cause</li></ol></td><td class="expect">AI 按 <strong>网络不稳定 / 金额不符 / 支付网关超时</strong> 三类原因分别说明并给出对应处理（重试 / 核对金额 / 稍后再试）</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-2015</td><td><span class="tag tag-int">集成</span></td><td>转发三方群(TG BOT) 并学习回复</td><td>回调失败/已过期或无订单，需三方核实</td><td><ol class="steps"><li>AI 生成【三方查询·充值未到账】转发 TG BOT</li><li>三方人员 reply 结果</li><li>BOT 捕获并学习回复</li></ol></td><td class="expect">AI <strong>转发三方群</strong>并解析三方 reply（已回调 / 未查到 / 凭证不完整）反馈用户，<span class='warn'>不丢失 reply 归属</span></td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/deposit-4elem.png" data-cap="随查询转发的充值凭证"><div class="shot-cap">转发凭证</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2016</td><td><span class="tag tag-edge">边界</span></td><td>以银行流水号替代截图核实</td><td>AI 已请求充值凭证</td><td><ol class="steps"><li>用户仅提供银行流水号/参考号（Clave de rastreo）</li><li>AI 收集</li></ol></td><td class="expect">AI 接受<strong>银行流水号</strong>作为凭证之一并随查询转发；仍建议补充完整截图</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m3">
+<div class="sec-head"><h2>3. 提现（③提现订单 API · 10 态状态机）</h2><span class="cnt-badge" id="mb3"></span></div>
+<div class="flow-ref">流程图节点：流程节点（提现子页）：无法提现→截图识别（流水不足/当日未充值/未保存信息）；提现未到账→调用③提现订单 API 按 0~9 十态分流（0出款中/1回调成功/2下单失败/3回调失败/4待下单/5待审核/6审核通过/7审核退还/8审核没收/9人工复审）</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-3001</td><td><span class="tag tag-func">功能</span></td><td>请求提现失败截图</td><td>AI 识别为提现问题，用户未发图</td><td><ol class="steps"><li>用户说“提现失败了”但没发图</li></ol></td><td class="expect">AI 回复“请提供提现失败的提示截图”（中文）+ “Pode mandar um print da mensagem de erro?”（葡语）</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3002</td><td><span class="tag tag-func">功能</span></td><td>截图识别：流水不足</td><td>用户已发送提现失败截图</td><td><ol class="steps"><li>用户发送截图，含 “Você preciso apostar R$158,00 para sacar”</li><li>AI 图片识别</li></ol></td><td class="expect"><strong>AI 识别为「流水不足」</strong>，回复“查询到您还需完成 R$158 的流水即可提现”，中葡双语</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/withdraw-wager.jpg" data-cap="Saque 页提示需投注 R$158"><div class="shot-cap">流水不足</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3003</td><td><span class="tag tag-func">功能</span></td><td>截图识别：当日未充值</td><td>用户已发送提现失败截图</td><td><ol class="steps"><li>用户发送截图，含 “Deposite mais R$10 para poder sacar”</li><li>AI 图片识别</li></ol></td><td class="expect"><strong>AI 识别为「当日未充值」</strong>，回复“今日还未充值，充值任意金额并完成 1 倍流水即可提现。<strong>充值后不要领取奖励，发起提现后再领取</strong>”</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/withdraw-deposit.png" data-cap="Saque 页提示需再充值 R$10"><div class="shot-cap">当日未充值</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3004</td><td><span class="tag tag-edge">边界</span></td><td>截图识别：提现前信息未保存</td><td>用户发送提现页面截图</td><td><ol class="steps"><li>用户截图含 “提现前请保存信息!” 红框与 CPF/Salvar</li><li>AI 识别</li></ol></td><td class="expect">AI 引导“请先在提现页填写 CPF/姓名并点击 <strong>Salvar</strong> 保存，再重新发起提现”</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/withdraw-unsaved.jpg" data-cap="提现前需保存 CPF 信息（Salvar）"><div class="shot-cap">未保存信息</div></div></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-3005</td><td><span class="tag tag-int">集成</span></td><td>③API 查提现订单 status=0 出款中</td><td>提现未到账，UID 已绑定</td><td><ol class="steps"><li>AI 携带 uid 调用 GET /withdraw/orders</li><li>读取 status=0（出款中）</li></ol></td><td class="expect">AI 告知“您的提现正在出款处理中，请耐心等待”，附 create_time</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3006</td><td><span class="tag tag-func">功能</span></td><td>status=5 待审核</td><td>③API 返回 status=5</td><td><ol class="steps"><li>AI 读取 status=5（待审核）</li></ol></td><td class="expect">AI 告知“提现申请已提交，正在审核中”，给出预计时效</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3007</td><td><span class="tag tag-func">功能</span></td><td>status=6 审核通过 → 出款中</td><td>③API 返回 status=6</td><td><ol class="steps"><li>AI 读取 status=6（审核通过）</li></ol></td><td class="expect">AI 告知“审核已通过，正在出款，请留意到账”，附 review_time</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3008</td><td><span class="tag tag-func">功能</span></td><td>status=1 回调成功（已到账）</td><td>③API 返回 status=1</td><td><ol class="steps"><li>AI 读取 status=1（回调成功）</li></ol></td><td class="expect">AI 告知“本次提现已成功到账，请刷新银行/钱包确认”，附 amount(÷100) 与 complete_time</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3009</td><td><span class="tag tag-func">功能</span></td><td>status=7 审核退还 → 退回余额</td><td>③API 返回 status=7</td><td><ol class="steps"><li>AI 读取 status=7（审核退还）</li></ol></td><td class="expect">AI 告知“本次提现未通过，金额已退回您的平台余额”，说明常见原因（流水/信息）</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3010</td><td><span class="tag tag-func">功能</span></td><td>status=8 审核没收 → 风控转人工</td><td>③API 返回 status=8</td><td><ol class="steps"><li>AI 读取 status=8（审核没收）</li></ol></td><td class="expect">AI 谨慎告知“本次提现因风控/违规被处理，已为您转接人工核实”，<strong>创建人工工单</strong>。<span class='warn'>不擅自承诺退款</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3011</td><td><span class="tag tag-func">功能</span></td><td>status=9 人工复审</td><td>③API 返回 status=9</td><td><ol class="steps"><li>AI 读取 status=9（人工复审）</li></ol></td><td class="expect">AI 告知“您的提现正在人工复审，请耐心等待结果”</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-3012</td><td><span class="tag tag-func">功能</span></td><td>status=2/3/4 失败/待下单</td><td>③API 返回 status∈{2,3,4}</td><td><ol class="steps"><li>AI 读取 status=2 下单失败 / 3 回调失败 / 4 待下单</li></ol></td><td class="expect">AI 分别说明：2 下单失败可重试；3 回调失败已加急核实并建工单；4 待下单排队中</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-3013</td><td><span class="tag tag-edge">边界</span></td><td>流水追问“为什么这么多” → ④奖励记录 API</td><td>AI 已告知流水不足</td><td><ol class="steps"><li>用户追问“为什么流水要求那么高？我才充了 50”</li><li>AI 调用④奖励记录 API 查彩金</li></ol></td><td class="expect">AI 回复“因为您领取了 XX 彩金（如首充 200%），需完成对应倍数流水”，附 activity_name 与 reward_amount</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/withdraw-wager.jpg" data-cap="用户提供的流水不足截图"><div class="shot-cap">流水不足</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3014</td><td><span class="tag tag-edge">边界</span></td><td>提现场景声称已充值 → 切换充值流程</td><td>提现场景中用户提供充值凭证</td><td><ol class="steps"><li>用户说“我充了但没到账”并发送转账凭证</li></ol></td><td class="expect">AI 判断实际问题为“充值未到账”，<strong>自动切换②充值流程</strong>并查询订单</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-3015</td><td><span class="tag tag-func">功能</span></td><td>未达最低提现金额</td><td>用户发起低于最低额的提现</td><td><ol class="steps"><li>用户提现金额低于 Saque mínimo R$20</li><li>AI 识别截图/状态</li></ol></td><td class="expect">AI 告知“单笔提现最低 R$20，请提高提现金额后再试”</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/withdraw-unsaved.jpg" data-cap="Saque mínimo R$20,00 提示"><div class="shot-cap">最低金额</div></div></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-3016</td><td><span class="tag tag-func">功能</span></td><td>提现限额超出</td><td>③API/截图提示超限</td><td><ol class="steps"><li>用户提现超出单笔/单日限额</li><li>AI 识别</li></ol></td><td class="expect">AI 说明限额规则，引导分次提现或次日再试</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-3017</td><td><span class="tag tag-func">功能</span></td><td>需要身份验证（KYC）</td><td>提现触发身份验证</td><td><ol class="steps"><li>③API/三方提示 Identity Verification Required</li><li>AI 处理</li></ol></td><td class="expect">AI <strong>引导完成身份验证</strong>（实名/证件/CPF），完成后再提现</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-3018</td><td><span class="tag tag-func">功能</span></td><td>PIX 信息无效 → 引导更新</td><td>提现失败提示 PIX 无效</td><td><ol class="steps"><li>三方/截图提示 PIX Information Invalid</li><li>AI 处理</li></ol></td><td class="expect">AI <strong>引导更新 PIX 收款信息</strong>（核对 CPF/PIX 键），保存后重新提现</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-3019</td><td><span class="tag tag-int">集成</span></td><td>已发起未到账 → 转风控群</td><td>提现显示成功但未到账</td><td><ol class="steps"><li>用户发送提现成功截图</li><li>AI 确认 UID 后转风控/三方群核实</li></ol></td><td class="expect">AI 收集 UID+成功截图，<strong>转风控群</strong>核实，安抚用户等待</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-3020</td><td><span class="tag tag-func">功能</span></td><td>风控回复分类处理</td><td>风控群已回复</td><td><ol class="steps"><li>风控 reply 某类结果</li><li>AI 据类型回复</li></ol></td><td class="expect">AI 按 <strong>银行风控(安抚) / 平台风控(打标签) / CPF风控(换CPF) / 金额退回(刷新) / 冲正(退回重提)</strong> 分别给出对应话术</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m4">
+<div class="sec-head"><h2>4. CPF 绑定 / 修改</h2><span class="cnt-badge" id="mb4"></span></div>
+<div class="flow-ref">流程图节点：流程节点（账户子页-CPF 分支）：CPF 填错/未绑定 → 引导 → 校验 11 位格式 → 提现页 Salvar 保存 → 重新发起提现</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-4001</td><td><span class="tag tag-func">功能</span></td><td>CPF 填错请求修改</td><td>AI 识别为 CPF 意图</td><td><ol class="steps"><li>用户说“CPF 填错了怎么改”</li></ol></td><td class="expect">AI 引导用户进入提现页/个人中心修改 CPF，并提示需与实名一致</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-4002</td><td><span class="tag tag-edge">边界</span></td><td>提现页 CPF 未保存</td><td>用户发送提现页截图</td><td><ol class="steps"><li>用户截图含 “提现前请保存信息!” + 空 CPF 输入框</li><li>AI 识别</li></ol></td><td class="expect">AI 引导“在 CPF 输入框填写 11 位 CPF，点击 <strong>Salvar</strong> 保存后再提现”</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/withdraw-unsaved.jpg" data-cap="提现页 CPF 未保存（Salvar）"><div class="shot-cap">CPF 未保存</div></div></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-4003</td><td><span class="tag tag-func">功能</span></td><td>CPF 格式校验（11 位）</td><td>用户提供 CPF</td><td><ol class="steps"><li>用户输入少于/多于 11 位的 CPF</li></ol></td><td class="expect">AI 提示“CPF 需为 11 位数字”，<span class='warn'>不通过非法格式</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-4004</td><td><span class="tag tag-edge">边界</span></td><td>CPF 与实名不符</td><td>用户欲改 CPF 为他人</td><td><ol class="steps"><li>用户要求绑定与注册实名不一致的 CPF</li></ol></td><td class="expect">AI 告知“CPF 须与账户实名一致，无法绑定他人 CPF”，必要时转人工</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-4005</td><td><span class="tag tag-func">功能</span></td><td>CPF 绑定后引导提现</td><td>CPF 已保存成功</td><td><ol class="steps"><li>用户保存 CPF 后返回</li></ol></td><td class="expect">AI 引导重新发起提现，并提示满足流水后即可出款</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-4006</td><td><span class="tag tag-edge">边界</span></td><td>无法访问提现页 → 转人工</td><td>CPF 自助更新引导中</td><td><ol class="steps"><li>AI 询问“能否访问提现页面？”</li><li>用户回复“打不开/进不去”</li></ol></td><td class="expect">AI 判定无法自助更新，<strong>转人工</strong>协助修改 CPF，<span class='warn'>不让用户卡在自助引导</span></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m5">
+<div class="sec-head"><h2>5. 账户（①玩家信息 API）</h2><span class="cnt-badge" id="mb5"></span></div>
+<div class="flow-ref">流程图节点：流程节点（账户子页-登录/找回/受限分支）：账户问题 → 调用①玩家信息 API（uid 自动）→ register_time/account_status/level/phone_masked → 登录失败/找回/账号受限分流</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-5001</td><td><span class="tag tag-int">集成</span></td><td>调用①玩家信息 API（UID 自动）</td><td>AI 识别为账户问题，UID 已绑定</td><td><ol class="steps"><li>AI 携带 uid 调用 GET /player/profile</li><li>附加 app_id+timestamp+sign</li><li>解析返回</li></ol></td><td class="expect">返回 uid / register_time / account_status(active|disabled) / level(VIP) / phone_masked，<strong>据此分流</strong></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-5002</td><td><span class="tag tag-func">功能</span></td><td>账号或密码错误</td><td>用户发送登录失败截图</td><td><ol class="steps"><li>用户发送截图含 “Conta ou senha incorreta”</li><li>AI 识别</li></ol></td><td class="expect">AI 引导“请核对手机号与密码；忘记密码可通过注册手机号重置”，并核对 phone_masked</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/account-error.jpg" data-cap="登录页“账号或密码错误”"><div class="shot-cap">账号密码错误</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-5003</td><td><span class="tag tag-func">功能</span></td><td>account_status=disabled 账号受限</td><td>①API 返回 account_status=disabled</td><td><ol class="steps"><li>AI 读取 account_status=disabled</li></ol></td><td class="expect">AI 谨慎告知“账号当前受限/被禁用”，<strong>转人工核实</strong>，<span class='warn'>不泄露具体风控细节</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-5004</td><td><span class="tag tag-func">功能</span></td><td>忘记密码找回</td><td>用户登录不上</td><td><ol class="steps"><li>用户说“忘记密码”</li><li>AI 核对注册手机号</li></ol></td><td class="expect">AI 引导通过注册手机号验证码重置密码；手机号不一致则转人工身份核验</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-5005</td><td><span class="tag tag-edge">边界</span></td><td>注册手机号核对（脱敏）</td><td>①API 返回 phone_masked</td><td><ol class="steps"><li>用户报手机号</li><li>AI 与 phone_masked 比对</li></ol></td><td class="expect">AI 仅用脱敏号比对（如 199****1562），<span class='warn'>不回显完整手机号</span></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-5006</td><td><span class="tag tag-func">功能</span></td><td>VIP 等级 / 注册时间查询</td><td>①API 返回 level / register_time</td><td><ol class="steps"><li>用户咨询 VIP 等级或注册时间</li></ol></td><td class="expect">AI 据 level 与 register_time 准确回复，时间转本地时区展示</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-5007</td><td><span class="tag tag-func">功能</span></td><td>忘记 UID / 账号找回</td><td>用户忘记账户ID且插件未携带</td><td><ol class="steps"><li>用户“忘记账号了”</li><li>AI 收集 平台名称 + CPF + 注册手机</li></ol></td><td class="expect">AI 收集找回信息 → <strong>创建找回工单</strong> → 转人工核验身份后找回 UID</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-5008</td><td><span class="tag tag-func">功能</span></td><td>账户受限 → 转风控团队</td><td>账户问题判定为受限</td><td><ol class="steps"><li>AI 调用①API 查 account_status</li><li>受限/异常</li></ol></td><td class="expect">active→提供指引；<strong>disabled/受限→转风控团队</strong>核实，<span class='warn'>不泄露风控细节</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-5009</td><td><span class="tag tag-edge">边界</span></td><td>①API 查无账户 → 转人工</td><td>①API 返回 Account 不存在</td><td><ol class="steps"><li>AI 调用①玩家信息 API</li><li>返回未找到</li></ol></td><td class="expect">AI 核对 UID/平台是否正确；确认无误仍查无则<strong>转人工</strong>核实</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-5010</td><td><span class="tag tag-int">集成</span></td><td>密码重置 收集验证材料</td><td>account_status=active 走密码重置</td><td><ol class="steps"><li>AI 收集 注册手机 + CPF 照片 + 最近充值截图(可选)</li><li>创建密码重置工单 / 转发 TG BOT</li></ol></td><td class="expect">材料齐全后<strong>创建密码重置工单</strong>并经 TG BOT 转三方重置；材料不全则继续补全</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m6">
+<div class="sec-head"><h2>6. 活动奖励（④奖励记录 API）</h2><span class="cnt-badge" id="mb6"></span></div>
+<div class="flow-ref">流程图节点：流程节点（奖励子页）：活动识别 → 调用④奖励记录 API（activity_name/activity_key）→ 已发放/缺失分析；含兑换码、短信/站内信召回核实与诈骗识别</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-6001</td><td><span class="tag tag-func">功能</span></td><td>平台活动咨询识别</td><td>用户咨询活动</td><td><ol class="steps"><li>用户发送活动页截图（Eventos：5% comissão / Convite / Ganhe Grátis）</li><li>AI 识别活动名称</li></ol></td><td class="expect">AI 识别活动类型并说明参与条件；必要时按 activity_name 调用④API</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/platform-activity.jpg" data-cap="平台活动页 Eventos"><div class="shot-cap">平台活动</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-6002</td><td><span class="tag tag-int">集成</span></td><td>调用④奖励记录 API</td><td>AI 已识别活动名称，UID 已绑定</td><td><ol class="steps"><li>AI 携带 uid + activity_name/activity_key 调用 GET /bonus/records</li></ol></td><td class="expect">返回 activity_id / activity_name / subcategory / reward_amount / claim_time，据此判断是否已发放</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-6003</td><td><span class="tag tag-func">功能</span></td><td>奖励已发放查询</td><td>④API 返回含 claim_time 的记录</td><td><ol class="steps"><li>AI 读取 reward_amount 与 claim_time</li></ol></td><td class="expect">AI 告知“您的 XX 奖励已于 {claim_time} 发放，金额 R${reward_amount÷100}”</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-6004</td><td><span class="tag tag-func">功能</span></td><td>奖励缺失/未到账分析</td><td>④API 无对应记录或 reward 为空</td><td><ol class="steps"><li>AI 查无该活动奖励记录</li><li>核对活动条件</li></ol></td><td class="expect">AI 说明可能未满足领取条件/活动未参与；确属异常则<strong>创建人工工单</strong>核实</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-6005</td><td><span class="tag tag-func">功能</span></td><td>兑换码无法查询</td><td>用户发送兑换码截图</td><td><ol class="steps"><li>用户发送截图含 “Código não encontrado”（OHLIZRNU）</li><li>AI 识别</li></ol></td><td class="expect">AI 引导核对兑换码是否正确/是否过期/是否对应本渠道，必要时按 activity_key 查④API</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/redeem-fail.jpg" data-cap="兑换码页“Código não encontrado”"><div class="shot-cap">兑换码无效</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-6006</td><td><span class="tag tag-edge">边界</span></td><td>站内信召回奖励核实</td><td>用户收到站内信召回</td><td><ol class="steps"><li>用户发送站内信截图（“moedas de ouro nao reclamadas, Codigo: DMHVSEKC”）</li><li>AI 识别</li></ol></td><td class="expect">AI 核对召回 Codigo 与活动，引导在有效期（24h）内领取；过期则说明失效</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/sms-inbox.jpeg" data-cap="站内信召回（未领取金币 Codigo）"><div class="shot-cap">站内信召回</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-6007</td><td><span class="tag tag-edge">边界</span></td><td>★ 诈骗/钓鱼信息识别</td><td>用户转发可疑召回消息</td><td><ol class="steps"><li>用户发送截图：“我在 Facebook 上…保证下载注册给你 100 美元”</li><li>AI 识别</li></ol></td><td class="expect"><strong>AI 识别为非官方/疑似诈骗</strong>，警示“请勿点击非官方链接或向陌生人转账，官方不会以此方式发放奖励”。<span class='warn'>不得引导用户按该消息操作</span></td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/sms-recall.jpg" data-cap="Facebook 诈骗式召回话术"><div class="shot-cap">疑似诈骗</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-6008</td><td><span class="tag tag-edge">边界</span></td><td>活动条件不符</td><td>用户领取被拒</td><td><ol class="steps"><li>用户声称符合条件但未发放</li><li>AI 查④API 与活动规则</li></ol></td><td class="expect">AI 对照规则说明不符之处（如未达充值/流水门槛），引导满足条件后再领</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-6009</td><td><span class="tag tag-func">功能</span></td><td>其他活动 → 转人工</td><td>活动类型无法归类</td><td><ol class="steps"><li>AI 无法将活动归入平台原生/运营推广类</li><li>判定其他活动</li></ol></td><td class="expect">AI 对<strong>其他活动</strong>统一转人工处理，避免误答</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-6010</td><td><span class="tag tag-func">功能</span></td><td>资格条件细分指引</td><td>未满足领取资格</td><td><ol class="steps"><li>AI 查 TG 群活动要求</li><li>比对用户情况</li></ol></td><td class="expect">AI 按 <strong>活动时间窗 / 充值要求 / 流水要求 / 注册要求</strong> 四类分别说明缺口并指引</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/platform-activity.jpg" data-cap="平台活动页（资格条件）"><div class="shot-cap">活动资格</div></div></td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m7">
+<div class="sec-head"><h2>7. 游戏错误（spin / bet / reward）</h2><span class="cnt-badge" id="mb7"></span></div>
+<div class="flow-ref">流程图节点：流程节点（游戏错误子页）：游戏异常 → 区分 spin（转动无响应）/ bet（下注/扣款异常）/ reward（奖励未发）→ 清缓存重试 / 记录复现 / 转技术</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-7001</td><td><span class="tag tag-func">功能</span></td><td>游戏打不开/一直转圈</td><td>用户报游戏异常</td><td><ol class="steps"><li>用户发送游戏黑屏/加载截图</li><li>AI 识别</li></ol></td><td class="expect">AI 建议“清除 APP 缓存、切换网络、重新进入”，仍不行则记录机型并转技术</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/loading-stuck.jpg" data-cap="游戏页一直加载（Aposta e Vitória）"><div class="shot-cap">一直加载</div></div></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-7002</td><td><span class="tag tag-func">功能</span></td><td>spin 转动无响应</td><td>用户报转动卡住</td><td><ol class="steps"><li>用户说“点了转动没反应/卡住”</li></ol></td><td class="expect">AI 引导刷新/重进游戏，确认余额未被扣；异常则记录游戏ID与时间转技术</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-7003</td><td><span class="tag tag-func">功能</span></td><td>bet 下注失败/扣款异常</td><td>用户报下注异常</td><td><ol class="steps"><li>用户说“下注扣了钱但没生效”</li></ol></td><td class="expect">AI 安抚并记录注单时间/金额，<strong>转技术/风控核实</strong>，避免重复下注</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-7004</td><td><span class="tag tag-func">功能</span></td><td>reward 游戏内奖励未发放</td><td>用户报中奖未到账</td><td><ol class="steps"><li>用户说“赢了但余额没增加”</li></ol></td><td class="expect">AI 记录局号与时间，核实结算；确属异常转技术处理</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-7005</td><td><span class="tag tag-edge">边界</span></td><td>游戏闪退/崩溃</td><td>用户报闪退</td><td><ol class="steps"><li>用户说“一玩就闪退”</li></ol></td><td class="expect">AI 引导更新 APP/重装、检查内存，记录机型与系统版本</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m8">
+<div class="sec-head"><h2>8. 设备兼容性</h2><span class="cnt-badge" id="mb8"></span></div>
+<div class="flow-ref">流程图节点：流程节点（设备子页）：设备/系统/网络兼容性检查 → 引导更新/切换 → 仍异常转技术</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-8001</td><td><span class="tag tag-func">功能</span></td><td>设备/系统版本兼容检查</td><td>用户报功能异常</td><td><ol class="steps"><li>AI 询问机型与系统版本</li></ol></td><td class="expect">AI 比对支持范围，提示低版本系统升级或更换设备</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-8002</td><td><span class="tag tag-func">功能</span></td><td>网络环境排查</td><td>用户报加载慢/失败</td><td><ol class="steps"><li>AI 引导切换 Wi-Fi/4G、关闭 VPN/代理</li></ol></td><td class="expect">AI 给出网络排查步骤，定位是否为网络导致</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-8003</td><td><span class="tag tag-edge">边界</span></td><td>APP 版本过旧 → 引导更新</td><td>用户使用旧版 APP</td><td><ol class="steps"><li>AI 识别版本过旧</li></ol></td><td class="expect">AI 引导前往官方渠道更新到最新版本</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-8004</td><td><span class="tag tag-edge">边界</span></td><td>兼容性指引无效 → 供应商工单</td><td>已提供清缓存/换设备指引</td><td><ol class="steps"><li>AI 询问“是否解决？”</li><li>用户回复“没解决”</li></ol></td><td class="expect">AI <strong>创建供应商工单</strong>并转人工，附 OS/设备型号/浏览器/游戏名</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m9">
+<div class="sec-head"><h2>9. 页面问题（加载失败 / 访问拒绝）</h2><span class="cnt-badge" id="mb9"></span></div>
+<div class="flow-ref">流程图节点：流程节点（页面子页）：页面加载失败/白屏 → 排查网络/缓存/线路；访问拒绝/地区限制 → 说明与引导</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-9001</td><td><span class="tag tag-func">功能</span></td><td>页面一直加载/白屏</td><td>用户报页面打不开</td><td><ol class="steps"><li>用户发送一直加载的页面截图</li><li>AI 识别</li></ol></td><td class="expect">AI 引导“清缓存、切换网络、更换线路/刷新”；多用户同时出现则上报平台故障</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/loading-stuck.jpg" data-cap="页面一直加载（无内容）"><div class="shot-cap">页面加载失败</div></div></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-9002</td><td><span class="tag tag-func">功能</span></td><td>访问拒绝/地区限制</td><td>用户报无法访问</td><td><ol class="steps"><li>用户说“提示无法访问/被拒绝”</li></ol></td><td class="expect">AI 说明可能为地区/网络限制，引导更换网络或官方线路</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-9003</td><td><span class="tag tag-edge">边界</span></td><td>白屏/黑屏无信息</td><td>用户发送黑屏截图</td><td><ol class="steps"><li>用户发送几乎全黑无信息截图</li><li>AI 识别失败</li></ol></td><td class="expect">AI 回复“该截图未提供可检索信息，请重发清晰截图或描述具体页面”。<span class='warn'>不随机归类</span></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-9004</td><td><span class="tag tag-int">集成</span></td><td>基础排查无效 → 技术工单</td><td>已做刷新/清缓存/切网络</td><td><ol class="steps"><li>AI 询问“是否解决？”</li><li>用户回复“还是不行”</li><li>AI 收集证据</li></ol></td><td class="expect">AI <strong>创建技术工单</strong>并转人工，附 截图/录屏/UID/平台/设备型号</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/loading-stuck.jpg" data-cap="页面无法加载（需技术工单）"><div class="shot-cap">页面故障</div></div></td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m10">
+<div class="sec-head"><h2>10. 流程闭环（是否已解决）</h2><span class="cnt-badge" id="mb10"></span></div>
+<div class="flow-ref">流程图节点：流程节点（SOP 收尾）：处理完毕 → 询问“是否已解决” → 已解决→结束/满意度；未解决→重新分类/转人工；新问题→回到意图识别</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-10001</td><td><span class="tag tag-func">功能</span></td><td>已解决 → 正常结束</td><td>AI 已给出解决方案</td><td><ol class="steps"><li>AI 询问“您当前的问题解决了吗?”</li><li>用户回复“解决了”</li></ol></td><td class="expect">AI 礼貌结束并可触发满意度评价，标记会话已解决</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10002</td><td><span class="tag tag-func">功能</span></td><td>未解决 → 重新分类/转人工</td><td>AI 已给出方案</td><td><ol class="steps"><li>AI 询问是否解决</li><li>用户回复“没解决”</li></ol></td><td class="expect">AI <strong>重新识别问题或转人工</strong>，<span class='warn'>不重复同一无效话术</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10003</td><td><span class="tag tag-edge">边界</span></td><td>用户无响应超时</td><td>AI 已询问是否解决</td><td><ol class="steps"><li>用户长时间未回复</li></ol></td><td class="expect">AI 发送结束语并保留会话，超时后自动归档，可再次进线续接</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-10004</td><td><span class="tag tag-edge">边界</span></td><td>收尾时提出新问题 → 回到意图识别</td><td>AI 询问是否解决</td><td><ol class="steps"><li>用户回复“还有个充值问题”</li></ol></td><td class="expect">AI <strong>重新进入意图识别</strong>，复用已绑定 UID，无需再次索要账户ID</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-10005</td><td><span class="tag tag-int">集成</span></td><td>转人工工单创建</td><td>需人工介入场景</td><td><ol class="steps"><li>AI 判定需转人工</li><li>创建工单</li></ol></td><td class="expect">工单含 UID/平台/问题类型/已查 API 结果/凭证URL，<strong>不丢失上下文</strong></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m11">
+<div class="sec-head"><h2>11. 包网开放 API 集成 & MD5 签名鉴权（v2.0）</h2><span class="cnt-badge" id="mb11"></span></div>
+<div class="flow-ref">流程图节点：external-api v2.0：MD5 签名鉴权（app_id + timestamp + sign）；金额单位分；时间 UTC/ISO8601；敏感字段脱敏；分页 pageSize≤100；错误码 0/7/401/403/404/500</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-11001</td><td><span class="tag tag-int">集成</span></td><td>MD5 签名正确生成</td><td>已配置 appId(ak_前缀)+secretKey(64hex)</td><td><ol class="steps"><li>收集除 sign 外参数 → 按 key 字典序升序（空值跳过）</li><li>拼接 key1=v1&key2=v2</li><li>末尾追加 &key=<secretKey></li><li>取 MD5 32 位小写</li></ol></td><td class="expect">生成的 <code>sign</code> 与服务端一致，请求通过鉴权</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11002</td><td><span class="tag tag-int">集成</span></td><td>timestamp ±5 分钟防重放</td><td>请求携带 timestamp</td><td><ol class="steps"><li>发送 timestamp 偏差 >5 分钟的请求</li></ol></td><td class="expect">服务端<strong>拒绝（401）</strong>；正常时间窗内通过。<span class='warn'>缺 timestamp 同样拒绝</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11003</td><td><span class="tag tag-int">集成</span></td><td>签名错误 → 403</td><td>构造错误 sign</td><td><ol class="steps"><li>发送 sign 与参数不匹配的请求</li></ol></td><td class="expect">服务端返回 <strong>403 签名验证失败</strong>，AI 兜底提示并记录告警</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11004</td><td><span class="tag tag-int">集成</span></td><td>app_id 缺失/无效 → 401</td><td>构造缺失或非法 app_id</td><td><ol class="steps"><li>发送缺 app_id / app_id 无效 / 凭证过期 的请求</li></ol></td><td class="expect">服务端返回 <strong>401 未认证</strong>，AI 不向用户暴露内部错误，转兜底话术</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11005</td><td><span class="tag tag-int">集成</span></td><td>金额单位换算（分→元）</td><td>API 返回 amount/reward_amount（分）</td><td><ol class="steps"><li>读取金额字段</li><li>展示给用户</li></ol></td><td class="expect">统一 ÷100 转元展示（R$xx.xx），<span class='warn'>不直接展示分</span></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11006</td><td><span class="tag tag-int">集成</span></td><td>时间 UTC/ISO8601 → 本地</td><td>API 返回 ISO8601 时间</td><td><ol class="steps"><li>读取 create_time/claim_time 等</li><li>转换展示</li></ol></td><td class="expect">AI 将 UTC/ISO8601 转为用户本地时区（巴西）展示</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11007</td><td><span class="tag tag-int">集成</span></td><td>分页 pageSize≤100</td><td>列表接口分页</td><td><ol class="steps"><li>请求 pageSize>100</li></ol></td><td class="expect">服务端按最大 100 处理；AI 正确翻页聚合，不漏单</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11008</td><td><span class="tag tag-int">集成</span></td><td>敏感字段脱敏</td><td>API 返回订单号/手机号</td><td><ol class="steps"><li>读取 phone_masked / 订单号</li></ol></td><td class="expect">对外展示脱敏值（如 199****1562、订单尾号），<span class='warn'>不回显完整敏感信息</span></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11009</td><td><span class="tag tag-edge">边界</span></td><td>API 超时/500 → 兜底</td><td>服务端异常</td><td><ol class="steps"><li>API 超时或返回 500</li></ol></td><td class="expect">AI 给出“系统繁忙，正在为您加急核实”兜底话术并<strong>转人工</strong>，<span class='warn'>不卡死无回复</span></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11010</td><td><span class="tag tag-int">集成</span></td><td>业务错误码映射（0/7/404）</td><td>API 返回业务码</td><td><ol class="steps"><li>读取 code=0 成功 / 7 业务失败 / 404 资源不存在</li></ol></td><td class="expect">AI 正确区分：0 正常流程；7/404 转“未查询到/请核对”话术，不误报成功</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="footer">TT 包网 · 智能客服测试用例 · v1.0 · 2026-06-20 · 截图来源：真实客服测试 · 流程依据：TT包网_智能客服流程方案</div>
+</div>
+
+<a class="fab" href="/html-pages/" title="返回首页">⌂</a>
+
+<div class="lb" id="lb">
+<button class="lb-close" onclick="closeLb()">×</button>
+<img id="lbImg" alt="预览">
+<div class="lb-tip">右键图片 → “图片另存为” / “复制图片”，或点击下方按钮</div>
+<div class="lb-actions">
+<button class="lb-btn" id="lbCopy">复制图片到剪贴板</button>
+<button class="lb-btn" id="lbDl">下载图片</button>
+<button class="lb-btn" id="lbCopyUrl">复制图片URL</button>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== Stats =====
+(function(){
+  var map={'s1':['m2'],'s2':['m3'],'s3':['m4','m5'],'s4':['m6'],'s5':['m7','m8','m9'],'s6':['m11'],'s7':['m1','m10']};
+  var total=0;
+  for(var k in map){var c=0;map[k].forEach(function(id){c+=document.querySelectorAll('#'+id+' tbody tr').length});var el=document.getElementById(k);if(el)el.textContent=c;total+=c}
+  document.getElementById('totalCases').textContent=total;
+  for(var i=1;i<=11;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;var el=document.getElementById('mc'+i);if(el)el.textContent=' ('+n+')';var el2=document.getElementById('mb'+i);if(el2)el2.textContent=n+' 条'}
+  document.getElementById('imgCases').textContent=document.querySelectorAll('img.shot').length+' 张';
+})();
+// ===== Filter =====
+(function(){var btns=document.querySelectorAll('.fbtn');btns.forEach(function(btn){btn.addEventListener('click',function(){btns.forEach(function(b){b.classList.remove('active')});btn.classList.add('active');var f=btn.dataset.f;document.querySelectorAll('.tc tbody tr').forEach(function(tr){if(f==='all'){tr.style.display='';return}var tag=tr.querySelector('.tag');tr.style.display=tag&&tag.className.indexOf('tag-'+f)>=0?'':'none'})})})})();
+// ===== Lightbox =====
+function openLb(src,cap){var lb=document.getElementById('lb'),img=document.getElementById('lbImg');img.src=src;img.dataset.cap=cap||'';lb.classList.add('show');}
+function closeLb(){document.getElementById('lb').classList.remove('show')}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000)}
+document.querySelectorAll('img.shot').forEach(function(img){img.addEventListener('click',function(){openLb(img.src,img.dataset.cap||'')});});
+document.getElementById('lb').addEventListener('click',function(e){if(e.target.id==='lb')closeLb()});
+document.getElementById('lbDl').addEventListener('click',function(){var src=document.getElementById('lbImg').src;var a=document.createElement('a');a.href=src;a.download=src.split('/').pop().split('?')[0];document.body.appendChild(a);a.click();a.remove();showToast('下载已开始');});
+document.getElementById('lbCopyUrl').addEventListener('click',function(){var src=document.getElementById('lbImg').src;navigator.clipboard.writeText(src).then(function(){showToast('图片URL已复制')}).catch(function(){showToast('复制失败，请手动复制')});});
+document.getElementById('lbCopy').addEventListener('click',function(){var src=document.getElementById('lbImg').src;var i=new Image();i.crossOrigin='anonymous';i.onload=function(){var w=i.naturalWidth||800,h=i.naturalHeight||600;var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(i,0,0,w,h);c.toBlob(function(b){if(!b){showToast('图片转换失败');return}navigator.clipboard.write([new ClipboardItem({'image/png':b})]).then(function(){showToast('图片已复制到剪贴板')}).catch(function(e){showToast('复制失败：'+e.message)});},'image/png');};i.onerror=function(){showToast('图片加载失败')};i.src=src;});
+window.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb()});
+// ===== Checkbox progress =====
+(function(){
+var P='ttc_'+location.pathname.replace(/[^a-z0-9]/gi,'_')+'_',cbs=[];
+document.querySelectorAll('.tc').forEach(function(t){
+  var th=document.createElement('th');th.className='ck-col';th.textContent='✓';
+  var hr=t.querySelector('thead tr');if(hr)hr.insertBefore(th,hr.firstChild);
+  t.querySelectorAll('tbody tr').forEach(function(tr){
+    var idC=tr.querySelector('.id'),id=idC?idC.textContent.trim():'';
+    var td=document.createElement('td');td.className='ck-col';
+    var cb=document.createElement('input');cb.type='checkbox';cb.className='ck';
+    cb.checked=localStorage.getItem(P+id)==='1';if(cb.checked)tr.classList.add('done');
+    cb.addEventListener('change',function(){if(cb.checked){localStorage.setItem(P+id,'1');tr.classList.add('done')}else{localStorage.removeItem(P+id);tr.classList.remove('done')}upd();});
+    td.appendChild(cb);tr.insertBefore(td,tr.firstChild);cbs.push(cb);
+  });
+});
+var fb=document.querySelector('.filter-bar');
+if(fb&&cbs.length){
+  var d=document.createElement('div');d.className='prog';
+  d.innerHTML='<span class="txt" id="pTxt"></span><div class="bar"><div class="fill" id="pFill"></div></div><button class="btn sel" id="pSel">全选</button><button class="btn clr" id="pClr">清空</button>';
+  fb.parentNode.insertBefore(d,fb.nextSibling);
+  document.getElementById('pSel').addEventListener('click',function(){cbs.forEach(function(c){c.checked=true;c.closest('tr').classList.add('done');var i=c.closest('tr').querySelector('.id');if(i)localStorage.setItem(P+i.textContent.trim(),'1');});upd();});
+  document.getElementById('pClr').addEventListener('click',function(){cbs.forEach(function(c){c.checked=false;c.closest('tr').classList.remove('done');var i=c.closest('tr').querySelector('.id');if(i)localStorage.removeItem(P+i.textContent.trim());});upd();});
+}
+var fi=document.createElement('div');fi.className='finfo';
+fi.innerHTML='<div class="fi f-done"><span class="n" id="fiD">0</span><span class="l">已执行</span></div><div class="fi f-left"><span class="n" id="fiL">0</span><span class="l">剩余</span></div><div class="fi f-total"><span class="n" id="fiT">0</span><span class="l">总用例</span></div>';
+document.body.appendChild(fi);
+function upd(){var done=cbs.filter(function(c){return c.checked}).length,total=cbs.length;var el=document.getElementById('pTxt'),f=document.getElementById('pFill');if(el)el.textContent='执行进度 '+done+'/'+total;if(f)f.style.width=(total?done/total*100:0)+'%';var fd=document.getElementById('fiD'),fl=document.getElementById('fiL'),ft=document.getElementById('fiT');if(fd){fd.textContent=done;fl.textContent=total-done;ft.textContent=total}}
+upd();
+})();
+</script>
+</body>
+</html>
