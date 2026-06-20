@@ -75,10 +75,49 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .custom-input-row button{padding:8px 16px;border:none;background:#7c3aed;color:#fff;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s}
 .custom-input-row button:hover{background:#6d28d9}
 
+/* Form styles */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:12px;font-weight:600;color:#6b7280}
+.form-label .req{color:#ef4444}
+.form-input,.form-select{padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;color:#1e293b;outline:none;transition:border-color .2s;font-family:inherit;background:#fff}
+.form-input:focus,.form-select:focus{border-color:#7c3aed}
+.form-input::placeholder{color:#c4c9d4}
+.form-input.mono{font-family:"SF Mono","Fira Code",monospace;font-size:12px}
+.form-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.btn-primary{padding:9px 22px;border:none;background:#7c3aed;color:#fff;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-primary:hover{background:#6d28d9}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-green{padding:9px 22px;border:none;background:#059669;color:#fff;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-green:hover{background:#047857}
+.btn-outline{padding:9px 22px;border:1px solid #e5e7eb;background:#fff;color:#6b7280;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-outline:hover{border-color:#7c3aed;color:#7c3aed;background:#f5f3ff}
+.btn-sm{padding:6px 14px;font-size:12px}
+.form-hint{font-size:11px;color:#9ca3af;margin-top:2px}
+
+/* API tabs */
+.api-tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid #e5e7eb;flex-wrap:wrap}
+.api-tab{padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:#6b7280;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
+.api-tab:hover{color:#7c3aed;background:#f5f3ff}
+.api-tab.active{color:#2563eb;border-bottom-color:#2563eb}
+.api-panel{display:none}.api-panel.active{display:block}
+
+/* API result */
+.api-result{margin-top:16px;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;display:none}
+.api-result.visible{display:block}
+.api-result-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#f8fafc;border-bottom:1px solid #e5e7eb;font-size:12px}
+.api-result-head .st{font-weight:700;padding:2px 10px;border-radius:6px}
+.st-ok{background:#d1fae5;color:#047857}
+.st-err{background:#fee2e2;color:#dc2626}
+.st-warn{background:#fef3c7;color:#b45309}
+.api-result-body{padding:16px;background:#1e1e2e;color:#cdd6f4;font-family:"SF Mono","Fira Code",monospace;font-size:12px;line-height:1.7;max-height:400px;overflow:auto;white-space:pre-wrap;word-break:break-all;margin:0}
+.api-sign-info{margin-top:8px;padding:10px 14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;font-size:11px;color:#6b7280;font-family:monospace;word-break:break-all;line-height:1.8}
+
 .scenario-section{margin-bottom:28px}
 .scenario-section h2{font-size:16px;font-weight:700;color:#1e293b;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .scenario-section h2 .dot{width:8px;height:8px;border-radius:50%;background:#059669}
-
 .scenario-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
 .scenario-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px 24px;transition:all .2s;cursor:default}
 .scenario-card:hover{border-color:#7c3aed;box-shadow:0 4px 16px rgba(124,58,237,.08)}
@@ -202,6 +241,148 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
   </div>
 </div>
 
+<!-- Login Info -->
+<div class="card" style="margin-bottom:28px">
+  <div class="card-head">
+    <h2><span class="dot" style="background:#059669"></span>用户登录信息传参
+      <span style="font-size:11px;font-weight:400;color:#9ca3af;margin-left:8px">JSSDK · setLoginInfo</span>
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">user_id <span class="req">*</span></label>
+        <input class="form-input mono" id="li_uid" placeholder="玩家唯一ID（加密ID），≤300字符">
+      </div>
+      <div class="form-group">
+        <label class="form-label">user_name <span class="req">*</span></label>
+        <input class="form-input" id="li_uname" placeholder="展示名（玩家昵称/账号）">
+      </div>
+      <div class="form-group">
+        <label class="form-label">phone</label>
+        <input class="form-input" id="li_phone" placeholder="含国家区号，如 5511999998888">
+      </div>
+      <div class="form-group">
+        <label class="form-label">email</label>
+        <input class="form-input" id="li_email" placeholder="邮箱">
+      </div>
+      <div class="form-group">
+        <label class="form-label">language</label>
+        <select class="form-select" id="li_lang">
+          <option value="">不设置</option>
+          <option value="pt-BR">pt-BR 葡语(巴西)</option>
+          <option value="en-US">en-US 英语</option>
+          <option value="zh-CN">zh-CN 中文</option>
+          <option value="es-ES">es-ES 西语</option>
+          <option value="ru-RU">ru-RU 俄语</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">label_names</label>
+        <input class="form-input" id="li_labels" placeholder="标签，逗号分隔，如 VIP3,代理线A">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">description</label>
+        <input class="form-input" id="li_desc" placeholder="备注信息，支持 \n 换行">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-primary" onclick="setLogin()">设置登录信息</button>
+      <button class="btn-outline" onclick="clearLogin()">清除登录信息</button>
+      <button class="btn-outline btn-sm" onclick="fillLoginDemo()" style="margin-left:auto">填充示例数据</button>
+    </div>
+  </div>
+</div>
+
+<!-- API Query -->
+<div class="card" style="margin-bottom:28px">
+  <div class="card-head">
+    <h2><span class="dot" style="background:#2563eb"></span>包网接口 API 查询
+      <span style="font-size:11px;font-weight:400;color:#9ca3af;margin-left:8px">external-api v2.0 · MD5签名</span>
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="form-grid" style="margin-bottom:16px">
+      <div class="form-group">
+        <label class="form-label">Base Domain</label>
+        <input class="form-input mono" id="api_domain" value="demo-ykftze.ur8gjqitft.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">App ID</label>
+        <input class="form-input mono" id="api_appid" value="external_api_1.0">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Secret Key</label>
+        <input class="form-input mono" id="api_secret" value="81603dd8821a4e699191a704aaf1480df5c1a8f2a8003876f6aca29dcaac4648">
+      </div>
+    </div>
+
+    <div class="api-tabs" id="apiTabs">
+      <button class="api-tab active" onclick="switchApiTab('profile',this)">玩家信息</button>
+      <button class="api-tab" onclick="switchApiTab('recharge',this)">充值订单</button>
+      <button class="api-tab" onclick="switchApiTab('withdraw',this)">提现订单</button>
+      <button class="api-tab" onclick="switchApiTab('bonus',this)">奖励记录</button>
+    </div>
+
+    <div class="api-panel active" id="panel_profile">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">uid <span class="req">*</span></label>
+          <input class="form-input mono" id="ap_uid" placeholder="用户UID">
+        </div>
+      </div>
+    </div>
+    <div class="api-panel" id="panel_recharge">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">uid</label><input class="form-input mono" id="ar_uid" placeholder="用户UID（可选）"></div>
+        <div class="form-group"><label class="form-label">status</label>
+          <select class="form-select" id="ar_status"><option value="">全部</option><option value="0">0 待支付</option><option value="1">1 回调成功</option><option value="2">2 下单失败</option><option value="3">3 回调失败</option><option value="4">4 已过期</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">page</label><input class="form-input" id="ar_page" value="1" type="number"></div>
+        <div class="form-group"><label class="form-label">pageSize</label><input class="form-input" id="ar_psize" value="10" type="number"></div>
+        <div class="form-group"><label class="form-label">start_time</label><input class="form-input mono" id="ar_start" placeholder="ISO 8601，如 2026-06-01T00:00:00Z"></div>
+        <div class="form-group"><label class="form-label">end_time</label><input class="form-input mono" id="ar_end" placeholder="ISO 8601，如 2026-06-30T23:59:59Z"></div>
+      </div>
+    </div>
+    <div class="api-panel" id="panel_withdraw">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">uid</label><input class="form-input mono" id="aw_uid" placeholder="用户UID（可选）"></div>
+        <div class="form-group"><label class="form-label">status</label>
+          <select class="form-select" id="aw_status"><option value="">全部</option><option value="0">0 出款中</option><option value="1">1 回调成功</option><option value="2">2 下单失败</option><option value="3">3 回调失败</option><option value="4">4 待下单</option><option value="5">5 待审核</option><option value="6">6 审核通过</option><option value="7">7 审核退还</option><option value="8">8 审核没收</option><option value="9">9 人工复审</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">page</label><input class="form-input" id="aw_page" value="1" type="number"></div>
+        <div class="form-group"><label class="form-label">pageSize</label><input class="form-input" id="aw_psize" value="10" type="number"></div>
+        <div class="form-group"><label class="form-label">start_time</label><input class="form-input mono" id="aw_start" placeholder="ISO 8601"></div>
+        <div class="form-group"><label class="form-label">end_time</label><input class="form-input mono" id="aw_end" placeholder="ISO 8601"></div>
+      </div>
+    </div>
+    <div class="api-panel" id="panel_bonus">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">uid</label><input class="form-input mono" id="ab_uid" placeholder="用户UID（可选）"></div>
+        <div class="form-group"><label class="form-label">activity_id</label><input class="form-input mono" id="ab_actid" placeholder="活动ID"></div>
+        <div class="form-group"><label class="form-label">activity_name</label><input class="form-input" id="ab_actname" placeholder="活动名称（模糊匹配）"></div>
+        <div class="form-group"><label class="form-label">activity_key</label><input class="form-input mono" id="ab_actkey" placeholder="活动Key"></div>
+        <div class="form-group"><label class="form-label">subcategory</label><input class="form-input" id="ab_subcat" placeholder="活动子类目"></div>
+        <div class="form-group"><label class="form-label">pageSize</label><input class="form-input" id="ab_psize" value="10" type="number"></div>
+        <div class="form-group"><label class="form-label">start_time</label><input class="form-input mono" id="ab_start" placeholder="ISO 8601"></div>
+        <div class="form-group"><label class="form-label">end_time</label><input class="form-input mono" id="ab_end" placeholder="ISO 8601"></div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-green" id="apiQueryBtn" onclick="queryApi()">查询</button>
+      <div class="api-sign-info" id="apiSignInfo" style="display:none"></div>
+    </div>
+    <div class="api-result" id="apiResult">
+      <div class="api-result-head">
+        <span class="st" id="apiSt"></span>
+        <span style="color:#9ca3af" id="apiTime"></span>
+      </div>
+      <pre class="api-result-body" id="apiBody"></pre>
+    </div>
+  </div>
+</div>
+
 <!-- Test Scenarios -->
 <div class="scenario-section">
   <h2><span class="dot"></span>测试场景清单</h2>
@@ -243,16 +424,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
       <span class="scenario-tag t-purple">手动</span>
     </div>
     <div class="scenario-card">
-      <h3>7. Webhook 消息接收</h3>
-      <p>发送消息后检查配置的 Webhook 地址是否收到正确的消息推送。</p>
-      <span class="scenario-tag t-yellow">集成</span>
-      <span class="scenario-tag t-blue">API</span>
+      <h3>7. 登录信息传参验证</h3>
+      <p>通过上方表单设置登录信息后，在 SaleSmartly 后台确认客户档案已更新。</p>
+      <span class="scenario-tag t-green">JSSDK</span>
+      <span class="scenario-tag t-blue">集成</span>
     </div>
     <div class="scenario-card">
-      <h3>8. 多轮对话测试</h3>
-      <p>连续发送多条消息，验证会话上下文保持、历史消息加载是否正常。</p>
-      <span class="scenario-tag t-green">基础功能</span>
-      <span class="scenario-tag t-purple">手动</span>
+      <h3>8. 包网 API 查询验证</h3>
+      <p>使用 API 查询工具查询玩家信息、充值/提现订单、奖励记录，验证接口连通性和数据。</p>
+      <span class="scenario-tag t-yellow">API</span>
+      <span class="scenario-tag t-blue">集成</span>
     </div>
   </div>
 </div>
@@ -280,6 +461,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 </div>
 
 <script>
+/* ========== MD5 ========== */
+var md5=(function(){function sa(x,y){var l=(x&0xFFFF)+(y&0xFFFF);return((x>>16)+(y>>16)+(l>>16))<<16|l&0xFFFF}function rl(n,c){return(n<<c)|(n>>>(32-c))}function cm(q,a,b,x,s,t){return sa(rl(sa(sa(a,q),sa(x,t)),s),b)}function ff(a,b,c,d,x,s,t){return cm((b&c)|(~b&d),a,b,x,s,t)}function gg(a,b,c,d,x,s,t){return cm((b&d)|(c&~d),a,b,x,s,t)}function hh(a,b,c,d,x,s,t){return cm(b^c^d,a,b,x,s,t)}function ii(a,b,c,d,x,s,t){return cm(c^(b|~d),a,b,x,s,t)}function bm(x,l){x[l>>5]|=0x80<<(l%32);x[((l+64)>>>9<<4)+14]=l;var a=1732584193,b=-271733879,c=-1732584194,d=271733878;for(var i=0;i<x.length;i+=16){var oa=a,ob=b,oc=c,od=d;a=ff(a,b,c,d,x[i],7,-680876936);d=ff(d,a,b,c,x[i+1],12,-389564586);c=ff(c,d,a,b,x[i+2],17,606105819);b=ff(b,c,d,a,x[i+3],22,-1044525330);a=ff(a,b,c,d,x[i+4],7,-176418897);d=ff(d,a,b,c,x[i+5],12,1200080426);c=ff(c,d,a,b,x[i+6],17,-1473231341);b=ff(b,c,d,a,x[i+7],22,-45705983);a=ff(a,b,c,d,x[i+8],7,1770035416);d=ff(d,a,b,c,x[i+9],12,-1958414417);c=ff(c,d,a,b,x[i+10],17,-42063);b=ff(b,c,d,a,x[i+11],22,-1990404162);a=ff(a,b,c,d,x[i+12],7,1804603682);d=ff(d,a,b,c,x[i+13],12,-40341101);c=ff(c,d,a,b,x[i+14],17,-1502002290);b=ff(b,c,d,a,x[i+15],22,1236535329);a=gg(a,b,c,d,x[i+1],5,-165796510);d=gg(d,a,b,c,x[i+6],9,-1069501632);c=gg(c,d,a,b,x[i+11],14,643717713);b=gg(b,c,d,a,x[i],20,-373897302);a=gg(a,b,c,d,x[i+5],5,-701558691);d=gg(d,a,b,c,x[i+10],9,38016083);c=gg(c,d,a,b,x[i+15],14,-660478335);b=gg(b,c,d,a,x[i+4],20,-405537848);a=gg(a,b,c,d,x[i+9],5,568446438);d=gg(d,a,b,c,x[i+14],9,-1019803690);c=gg(c,d,a,b,x[i+3],14,-187363961);b=gg(b,c,d,a,x[i+8],20,1163531501);a=gg(a,b,c,d,x[i+13],5,-1444681467);d=gg(d,a,b,c,x[i+2],9,-51403784);c=gg(c,d,a,b,x[i+7],14,1735328473);b=gg(b,c,d,a,x[i+12],20,-1926607734);a=hh(a,b,c,d,x[i+5],4,-378558);d=hh(d,a,b,c,x[i+8],11,-2022574463);c=hh(c,d,a,b,x[i+11],16,1839030562);b=hh(b,c,d,a,x[i+14],23,-35309556);a=hh(a,b,c,d,x[i+1],4,-1530992060);d=hh(d,a,b,c,x[i+4],11,1272893353);c=hh(c,d,a,b,x[i+7],16,-155497632);b=hh(b,c,d,a,x[i+10],23,-1094730640);a=hh(a,b,c,d,x[i+13],4,681279174);d=hh(d,a,b,c,x[i],11,-358537222);c=hh(c,d,a,b,x[i+3],16,-722521979);b=hh(b,c,d,a,x[i+6],23,76029189);a=hh(a,b,c,d,x[i+9],4,-640364487);d=hh(d,a,b,c,x[i+12],11,-421815835);c=hh(c,d,a,b,x[i+15],16,530742520);b=hh(b,c,d,a,x[i+2],23,-995338651);a=ii(a,b,c,d,x[i],6,-198630844);d=ii(d,a,b,c,x[i+7],10,1126891415);c=ii(c,d,a,b,x[i+14],15,-1416354905);b=ii(b,c,d,a,x[i+5],21,-57434055);a=ii(a,b,c,d,x[i+12],6,1700485571);d=ii(d,a,b,c,x[i+3],10,-1894986606);c=ii(c,d,a,b,x[i+10],15,-1051523);b=ii(b,c,d,a,x[i+1],21,-2054922799);a=ii(a,b,c,d,x[i+8],6,1873313359);d=ii(d,a,b,c,x[i+15],10,-30611744);c=ii(c,d,a,b,x[i+6],15,-1560198380);b=ii(b,c,d,a,x[i+13],21,1309151649);a=ii(a,b,c,d,x[i+4],6,-145523070);d=ii(d,a,b,c,x[i+11],10,-1120210379);c=ii(c,d,a,b,x[i+2],15,718787259);b=ii(b,c,d,a,x[i+9],21,-343485551);a=sa(a,oa);b=sa(b,ob);c=sa(c,oc);d=sa(d,od)}return[a,b,c,d]}function b2r(a){var o='';for(var i=0;i<a.length*32;i+=8)o+=String.fromCharCode((a[i>>5]>>>(i%32))&0xFF);return o}function r2b(s){var o=[];for(var i=0;i<s.length*8;i+=32)o[i>>5]=0;for(var i=0;i<s.length*8;i+=8)o[i>>5]|=(s.charCodeAt(i/8)&0xFF)<<(i%32);return o}function r2h(s){var h='0123456789abcdef',o='';for(var i=0;i<s.length;i++){var x=s.charCodeAt(i);o+=h.charAt((x>>>4)&0xF)+h.charAt(x&0xF)}return o}return function(s){return r2h(b2r(bm(r2b(unescape(encodeURIComponent(s))),unescape(encodeURIComponent(s)).length*8)))}})();
+
+/* ========== Plugin Data ========== */
 var ENVIRONMENTS = {
   test: {
     name: '测试环境',
@@ -328,6 +513,7 @@ var ENVIRONMENTS = {
 
 var currentEnv = 'test';
 var currentProduct = null;
+var currentApiTab = 'profile';
 var BASE = 'https://plugin-code.salesmartly.com/js/';
 var COLORS = ['#6366f1','#ec4899','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ef4444','#14b8a6','#f97316','#06b6d4','#84cc16','#a855f7'];
 
@@ -512,17 +698,13 @@ function checkPlugin() {
   var ssDiv = document.querySelector('[id*="salesmartly"]') || document.querySelector('[class*="salesmartly"]');
   var ssScript = document.querySelector('script[src*="salesmartly"]');
   if (ssIframe || ssDiv) {
-    el.textContent = '已加载';
-    el.className = 'value online';
+    el.textContent = '已加载'; el.className = 'value online';
     log('插件检测通过 - 聊天组件已渲染', 'ok');
   } else if (ssScript) {
-    el.textContent = '脚本已加载';
-    el.className = 'value pending';
+    el.textContent = '脚本已加载'; el.className = 'value pending';
     log('插件脚本已加载，组件尚未渲染', 'warn');
   } else {
-    el.textContent = '未检测到';
-    el.className = 'value';
-    el.style.color = '#dc2626';
+    el.textContent = '未检测到'; el.className = 'value'; el.style.color = '#dc2626';
     log('未检测到插件元素', 'err');
   }
 }
@@ -530,12 +712,11 @@ function checkPlugin() {
 function openChat() {
   log('尝试打开聊天窗口...', 'ok');
   if (window.SaleSmartly && window.SaleSmartly.open) {
-    window.SaleSmartly.open();
-    log('已调用 SaleSmartly.open()', 'ok');
+    window.SaleSmartly.open(); log('已调用 SaleSmartly.open()', 'ok');
+  } else if (typeof ssq !== 'undefined') {
+    ssq.push('chatOpen'); log('已调用 ssq.push("chatOpen")', 'ok');
   } else {
-    var chatBtn = document.querySelector('[id*="salesmartly"] button') ||
-                  document.querySelector('[class*="salesmartly"]') ||
-                  document.querySelector('iframe[src*="salesmartly"]');
+    var chatBtn = document.querySelector('[id*="salesmartly"] button') || document.querySelector('[class*="salesmartly"]');
     if (chatBtn) { chatBtn.click(); log('已点击插件按钮', 'ok'); }
     else { log('请直接点击页面右下角的聊天气泡图标', 'warn'); }
   }
@@ -543,25 +724,190 @@ function openChat() {
 
 function reloadPlugin() {
   if (!currentProduct) { log('请先选择一个产品', 'warn'); return; }
-  removePlugin();
-  clearAllCache();
-  location.reload(true);
+  removePlugin(); clearAllCache(); location.reload(true);
 }
 
 function resetIdentity() {
   log('正在清除所有缓存数据...', 'warn');
-  removePlugin();
-  clearAllCache();
+  removePlugin(); clearAllCache();
   log('缓存已全部清除', 'ok');
   log('2秒后自动刷新，以新访客身份加载...', 'warn');
   setTimeout(function() { location.reload(true); }, 2000);
 }
 
 function clearLog() {
-  var box = document.getElementById('logBox');
-  box.innerHTML = '<div><span class="time">[' + new Date().toTimeString().slice(0,8) + ']</span> <span class="ok">日志已清除</span></div>';
+  document.getElementById('logBox').innerHTML = '<div><span class="time">[' + new Date().toTimeString().slice(0,8) + ']</span> <span class="ok">日志已清除</span></div>';
 }
 
+/* ========== Login Info (JSSDK) ========== */
+function setLogin() {
+  var uid = document.getElementById('li_uid').value.trim();
+  var uname = document.getElementById('li_uname').value.trim();
+  if (!uid || !uname) { log('user_id 和 user_name 为必填项', 'err'); return; }
+  if (typeof ssq === 'undefined') { log('ssq 未定义，请先加载插件', 'err'); return; }
+  var info = { user_id: uid, user_name: uname };
+  var phone = document.getElementById('li_phone').value.trim();
+  var email = document.getElementById('li_email').value.trim();
+  var lang = document.getElementById('li_lang').value;
+  var labels = document.getElementById('li_labels').value.trim();
+  var desc = document.getElementById('li_desc').value.trim();
+  if (phone) info.phone = phone;
+  if (email) info.email = email;
+  if (lang) info.language = lang;
+  if (desc) info.description = desc;
+  if (labels) { info.label_names = labels.split(',').map(function(s){return s.trim()}).filter(Boolean); info.update_label_type = 'update'; }
+  ssq.push('setLoginInfo', info);
+  log('setLoginInfo 已调用: user_id=' + uid + ', user_name=' + uname, 'ok');
+  log('完整参数: ' + JSON.stringify(info), 'ok');
+}
+
+function clearLogin() {
+  if (typeof ssq === 'undefined') { log('ssq 未定义，请先加载插件', 'err'); return; }
+  ssq.push('clearUser');
+  log('clearUser 已调用，登录信息已清除', 'ok');
+}
+
+function fillLoginDemo() {
+  document.getElementById('li_uid').value = 'b58e64cfxs2ym';
+  document.getElementById('li_uname').value = 'test_player';
+  document.getElementById('li_phone').value = '5511999998888';
+  document.getElementById('li_email').value = 'test@demo.com';
+  document.getElementById('li_lang').value = 'pt-BR';
+  document.getElementById('li_labels').value = 'VIP3,测试用户';
+  document.getElementById('li_desc').value = '测试玩家\\ncomboB';
+  log('已填充示例登录数据', 'ok');
+}
+
+/* ========== API Query ========== */
+var API_PATHS = {
+  profile:  { method: 'GET', path: '/api/external/v1/player/profile',    name: '玩家信息' },
+  recharge: { method: 'GET', path: '/api/external/v1/recharge/orders',   name: '充值订单' },
+  withdraw: { method: 'GET', path: '/api/external/v1/withdraw/orders',   name: '提现订单' },
+  bonus:    { method: 'GET', path: '/api/external/v1/bonus/records',     name: '奖励记录' }
+};
+
+function switchApiTab(tab, btn) {
+  currentApiTab = tab;
+  document.querySelectorAll('.api-tab').forEach(function(t){ t.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.api-panel').forEach(function(p){ p.classList.remove('active'); });
+  var panel = document.getElementById('panel_' + tab);
+  if (panel) panel.classList.add('active');
+}
+
+function buildSign(params, secretKey) {
+  var keys = Object.keys(params).filter(function(k){ return params[k] !== '' && params[k] != null && k !== 'sign'; }).sort();
+  var str = keys.map(function(k){ return k + '=' + params[k]; }).join('&');
+  var full = str + '&key=' + secretKey;
+  return { sign: md5(full), signStr: str, fullStr: full };
+}
+
+function collectApiParams() {
+  var p = {};
+  var t = currentApiTab;
+  if (t === 'profile') {
+    var uid = document.getElementById('ap_uid').value.trim();
+    if (!uid) { log('玩家信息查询需要填写 uid', 'err'); return null; }
+    p.uid = uid;
+  } else if (t === 'recharge') {
+    var uid = document.getElementById('ar_uid').value.trim();
+    var st = document.getElementById('ar_status').value;
+    if (uid) p.uid = uid;
+    if (st !== '') p.status = st;
+    p.page = document.getElementById('ar_page').value || '1';
+    p.pageSize = document.getElementById('ar_psize').value || '10';
+    var s = document.getElementById('ar_start').value.trim();
+    var e = document.getElementById('ar_end').value.trim();
+    if (s) p.start_time = s;
+    if (e) p.end_time = e;
+  } else if (t === 'withdraw') {
+    var uid = document.getElementById('aw_uid').value.trim();
+    var st = document.getElementById('aw_status').value;
+    if (uid) p.uid = uid;
+    if (st !== '') p.status = st;
+    p.page = document.getElementById('aw_page').value || '1';
+    p.pageSize = document.getElementById('aw_psize').value || '10';
+    var s = document.getElementById('aw_start').value.trim();
+    var e = document.getElementById('aw_end').value.trim();
+    if (s) p.start_time = s;
+    if (e) p.end_time = e;
+  } else if (t === 'bonus') {
+    var uid = document.getElementById('ab_uid').value.trim();
+    if (uid) p.uid = uid;
+    var actid = document.getElementById('ab_actid').value.trim();
+    if (actid) p.activity_id = actid;
+    var actname = document.getElementById('ab_actname').value.trim();
+    if (actname) p.activity_name = actname;
+    var actkey = document.getElementById('ab_actkey').value.trim();
+    if (actkey) p.activity_key = actkey;
+    var subcat = document.getElementById('ab_subcat').value.trim();
+    if (subcat) p.subcategory = subcat;
+    p.page = '1';
+    p.pageSize = document.getElementById('ab_psize').value || '10';
+    var s = document.getElementById('ab_start').value.trim();
+    var e = document.getElementById('ab_end').value.trim();
+    if (s) p.start_time = s;
+    if (e) p.end_time = e;
+  }
+  return p;
+}
+
+function queryApi() {
+  var domain = document.getElementById('api_domain').value.trim();
+  var appId = document.getElementById('api_appid').value.trim();
+  var secret = document.getElementById('api_secret').value.trim();
+  if (!domain || !appId || !secret) { log('请填写 API 凭证信息', 'err'); return; }
+
+  var bizParams = collectApiParams();
+  if (!bizParams) return;
+
+  var api = API_PATHS[currentApiTab];
+  var timestamp = Math.floor(Date.now() / 1000).toString();
+  var allParams = Object.assign({}, bizParams, { app_id: appId, timestamp: timestamp });
+  var signResult = buildSign(allParams, secret);
+  allParams.sign = signResult.sign;
+
+  var qs = Object.keys(allParams).map(function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(allParams[k]); }).join('&');
+  var url = 'https://' + domain + api.path + '?' + qs;
+
+  var signInfo = document.getElementById('apiSignInfo');
+  signInfo.style.display = 'block';
+  signInfo.innerHTML = '<b>签名串:</b> ' + signResult.signStr + '&key=***<br><b>sign:</b> ' + signResult.sign + '<br><b>timestamp:</b> ' + timestamp;
+
+  var btn = document.getElementById('apiQueryBtn');
+  btn.disabled = true; btn.textContent = '查询中...';
+  log('[API] 请求 ' + api.name + ': ' + api.path, 'warn');
+
+  var t0 = Date.now();
+  fetch(url).then(function(r) {
+    var ms = Date.now() - t0;
+    return r.json().then(function(data) {
+      showApiResult(r.status, data, ms);
+      log('[API] ' + api.name + ' 响应: code=' + data.code + ', ' + ms + 'ms', data.code === 0 ? 'ok' : 'err');
+    });
+  }).catch(function(err) {
+    var ms = Date.now() - t0;
+    showApiResult(0, { error: err.message, hint: '可能原因: CORS 跨域限制、网络不通、域名错误。如遇 CORS 问题，请在本地环境测试或联系后端添加跨域白名单。' }, ms);
+    log('[API] 请求失败: ' + err.message, 'err');
+  }).finally(function() {
+    btn.disabled = false; btn.textContent = '查询';
+  });
+}
+
+function showApiResult(httpStatus, data, ms) {
+  var box = document.getElementById('apiResult');
+  box.classList.add('visible');
+  var st = document.getElementById('apiSt');
+  var code = data.code;
+  if (code === 0) { st.className = 'st st-ok'; st.textContent = 'code: 0 成功'; }
+  else if (code === 7) { st.className = 'st st-warn'; st.textContent = 'code: 7 业务失败'; }
+  else if (httpStatus === 0) { st.className = 'st st-err'; st.textContent = '请求失败'; }
+  else { st.className = 'st st-err'; st.textContent = 'code: ' + (code || httpStatus); }
+  document.getElementById('apiTime').textContent = ms + 'ms';
+  document.getElementById('apiBody').textContent = JSON.stringify(data, null, 2);
+}
+
+/* ========== Init ========== */
 document.getElementById('envInfo').textContent =
   /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop (' + window.innerWidth + 'x' + window.innerHeight + ')';
 
@@ -578,9 +924,7 @@ renderProducts();
     switchProduct(pid, true);
   } else if (env && ENVIRONMENTS[env]) {
     currentEnv = env;
-    updateEnvBadge();
-    renderEnvTabs();
-    renderProducts();
+    updateEnvBadge(); renderEnvTabs(); renderProducts();
     switchProduct(ENVIRONMENTS[env].products[0].id, true);
   } else {
     switchProduct(ENVIRONMENTS.test.products[0].id, true);
