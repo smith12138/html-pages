@@ -258,33 +258,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
         <label class="form-label">user_name <span class="req">*</span></label>
         <input class="form-input" id="li_uname" placeholder="展示名（玩家昵称/账号）">
       </div>
-      <div class="form-group">
-        <label class="form-label">phone</label>
-        <input class="form-input" id="li_phone" placeholder="含国家区号，如 5511999998888">
-      </div>
-      <div class="form-group">
-        <label class="form-label">email</label>
-        <input class="form-input" id="li_email" placeholder="邮箱">
-      </div>
-      <div class="form-group">
-        <label class="form-label">language</label>
-        <select class="form-select" id="li_lang">
-          <option value="">不设置</option>
-          <option value="pt-BR">pt-BR 葡语(巴西)</option>
-          <option value="en-US">en-US 英语</option>
-          <option value="zh-CN">zh-CN 中文</option>
-          <option value="es-ES">es-ES 西语</option>
-          <option value="ru-RU">ru-RU 俄语</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">label_names</label>
-        <input class="form-input" id="li_labels" placeholder="标签，逗号分隔，如 VIP3,代理线A">
-      </div>
-      <div class="form-group full">
-        <label class="form-label">description</label>
-        <input class="form-input" id="li_desc" placeholder="备注信息，支持 \n 换行">
-      </div>
     </div>
     <div class="form-actions">
       <button class="btn-primary" onclick="setLogin()">设置登录信息</button>
@@ -746,19 +719,8 @@ function setLogin() {
   if (!uid || !uname) { log('user_id 和 user_name 为必填项', 'err'); return; }
   if (typeof ssq === 'undefined') { log('ssq 未定义，请先加载插件', 'err'); return; }
   var info = { user_id: uid, user_name: uname };
-  var phone = document.getElementById('li_phone').value.trim();
-  var email = document.getElementById('li_email').value.trim();
-  var lang = document.getElementById('li_lang').value;
-  var labels = document.getElementById('li_labels').value.trim();
-  var desc = document.getElementById('li_desc').value.trim();
-  if (phone) info.phone = phone;
-  if (email) info.email = email;
-  if (lang) info.language = lang;
-  if (desc) info.description = desc;
-  if (labels) { info.label_names = labels.split(',').map(function(s){return s.trim()}).filter(Boolean); info.update_label_type = 'update'; }
   ssq.push('setLoginInfo', info);
   log('setLoginInfo 已调用: user_id=' + uid + ', user_name=' + uname, 'ok');
-  log('完整参数: ' + JSON.stringify(info), 'ok');
 }
 
 function clearLogin() {
@@ -770,11 +732,6 @@ function clearLogin() {
 function fillLoginDemo() {
   document.getElementById('li_uid').value = 'b58e64cfxs2ym';
   document.getElementById('li_uname').value = 'test_player';
-  document.getElementById('li_phone').value = '5511999998888';
-  document.getElementById('li_email').value = 'test@demo.com';
-  document.getElementById('li_lang').value = 'pt-BR';
-  document.getElementById('li_labels').value = 'VIP3,测试用户';
-  document.getElementById('li_desc').value = '测试玩家\\ncomboB';
   log('已填充示例登录数据', 'ok');
 }
 
