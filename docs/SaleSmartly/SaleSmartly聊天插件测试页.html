@@ -288,6 +288,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
         <label class="form-label">Secret Key</label>
         <input class="form-input mono" id="api_secret" value="81603dd8821a4e699191a704aaf1480df5c1a8f2a8003876f6aca29dcaac4648">
       </div>
+      <div class="form-group full">
+        <label class="form-label">CORS Proxy <span style="font-weight:400;color:#9ca3af">（填入后页面内请求走代理，留空则直接请求）</span></label>
+        <input class="form-input mono" id="api_proxy" placeholder="如 https://xxx.username.workers.dev">
+        <div class="form-hint">需部署 Cloudflare Worker，<a href="cors-proxy-worker.js" target="_blank" style="color:#2563eb">点击查看 Worker 脚本</a></div>
+      </div>
     </div>
 
     <div class="api-tabs" id="apiTabs">
@@ -343,9 +348,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     </div>
 
     <div class="form-actions">
-      <button class="btn-green" onclick="queryApi('open')">在新标签页查询</button>
-      <button class="btn-outline" onclick="queryApi('curl')">复制 cURL 命令</button>
-      <button class="btn-outline" onclick="queryApi('fetch')">Fetch 请求</button>
+      <button class="btn-green" onclick="queryApi('fetch')">查询</button>
+      <button class="btn-outline" onclick="queryApi('open')">在新标签页打开</button>
+      <button class="btn-outline" onclick="queryApi('curl')">复制 cURL</button>
     </div>
     <div class="api-sign-info" id="apiSignInfo" style="display:none"></div>
     <div class="api-result" id="apiResult">
@@ -846,13 +851,21 @@ function queryApi(mode) {
       prompt('复制以下命令:', cmd);
     });
   } else {
+    var proxy = document.getElementById('api_proxy').value.trim().replace(/\/+$/, '');
+    var fetchUrl = proxy ? proxy + '/?target=' + encodeURIComponent(url) : url;
     var t0 = Date.now();
-    log('[API] 正在发送 Fetch 请求...', 'warn');
-    fetch(url).then(function(r) {
-      return r.json().then(function(data) { showApiResult(r.status, data, Date.now() - t0); });
+    log('[API] 正在请求...' + (proxy ? '（经 CORS Proxy）' : ''), 'warn');
+    fetch(fetchUrl).then(function(r) {
+      return r.json().then(function(data) {
+        showApiResult(r.status, data, Date.now() - t0);
+        log('[API] 响应: code=' + data.code + ', ' + (Date.now() - t0) + 'ms', data.code === 0 ? 'ok' : 'err');
+      });
     }).catch(function(err) {
-      showApiResult(0, { error: err.message, hint: 'CORS 跨域限制，请使用「在新标签页查询」或「复制 cURL 命令」' }, Date.now() - t0);
-      log('[API] Fetch 失败: ' + err.message + '，建议使用新标签页查询', 'err');
+      showApiResult(0, {
+        error: err.message,
+        hint: proxy ? '代理请求失败，请检查 Proxy URL 是否正确' : 'CORS 跨域限制，请填写 CORS Proxy 地址或使用「在新标签页打开」'
+      }, Date.now() - t0);
+      log('[API] 请求失败: ' + err.message, 'err');
     });
   }
 }
