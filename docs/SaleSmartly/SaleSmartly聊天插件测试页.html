@@ -343,9 +343,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     </div>
 
     <div class="form-actions">
-      <button class="btn-green" id="apiQueryBtn" onclick="queryApi()">查询</button>
-      <div class="api-sign-info" id="apiSignInfo" style="display:none"></div>
+      <button class="btn-green" onclick="queryApi('open')">在新标签页查询</button>
+      <button class="btn-outline" onclick="queryApi('curl')">复制 cURL 命令</button>
+      <button class="btn-outline" onclick="queryApi('fetch')">Fetch 请求</button>
     </div>
+    <div class="api-sign-info" id="apiSignInfo" style="display:none"></div>
     <div class="api-result" id="apiResult">
       <div class="api-result-head">
         <span class="st" id="apiSt"></span>
@@ -809,46 +811,50 @@ function collectApiParams() {
   return p;
 }
 
-function queryApi() {
+function buildApiUrl() {
   var domain = document.getElementById('api_domain').value.trim();
   var appId = document.getElementById('api_appid').value.trim();
   var secret = document.getElementById('api_secret').value.trim();
-  if (!domain || !appId || !secret) { log('请填写 API 凭证信息', 'err'); return; }
-
+  if (!domain || !appId || !secret) { log('请填写 API 凭证信息', 'err'); return null; }
   var bizParams = collectApiParams();
-  if (!bizParams) return;
-
+  if (!bizParams) return null;
   var api = API_PATHS[currentApiTab];
   var timestamp = Math.floor(Date.now() / 1000).toString();
   var allParams = Object.assign({}, bizParams, { app_id: appId, timestamp: timestamp });
   var signResult = buildSign(allParams, secret);
   allParams.sign = signResult.sign;
-
   var qs = Object.keys(allParams).map(function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(allParams[k]); }).join('&');
   var url = 'https://' + domain + api.path + '?' + qs;
-
   var signInfo = document.getElementById('apiSignInfo');
   signInfo.style.display = 'block';
-  signInfo.innerHTML = '<b>签名串:</b> ' + signResult.signStr + '&key=***<br><b>sign:</b> ' + signResult.sign + '<br><b>timestamp:</b> ' + timestamp;
+  signInfo.innerHTML = '<b>接口:</b> ' + api.name + ' &nbsp; <b>sign:</b> ' + signResult.sign + ' &nbsp; <b>timestamp:</b> ' + timestamp;
+  log('[API] ' + api.name + ' 签名完成', 'ok');
+  return url;
+}
 
-  var btn = document.getElementById('apiQueryBtn');
-  btn.disabled = true; btn.textContent = '查询中...';
-  log('[API] 请求 ' + api.name + ': ' + api.path, 'warn');
-
-  var t0 = Date.now();
-  fetch(url).then(function(r) {
-    var ms = Date.now() - t0;
-    return r.json().then(function(data) {
-      showApiResult(r.status, data, ms);
-      log('[API] ' + api.name + ' 响应: code=' + data.code + ', ' + ms + 'ms', data.code === 0 ? 'ok' : 'err');
+function queryApi(mode) {
+  var url = buildApiUrl();
+  if (!url) return;
+  if (mode === 'open') {
+    window.open(url, '_blank');
+    log('[API] 已在新标签页打开请求', 'ok');
+  } else if (mode === 'curl') {
+    var cmd = 'curl "' + url + '"';
+    navigator.clipboard.writeText(cmd).then(function() {
+      log('[API] cURL 命令已复制到剪贴板', 'ok');
+    }).catch(function() {
+      prompt('复制以下命令:', cmd);
     });
-  }).catch(function(err) {
-    var ms = Date.now() - t0;
-    showApiResult(0, { error: err.message, hint: '可能原因: CORS 跨域限制、网络不通、域名错误。如遇 CORS 问题，请在本地环境测试或联系后端添加跨域白名单。' }, ms);
-    log('[API] 请求失败: ' + err.message, 'err');
-  }).finally(function() {
-    btn.disabled = false; btn.textContent = '查询';
-  });
+  } else {
+    var t0 = Date.now();
+    log('[API] 正在发送 Fetch 请求...', 'warn');
+    fetch(url).then(function(r) {
+      return r.json().then(function(data) { showApiResult(r.status, data, Date.now() - t0); });
+    }).catch(function(err) {
+      showApiResult(0, { error: err.message, hint: 'CORS 跨域限制，请使用「在新标签页查询」或「复制 cURL 命令」' }, Date.now() - t0);
+      log('[API] Fetch 失败: ' + err.message + '，建议使用新标签页查询', 'err');
+    });
+  }
 }
 
 function showApiResult(httpStatus, data, ms) {
