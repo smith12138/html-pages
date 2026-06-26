@@ -82,11 +82,11 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 
 <div class="header">
 <h1>TT 包网 · 智能客服测试用例（含测试截图）</h1>
-<div class="sub">基于《TT 包网 · 智能客服流程方案》（精简 SOP + tt-workflow 8 子页）全节点拆解 · Salesmartly 插件接入 · 包网开放 API v2.0 · 真实客服测试截图</div>
+<div class="sub">基于《TT 包网 · 智能客服流程方案》（精简 SOP + tt-workflow 8 子页 + AI 输出契约）全节点拆解 · Salesmartly 插件接入 · 包网开放 API v2.0 · 真实客服测试截图</div>
 <div class="meta">
 <span>渠道：TT 包网（TikTok）/ Salesmartly 插件</span>
-<span>版本：v1.0</span>
-<span>整理时间：2026-06-20</span>
+<span>版本：v1.1（2026-06-26 Figma 同步）</span>
+<span>更新时间：2026-06-26</span>
 <span>用例总数：<strong id="totalCases">0</strong></span>
 <span>含测试截图用例：<strong id="imgCases">0</strong></span>
 </div>
@@ -124,6 +124,7 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 <li><a href="#m9">9. 页面问题（加载失败 / 访问拒绝）</a><span class="cnt" id="mc9"></span></li>
 <li><a href="#m10">10. 流程闭环（是否已解决）</a><span class="cnt" id="mc10"></span></li>
 <li><a href="#m11">11. 包网开放 API 集成 & MD5 签名鉴权（v2.0）</a><span class="cnt" id="mc11"></span></li>
+<li><a href="#m12">12. AI 输出契约 & 状态码规范（2026-06-26）</a><span class="cnt" id="mc12"></span></li>
 </ul>
 </div>
 
@@ -169,6 +170,8 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 <tr><td class="id">TC-2014</td><td><span class="tag tag-func">功能</span></td><td>回调失败(3) 根本原因细分</td><td>②API 返回 status=3 回调失败</td><td><ol class="steps"><li>AI 读取根本原因 Root Cause</li></ol></td><td class="expect">AI 按 <strong>网络不稳定 / 金额不符 / 支付网关超时</strong> 三类原因分别说明并给出对应处理（重试 / 核对金额 / 稍后再试）</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
 <tr><td class="id">TC-2015</td><td><span class="tag tag-int">集成</span></td><td>转发三方群(TG BOT) 并学习回复</td><td>回调失败/已过期或无订单，需三方核实</td><td><ol class="steps"><li>AI 生成【三方查询·充值未到账】转发 TG BOT</li><li>三方人员 reply 结果</li><li>BOT 捕获并学习回复</li></ol></td><td class="expect">AI <strong>转发三方群</strong>并解析三方 reply（已回调 / 未查到 / 凭证不完整）反馈用户，<span class='warn'>不丢失 reply 归属</span></td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/deposit-4elem.png" data-cap="随查询转发的充值凭证"><div class="shot-cap">转发凭证</div></div></td><td><span class="prio p0">P0</span></td></tr>
 <tr><td class="id">TC-2016</td><td><span class="tag tag-edge">边界</span></td><td>以银行流水号替代截图核实</td><td>AI 已请求充值凭证</td><td><ol class="steps"><li>用户仅提供银行流水号/参考号（Clave de rastreo）</li><li>AI 收集</li></ol></td><td class="expect">AI 接受<strong>银行流水号</strong>作为凭证之一并随查询转发；仍建议补充完整截图</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-2017</td><td><span class="tag tag-func">功能</span></td><td>凭证类型：银行流水记录（bank_transfer_record）</td><td>AI 已请求充值凭证（2026-06-26 新增凭证类型）</td><td><ol class="steps"><li>用户发送银行流水/转账记录截图（非收银台凭证）</li><li>AI 图像识别归类</li></ol></td><td class="expect">AI 识别凭证类型为 <strong>bank_transfer_record</strong>，提取金额/时间/交易号并随订单核实；区别于 payment_screenshot</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/deposit-proof.jpg" data-cap="银行流水/电子转账记录"><div class="shot-cap">银行流水记录</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-2018</td><td><span class="tag tag-func">功能</span></td><td>凭证类型：游戏账户交易记录（game_account_transaction_record）</td><td>AI 已请求充值凭证（2026-06-26 新增凭证类型）</td><td><ol class="steps"><li>用户发送游戏账户内的交易/充值记录截图</li><li>AI 图像识别归类</li></ol></td><td class="expect">AI 识别凭证类型为 <strong>game_account_transaction_record</strong>，结合 UID 与订单 API 交叉核对</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
 </tbody></table>
 </div>
 
@@ -243,6 +246,8 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 <tr><td class="id">TC-6008</td><td><span class="tag tag-edge">边界</span></td><td>活动条件不符</td><td>用户领取被拒</td><td><ol class="steps"><li>用户声称符合条件但未发放</li><li>AI 查④API 与活动规则</li></ol></td><td class="expect">AI 对照规则说明不符之处（如未达充值/流水门槛），引导满足条件后再领</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
 <tr><td class="id">TC-6009</td><td><span class="tag tag-func">功能</span></td><td>其他活动 → 转人工</td><td>活动类型无法归类</td><td><ol class="steps"><li>AI 无法将活动归入平台原生/运营推广类</li><li>判定其他活动</li></ol></td><td class="expect">AI 对<strong>其他活动</strong>统一转人工处理，避免误答</td><td>—</td><td><span class="prio p1">P1</span></td></tr>
 <tr><td class="id">TC-6010</td><td><span class="tag tag-func">功能</span></td><td>资格条件细分指引</td><td>未满足领取资格</td><td><ol class="steps"><li>AI 查 TG 群活动要求</li><li>比对用户情况</li></ol></td><td class="expect">AI 按 <strong>活动时间窗 / 充值要求 / 流水要求 / 注册要求</strong> 四类分别说明缺口并指引</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/platform-activity.jpg" data-cap="平台活动页（资格条件）"><div class="shot-cap">活动资格</div></div></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-6011</td><td><span class="tag tag-func">功能</span></td><td>★ 兑换码子流程（redeem_code）· 有效</td><td>用户主张奖励缺失（2026-06-26 新增子流程）</td><td><ol class="steps"><li>AI 引导用户检查 SMS / 邮件 / Telegram 消息</li><li>请求 SMS/邮件/兑换码截图</li><li>LLM 图像识别提取兑换码</li><li>查询 TG 群验证兑换码 → 有效</li></ol></td><td class="expect">AI 给出<strong>兑换页导航指引</strong>并提示“请在过期前兑换”，附 claim 路径</td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/sms-inbox.jpeg" data-cap="站内信召回兑换码（Codigo）"><div class="shot-cap">兑换码召回</div></div></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-6012</td><td><span class="tag tag-edge">边界</span></td><td>★ 兑换码子流程（redeem_code）· 无效</td><td>用户提供兑换码截图</td><td><ol class="steps"><li>LLM 提取兑换码</li><li>查询 TG 群验证 → 无效/不存在（Código não encontrado）</li></ol></td><td class="expect">AI 告知兑换码无效/已过期，核对来源；确认异常则<strong>转人工创建工单</strong>。<span class="warn">不臆造可兑换</span></td><td><div class="shot-cell"><img class="shot" src="tt-test-shots/redeem-fail.jpg" data-cap="兑换码无效 Código não encontrado"><div class="shot-cap">兑换码无效</div></div></td><td><span class="prio p0">P0</span></td></tr>
 </tbody></table>
 </div>
 
@@ -309,7 +314,24 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 </tbody></table>
 </div>
 
-<div class="footer">TT 包网 · 智能客服测试用例 · v1.0 · 2026-06-20 · 截图来源：真实客服测试 · 流程依据：TT包网_智能客服流程方案</div>
+<div class="sec" id="m12">
+<div class="sec-head"><h2>12. AI 输出契约 & 状态码规范（2026-06-26 Figma 同步）</h2><span class="cnt-badge" id="mb12"></span></div>
+<div class="flow-ref">流程图节点（精简流程图·AI 输出契约/同步增量页）：工作流引擎对每条咨询统一返回 JSON —— 基础上下文(uid/platform_id/product_id) · 路由(domain·intent) · workflow(status·next_action·requires_human) · failure(category·reason·identified_by) · risk(label)；业务状态码统一 snake_case（含历史数字码对照）</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>测试截图</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-12001</td><td><span class="tag tag-int">集成</span></td><td>★ AI 输出契约结构完整性</td><td>工作流引擎对一条咨询产出结果</td><td><ol class="steps"><li>触发任意业务咨询</li><li>检查引擎返回 JSON</li></ol></td><td class="expect">返回体含 <strong>domain / intent / workflow{status,next_action,requires_human} / failure / risk</strong> 全字段；基础上下文 uid/platform_id/product_id 必有。<span class="warn">缺字段应告警而非静默</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12002</td><td><span class="tag tag-int">集成</span></td><td>★ requires_human=true → 强制转人工</td><td>workflow.requires_human=true</td><td><ol class="steps"><li>引擎返回 requires_human:true</li></ol></td><td class="expect"><strong>必须转人工客服</strong>，AI 不得自动闭环回复。<span class="warn">忽略该标记直接回复即缺陷</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12003</td><td><span class="tag tag-int">集成</span></td><td>requires_human=false → AI 自动闭环</td><td>workflow.requires_human=false</td><td><ol class="steps"><li>引擎返回 requires_human:false + next_action:generate_reply</li></ol></td><td class="expect">AI 按 next_action 自动生成回复闭环，不必要地转人工应视为偏差</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12004</td><td><span class="tag tag-int">集成</span></td><td>next_action 消费路由</td><td>引擎返回不同 next_action</td><td><ol class="steps"><li>分别返回 transfer_to_human_agent / generate_reply / collect_evidence / create_ticket</li></ol></td><td class="expect">AI 分别执行：转人工 / 生成回复 / 索取凭证 / 创建工单，<strong>动作与字段一致</strong></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12005</td><td><span class="tag tag-int">集成</span></td><td>failure.category 决定话术模板</td><td>workflow 含 failure.category</td><td><ol class="steps"><li>分别返回 category = risk / payment / system / user_data</li></ol></td><td class="expect">AI 按失败大类选用对应话术模板（风控谨慎 / 支付核实 / 系统兜底 / 信息纠正），不串用</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12006</td><td><span class="tag tag-func">功能</span></td><td>failure.reason 原因码映射</td><td>workflow 含 failure.reason</td><td><ol class="steps"><li>返回 cpf_mismatch / amount_mismatch / payment_gateway_timeout / duplicate_order / network_instability 等</li></ol></td><td class="expect">分别给出：引导更新 CPF / 重新发起 / 重试 / 引导查询账户 / 刷新或重试，<strong>原因码与话术一一对应</strong></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12007</td><td><span class="tag tag-int">集成</span></td><td>risk.label 风控处置</td><td>workflow 含 risk.label</td><td><ol class="steps"><li>分别返回 null / suspicious_pattern / velocity / blacklist</li></ol></td><td class="expect">null 正常放行；其余<strong>打风控标记 / 限制操作 / 转风控</strong>，<span class="warn">不向用户暴露风控细节</span></td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12008</td><td><span class="tag tag-int">集成</span></td><td>snake_case 状态码与历史数字码对齐</td><td>订单 API 返回状态</td><td><ol class="steps"><li>返回 callback_success(1)/pending_review(5)/manual_review(9)/review_confiscated(8) 等</li></ol></td><td class="expect">AI 以 <strong>snake_case</strong> 为准解析，且与历史数字码映射一致（见同步增量对照表），新旧并存不串档</td><td>—</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12009</td><td><span class="tag tag-int">集成</span></td><td>identified_by 责任方路由</td><td>failure.identified_by 存在</td><td><ol class="steps"><li>返回 payment_team / risk_team / provider / platform</li></ol></td><td class="expect">工单/转接归属对应责任方，<strong>不错派</strong></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-12010</td><td><span class="tag tag-int">集成</span></td><td>domain / intent 路由分类</td><td>引擎返回路由字段</td><td><ol class="steps"><li>domain ∈ withdraw/deposit/bonus/account/game/device/page/non_uid_process</li><li>intent 细分（withdraw_status / cpf_update / bonus_missing …）</li></ol></td><td class="expect">AI 据 domain 进对应业务流，据 intent 选子分支；<strong>non_uid_process 走无 UID 流程</strong></td><td>—</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="footer">TT 包网 · 智能客服测试用例 · v1.1（2026-06-26 Figma 同步）· 截图来源：真实客服测试 · 流程依据：TT包网_智能客服流程方案</div>
 </div>
 
 <a class="fab" href="/html-pages/" title="返回首页">⌂</a>
@@ -329,11 +351,11 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 <script>
 // ===== Stats =====
 (function(){
-  var map={'s1':['m2'],'s2':['m3'],'s3':['m4','m5'],'s4':['m6'],'s5':['m7','m8','m9'],'s6':['m11'],'s7':['m1','m10']};
+  var map={'s1':['m2'],'s2':['m3'],'s3':['m4','m5'],'s4':['m6'],'s5':['m7','m8','m9'],'s6':['m11','m12'],'s7':['m1','m10']};
   var total=0;
   for(var k in map){var c=0;map[k].forEach(function(id){c+=document.querySelectorAll('#'+id+' tbody tr').length});var el=document.getElementById(k);if(el)el.textContent=c;total+=c}
   document.getElementById('totalCases').textContent=total;
-  for(var i=1;i<=11;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;var el=document.getElementById('mc'+i);if(el)el.textContent=' ('+n+')';var el2=document.getElementById('mb'+i);if(el2)el2.textContent=n+' 条'}
+  for(var i=1;i<=12;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;var el=document.getElementById('mc'+i);if(el)el.textContent=' ('+n+')';var el2=document.getElementById('mb'+i);if(el2)el2.textContent=n+' 条'}
   document.getElementById('imgCases').textContent=document.querySelectorAll('img.shot').length+' 张';
 })();
 // ===== Filter =====

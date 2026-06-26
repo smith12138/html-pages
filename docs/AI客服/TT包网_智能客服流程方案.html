@@ -74,8 +74,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
   <div class="sub">Salesmartly 插件接入 · 包网开放 API 对接 · 精简 SOP 与完整工作流</div>
   <div class="meta-row">
     <span>● 渠道：TT 包网（TikTok）· Salesmartly 在线插件</span>
-    <span>● 整理日期：2026-06-18</span>
-    <span>● 来源：SOP 流程图 + tt-workflow + 包网 API v2.0</span>
+    <span>● 更新日期：2026-06-26（Figma 同步）</span>
+    <span>● 来源：SOP + tt-workflow + AI 输出契约 + 包网 API v2.0</span>
   </div>
 </div>
 
@@ -83,7 +83,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
   <div class="stat-card c-teal"><div class="num">4</div><div class="label">包网开放 API</div></div>
   <div class="stat-card c-blu"><div class="num">6</div><div class="label">业务分支</div></div>
   <div class="stat-card c-grn"><div class="num">8</div><div class="label">完整流程子页</div></div>
-  <div class="stat-card c-ora"><div class="num">2</div><div class="label">流程图（精简/完整）</div></div>
+  <div class="stat-card c-ora"><div class="num">5</div><div class="label">流程图（精简3+完整8 标签）</div></div>
   <div class="stat-card c-pur"><div class="num">1</div><div class="label">Figma 原型</div></div>
 </div>
 
@@ -114,20 +114,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
       <span class="tag tag-cz">充值（②API）</span><span class="tag tag-tx">提现（③API）</span>
       <span class="tag tag-cpf">CPF 绑定/修改</span><span class="tag tag-acct">账户（①API）</span>
       <span class="tag tag-game">游戏/设备/页面</span><span class="tag tag-act">活动奖励（④API）</span></p>
-    <div class="tip">两张流程图：<b>精简流程图</b>（第二节）= 单页 SOP 全局视图；<b>完整流程图</b>（第三节）= 按业务域拆分的 8 个子页，细节最全。点击「全屏查看」可像 Figma 一样拖拽平移、缩放。</div>
+    <div class="tip"><b>2026-06-26 同步（Figma）：</b>①新增<b>统一 AI 输出契约</b>（每条咨询返回 <code>domain / intent / workflow(status·next_action·requires_human) / failure / risk</code> 的 JSON，见第二节「AI 输出契约」页）；②业务状态码全面改 <b>snake_case</b>（<code>callback_success / pending_review / manual_review …</code>，附历史数字码对照）；③充值凭证类型扩展为 <code>payment_screenshot / bank_transfer_record / game_account_transaction_record</code>；④账户问题重命名 <code>cannot_login / cannot_find_uid / cpf_update / account_restricted</code>；⑤奖励新增 <b>兑换码(redeem_code)子流程</b> 与 <code>cpf_mismatch / pix_key_invalid</code> 原因码。详见第二节「同步增量」页。</div>
+    <div class="tip">两张流程图：<b>精简流程图</b>（第二节）= 3 页（操作 SOP + AI 输出契约 + 同步增量）；<b>完整流程图</b>（第三节）= 按业务域拆分的 8 个子页，细节最全。点击「全屏查看」可像 Figma 一样拖拽平移、缩放。</div>
   </div>
 </div>
 
 <div class="fc-container" id="s2">
-  <h2>二、精简流程图（SOP 全局）</h2>
-  <div class="fcsub">对应 draw.io：TT包网_智能客服SOP流程.drawio　·　单页全局视图</div>
-  <div class="fc-toolbar">
-    <button onclick="zoom(this,0.8)">－ 缩小</button><span class="zlbl">100%</span>
-    <button onclick="zoom(this,1.25)">＋ 放大</button><button onclick="zreset(this)">重置</button>
-    <button class="btn" onclick="openViewerBtn(this)" style="margin-left:auto;padding:6px 14px">⛶ 全屏查看</button>
+  <h2>二、精简流程图（SOP）</h2>
+  <div class="fcsub">对应 draw.io：TT包网_智能客服SOP流程.drawio　·　2026-06-26 更新为 3 页：操作 SOP + AI 输出契约 + 同步增量</div>
+  <div class="branch-group">
+    <div class="branch-tab-bar"><div class="branch-tab active" onclick="showTab(this)">操作 SOP 流程</div><div class="branch-tab" onclick="showTab(this)">AI 输出契约（JSON）</div><div class="branch-tab" onclick="showTab(this)">2026-06-26 同步增量</div></div>
+    <div class="fc-toolbar">
+      <button onclick="zoom(this,0.8)">－ 缩小</button><span class="zlbl">100%</span>
+      <button onclick="zoom(this,1.25)">＋ 放大</button><button onclick="zreset(this)">重置</button>
+      <button class="btn" onclick="openViewerBtn(this)" style="margin-left:auto;padding:6px 14px">⛶ 全屏查看</button>
+    </div>
+    <div class="branch-panel active"><div class="branch-cap">操作 SOP · 全局接待流程（Salesmartly 接入版）</div><div class="fc-viewport"><img src="tt-flow/sop.png" data-base="2428" data-title="精简流程图 · 操作 SOP" loading="lazy" style="width:2428px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">AI 引擎输出契约 · Sample JSON（domain / intent / workflow / failure / risk）</div><div class="fc-viewport"><img src="tt-flow/sop_contract.png" data-base="1507" data-title="精简流程图 · AI 输出契约" loading="lazy" style="width:1507px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">2026-06-26 Figma 同步增量 · snake_case 状态码对照 / 原因码 / 凭证类型 / 账户重命名 / 兑换码子流程</div><div class="fc-viewport"><img src="tt-flow/sop_increment.png" data-base="1507" data-title="精简流程图 · 同步增量" loading="lazy" style="width:1507px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div>
   </div>
-  <div class="fc-viewport" id="vp_sop"><img src="tt-flow/sop.png" data-base="1942" data-title="精简流程图（SOP）" loading="lazy" style="width:1942px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div>
-  <div class="fchint">提示：视口内可拖拽平移、滚轮滚动；「全屏查看」进入大图模式（拖拽平移 / 缩放 / 关闭）。</div>
+  <div class="fchint">提示：切换上方标签查看 SOP / 契约 / 增量；「全屏查看」进入大图模式（拖拽平移 / 缩放 / 关闭）。</div>
 </div>
 
 <div class="fc-container" id="s3">
@@ -140,7 +144,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
       <button onclick="zoom(this,1.25)">＋ 放大</button><button onclick="zreset(this)">重置</button>
       <button class="btn" onclick="openViewerBtn(this)" style="margin-left:auto;padding:6px 14px">⛶ 全屏查看</button>
     </div>
-    <div class="branch-panel active"><div class="branch-cap">第 0 页 · 客户咨询入口与杂项分类</div><div class="fc-viewport" id="vp_0"><img src="tt-flow/p0_overview.png" data-base="642" data-title="完整流程 · 0 总览" loading="lazy" style="width:642px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 1 页 · 充值订单查询 → 状态分流</div><div class="fc-viewport" id="vp_1"><img src="tt-flow/p1_deposit.png" data-base="1355" data-title="完整流程 · 1 充值" loading="lazy" style="width:1355px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 2 页 · 提现状态机（10 状态）</div><div class="fc-viewport" id="vp_2"><img src="tt-flow/p2_withdraw.png" data-base="2330" data-title="完整流程 · 2 提现" loading="lazy" style="width:2330px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 3 页 · 活动识别 → 奖励记录分析</div><div class="fc-viewport" id="vp_3"><img src="tt-flow/p3_bonus.png" data-base="1612" data-title="完整流程 · 3 奖励" loading="lazy" style="width:1612px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 4 页 · 登录/CPF/找回/受限 四分支</div><div class="fc-viewport" id="vp_4"><img src="tt-flow/p4_account.png" data-base="1980" data-title="完整流程 · 4 账户" loading="lazy" style="width:1980px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 5 页 · 设备兼容性检查</div><div class="fc-viewport" id="vp_5"><img src="tt-flow/p5_device.png" data-base="1016" data-title="完整流程 · 5 设备" loading="lazy" style="width:1016px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 6 页 · spin / bet / reward</div><div class="fc-viewport" id="vp_6"><img src="tt-flow/p6_game_err.png" data-base="2735" data-title="完整流程 · 6 游戏错误" loading="lazy" style="width:2735px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 7 页 · 加载失败 / 访问拒绝</div><div class="fc-viewport" id="vp_7"><img src="tt-flow/p7_page_err.png" data-base="1098" data-title="完整流程 · 7 页面问题" loading="lazy" style="width:1098px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div>
+    <div class="branch-panel active"><div class="branch-cap">第 0 页 · 客户咨询入口与杂项分类</div><div class="fc-viewport" id="vp_0"><img src="tt-flow/p0_overview.png" data-base="1701" data-title="完整流程 · 0 总览" loading="lazy" style="width:1701px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 1 页 · 充值订单查询 → 状态分流</div><div class="fc-viewport" id="vp_1"><img src="tt-flow/p1_deposit.png" data-base="1701" data-title="完整流程 · 1 充值" loading="lazy" style="width:1701px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 2 页 · 提现状态机（10 状态）</div><div class="fc-viewport" id="vp_2"><img src="tt-flow/p2_withdraw.png" data-base="1701" data-title="完整流程 · 2 提现" loading="lazy" style="width:1701px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 3 页 · 活动识别 → 奖励记录分析</div><div class="fc-viewport" id="vp_3"><img src="tt-flow/p3_bonus.png" data-base="1701" data-title="完整流程 · 3 奖励" loading="lazy" style="width:1701px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 4 页 · 登录/CPF/找回/受限 四分支</div><div class="fc-viewport" id="vp_4"><img src="tt-flow/p4_account.png" data-base="1701" data-title="完整流程 · 4 账户" loading="lazy" style="width:1701px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 5 页 · 设备兼容性检查</div><div class="fc-viewport" id="vp_5"><img src="tt-flow/p5_device.png" data-base="1701" data-title="完整流程 · 5 设备" loading="lazy" style="width:1701px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 6 页 · spin / bet / reward</div><div class="fc-viewport" id="vp_6"><img src="tt-flow/p6_game_err.png" data-base="1701" data-title="完整流程 · 6 游戏错误" loading="lazy" style="width:1701px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div><div class="branch-panel"><div class="branch-cap">第 7 页 · 加载失败 / 访问拒绝</div><div class="fc-viewport" id="vp_7"><img src="tt-flow/p7_page_err.png" data-base="1701" data-title="完整流程 · 7 页面问题" loading="lazy" style="width:1701px" ondblclick="openViewer(this.src,this.dataset.title)" title="双击全屏 · 拖拽平移 · 工具栏缩放"></div></div>
   </div>
   <div class="fchint">提示：切换上方标签查看不同业务域；「全屏查看」进入大图模式。</div>
 </div>
@@ -181,10 +185,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
       <tr><td><b>④ 奖励记录</b><br><span class="tag tag-api">活动分支</span></td><td><code>GET /bonus/records?uid=&amp;activity_name=&amp;activity_key=</code></td>
         <td><code>activity_id</code> · <code>activity_name</code> · <code>activity_key</code> · <code>subcategory</code> · <code>reward_amount</code> · <code>claim_time</code></td></tr>
     </table>
-    <p style="margin-top:14px"><b>充值订单状态（status）：</b>
-      <span class="tag tag-cz">0 待支付</span><span class="tag tag-cz">1 回调成功</span><span class="tag tag-cz">2 下单失败</span><span class="tag tag-cz">3 回调失败</span><span class="tag tag-cz">4 已过期</span></p>
+    <div class="tip" style="margin-top:14px"><b>状态码命名（2026-06-26 起以 snake_case 为准，括号为历史数字码）：</b>统一收敛到 AI 输出契约的 <code>workflow.status</code> 字段，详见第二节「同步增量」对照表。</div>
+    <p style="margin-top:10px"><b>充值订单状态（status）：</b>
+      <span class="tag tag-cz">pending_place (0) 待支付</span><span class="tag tag-cz">callback_success (1) 回调成功</span><span class="tag tag-cz">place_failed (2) 下单失败</span><span class="tag tag-cz">callback_failed (3) 回调失败</span><span class="tag tag-cz">expired (4) 已过期</span><span class="tag tag-cz">+ 原因码 duplicate_order / network_instability / amount_mismatch / payment_gateway_timeout</span></p>
     <p><b>提现订单状态（status）：</b>
-      <span class="tag tag-tx">0 出款中</span><span class="tag tag-tx">1 回调成功</span><span class="tag tag-tx">2 下单失败</span><span class="tag tag-tx">3 回调失败</span><span class="tag tag-tx">4 待下单</span><span class="tag tag-tx">5 待审核</span><span class="tag tag-tx">6 审核通过</span><span class="tag tag-tx">7 审核退还</span><span class="tag tag-tx">8 审核没收</span><span class="tag tag-tx">9 人工复审</span></p>
+      <span class="tag tag-tx">processing (0) 出款中</span><span class="tag tag-tx">callback_success (1) 回调成功</span><span class="tag tag-tx">place_failed (2) 下单失败</span><span class="tag tag-tx">callback_failed (3) 回调失败</span><span class="tag tag-tx">pending_place (4) 待下单</span><span class="tag tag-tx">pending_review (5) 待审核</span><span class="tag tag-tx">review_approved (6) 审核通过</span><span class="tag tag-tx">review_rejected (7) 审核退还</span><span class="tag tag-tx">review_confiscated (8) 没收</span><span class="tag tag-tx">manual_review (9) 人工复审</span><span class="tag tag-tx">pending_submission 待提交</span><span class="tag tag-tx">withdrawal_processing 提现处理中</span></p>
+    <p><b>提现失败/风控原因码（failure.reason / risk）：</b>
+      <span class="tag tag-tx">minimum_amount_not_met 未达最低</span><span class="tag tag-tx">insufficient_turnover 流水不足</span><span class="tag tag-tx">withdrawal_limit_exceeded 限额超出</span><span class="tag tag-tx">identity_verification_required 需身份验证</span><span class="tag tag-tx">risk_review 风控审核</span><span class="tag tag-tx">cpf_mismatch CPF不符</span><span class="tag tag-tx">pix_key_invalid PIX无效</span></p>
     <div class="note">通用约定：所有请求附加 <b>app_id + timestamp + sign</b>；金额单位为<b>分</b>（÷100 转元）；时间为 <b>UTC / ISO 8601</b>；订单号、手机号等敏感字段已<b>脱敏</b>；列表接口支持分页（pageSize 最大 100）。错误码：0 成功 / 7 业务失败 / 401 未认证（缺 app_id / app_id 无效 / 凭证过期）/ 403 签名验证失败或无权限 / 404 资源不存在 / 500 服务器错误。</div>
   </div>
 </div>
