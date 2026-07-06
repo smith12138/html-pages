@@ -356,7 +356,19 @@
       "name": "游戏后台",
       "description": "游戏管理后台系统文档（不分项目统一归档）",
       "color": "#ec4899",
-      "pages": []
+      "pages": [
+        {
+          "file": "docs/游戏后台/会员中心原型.html",
+          "title": "会员中心原型",
+          "category": "prototype",
+          "date": "2026-07-06",
+          "tags": [
+            "会员中心",
+            "原型",
+            "PANDA"
+          ]
+        }
+      ]
     }
   ]
 }
