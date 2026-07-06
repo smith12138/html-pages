@@ -34,6 +34,13 @@
       "icon": "prototype",
       "color": "#8b5cf6",
       "bg": "#f5f3ff"
+    },
+    {
+      "id": "reference",
+      "name": "参考资料",
+      "icon": "reference",
+      "color": "#0ea5e9",
+      "bg": "#e0f2fe"
     }
   ],
   "projects": [
@@ -366,6 +373,18 @@
             "后台",
             "会员中心",
             "PANDA"
+          ]
+        },
+        {
+          "file": "docs/PH_GAME/PH_GAME接口文档与设计资源.html",
+          "title": "接口文档与设计资源",
+          "category": "reference",
+          "date": "2026-07-06",
+          "tags": [
+            "前端",
+            "Ph01",
+            "接口文档",
+            "Figma"
           ]
         }
       ]
