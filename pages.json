@@ -350,6 +350,13 @@
           "tags": []
         }
       ]
+    },
+    {
+      "id": "game-admin",
+      "name": "游戏后台",
+      "description": "游戏管理后台系统文档（不分项目统一归档）",
+      "color": "#ec4899",
+      "pages": []
     }
   ]
 }
