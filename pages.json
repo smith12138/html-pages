@@ -27,6 +27,13 @@
       "icon": "testcase",
       "color": "#059669",
       "bg": "#ecfdf5"
+    },
+    {
+      "id": "prototype",
+      "name": "原型",
+      "icon": "prototype",
+      "color": "#8b5cf6",
+      "bg": "#f5f3ff"
     }
   ],
   "projects": [
