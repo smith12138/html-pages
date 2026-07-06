@@ -376,15 +376,16 @@
           ]
         },
         {
-          "file": "docs/PH_GAME/PH_GAME接口文档与设计资源.html",
-          "title": "接口文档与设计资源",
+          "file": "docs/PH_GAME/项目资源与访问信息.html",
+          "title": "项目资源与访问信息",
           "category": "reference",
           "date": "2026-07-06",
           "tags": [
-            "前端",
             "Ph01",
+            "访问信息",
             "接口文档",
-            "Figma"
+            "Figma",
+            "已脱敏"
           ]
         }
       ]

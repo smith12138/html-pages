@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PH_GAME 项目资源与访问信息</title>
+<style>
+  :root{--bg:#f7f8fa;--card:#fff;--fg:#1f2329;--sub:#646a73;--line:#e5e6eb;--brand:#ec4899;--brand-bg:#fdf2f8;--warn:#d97706;--warn-bg:#fffbeb;--code:#f2f3f5;}
+  @media (prefers-color-scheme:dark){:root{--bg:#17171a;--card:#232326;--fg:#e8e8ea;--sub:#9a9aa0;--line:#33343a;--brand:#f472b6;--brand-bg:#2a1622;--warn:#fbbf24;--warn-bg:#2a2114;--code:#2b2b30;}}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--fg);line-height:1.65;padding:32px 16px;}
+  .wrap{max-width:860px;margin:0 auto;}
+  .badge{display:inline-block;background:var(--brand-bg);color:var(--brand);font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;margin-right:6px;}
+  h1{font-size:25px;font-weight:700;margin-top:10px;}
+  .meta{color:var(--sub);font-size:14px;margin-top:6px;}
+  .warn{margin:16px 0 8px;color:var(--warn);font-size:13px;padding:12px 16px;border-left:3px solid var(--warn);background:var(--warn-bg);border-radius:0 8px 8px 0;}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-top:18px;}
+  h2{font-size:17px;font-weight:600;margin-bottom:14px;}
+  h3{font-size:14px;font-weight:600;color:var(--sub);margin:16px 0 8px;}
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  td,th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{color:var(--sub);font-weight:600;width:120px;white-space:nowrap;}
+  a{color:var(--brand);text-decoration:none;word-break:break-all;}
+  a:hover{text-decoration:underline;}
+  code{background:var(--code);padding:2px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;}
+  .mask{letter-spacing:1px;color:var(--sub);}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px;}
+  @media (max-width:560px){.grid{grid-template-columns:1fr;}}
+  .acct{display:flex;justify-content:space-between;padding:6px 10px;border-bottom:1px solid var(--line);font-size:14px;}
+  .acct code{background:none;padding:0;color:var(--fg);}
+  .tip{color:var(--sub);font-size:12px;margin-top:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">PH_GAME</span><span class="badge">Ph01</span>
+  <h1>项目资源与访问信息</h1>
+  <div class="meta">整理时间：2026-07-06</div>
+  <div class="warn">🔒 密码等敏感字段已脱敏显示，完整凭据请向项目负责人索取或查阅内部文档。</div>
+
+  <section>
+    <h2>一、接口 / 对接文档（通用）</h2>
+    <table>
+      <tr><th>OMG 返回字段</th><td><a href="https://cnlexina8.jp.larksuite.com/wiki/IdWUwRouRisy4Tk7iTBjeE8dpxE" target="_blank" rel="noopener">https://cnlexina8.jp.larksuite.com/wiki/IdWUwRouRisy4Tk7iTBjeE8dpxE</a></td></tr>
+      <tr><th>ezpay 返回字段</th><td><a href="https://cnlexina8.jp.larksuite.com/wiki/WaIJwxsM9iseupkCNRkjkmUapef" target="_blank" rel="noopener">https://cnlexina8.jp.larksuite.com/wiki/WaIJwxsM9iseupkCNRkjkmUapef</a></td></tr>
+      <tr><th>OMG API 对接</th><td><a href="https://docs.omgapi.cc/" target="_blank" rel="noopener">https://docs.omgapi.cc/</a></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>二、Ph01 产品</h2>
+
+    <h3>设计</h3>
+    <table>
+      <tr><th>Figma</th><td><a href="https://www.figma.com/design/0QyJd1K8GEFxzLp9ielJhh/ph01--%E5%B7%B2%E5%AE%8C%E6%88%90-?node-id=2367-779&p=f&t=zzyv3Ele31neGoej-0" target="_blank" rel="noopener">https://www.figma.com/design/0QyJd1K8GEFxzLp9ielJhh/ph01--已完成-</a></td></tr>
+    </table>
+
+    <h3>后台（Staging）</h3>
+    <table>
+      <tr><th>地址</th><td><a href="http://18.138.19.23:8081/" target="_blank" rel="noopener">http://18.138.19.23:8081/</a></td></tr>
+      <tr><th>用户名</th><td><code>staging_root</code></td></tr>
+      <tr><th>密码</th><td><code class="mask">Go••••••••••••••</code> <span class="tip">（已脱敏）</span></td></tr>
+    </table>
+
+    <h3>前端（Staging） · 地址 <a href="https://ph01-test.aaoo-test.com/login" target="_blank" rel="noopener">https://ph01-test.aaoo-test.com/login</a></h3>
+    <div class="tip">测试号，验证码均为 <code>123456</code></div>
+    <div class="grid" style="margin-top:8px;">
+      <div class="acct"><span>09171000001</span><code>123456</code></div>
+      <div class="acct"><span>09171000002</span><code>123456</code></div>
+      <div class="acct"><span>09171000003</span><code>123456</code></div>
+      <div class="acct"><span>09171000004</span><code>123456</code></div>
+      <div class="acct"><span>09171000005</span><code>123456</code></div>
+      <div class="acct"><span>09171000006</span><code>123456</code></div>
+      <div class="acct"><span>09171000007</span><code>123456</code></div>
+      <div class="acct"><span>09171000008</span><code>123456</code></div>
+      <div class="acct"><span>09171000009</span><code>123456</code></div>
+      <div class="acct"><span>09171000010</span><code>123456</code></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>三、Ph02 – Ph10</h2>
+    <div style="color:var(--sub);">待补充（各产品的 Figma / 后台 / 前端访问信息按 Ph01 格式追加）。</div>
+  </section>
+</div>
+</body>
+</html>
