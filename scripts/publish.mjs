@@ -38,6 +38,7 @@ const args = process.argv.slice(2);
 const files = [];
 let optProject = "";
 let optCat = "";
+let optModule = "";
 const optTags = [];
 let addProject = "";
 let addCat = "";
@@ -45,6 +46,7 @@ let addCat = "";
 for (const arg of args) {
   if (arg.startsWith("--project=")) optProject = arg.slice(10);
   else if (arg.startsWith("--cat=")) optCat = arg.slice(6);
+  else if (arg.startsWith("--module=")) optModule = arg.slice(9);
   else if (arg.startsWith("--tag=")) optTags.push(arg.slice(6));
   else if (arg.startsWith("--add-project=")) addProject = arg.slice(14);
   else if (arg.startsWith("--add-cat=")) addCat = arg.slice(10);
@@ -111,6 +113,8 @@ for (const f of files) {
 
   const existing = proj.pages.findIndex(p => p.file === filePath);
   const entry = { file: filePath, title, category, date, tags: optTags.length ? optTags : [] };
+  // 模块分组维度（可选）：提供 --module 时写入；不提供则保留原有 module（更新场景）
+  if (optModule) entry.module = optModule;
 
   if (existing >= 0) {
     proj.pages[existing] = { ...proj.pages[existing], ...entry };
