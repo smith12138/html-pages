@@ -52,7 +52,7 @@ tr.done td:not(.ck-col){opacity:.45;text-decoration:line-through;text-decoration
 .footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px}
 </style></head>
 <body><div class="container">
-<div class="header"><h1>会员管理模块 · 接口测试用例</h1><div class="sub"><span class="tag tag-con">接口</span></div><div class="meta">模块：会员中心 / 会员管理（后台接口） · 需求来源：`会员管理.pdf` + 待开发提供的 YApi 接口文档 · 接口 base：`http://18.138.19.23:8081/api`（待 YApi 确认修正 · 见 `api/member/*.py`） · 编号规则：`{子模块码}-API-{序号}`（ML/TIER/TAG/VIP） · 鉴权：后台登录换取 token，请求头携带（待 YApi 确认） · 通用断言：HTTP 状态码 · 业务码 · 响应结构(字段完整/类型) · 分页元数据 · 脱敏字段不返回明文 · 写操作审计落库</div></div>
+<div class="header"><h1>会员管理模块 · 接口测试用例</h1><div class="sub"><span class="tag tag-con">接口</span></div><div class="meta">模块：会员中心 / 会员管理（后台接口） · 需求来源：`会员管理.pdf` + 待开发提供的 YApi 接口文档 · 接口 base：`http://18.138.19.23:8081/api/v1/admin`（实地抓包确认 · 见 `api/member/*.py`） · 已核实端点：会员列表 `GET /users` · 统计 `GET /users/summary` · 层级 `GET /member-levels` · 标签 `GET /member-tags` · VIP `GET /vip/levels`（写操作路径待 YApi） · 编号规则：`{子模块码}-API-{序号}`（ML/TIER/TAG/VIP） · 鉴权：后台登录换取 token，请求头携带（待 YApi 确认）</div></div>
 <div class="stats">
 <div class="stat c0"><div class="num">56</div><div class="label">用例总数</div></div>
 <div class="stat c1"><div class="num">20</div><div class="label">P0 核心</div></div>
