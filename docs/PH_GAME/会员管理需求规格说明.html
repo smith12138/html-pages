@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会员管理需求规格说明</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1160px;margin:0 auto}
+.header{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:34px 32px;border-radius:14px;margin-bottom:22px}
+.header h1{font-size:24px;margin-bottom:8px}.header .sub{font-size:13px;opacity:.92}
+.header .meta{font-size:12px;opacity:.78;margin-top:8px}
+.toc{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:22px;border:1px solid #e5e7eb;border-left:4px solid #f59e0b}
+.toc h2{font-size:15px;color:#b45309;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}
+.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.sec{background:#fff;border-radius:12px;margin-bottom:20px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:16px 22px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head .n{width:26px;height:26px;border-radius:8px;background:#fff7ed;color:#d97706;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sec-head h2{font-size:17px;font-weight:700}
+.sec-body{padding:8px 22px 20px}
+h3{font-size:14px;font-weight:700;color:#b45309;margin:18px 0 8px}
+h3:first-child{margin-top:8px}
+p{font-size:13px;color:#374151;margin:6px 0}
+ul.list{margin:6px 0 6px 4px;padding-left:16px;font-size:13px;color:#374151}
+ul.list li{margin-bottom:4px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0}
+th{background:#f9fafb;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top}
+td:first-child{white-space:nowrap;font-weight:600;color:#92400e}
+.callout{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin:10px 0;font-size:12.5px;color:#78350f}
+.callout b{color:#b45309}
+.toast{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px;margin:6px 0;font-size:12.5px;color:#166534}
+.toast code,.callout code,td code,p code{background:#fef3c7;color:#92400e;padding:1px 5px;border-radius:3px;font-size:11px;font-family:"SF Mono",monospace}
+.pill{display:inline-block;font-size:10px;font-weight:600;padding:1px 7px;border-radius:4px;margin-left:6px}
+.pill-skip{background:#fee2e2;color:#b91c1c}
+.pill-diff{background:#fef3c7;color:#b45309}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.grid2{grid-template-columns:1fr}.toc ul{columns:1}}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:22px}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.tg{font-size:11px;background:#f3f4f6;color:#4b5563;padding:2px 9px;border-radius:12px}
+</style></head>
+<body><div class="container">
+
+<div class="header">
+<h1>会员管理需求规格说明</h1>
+<div class="sub">会员中心 / 会员管理 · 后台 · 依据《会员管理.pdf》需求评审定稿整理</div>
+<div class="meta">站点 PH01（巴西 · PHP · CPF/EVP/CNPJ） · 子模块：会员列表 · 会员层级 · 会员标签 · 会员VIP管理 · 通用交互：侧边栏一级列表点击展开二级，再次点击收起</div>
+</div>
+
+<div class="toc"><h2>目录</h2><ul>
+<li><a href="#s1">一、会员列表</a></li>
+<li><a href="#s2">二、会员层级</a></li>
+<li><a href="#s3">三、会员标签</a></li>
+<li><a href="#s4">四、会员VIP管理</a></li>
+<li><a href="#s5">五、非功能与规则</a></li>
+<li><a href="#s6">六、验收标准</a></li>
+<li><a href="#s7">七、实地核对（真实结构与差异）</a></li>
+</ul></div>
+
+<!-- ── 会员列表 ── -->
+<div class="sec" id="s1"><div class="sec-head"><div class="n">1</div><h2>会员列表</h2></div><div class="sec-body">
+<p>点击会员列表菜单，右边面板刷新默认列表。默认分页每页 10 条，可切 5/10/15/20/50/100。</p>
+
+<h3>核心筛选项</h3>
+<table><tr><th>筛选</th><th>取值 / 说明</th></tr>
+<tr><td>会员</td><td>会员ID、会员账号、注册IP、登录设备、手机号、邮箱、邀请ID、代理ID、真实姓名、CPF、EVP、CNPJ</td></tr>
+<tr><td>用户状态</td><td>全部、正常、登录锁定、充值锁定、游戏锁定</td></tr>
+<tr><td>账号类型</td><td>全部、正式、测试</td></tr>
+<tr><td>VIP等级</td><td>VIP0 - VIP10</td></tr>
+<tr><td>会员层级</td><td>默认层级、10元用户、30元用户、100元用户、500元用户 …</td></tr>
+<tr><td>高级筛选</td><td>默认收起。展开后含：总代、团队、小组、渠道、注册方式、注册时间、币种、会员标签、首充时间、最后充值、最后投注、金额区间</td></tr>
+</table>
+
+<h3>列表字段</h3>
+<p>会员账号、会员ID、手机号、邮箱、真实姓名、状态、账号类型、货币、VIP等级、会员层级、邀请ID、总代、团队、小组、渠道、注册方式、注册时间、首充金额、账户余额、当日（充值/提现/有效投注/输赢/优惠）、累计（充值/提现/充提差/有效投注/输赢/优惠）、最后充值时间、最后投注时间。</p>
+
+<h3>操作能力</h3>
+<ul class="list">
+<li>查询、重置、高级筛选展开/收起。</li>
+<li>新增会员、导出、批量操作。</li>
+<li>点击会员ID打开会员详情。</li>
+<li>单行操作：黑名单、登录锁定、充值锁定、提款锁定、登录密码重置、资金密码重置、修改VIP等级、设为代理、修改基本信息、实名相关。</li>
+<li>分页：支持每页条数、上一页/下一页、跳页。</li>
+</ul>
+
+<h3>1/ 新增会员</h3>
+<div class="grid2">
+<div><div class="callout"><b>手机号注册</b>　必填项：手机号、密码。<br>未填校验（输入框下方红字）：<code>请输入正确的手机号</code> / <code>请输入正确的密码</code> / <code>两次输入的密码不一致</code></div></div>
+<div><div class="callout"><b>邮箱注册</b> <span class="pill pill-skip">暂不做</span>　必填项：邮箱、密码。校验文案同上（邮箱）。</div></div>
+</div>
+
+<h3>2/ 批量操作</h3>
+<p>未选目标数据时按钮默认置灰；选择 ≥1 条时点亮。</p>
+<ul class="list">
+<li><b>拉入层级</b>：当前会员层级在下拉框中置灰不可选。<b>移除层级</b>同理。</li>
+<li><b>会员标签</b>：当前会员标签在下拉框中置灰不可选。<b>移除标签</b>同理。</li>
+<li><b>备注</b>：批量写入备注。</li>
+<li><b>黑名单</b>：范围为单选，下方输入框保持不变。</li>
+</ul>
+
+<h3>3/ 会员详情（弹窗）</h3>
+<p>聚合会员核心信息与快捷操作。展示内容：</p>
+<ul class="list">
+<li><b>会员摘要</b>：会员账号、会员ID、注册方式、用户状态。</li>
+<li><b>会员标签</b>：高风险、活跃会员、大额注单、高价值会员、疑似套利、沉默唤醒、充值潜力、代理关联。</li>
+<li><b>账号与关系</b>：用户状态、当前VIP等级、会员层级、币种。</li>
+<li><b>代理关系</b>：上级账号、总代、团队、小组、渠道、是否代理、邀请人数。</li>
+<li><b>资料与验证</b>：手机号、邮箱、生日、性别、KYC、真实姓名、身份ID、设备ID。</li>
+<li><b>钱包与资产</b>：账户余额、钱包金额、冻结金额、钱包地址、首充金额、充值/取款/充提差/有效投注/输赢/优惠/佣金。</li>
+<li><b>注册与登录</b>：首次登录时间、IP、终端、设备号、首充时间、最后充值时间、最后投注时间。</li>
+<li><b>备注</b>：支持编辑会员备注。</li>
+</ul>
+<p>快捷操作：加入黑名单、禁止投注、踢到大厅、修改密码、重置资金密码、修改等级、查看代理/团队/渠道、设备关联、IP关联、资金明细、账变记录。</p>
+<div class="toast">加入黑名单 → toast <code>已拉入{用户锁定}</code>，按钮置灰，客户端强制退出；再次登录 toast <code>账号异常，请联系客服</code></div>
+<div class="toast">禁止投注 → toast <code>已启用禁止投注</code>，按钮变浅蓝；再点 → <code>已取消禁止投注</code></div>
+<div class="toast">踢到大厅 → 踢出且 10 分钟内不能进入该游戏厅；toast <code>已将用户{用户名称}踢出大厅</code></div>
+<div class="callout"><b>需求约束：</b>代理关系、资料与验证、钱包与资产、注册与登录 这些分区<b>后面的操作项都不要</b>。修改密码/重置资金密码/修改等级逻辑与会员列表保持一致。</div>
+
+<h3>4/ 黑名单</h3>
+<div class="toast">点击【黑名单】弹出浮窗选择拉入某个黑名单；toast <code>已拉入黑名单{登录锁定}</code></div>
+
+<h3>5/ 密码相关</h3>
+<div class="grid2">
+<div><div class="callout"><b>重置登录密码</b><br>默认系统随机生成，规则不限，<b>最少 6 位</b>。密码必填、其余非必填。校验：<code>请输入密码</code> / <code>两次密码输入不一致</code>。选站内信时向客户端 message 推送含 <code>{站点名称}{密码值}</code> 的通知。</div></div>
+<div><div class="callout"><b>资金密码重置</b><br>默认系统随机生成，<b>只能 6 位</b>。密码必填、其余非必填。校验同上。站内信文案固定。</div></div>
+</div>
+
+<h3>6/ 修改VIP等级</h3>
+<p>会员账号、会员ID、当前会员等级置灰；仅「修改后会员等级」可编辑。</p>
+
+<h3>7/ 设为代理 <span class="pill pill-skip">暂不做</span></h3>
+<p>数据回显 + 全部非必填（入口按原型）。</p>
+
+<h3>8/ 修改基本信息</h3>
+<ul class="list">
+<li>数据回显。</li>
+<li>手机号、邮箱、生日、性别可修改；其余置灰不可修改。</li>
+<li>实名状态、身份ID、真实姓名：脱敏展示（中间脱敏）。</li>
+<li>成功 toast <code>修改成功</code>。</li>
+</ul>
+
+<h3>9/ 实名相关 <span class="pill pill-skip">暂不做</span></h3>
+<p>字段：真实姓名、证件类型（CPF）、证件号码、处理结果。去掉查看处理结果与查看记录。</p>
+</div></div>
+
+<!-- ── 会员层级 ── -->
+<div class="sec" id="s2"><div class="sec-head"><div class="n">2</div><h2>会员层级</h2></div><div class="sec-body">
+<p>包含两个页签：<b>会员层级</b>、<b>层级会员管理</b>。会员层级应用层级会员管理，参照 Panda 后台会员层级流程设计。</p>
+
+<h3>会员层级字段</h3>
+<p>序号、层级ID、层级名称、时间、充值金额、有效投注、用户输赢、优惠金额、投注天数、充值天数、存款次数、提款次数、VIP等级、备注、操作。</p>
+
+<h3>功能</h3>
+<ul class="list">
+<li>新增层级、编辑层级、删除层级、刷新。</li>
+<li>默认层级不可编辑、不可删除。</li>
+<li>新增/编辑需配置：层级名称、时长、充值金额、有效投注、用户输赢、优惠金额、投注天数、充值天数、存款次数、提款次数、关联VIP等级、备注。</li>
+</ul>
+
+<div class="callout"><b>新增层级：</b>除 层级id、VIP等级、备注 外其余字段为必填；未填统一按 web 后台提示：输入框下方红字 <code>请输入+{字段名}</code>。</div>
+<div class="callout"><b>编辑层级：</b>数据回显，层级id 置灰，其余可改。默认历史累计数据；增加时间选择字段，默认历史累计，选最近 n <b>小于等于 90 天</b>。</div>
+<div class="callout"><b>删除层级：</b>弹出二次确认 <code>确认要删除{层级名称}吗？删除后将不可用</code>。</div>
+
+<h3>层级会员管理</h3>
+<ul class="list">
+<li>展示：层级ID、层级名称、层级人数、备注。</li>
+<li>点击层级人数跳转会员列表，并按会员层级筛选。</li>
+<li>支持批量拉入/移除层级、上传文件、下载模板。</li>
+<li>添加会员 <span class="pill pill-skip">暂不做</span>（按会员id模糊搜索，结果下拉选择拉入层级）；批量操作 <span class="pill pill-skip">暂不做</span>。</li>
+</ul>
+</div></div>
+
+<!-- ── 会员标签 ── -->
+<div class="sec" id="s3"><div class="sec-head"><div class="n">3</div><h2>会员标签</h2></div><div class="sec-body">
+<p>会员标签用标签分组，用于支持运营分群、风险识别和批量打标签。包含两个页签：<b>标签列表</b>、<b>标签分组</b>。</p>
+
+<h3>标签列表</h3>
+<p>字段：标签ID、标签名称、标签分组、会员人数、标签规则、备注、创建人、状态、操作。功能：按标签名称/分组/状态筛选；新增/编辑/删除标签、开启/关闭；批量拉入/移除标签、上传文件、下载模板、填备注。</p>
+<div class="callout"><b>新增标签规则：</b>下拉框1为用户行为（登录、充值、提现，后续补齐）；下拉框2为判断条件（<code>&gt;</code> <code>&lt;</code> <code>=</code> <code>&gt;=</code> <code>&lt;=</code>）；输入框3为数值（不做特殊限制）；增加标签更新频率字段（单选：永久/月/天/h/min）。创建完标签后在输入框下方展示。批量操作 <span class="pill pill-skip">不做</span>。</div>
+<div class="callout"><b>编辑标签：</b>数据回显，除标签id外均可改。<b>删除：</b>二次确认 <code>确认删除{标签名称}吗？删除后将不可用</code>。</div>
+
+<h3>标签分组</h3>
+<p>字段：分组名称、标签数、用途说明、负责人、状态、操作。功能：新增/编辑/删除分组、开启/关闭、刷新。</p>
+<div class="callout"><b>新增分组：</b>必填项分组名称，未填红字 <code>请输入+{分组名称}</code>，其余非必填。<b>编辑：</b>分组id置灰，其余可改。<b>删除：</b>二次确认 <code>确认删除{分组名称}吗？删除后将不可用</code>。</div>
+</div></div>
+
+<!-- ── 会员VIP管理 ── -->
+<div class="sec" id="s4"><div class="sec-head"><div class="n">4</div><h2>会员VIP管理</h2></div><div class="sec-body">
+<p>会员VIP配置，实施规则、保级晋级和会员其他触发，含 VIP配置 / 查看会员 两个页签。</p>
+
+<h3>VIP配置</h3>
+<p>字段：VIP等级、等级名称、等级Logo、累计存款升级条件、累计有效投注升级条件、上月累计存款保级条件、上月累计有效投注保级条件、返水点数、晋级奖励、操作。</p>
+<div class="callout">展示规则：表头一行展示。实现方式：后端 SQL 默认写入 0-10 个等级（11 条数据），去掉等级 11。</div>
+<div class="callout"><b>编辑：</b>数据回显；上传/修改等级Logo；配置升级条件、保级条件、返水点数、晋级奖励。VIP等级置灰。</div>
+
+<h3>查看会员</h3>
+<p>字段：VIP等级、成员数量、晋级奖励人次/金额、返水金额。仅查看。</p>
+<div class="callout">反水、晋级、营销活动要有状态机：<b>发放 → 领取 → 使用</b>（领取状态）。字段：发放人数/金额、领取人数/金额、使用人数/金额、反水金额；可追溯、可管理、可使用。</div>
+</div></div>
+
+<!-- ── 非功能 ── -->
+<div class="sec" id="s5"><div class="sec-head"><div class="n">5</div><h2>非功能与规则</h2></div><div class="sec-body">
+<ul class="list">
+<li>敏感字段展示需脱敏，如手机号、钱包地址、设备信息。</li>
+<li>导出敏感字段需记录审批/审计日志。</li>
+<li>删除、黑名单、批量处理等高风险操作需二次确认。</li>
+<li>所有会员资料修改、VIP调整、层级/标签变更需记录操作人、时间、IP、前后值。</li>
+<li>列表查询需支持分页，默认每页 10 条，可切换 5/10/15/20/50/100 条。</li>
+</ul>
+</div></div>
+
+<!-- ── 验收标准 ── -->
+<div class="sec" id="s6"><div class="sec-head"><div class="n">6</div><h2>验收标准</h2></div><div class="sec-body">
+<ul class="list">
+<li>运营可通过筛选条件定位会员，并打开完整会员详情。</li>
+<li>可完成新增会员、修改VIP等级、修改基本信息、黑名单处理。</li>
+<li>可配置会员层级、标签、VIP规则，并查看关联会员数量。</li>
+<li>批量层级/标签/黑名单/备注操作可创建任务，并可追踪日志。</li>
+<li>所有关键操作均有审计记录与结果反馈。</li>
+</ul>
+</div></div>
+
+<!-- ── 实地核对 ── -->
+<div class="sec" id="s7"><div class="sec-head"><div class="n">7</div><h2>实地核对（真实结构与差异 · 2026-07-07）</h2></div><div class="sec-body">
+<p>已登录 staging（PH01 Admin，React + Ant Design Pro）逐页核对。<b>冲突以 PDF 为准</b>（开发未完成）。</p>
+
+<h3>真实路由与接口端点</h3>
+<table><tr><th>子模块</th><th>前端路由</th><th>主要接口（base <code>…:8081/api/v1/admin</code>）</th></tr>
+<tr><td>会员列表</td><td><code>/users</code></td><td><code>GET /users?page=1&amp;page_size=20</code> · <code>/users/summary</code> · <code>/users/{id}</code></td></tr>
+<tr><td>会员层级</td><td><code>/users/levels</code></td><td><code>GET /member-levels?page=1&amp;page_size=200</code></td></tr>
+<tr><td>会员标签</td><td><code>/users/tags</code></td><td><code>GET /member-tags</code></td></tr>
+<tr><td>会员VIP管理</td><td><code>/users/vip</code></td><td><code>GET /vip/levels</code></td></tr>
+</table>
+<p>数据库（PostgreSQL 16 · <code>slot_platform</code>）关键表印证需求：<code>member_operation_logs</code>（审计留痕）、<code>member_batch_jobs</code>（批量任务追踪）、<code>member_restrictions</code>（黑名单/锁定）、<code>vip_levels</code>（11 条，字段与 VIP 配置一致）、层级/标签条件为 <code>jsonb</code>。</p>
+
+<h3>PDF ↔ 当前实现差异</h3>
+<table><tr><th>#</th><th>差异点</th><th>PDF 要求</th><th>当前实现</th></tr>
+<tr><td>D1</td><td>会员详情操作项</td><td>代理关系/资料与验证/钱包与资产/注册与登录 后操作项都不要</td><td>线上仍全部保留 <span class="pill pill-diff">待改</span></td></tr>
+<tr><td>D2</td><td>设为代理 / 实名</td><td>暂不做</td><td>线上为可用/存在 <span class="pill pill-diff">待改</span></td></tr>
+<tr><td>D3</td><td>列表默认分页</td><td>默认 10 条</td><td>接口默认 <code>page_size=20</code> <span class="pill pill-diff">待改</span></td></tr>
+<tr><td>D4</td><td>会员详情形态</td><td>居中弹窗</td><td>右侧抽屉（UI差异）</td></tr>
+<tr><td>D5</td><td>会员层级字段口径</td><td>时间(天/时/分)、各金额/次数</td><td>等级编码/时长(分钟)/关联VIP/排序/各合计；条件为 jsonb；default 仍显示编辑、无独立删除 <span class="pill pill-diff">对齐</span></td></tr>
+<tr><td>D6</td><td>会员标签页签</td><td>标签列表、标签分组（2）</td><td>多出「标签会员」页签（3）</td></tr>
+<tr><td>D7</td><td>标签规则</td><td>行为+条件+数值</td><td>JSON 表达式（更灵活）</td></tr>
+<tr><td>D9</td><td>会员VIP管理</td><td>字段+11等级+返水/晋级数值</td><td>完全一致 ✓</td></tr>
+</table>
+</div></div>
+
+<div class="footer">ph_game_test · 会员管理需求规格说明 · 依据《会员管理.pdf》整理 + staging 实地核对</div>
+</div></body></html>
