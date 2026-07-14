@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会员评定 · 三模块全量用例设计（每用例一账号，实时注册现造数据）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1320px;margin:0 auto}
+.header{background:linear-gradient(135deg,#059669,#047857);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:24px}
+.header h1{font-size:24px;margin-bottom:8px}.header .sub{font-size:14px;opacity:.9;margin-bottom:6px}
+.header .meta{font-size:12px;opacity:.75}
+.stats{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.stat{flex:1;min-width:110px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+.stat .num{font-size:30px;font-weight:700}.stat .label{font-size:12px;color:#6b7280;margin-top:2px}
+.c0 .num{color:#059669}.c1 .num{color:#dc2626}.c2 .num{color:#d97706}.c3 .num{color:#059669}.c4 .num{color:#7c3aed}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px;background:#fff;border-radius:10px;border:1px solid #e5e7eb}
+.prog .bar{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.prog .fill{height:100%;background:#059669;border-radius:3px;transition:width .3s}
+.prog .txt{font-size:12px;color:#6b7280;white-space:nowrap;font-weight:600}
+.prog .btn{font-size:11px;cursor:pointer;border:1px solid #e5e7eb;background:#fff;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.toc{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:22px;border:1px solid #e5e7eb;border-left:4px solid #059669}
+.toc h2{font-size:15px;color:#059669;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}
+.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.toc .cnt{color:#9ca3af;font-size:12px;margin-left:4px}
+.filter-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
+.filter-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.filter-label{font-size:12px;font-weight:600;color:#374151;width:52px;flex-shrink:0;letter-spacing:.5px}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px}
+.fbtn{padding:5px 14px;border-radius:16px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer;font-weight:500;transition:all .15s;line-height:1.4}
+.fbtn:hover{border-color:#059669;color:#059669}.fbtn.active{background:#059669;border-color:#059669;color:#fff;box-shadow:0 1px 4px rgba(5,150,105,.25)}
+.sec{background:#fff;border-radius:12px;margin-bottom:22px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:16px 22px 10px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head h2{font-size:16px;font-weight:700;flex:1}
+.sec-head .cnt-badge{font-size:12px;color:#059669;background:#ecfdf5;padding:3px 10px;border-radius:8px;font-weight:600}
+.sec-desc{font-size:12px;color:#6b7280;padding:8px 22px 0}
+.tc{width:100%;border-collapse:collapse;font-size:13px}
+.tc th{background:#f9fafb;padding:9px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap}
+.tc td{padding:10px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top;line-height:1.6}
+.tc tr:hover{background:#fafbfc}
+.tc .id{color:#047857;font-weight:600;white-space:nowrap}
+.prio{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.p0{background:#fef2f2;color:#dc2626}.p1{background:#fef3c7;color:#d97706}.p2{background:#ecfdf5;color:#059669}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;font-weight:600}
+.tag-pos{background:#eef2ff;color:#2563eb}.tag-val{background:#fef3c7;color:#d97706}.tag-auth{background:#f3e8ff;color:#7c3aed}
+.tag-bnd{background:#fefce8;color:#a16207}.tag-err{background:#fef2f2;color:#dc2626}.tag-con{background:#f0fdfa;color:#0d9488}
+.expect strong{color:#059669}.expect .warn{color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:1px 5px;border-radius:3px;font-size:11px;color:#b45309;font-family:"SF Mono",monospace}
+.ck-col{width:34px;text-align:center;padding:8px 4px !important}
+.ck{width:16px;height:16px;cursor:pointer;accent-color:#059669}
+tr.done{background:#f0fdf4 !important}
+tr.done td:not(.ck-col){opacity:.45;text-decoration:line-through;text-decoration-color:#cbd5e1}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px}
+</style></head>
+<body><div class="container">
+<div class="header"><h1>会员评定 · 三模块全量用例设计（每用例一账号，实时注册现造数据）</h1><div class="sub"></div><div class="meta"></div></div>
+<div class="stats">
+<div class="stat c0"><div class="num">0</div><div class="label">用例总数</div></div>
+<div class="stat c1"><div class="num">0</div><div class="label">P0 核心</div></div>
+<div class="stat c2"><div class="num">0</div><div class="label">P1 主要</div></div>
+<div class="stat c3"><div class="num">0</div><div class="label">P2 次要</div></div>
+<div class="stat c4"><div class="num">0</div><div class="label">用例类型</div></div>
+</div>
+<div class="prog"><span class="txt" id="progTxt">进度 0/0</span><div class="bar"><div class="fill" id="progFill" style="width:0%"></div></div>
+<span class="btn" id="resetBtn">重置勾选</span></div>
+<div class="filter-card">
+<div class="filter-row"><span class="filter-label">优先级</span><div class="seg">
+<span class="fbtn active" data-f="prio" data-v="all">全部</span>
+<span class="fbtn" data-f="prio" data-v="P0">P0</span>
+<span class="fbtn" data-f="prio" data-v="P1">P1</span>
+<span class="fbtn" data-f="prio" data-v="P2">P2</span>
+</div></div>
+<div class="filter-row"><span class="filter-label">类型</span><div class="seg">
+<span class="fbtn active" data-f="type" data-v="all">全部</span>
+<span class="fbtn" data-f="type" data-v="FUNC">功能</span>
+<span class="fbtn" data-f="type" data-v="API">接口</span>
+<span class="fbtn" data-f="type" data-v="UI">界面</span>
+<span class="fbtn" data-f="type" data-v="RULE">规则</span>
+<span class="fbtn" data-f="type" data-v="SEC">安全</span>
+<span class="fbtn" data-f="type" data-v="DB">数据</span>
+</div></div>
+</div>
+<div class="toc"><h2>目录</h2><ul><li><a href="#sec0">一、会员层级</a><span class="cnt">(0)</span></li><li><a href="#sec1">二、会员标签</a><span class="cnt">(0)</span></li><li><a href="#sec2">三、会员VIP</a><span class="cnt">(0)</span></li></ul></div>
+<div class="sec" id="sec0"><div class="sec-head"><h2>一、会员层级</h2></div><table class="tc"><thead><tr><th>用例</th><th>名称</th><th>造的数据(充值/有效投注/输赢/优惠/投注天/充值天/存次/提次)</th><th>预期</th></tr></thead><tbody><tr><td>EVL-LV-01</td><td>VIP1层级达标</td><td>10/50/100/20/5/2/1/0</td><td>自动进入 VIP1层级</td></tr><tr><td>EVL-LV-02</td><td>VIP2层级达标</td><td>30/150/300/30/7/3/2/1</td><td>自动进入 VIP2层级</td></tr><tr><td>EVL-LV-03</td><td>VIP3层级达标</td><td>100/500/1000/80/10/4/2/1</td><td>自动进入 VIP3层级</td></tr><tr><td>EVL-LV-04</td><td>VIP4层级达标</td><td>500/2500/5000/120/15/6/3/2</td><td>自动进入 VIP4层级</td></tr><tr><td>EVL-LV-05</td><td>VIP5层级达标</td><td>1000/5000/12000/200/20/8/4/2</td><td>自动进入 VIP5层级</td></tr><tr><td>EVL-LV-06</td><td>VIP6层级达标</td><td>10000/50000/50000/500/25/12/6/3</td><td>自动进入 VIP6层级</td></tr><tr><td>EVL-LV-07</td><td>VIP7层级达标</td><td>100000/500000/200000/1200/30/18/10/5</td><td>自动进入 VIP7层级</td></tr><tr><td>EVL-LV-08</td><td>VIP8层级达标</td><td>1000000/5000000/800000/3000/35/24/15/8</td><td>自动进入 VIP8层级</td></tr><tr><td>EVL-LV-09</td><td>VIP9层级达标</td><td>10000000/50000000/2000000/8000/40/30/20/12</td><td>自动进入 VIP9层级</td></tr><tr><td>EVL-LV-B0</td><td>边界:差1不达VIP1</td><td>9/50/100/20/5/2/1/0</td><td>停留默认层级(不进VIP1)</td></tr><tr><td>EVL-LV-NEG</td><td>达标但不触发事件</td><td>10/50/100/20/5/2/1/0</td><td>不评定(仅对之后行为生效)</td></tr></tbody></table></div><div class="sec" id="sec1"><div class="sec-head"><h2>二、会员标签</h2></div><table class="tc"><thead><tr><th>用例</th><th>名称</th><th>规则</th><th>造数字段</th><th>可否造数</th><th>预期</th></tr></thead><tbody><tr><td>EVL-TAG-01</td><td>标签[团队核心会员]</td><td>behavior=deposit; operator=gt; update_frequency=manual; value=11</td><td>deposit→historical_deposit</td><td>可</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到</td></tr><tr><td>EVL-TAG-02</td><td>标签[代理直属会员]</td><td>behavior=deposit; operator=gt; update_frequency=manual; value=11</td><td>deposit→historical_deposit</td><td>可</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到</td></tr><tr><td>EVL-TAG-03</td><td>标签[低频待唤醒]</td><td>behavior=login; frequency_interval=1; operator=lte; update_frequency=monthly; value=2</td><td>login→—</td><td>否</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到（该规则字段无法造数，仅手工验证）</td></tr><tr><td>EVL-TAG-04</td><td>标签[复购潜力]</td><td>frequency_interval=1; metric=deposit_count_7d; operator=gte; update_frequency=daily; value=3</td><td>deposit_count_7d→deposit_count</td><td>可</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到</td></tr><tr><td>EVL-TAG-05</td><td>标签[流失预警]</td><td>frequency_interval=1; metric=inactive_days; operator=gte; update_frequency=daily; value=60</td><td>inactive_days→—</td><td>否</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到（该规则字段无法造数，仅手工验证）</td></tr><tr><td>EVL-TAG-06</td><td>标签[沉默会员]</td><td>frequency_interval=1; metric=inactive_days; operator=gte; update_frequency=daily; value=30</td><td>inactive_days→—</td><td>否</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到（该规则字段无法造数，仅手工验证）</td></tr><tr><td>EVL-TAG-07</td><td>标签[活跃会员]</td><td>behavior=login; frequency_interval=1; operator=gte; update_frequency=weekly; value=15</td><td>login→—</td><td>否</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到（该规则字段无法造数，仅手工验证）</td></tr><tr><td>EVL-TAG-08</td><td>标签[首充大户]</td><td>behavior=deposit; frequency_interval=0; operator=gt; update_frequency=manual; value=10000</td><td>deposit→historical_deposit</td><td>可</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到</td></tr><tr><td>EVL-TAG-09</td><td>标签[重度投注]</td><td>behavior=bet; frequency_interval=1; operator=gte; update_frequency=daily; value=100000</td><td>bet→historical_valid_bet</td><td>可</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到</td></tr><tr><td>EVL-TAG-10</td><td>标签[高净值会员]</td><td>behavior=deposit; frequency_interval=1; operator=gte; update_frequency=daily; value=500000</td><td>deposit→historical_deposit</td><td>可</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到</td></tr><tr><td>EVL-TAG-11</td><td>标签[疑似套利]</td><td>无规则</td><td>—→—</td><td>否</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到（该规则字段无法造数，仅手工验证）</td></tr><tr><td>EVL-TAG-12</td><td>标签[频繁提现]</td><td>behavior=withdraw_orders; frequency_interval=1; operator=gte; update_frequency=daily; value=5</td><td>withdraw_orders→withdraw_count</td><td>可</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到</td></tr><tr><td>EVL-TAG-13</td><td>标签[异常大额盈利]</td><td>behavior=win_loss; frequency_interval=1; operator=gte; update_frequency=daily; value=100000</td><td>win_loss→historical_win_loss</td><td>可</td><td>造数达标后：①系统自动打标 ②手工打标 均能在标签会员中查到</td></tr></tbody></table></div><div class="sec" id="sec2"><div class="sec-head"><h2>三、会员VIP</h2></div><table class="tc"><thead><tr><th>用例</th><th>名称</th><th>造的数据(累计存款/累计有效投注)</th><th>预期</th></tr></thead><tbody><tr><td>EVL-VIP-01</td><td>VIP档[VIP1]</td><td>1000/5000</td><td>手工设级后在 VIP1 会员中查到（自动升级待后端确认）</td></tr><tr><td>EVL-VIP-02</td><td>VIP档[VIP2]</td><td>5000/25000</td><td>手工设级后在 VIP2 会员中查到（自动升级待后端确认）</td></tr><tr><td>EVL-VIP-03</td><td>VIP档[VIP3]</td><td>20000/100000</td><td>手工设级后在 VIP3 会员中查到（自动升级待后端确认）</td></tr><tr><td>EVL-VIP-04</td><td>VIP档[VIP4]</td><td>50000/250000</td><td>手工设级后在 VIP4 会员中查到（自动升级待后端确认）</td></tr><tr><td>EVL-VIP-05</td><td>VIP档[VIP5]</td><td>150000/750000</td><td>手工设级后在 VIP5 会员中查到（自动升级待后端确认）</td></tr><tr><td>EVL-VIP-06</td><td>VIP档[VIP6]</td><td>500000/2500000</td><td>手工设级后在 VIP6 会员中查到（自动升级待后端确认）</td></tr><tr><td>EVL-VIP-07</td><td>VIP档[VIP7]</td><td>1500000/7500000</td><td>手工设级后在 VIP7 会员中查到（自动升级待后端确认）</td></tr><tr><td>EVL-VIP-08</td><td>VIP档[VIP8]</td><td>5000000/25000000</td><td>手工设级后在 VIP8 会员中查到（自动升级待后端确认）</td></tr><tr><td>EVL-VIP-09</td><td>VIP档[VIP9]</td><td>15000000/75000000</td><td>手工设级后在 VIP9 会员中查到（自动升级待后端确认）</td></tr></tbody></table></div>
+<div class="footer">ph_game_test · 会员管理模块测试用例 · 勾选状态本地保存</div>
+</div>
+<script>
+var KEY="tc_"+document.title;
+var rows=[].slice.call(document.querySelectorAll('.tc tbody tr'));
+var caseRows=rows.filter(function(r){return r.querySelector('.ck')});
+function save(){var s={};caseRows.forEach(function(r,i){s[i]=r.querySelector('.ck').checked});localStorage.setItem(KEY,JSON.stringify(s));}
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'{}');caseRows.forEach(function(r,i){if(s[i]){r.querySelector('.ck').checked=true;r.classList.add('done');}});}catch(e){}}
+function prog(){var d=caseRows.filter(function(r){return r.querySelector('.ck').checked}).length;var t=caseRows.length;document.getElementById('progTxt').textContent='进度 '+d+'/'+t;document.getElementById('progFill').style.width=(t?d/t*100:0)+'%';}
+caseRows.forEach(function(r){r.querySelector('.ck').addEventListener('change',function(){r.classList.toggle('done',this.checked);save();prog();});});
+document.getElementById('resetBtn').addEventListener('click',function(){caseRows.forEach(function(r){r.querySelector('.ck').checked=false;r.classList.remove('done');});save();prog();});
+var filters={prio:'all',type:'all'};
+[].slice.call(document.querySelectorAll('.fbtn')).forEach(function(b){b.addEventListener('click',function(){var f=b.dataset.f;filters[f]=b.dataset.v;[].slice.call(document.querySelectorAll('.fbtn[data-f='+f+']')).forEach(function(x){x.classList.remove('active')});b.classList.add('active');apply();});});
+function apply(){caseRows.forEach(function(r){var ok=(filters.prio==='all'||r.dataset.prio===filters.prio)&&(filters.type==='all'||r.dataset.type===filters.type);r.style.display=ok?'':'none';});}
+load();prog();
+</script>
+</body></html>
