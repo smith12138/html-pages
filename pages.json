@@ -555,6 +555,39 @@
             "界面测试"
           ],
           "module": "会员管理"
+        },
+        {
+          "file": "docs/PH_GAME/会员标签测试账号清单.html",
+          "title": "会员标签测试账号清单",
+          "category": "testcase",
+          "date": "2026-07-23",
+          "tags": [
+            "会员标签",
+            "测试账号",
+            "规则引擎"
+          ],
+          "module": "会员管理"
+        },
+        {
+          "file": "docs/PH_GAME/会员标签测试点.html",
+          "title": "会员标签测试点",
+          "category": "requirement",
+          "date": "2026-07-23",
+          "tags": []
+        },
+        {
+          "file": "docs/PH_GAME/数据管理测试用例.html",
+          "title": "数据管理测试用例",
+          "category": "requirement",
+          "date": "2026-07-23",
+          "tags": []
+        },
+        {
+          "file": "docs/PH_GAME/财务管理测试用例.html",
+          "title": "财务管理测试用例",
+          "category": "requirement",
+          "date": "2026-07-23",
+          "tags": []
         }
       ]
     }
