@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会员标签（规则引擎版）· 测试账号清单</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1320px;margin:0 auto}
+.header{background:linear-gradient(135deg,#059669,#047857);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:24px}
+.header h1{font-size:24px;margin-bottom:8px}.header .sub{font-size:14px;opacity:.9;margin-bottom:6px}
+.header .meta{font-size:12px;opacity:.75}
+.stats{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.stat{flex:1;min-width:110px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+.stat .num{font-size:30px;font-weight:700}.stat .label{font-size:12px;color:#6b7280;margin-top:2px}
+.c0 .num{color:#059669}.c1 .num{color:#dc2626}.c2 .num{color:#d97706}.c3 .num{color:#059669}.c4 .num{color:#7c3aed}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px;background:#fff;border-radius:10px;border:1px solid #e5e7eb}
+.prog .bar{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.prog .fill{height:100%;background:#059669;border-radius:3px;transition:width .3s}
+.prog .txt{font-size:12px;color:#6b7280;white-space:nowrap;font-weight:600}
+.prog .btn{font-size:11px;cursor:pointer;border:1px solid #e5e7eb;background:#fff;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.toc{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:22px;border:1px solid #e5e7eb;border-left:4px solid #059669}
+.toc h2{font-size:15px;color:#059669;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}
+.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.toc .cnt{color:#9ca3af;font-size:12px;margin-left:4px}
+.filter-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
+.filter-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.filter-label{font-size:12px;font-weight:600;color:#374151;width:52px;flex-shrink:0;letter-spacing:.5px}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px}
+.fbtn{padding:5px 14px;border-radius:16px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer;font-weight:500;transition:all .15s;line-height:1.4}
+.fbtn:hover{border-color:#059669;color:#059669}.fbtn.active{background:#059669;border-color:#059669;color:#fff;box-shadow:0 1px 4px rgba(5,150,105,.25)}
+.sec{background:#fff;border-radius:12px;margin-bottom:22px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:16px 22px 10px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head h2{font-size:16px;font-weight:700;flex:1}
+.sec-head .cnt-badge{font-size:12px;color:#059669;background:#ecfdf5;padding:3px 10px;border-radius:8px;font-weight:600}
+.sec-desc{font-size:12px;color:#6b7280;padding:8px 22px 0}
+.tc{width:100%;border-collapse:collapse;font-size:13px}
+.tc th{background:#f9fafb;padding:9px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap}
+.tc td{padding:10px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top;line-height:1.6}
+.tc tr:hover{background:#fafbfc}
+.tc .id{color:#047857;font-weight:600;white-space:nowrap}
+.prio{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.p0{background:#fef2f2;color:#dc2626}.p1{background:#fef3c7;color:#d97706}.p2{background:#ecfdf5;color:#059669}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;font-weight:600}
+.tag-pos{background:#eef2ff;color:#2563eb}.tag-val{background:#fef3c7;color:#d97706}.tag-auth{background:#f3e8ff;color:#7c3aed}
+.tag-bnd{background:#fefce8;color:#a16207}.tag-err{background:#fef2f2;color:#dc2626}.tag-con{background:#f0fdfa;color:#0d9488}
+.expect strong{color:#059669}.expect .warn{color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:1px 5px;border-radius:3px;font-size:11px;color:#b45309;font-family:"SF Mono",monospace}
+.ck-col{width:34px;text-align:center;padding:8px 4px !important}
+.ck{width:16px;height:16px;cursor:pointer;accent-color:#059669}
+tr.done{background:#f0fdf4 !important}
+tr.done td:not(.ck-col){opacity:.45;text-decoration:line-through;text-decoration-color:#cbd5e1}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px}
+</style></head>
+<body><div class="container">
+<div class="header"><h1>会员标签（规则引擎版）· 测试账号清单</h1><div class="sub"></div><div class="meta"></div></div>
+<div class="stats">
+<div class="stat c0"><div class="num">17</div><div class="label">用例总数</div></div>
+<div class="stat c1"><div class="num">0</div><div class="label">P0 核心</div></div>
+<div class="stat c2"><div class="num">0</div><div class="label">P1 主要</div></div>
+<div class="stat c3"><div class="num">0</div><div class="label">P2 次要</div></div>
+<div class="stat c4"><div class="num">1</div><div class="label">用例类型</div></div>
+</div>
+<div class="prog"><span class="txt" id="progTxt">进度 0/17</span><div class="bar"><div class="fill" id="progFill" style="width:0%"></div></div>
+<span class="btn" id="resetBtn">重置勾选</span></div>
+<div class="filter-card">
+<div class="filter-row"><span class="filter-label">优先级</span><div class="seg">
+<span class="fbtn active" data-f="prio" data-v="all">全部</span>
+<span class="fbtn" data-f="prio" data-v="P0">P0</span>
+<span class="fbtn" data-f="prio" data-v="P1">P1</span>
+<span class="fbtn" data-f="prio" data-v="P2">P2</span>
+</div></div>
+<div class="filter-row"><span class="filter-label">类型</span><div class="seg">
+<span class="fbtn active" data-f="type" data-v="all">全部</span>
+<span class="fbtn" data-f="type" data-v="FUNC">功能</span>
+<span class="fbtn" data-f="type" data-v="API">接口</span>
+<span class="fbtn" data-f="type" data-v="UI">界面</span>
+<span class="fbtn" data-f="type" data-v="RULE">规则</span>
+<span class="fbtn" data-f="type" data-v="SEC">安全</span>
+<span class="fbtn" data-f="type" data-v="DB">数据</span>
+</div></div>
+</div>
+<div class="toc"><h2>目录</h2><ul><li><a href="#sec0">一、按条件取样的真实账号（引擎反查）</a><span class="cnt">(14)</span></li><li><a href="#sec1">二、可自主登录的自造账号（含密码）</a><span class="cnt">(3)</span></li><li><a href="#sec2">三、按条件造号方法（覆盖 27 个指标）</a><span class="cnt">(0)</span></li><li><a href="#sec3">四、旧账号清单的处置</a><span class="cnt">(0)</span></li></ul></div>
+<div class="sec" id="sec0"><div class="sec-head"><h2>一、按条件取样的真实账号（引擎反查）</h2><span class="cnt-badge">14 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>预期结果</th></tr></thead><tbody><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">1935952347 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">4601590439 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">2127651573 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">1000000081 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">2106761893 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">2403451415 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">7954155369 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">5361338914 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">7258060602 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">5580957193 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">5935388873 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">4699347993 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">3549278119 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">6911332431 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr></tbody></table></div><div class="sec" id="sec1"><div class="sec-head"><h2>二、可自主登录的自造账号（含密码）</h2><span class="cnt-badge">3 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>预期结果</th></tr></thead><tbody><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">2696036377 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">3549278119 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr><tr data-prio="" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">7969973428 <span class="tag tag-pos"></span></td><td><span class="prio "></span></td><td></td><td class="expect"></td></tr></tbody></table></div><div class="sec" id="sec2"><div class="sec-head"><h2>三、按条件造号方法（覆盖 27 个指标）</h2></div><table class="tc"><thead><tr><th>指标类别</th><th>指标</th><th>可造性</th><th>造数方法</th></tr></thead><tbody><tr><td>日期类</td><td>注册日期</td><td>✅ 易</td><td>新注册即当天；历史日期不可造</td></tr><tr><td>日期类</td><td>首充/首投/首提日期</td><td>✅ 中</td><td>走真实充值→审核 / PG投注 / 提现→打款</td></tr><tr><td>日期类</td><td>最后充值/投注/提现日期</td><td>✅ 中</td><td>同上，取最近一次</td></tr><tr><td>距今天数</td><td>距上次充值/投注/提现天数</td><td><span class="warn">⚠</span> 难</td><td>需等待自然天数推移，无法即时造</td></tr><tr><td>金额类</td><td>累计充值金额</td><td>✅ 易</td><td><code>tools/funding.fund_account</code>（充值→审核入账，**含手动上分**）</td></tr><tr><td>金额类</td><td>有效投注额 / 玩家输赢</td><td>✅ 中</td><td>PG 投注 <code>PGGame.spin_with</code>，须结算(settled)后计入</td></tr><tr><td>金额类</td><td>累计提现金额 / 充提差</td><td>✅ 中</td><td>提现→approve→confirm-paid（只计 paid）</td></tr><tr><td>金额类</td><td>返水金额 / 活动礼金</td><td><span class="warn">⚠</span> 难</td><td>依赖返水任务与活动发放，无直接造数接口</td></tr><tr><td>计数类</td><td>充值次数 / 累计投注天数</td><td>✅ 中</td><td>多次充值 / 跨天投注（天数须跨自然日）</td></tr><tr><td>枚举类</td><td>VIP 等级</td><td>✅ 易</td><td>后台 <code>POST /users/<code>{id}</code>/vip</code> 手工指派</td></tr><tr><td>枚举类</td><td>账户状态（各类锁定）</td><td>✅ 易</td><td>后台会员详情设置锁定</td></tr><tr><td>枚举类</td><td>客户端类型</td><td><span class="warn">⚠</span> 中</td><td>由末次登录终端归一，需用对应端登录</td></tr><tr><td>枚举类</td><td>总代/团队/小组/推广渠道</td><td><span class="warn">⚠</span> 难</td><td>注册时归属决定，事后不可改</td></tr><tr><td>布尔类</td><td>手机号已验证</td><td>✅ 易</td><td>新号默认未验证；验证后为是</td></tr></tbody></table></div><div class="sec" id="sec3"><div class="sec-head"><h2>四、旧账号清单的处置</h2></div></div>
+<div class="footer">ph_game_test · 会员管理模块测试用例 · 勾选状态本地保存</div>
+</div>
+<script>
+var KEY="tc_"+document.title;
+var rows=[].slice.call(document.querySelectorAll('.tc tbody tr'));
+var caseRows=rows.filter(function(r){return r.querySelector('.ck')});
+function save(){var s={};caseRows.forEach(function(r,i){s[i]=r.querySelector('.ck').checked});localStorage.setItem(KEY,JSON.stringify(s));}
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'{}');caseRows.forEach(function(r,i){if(s[i]){r.querySelector('.ck').checked=true;r.classList.add('done');}});}catch(e){}}
+function prog(){var d=caseRows.filter(function(r){return r.querySelector('.ck').checked}).length;var t=caseRows.length;document.getElementById('progTxt').textContent='进度 '+d+'/'+t;document.getElementById('progFill').style.width=(t?d/t*100:0)+'%';}
+caseRows.forEach(function(r){r.querySelector('.ck').addEventListener('change',function(){r.classList.toggle('done',this.checked);save();prog();});});
+document.getElementById('resetBtn').addEventListener('click',function(){caseRows.forEach(function(r){r.querySelector('.ck').checked=false;r.classList.remove('done');});save();prog();});
+var filters={prio:'all',type:'all'};
+[].slice.call(document.querySelectorAll('.fbtn')).forEach(function(b){b.addEventListener('click',function(){var f=b.dataset.f;filters[f]=b.dataset.v;[].slice.call(document.querySelectorAll('.fbtn[data-f='+f+']')).forEach(function(x){x.classList.remove('active')});b.classList.add('active');apply();});});
+function apply(){caseRows.forEach(function(r){var ok=(filters.prio==='all'||r.dataset.prio===filters.prio)&&(filters.type==='all'||r.dataset.type===filters.type);r.style.display=ok?'':'none';});}
+load();prog();
+</script>
+</body></html>
