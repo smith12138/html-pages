@@ -18,7 +18,9 @@ h1{font-size:22px} .sub{color:#6b7280;font-size:13px;margin:4px 0 14px}
 .fb{padding:4px 12px;border-radius:14px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer}
 .fb.on{background:#2563eb;color:#fff;border-color:#2563eb}
 .prog{font-size:12px;color:#6b7280;margin-left:auto}
-table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;font-size:12.5px}
+.modsec{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;font-size:12.5px}
+td.acct{white-space:normal}
 th{background:#f9fafb;padding:7px 8px;text-align:left;font-size:11px;color:#6b7280;border-bottom:2px solid #e5e7eb}
 td{padding:7px 8px;border-bottom:1px solid #f1f2f4;vertical-align:top}
 .grp td{background:#eff6ff;font-weight:700;color:#1e40af;font-size:12px} .gc{color:#3b82f6;font-weight:500;font-size:11px}
@@ -26,7 +28,7 @@ td{padding:7px 8px;border-bottom:1px solid #f1f2f4;vertical-align:top}
 .pill{color:#fff;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700}
 .sub{white-space:nowrap;color:#6b7280;font-size:11px} .typ{white-space:nowrap;color:#7c3aed;font-size:11px}
 .ttl{font-weight:600;min-width:130px}
-.acct{font-family:monospace;font-size:10px;color:#0369a1;max-width:110px;overflow-wrap:break-word}
+.acct{font-family:monospace;font-size:10px;color:#0369a1;width:120px;min-width:120px;max-width:120px}
 .steps{color:#4b5563;min-width:220px} .exp{color:#065f46;min-width:220px}
 .ck input{width:14px;height:14px;cursor:pointer;accent-color:#2563eb}
 tr.done td:not(.grp){opacity:.4} tr.done .ttl{text-decoration:line-through}
@@ -35,9 +37,9 @@ tr.done td:not(.grp){opacity:.4} tr.done .ttl{text-decoration:line-through}
 .acctbox table{font-size:12px;margin-top:8px} .acctbox th{background:#fffbeb}
 .mono{font-family:monospace} .note{font-size:11px;color:#6b7280;margin-top:6px}
 .cp{cursor:pointer} .cp:hover{background:#dbeafe;border-radius:3px}
-.acc-chip{display:inline-block;background:#e0f2fe;color:#0369a1;border-radius:4px;padding:0 5px;margin:1px 2px;font-family:monospace;font-size:10px;white-space:nowrap}
-.acc-chip .uno{color:#0c4a6e;margin-left:4px;font-weight:600}
-.acc-chip.cp:hover{background:#7dd3fc;color:#fff} .acc-txt{color:#6b7280;font-size:11px}
+.acc-chip{display:block;background:#e0f2fe;color:#0369a1;border-radius:4px;padding:2px 6px;margin:2px 0;font-family:monospace;font-size:10px;word-break:break-all;line-height:1.4}
+.acc-chip .uno{display:block;color:#0c4a6e;font-weight:600}
+.acc-chip.cp:hover{background:#7dd3fc;color:#fff} .acc-txt{display:block;color:#6b7280;font-size:11px;word-break:break-all}
 #toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:8px 18px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;z-index:99999;pointer-events:none}
 #toast.show{opacity:.95}
 </style></head><body><div id=toast></div><div class=wrap>
@@ -92,12 +94,8 @@ document.addEventListener('click',function(ev){
 show();
 </script>
 <style>.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
-.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75;text-decoration:none}
-.fab:hover{opacity:1;transform:scale(1.1)}.fab svg{width:18px;height:18px}.fab-back{background:#fff;color:#555}
-.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
-.fab-top,.fab-bottom{opacity:0;pointer-events:none}.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto}</style>
+.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);opacity:.75;text-decoration:none}.fab:hover{opacity:1}.fab svg{width:18px;height:18px}.fab-back{background:#fff;color:#555}.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}.fab-top,.fab-bottom{opacity:0;pointer-events:none}.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto}</style>
 <div class="fab-group"><a class="fab fab-back" href="/html-pages/?project=ph-game" title="返回首页"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg></a>
-<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
-<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></div>
-<script>(function(){var ft=document.querySelector(".fab-top"),fb=document.querySelector(".fab-bottom");if(!ft||!fb)return;function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle("visible",st>300);fb.classList.toggle("visible",st<dh-wh-300)}window.addEventListener("scroll",ck,{passive:true});ck()})();</script>
-</body></html>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></div>
+<script>(function(){var ft=document.querySelector(".fab-top"),fb=document.querySelector(".fab-bottom");if(!ft||!fb)return;function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle("visible",st>300);fb.classList.toggle("visible",st<dh-wh-300)}window.addEventListener("scroll",ck,{passive:true});ck()})();</script></body></html>
