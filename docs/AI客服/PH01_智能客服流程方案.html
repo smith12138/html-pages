@@ -81,6 +81,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
   <div class="stat-card c-teal"><div class="num">6</div><div class="label">业务分支</div></div>
   <div class="stat-card c-blu"><div class="num">17</div><div class="label">FAQ 知识条目</div></div>
   <div class="stat-card c-grn"><div class="num">7</div><div class="label">完整流程子页</div></div>
+  <div class="stat-card c-red"><div class="num">10</div><div class="label">后端接口(建议)</div></div>
   <div class="stat-card c-ora"><div class="num">3</div><div class="label">精简 SOP 页</div></div>
   <div class="stat-card c-pur"><div class="num">6</div><div class="label">关键业务规则</div></div>
 </div>
@@ -91,8 +92,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     <li><a href="#s1">一、方案概述与关键改动</a></li>
     <li><a href="#s2">二、精简流程图（SOP）</a></li>
     <li><a href="#s3">三、完整流程图（按业务域 · 7 子页）</a></li>
-    <li><a href="#s4">四、FAQ 知识库（17 条）</a></li>
-    <li><a href="#s5">五、关键业务规则与风险点</a></li>
+    <li><a href="#sapi">四、后端接口设计（自研 · 建议稿）</a></li>
+    <li><a href="#s4">五、FAQ 知识库（17 条）</a></li>
+    <li><a href="#s5">六、关键业务规则与风险点</a></li>
   </ul>
 </div>
 
@@ -107,6 +109,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
         <p>将 17 条官方 FAQ 结构化为「意图 → 标准答复 + 操作路径」，AI 直接命中知识库给出<b>可执行步骤</b>（如 Deposit / Withdrawal / Bind Wallet 的点击路径），减少臆测与转人工。</p></div>
       <div class="chg-card c3"><h4>③ 需核实类问题分流转人工</h4>
         <p>充值/提现<b>未到账</b>、账号<b>找回/删除/改号</b>、<b>账号受限/风控</b>等需核实场景，收集 UID + 凭证截图后<b>创建工单转人工</b>，其余走 AI 自动闭环。</p></div>
+      <div class="chg-card c2"><h4>④ 用户信息查询尽量走后端接口</h4>
+        <p>PH 项目<b>自研</b>，账户状态 / 订单 / 流水 / 奖励等<b>查询类</b>问题优先调后端接口拿<b>实时状态</b>，减少让用户截图与等待；AI 一律以 <b>uid</b> 为主键调用。所需接口见第四节（<b>建议稿，待后端确认</b>）。</p></div>
     </div>
     <p style="margin-top:12px"><b>分支总览：</b>
       <span class="tag tag-acct">账户（注册/用户名/密码/删号）</span><span class="tag tag-cz">充值（GCash/Maya）</span>
@@ -149,7 +153,7 @@ flowchart TD
   E -->|优惠| F6["活动 / 彩金 / 返现"]
   E -->|意图模糊| M["发送菜单引导"]
   M --> D
-  F1 --> G["命中 FAQ 知识库<br/>给出标准答复 + 操作路径"]
+  F1 --> G["命中 FAQ 知识库 + 调后端接口取实时状态<br/>给出标准答复 + 操作路径"]
   F2 --> G
   F3 --> G
   F4 --> G
@@ -233,27 +237,30 @@ flowchart TD
   D --> WAL["④ 钱包绑定"]
   D --> BET["⑤ 投注历史"]
   D --> PRO["⑥ 优惠/彩金"]
-  ACC --> ACCn["注册·用户名·忘记密码·加登录密码·删账户"]
-  DEP --> DEPn["充值流程·充值记录·未到账核实"]
-  WD --> WDn["提现流程·提现记录·剩余流水·未到账"]
-  WAL --> WALn["绑定/解绑 GCash·Maya"]
-  BET --> BETn["Bet History 四类标签"]
-  PRO --> PROn["领取优惠·奖励历史·返现·15彩金"]
+  ACC --> ACCn["注册·用户名·忘记密码·加登录密码·删账户<br/>①玩家信息API"]
+  DEP --> DEPn["充值流程·充值记录·未到账核实<br/>②充值订单API"]
+  WD --> WDn["提现流程·提现记录·剩余流水·未到账<br/>③提现订单API + ④流水进度API"]
+  WAL --> WALn["绑定/解绑 GCash·Maya<br/>⑤绑定钱包API"]
+  BET --> BETn["Bet History 四类标签<br/>⑥投注记录API"]
+  PRO --> PROn["领取优惠·奖励历史·返现·15彩金<br/>⑦奖励记录API + ⑧活动列表API"]
 </pre></div></div>
     </div>
     <div class="branch-panel">
       <div class="branch-cap">第 1 页 · 账户（注册 / 用户名 / 忘记密码 / 加登录密码 / 删账户）</div>
       <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
 flowchart TD
-  A["账户问题"] --> B{"子类"}
+  A["账户问题"] --> API1["调用① 玩家信息API(uid)<br/>account_status/vip_level/register_time/phone_masked"]
+  API1 --> AS{"account_status?"}
+  AS -->|disabled/restricted| RS["谨慎告知账号受限<br/>转风控 不泄露细节"]
+  AS -->|active| B{"子类"}
   B -->|注册| R["输入手机号 → 设置字母+数字密码<br/>点 Register/Login<br/>提示: 核对手机号与密码避免登录问题"]
-  B -->|用户名/User ID| U["Account(右下) → Profile 顶部显示 Username<br/>下方 User ID → 点复制图标 → 发送给我方"]
+  B -->|用户名/User ID| U["①API 已返回 user_id/username<br/>或引导 Account→Profile→点复制图标"]
   B -->|忘记密码| F["登录页 Forgot? → Get Code(SMS)<br/>输入验证码 → 设新密码 → 确认 → 登录"]
   B -->|添加登录密码| P["Profile → Account → Password(Account Management)<br/>输入并再次确认 → Confirm"]
   B -->|删除账户| D["告知: 不可删除或修改注册手机号<br/>(OTP 绑定) 必须本人号码注册"]
-  F --> F1{"注册手机号能收码?"}
+  F --> F1{"报的手机号与①phone_masked一致<br/>且能收码?"}
   F1 -->|能| F2["重置成功 → 登录<br/>⚠️ 登录密码=提现密码"]
-  F1 -->|不能| F3["手机号不一致 → 身份核验 → 转人工"]
+  F1 -->|不能| F3["手机号不一致 → ⑨找回校验API → 转人工"]
 </pre></div></div>
     </div>
     <div class="branch-panel">
@@ -262,8 +269,12 @@ flowchart TD
 flowchart TD
   A["充值咨询"] --> B{"意图"}
   B -->|如何充值| G["Deposit → 选 GCash / Maya → 输入金额<br/>Continue → 完成支付 → 等待到账&余额更新"]
-  B -->|充值记录| H["Profile(右下) → Transactions<br/>查看充值记录(状态 Pending / Completed)"]
-  B -->|充值未到账| C["请求充值成功凭证截图<br/>(时间/金额/收款户/付款户/交易ID)"]
+  B -->|充值记录/未到账| API2["调用② 充值订单API(uid)<br/>status/amount/channel/create_time/txn_id"]
+  API2 --> S{"最新订单 status?"}
+  S -->|completed| SC["已到账, 引导刷新余额<br/>附 amount÷100=₱ + complete_time"]
+  S -->|pending/processing| SP["处理中, 请稍候刷新"]
+  S -->|failed/expired| SF["说明 fail_reason<br/>如已扣款请提供凭证建工单"]
+  S -->|无记录| C["请求充值成功凭证截图<br/>(时间/金额/收款户/付款户/交易ID)"]
   C --> C1{"凭证是否完整?"}
   C1 -->|完整| T["结合 UID 创建人工核实工单"]
   C1 -->|不全| C2["提示补全要素后再提交"]
@@ -276,21 +287,31 @@ flowchart TD
 flowchart TD
   A["提现咨询"] --> B{"意图"}
   B -->|如何提现| W["Profile → Withdrawal → 选/输入金额 → Continue<br/>输入登录密码验证 → Confirm → 约10分钟到账"]
-  B -->|剩余流水| R["Profile → Withdrawal 页显示 Remaining Turnover<br/>需为 ₱0 才能提现, 否则继续游戏"]
-  B -->|提现记录| H["Profile → Transactions 提现记录(Pending/Completed)"]
-  B -->|无法提现| N{"失败原因"}
-  N -->|流水未完成| N1["告知还需完成的流水金额"]
-  N -->|信息/密码错误| N2["核对账户信息与提现(=登录)密码"]
-  B -->|提现未到账·超10min| E["收集 UID+提现成功截图<br/>转风控/人工核实"]
+  B -->|剩余流水/无法提现| API4["调用④ 流水进度API(uid)<br/>required/completed/remaining/can_withdraw"]
+  API4 --> TR{"can_withdraw?"}
+  TR -->|false| TRN["告知还需完成流水 remaining ₱<br/>引导继续游戏"]
+  TR -->|true| TRY["流水已达标, 引导发起提现"]
+  B -->|提现记录/未到账| API3["调用③ 提现订单API(uid)<br/>status/amount/review_time/reject_reason"]
+  API3 --> WS{"status?"}
+  WS -->|completed| WSC["已到账, 刷新钱包确认"]
+  WS -->|pending_review/reviewing| WSR["审核中, 告知时效"]
+  WS -->|approved/processing| WSP["出款中, 约10分钟"]
+  WS -->|rejected| WSJ["未通过(reject_reason)<br/>已退回余额/说明原因"]
+  WS -->|manual_review| WSM["人工复审 → 转风控/人工"]
+  WS -->|超10min仍processing| E["收集 UID+成功截图 → 转风控核实"]
 </pre></div></div>
     </div>
     <div class="branch-panel">
       <div class="branch-cap">第 4 页 · 钱包绑定 / 解绑（GCash / Maya）</div>
       <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
 flowchart TD
-  A["钱包操作"] --> B{"操作类型"}
+  A["钱包操作"] --> API5["调用⑤ 绑定钱包API(uid)<br/>已绑定 type/account_masked/status"]
+  API5 --> B{"操作类型"}
   B -->|绑定| BF["Profile → Bank tab → Add Withdrawal Account<br/>选 GCash/Maya → 输入注册手机号<br/>输入登录密码验证 → Submit"]
   B -->|解绑| UN["Profile → Bank tab → Unbind<br/>输入登录密码验证 → Submit"]
+  B -->|提现前查是否已绑| CK{"⑤API 显示已绑钱包?"}
+  CK -->|否| BF
+  CK -->|是| OK["已绑定, 可直接提现"]
   BF --> V{"手机号/信息校验通过?"}
   V -->|通过| VS["绑定成功"]
   V -->|不通过| VF["提示信息不符, 核对后重试"]
@@ -300,14 +321,14 @@ flowchart TD
       <div class="branch-cap">第 5 页 · 投注历史（Bet History）</div>
       <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
 flowchart TD
-  A["查看投注历史"] --> B["点 Profile/Account 图标"]
-  B --> C["选择 Bet History"]
-  C --> D{"选择标签"}
-  D -->|Settled| S["已结算注单"]
+  A["查看投注历史"] --> API6["调用⑥ 投注记录API(uid,type)<br/>bet_id/game/stake/status/payout/bet_time"]
+  API6 --> D{"type 标签"}
+  D -->|Settled| S["已结算注单(附 payout)"]
   D -->|Unsettled| U["未结算注单"]
   D -->|Cancelled| X["已取消注单"]
   D -->|Promos| P["活动/彩金相关注单"]
-  S --> E["截图选中页发我方核实"]
+  A --> ALT["或引导用户: Profile→Bet History→选标签→截图"]
+  S --> E["如有争议 → 收集UID+注单 → 转人工核实"]
   U --> E
   X --> E
   P --> E
@@ -318,12 +339,16 @@ flowchart TD
       <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
 flowchart TD
   A["优惠咨询"] --> B{"子类"}
-  B -->|查看/领取优惠| P["打开网站 → Promotions → 浏览优惠<br/>选择查看详情 → 按说明参与"]
-  B -->|奖励历史| R["Account → Transactions → Reward tab<br/>查看奖励(Claimed / Successful)"]
-  B -->|返现是否到账| C["点顶部通知铃 → Inbox/Notification<br/>找 'Reward credited' 消息, 金额在通知中"]
-  B -->|15 免费彩金| F["注册 NUSTAR Play → 合格充值 → 领 ₱15<br/>完成 10x 流水 → 提现"]
-  F --> Q{"资格校验"}
-  Q -->|独立IP+设备·一人一号| QP["合格"]
+  B -->|查看/领取优惠| API8["调用⑧ 活动列表API(status=active)<br/>name/type/conditions/valid_period"]
+  API8 --> PP["说明可参与活动与条件<br/>或引导 Promotions 页"]
+  B -->|奖励历史/返现/彩金未到| API7["调用⑦ 奖励记录API(uid,category)<br/>activity_name/amount/status/claim_time"]
+  API7 --> RS{"status?"}
+  RS -->|credited/claimed| RC["已发放: 附金额÷100=₱ + claim_time"]
+  RS -->|pending| RP["待领取/未达条件<br/>引导领取或补足条件"]
+  RS -->|无记录| RN["未参与/不符; 确属异常 → 建工单"]
+  B -->|15 免费彩金| F["注册 → 合格充值 → 领 ₱15<br/>10x 流水(④API查进度) → 提现"]
+  F --> Q{"资格校验(一人一号/独立IP设备)"}
+  Q -->|合格| QP["可领取"]
   Q -->|多开/同IP同设备| QN["不合格"]
 </pre></div></div>
     </div>
@@ -331,8 +356,48 @@ flowchart TD
   <div class="fchint">提示：切换上方标签查看不同业务域；「全屏查看」进入大图模式（可缩放）。</div>
 </div>
 
+<div class="sec" id="sapi">
+  <div class="sec-head"><h2>四、后端接口设计（自研 · 建议稿）</h2><div class="desc">PH 项目为自研，用户信息与订单状态尽量走后端接口查询；以下为 AI 客服所需接口清单，待与后端确认字段与认证</div></div>
+  <div class="sec-body">
+    <div class="tip"><b>设计原则：</b>① 所有「查询类」问题优先调后端接口拿<b>实时状态</b>，减少让用户截图/等待；② UID 由插件携带，接口一律以 <code>uid</code> 为主键；③ 以<b>只读查询</b>为主，写操作（建工单）单列并需人工介入；④ 金额单位<b>分</b>（÷100=₱），时间 <b>UTC/ISO8601</b> → 马尼拉时区（UTC+8, PHT）展示，订单号/手机号/钱包号等敏感字段<b>脱敏</b>。</div>
+    <div class="warn"><b>认证（建议，待后端确认）：</b>服务间调用建议 <code>app_id + timestamp + sign</code> 签名（HMAC-SHA256，服务端校验 ±5 分钟防重放）；或内网服务令牌。以后端实际方案为准。</div>
+    <p style="font-weight:600;color:#1e3a5f;margin:14px 0 4px">接口清单　Base：<code>https://{ph-domain}/api/cs/v1</code></p>
+    <table class="stbl">
+      <tr><th style="width:150px">接口</th><th>请求</th><th>关键返回字段</th><th style="width:150px">用于流程节点</th></tr>
+      <tr><td><b>① 玩家信息</b><br><span class="tag tag-acct">账户</span> <span class="tag tag-tx">P0</span></td><td><code>GET /player/profile?uid=</code></td>
+        <td><code>user_id</code> · <code>username</code> · <code>phone_masked</code> · <code>account_status</code>(active/disabled/restricted) · <code>vip_level</code> · <code>register_time</code> · <code>real_name_verified</code></td><td>账户分流 / 找回 / 手机号比对</td></tr>
+      <tr><td><b>② 充值订单</b><br><span class="tag tag-cz">充值</span> <span class="tag tag-tx">P0</span></td><td><code>GET /deposit/orders?uid=&amp;status=</code><br>分页 page/page_size</td>
+        <td><code>order_id</code> · <code>amount</code>(分) · <code>channel</code>(gcash/maya) · <code>status</code> · <code>create_time</code> · <code>complete_time</code> · <code>txn_id_masked</code> · <code>fail_reason</code></td><td>充值记录 / 未到账分流</td></tr>
+      <tr><td><b>③ 提现订单</b><br><span class="tag tag-tx">提现</span> <span class="tag tag-tx">P0</span></td><td><code>GET /withdraw/orders?uid=&amp;status=</code><br>分页 page/page_size</td>
+        <td><code>order_id</code> · <code>amount</code>(分) · <code>status</code> · <code>create_time</code> · <code>review_time</code> · <code>complete_time</code> · <code>wallet_masked</code> · <code>reject_reason</code></td><td>提现状态 / 未到账</td></tr>
+      <tr><td><b>④ 流水进度</b><br><span class="tag tag-tx">提现</span> <span class="tag tag-tx">P0</span></td><td><code>GET /turnover/status?uid=</code></td>
+        <td><code>required</code>(分) · <code>completed</code>(分) · <code>remaining</code>(分) · <code>can_withdraw</code>(bool) · <code>sources[]</code>(deposit/bonus 及各自倍数)</td><td>剩余流水 / 能否提现 / 15彩金进度</td></tr>
+      <tr><td><b>⑤ 绑定钱包</b><br><span class="tag tag-cpf">钱包</span> <span class="tag tag-tx">P0</span></td><td><code>GET /wallet/bindings?uid=</code></td>
+        <td><code>bindings[]</code>：<code>type</code>(gcash/maya) · <code>account_masked</code> · <code>bind_time</code> · <code>status</code></td><td>提现前置 / 绑定核对</td></tr>
+      <tr><td><b>⑥ 投注记录</b><br><span class="tag tag-game">投注</span> <span class="tag tag-cpf">P1</span></td><td><code>GET /bet/history?uid=&amp;type=</code><br>type=settled/unsettled/cancelled/promos</td>
+        <td><code>bet_id</code> · <code>game</code> · <code>stake</code>(分) · <code>status</code> · <code>payout</code>(分) · <code>bet_time</code> · <code>settle_time</code></td><td>投注历史 / 注单争议</td></tr>
+      <tr><td><b>⑦ 奖励/返现记录</b><br><span class="tag tag-act">优惠</span> <span class="tag tag-tx">P0</span></td><td><code>GET /bonus/records?uid=&amp;category=&amp;activity_key=</code></td>
+        <td><code>bonus_id</code> · <code>activity_name</code> · <code>category</code>(cashback/promo/free_bonus_15/commission) · <code>amount</code>(分) · <code>status</code>(pending/claimed/credited) · <code>claim_time</code> · <code>turnover_multiplier</code></td><td>奖励历史 / 返现 / 彩金未到</td></tr>
+      <tr><td><b>⑧ 优惠活动列表</b><br><span class="tag tag-act">优惠</span> <span class="tag tag-cpf">P1</span></td><td><code>GET /promotions?status=active</code></td>
+        <td><code>promo_id</code> · <code>name</code> · <code>type</code> · <code>conditions</code>(充值/流水/注册要求) · <code>valid_from</code> · <code>valid_to</code></td><td>领取优惠 / 资格判断</td></tr>
+      <tr><td><b>⑨ 账户找回校验</b><br><span class="tag tag-acct">账户</span> <span class="tag tag-cpf">P1</span></td><td><code>POST /player/verify</code><br>{ phone, extra }</td>
+        <td><code>match</code>(bool) · <code>candidates_masked[]</code>（<b>敏感·限流+审计</b>，命中仍须转人工完成身份核验）</td><td>忘记账号 / 找回 / 改号核验</td></tr>
+      <tr><td><b>⑩ 创建工单</b><br><span class="tag tag-api">处置</span> <span class="tag tag-tx">P0</span></td><td><code>POST /ticket</code><br>{ uid, type, context, evidence[] }</td>
+        <td><code>ticket_id</code> · <code>status</code>（写操作，转人工/核实统一入口，附上下文与凭证 URL）</td><td>转人工 / 未到账核实</td></tr>
+    </table>
+    <p style="margin-top:12px"><b>充值订单状态（status）：</b>
+      <span class="tag tag-cz">pending 待支付</span><span class="tag tag-cz">processing 处理中</span><span class="tag tag-cz">completed 已到账</span><span class="tag tag-cz">failed 失败</span><span class="tag tag-cz">expired 已过期</span>
+      <span class="tag tag-cz">fail_reason: gateway_timeout / amount_mismatch / duplicate / cancelled</span></p>
+    <p><b>提现订单状态（status）：</b>
+      <span class="tag tag-tx">pending_review 待审核</span><span class="tag tag-tx">reviewing 审核中</span><span class="tag tag-tx">approved 审核通过</span><span class="tag tag-tx">processing 出款中</span><span class="tag tag-tx">completed 已到账</span><span class="tag tag-tx">rejected 已退回</span><span class="tag tag-tx">manual_review 人工复审</span>
+      <span class="tag tag-tx">reject_reason: insufficient_turnover / info_mismatch / risk_review / limit_exceeded</span></p>
+    <div class="note">通用约定：分页 <code>page</code>/<code>page_size</code>（≤100）；金额分→元 ÷100 展示（₱xx.xx）；时间 UTC→马尼拉时区；错误码 <code>0</code> 成功 / <code>401</code> 未认证 / <code>403</code> 无权限或签名失败 / <code>404</code> 资源不存在 / <code>500</code> 服务器错误。查询失败或超时，AI 走「系统繁忙，正在为您加急核实」兜底并按需转人工，<b>不卡死无回复</b>。</div>
+    <div class="warn"><b>说明：</b>本节为<b>建议稿</b>，接口路径 / 字段 / 认证方式均需与后端对齐；PH01–PH10 若共用同一后端，建议 <code>uid</code> 之外带 <code>platform_id/product_id</code> 以区分产品线。</div>
+  </div>
+</div>
+
 <div class="sec" id="s4">
-  <div class="sec-head"><h2>四、FAQ 知识库（17 条）</h2><div class="desc">官方 FAQ 结构化 · 意图 / 标准答复要点 / 操作路径 / 处置方式</div></div>
+  <div class="sec-head"><h2>五、FAQ 知识库（17 条）</h2><div class="desc">官方 FAQ 结构化 · 意图 / 标准答复要点 / 操作路径 / 处置方式</div></div>
   <div class="sec-body">
     <table class="stbl">
       <tr><th style="width:90px">分类</th><th style="width:150px">问题（Q）</th><th>标准答复要点 / 操作路径</th><th style="width:90px">处置</th></tr>
@@ -359,7 +424,7 @@ flowchart TD
 </div>
 
 <div class="sec" id="s5">
-  <div class="sec-head"><h2>五、关键业务规则与风险点</h2><div class="desc">测试预期与话术须严格遵循以下口径</div></div>
+  <div class="sec-head"><h2>六、关键业务规则与风险点</h2><div class="desc">测试预期与话术须严格遵循以下口径</div></div>
   <div class="sec-body">
     <table class="stbl">
       <tr><th style="width:170px">规则</th><th>口径</th><th style="width:90px">风险级</th></tr>
