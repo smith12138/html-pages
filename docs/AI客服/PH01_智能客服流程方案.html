@@ -459,10 +459,20 @@ flowchart TD
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <script>
 mermaid.initialize({startOnLoad:false,theme:'neutral',securityLevel:'loose',flowchart:{useMaxWidth:false,htmlLabels:true}});
-mermaid.run();
+// 关键：mermaid 用 htmlLabels 渲染含多行(<br/>)标签的图时，若容器是 display:none(非激活标签页)
+// 无法测量文本尺寸 → 报 "Syntax error"。故采用「按需渲染」：只在面板可见时渲染其图。
+function renderPanel(panel){
+  if(!panel)return;
+  var pre=panel.querySelector('pre.mermaid');
+  if(pre&&pre.getAttribute('data-processed')!=='true'){
+    try{mermaid.run({nodes:[pre]});}catch(e){console.warn('mermaid render',e);}
+  }
+}
+// 加载时渲染各分组当前激活(可见)的面板
+document.querySelectorAll('.branch-panel.active').forEach(renderPanel);
 
-// 标签切换
-function showTab(tab){var g=tab.closest('.branch-group');var ts=[].slice.call(g.querySelectorAll('.branch-tab')),ps=[].slice.call(g.querySelectorAll('.branch-panel'));var idx=ts.indexOf(tab);ts.forEach(function(t,i){t.classList.toggle('active',i==idx)});ps.forEach(function(p,i){p.classList.toggle('active',i==idx)});}
+// 标签切换：切到目标面板后，若其图尚未渲染则此刻渲染(此时已可见)
+function showTab(tab){var g=tab.closest('.branch-group');var ts=[].slice.call(g.querySelectorAll('.branch-tab')),ps=[].slice.call(g.querySelectorAll('.branch-panel'));var idx=ts.indexOf(tab);ts.forEach(function(t,i){t.classList.toggle('active',i==idx)});ps.forEach(function(p,i){p.classList.toggle('active',i==idx)});renderPanel(ps[idx]);}
 // 内嵌缩放（作用于当前面板 .dg-inner）
 function dgInner(btn){var g=btn.closest('.branch-group');if(g)return g.querySelector('.branch-panel.active .dg-inner');return btn.closest('.fc-container').querySelector('.dg-inner');}
 function dgLbl(btn,z){var l=btn.closest('.fc-toolbar').querySelector('.zlbl');if(l)l.textContent=Math.round(z*100)+'%';}
