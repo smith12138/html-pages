@@ -106,6 +106,24 @@
           "tags": [
             "TT包网"
           ]
+        },
+        {
+          "file": "docs/AI客服/PH01_智能客服流程方案.html",
+          "title": "PH01_智能客服流程方案",
+          "category": "flow",
+          "date": "2026-08-17",
+          "tags": [
+            "PH01"
+          ]
+        },
+        {
+          "file": "docs/AI客服/PH01_智能客服测试用例.html",
+          "title": "PH01_智能客服测试用例",
+          "category": "testcase",
+          "date": "2026-08-17",
+          "tags": [
+            "PH01"
+          ]
         }
       ]
     },
