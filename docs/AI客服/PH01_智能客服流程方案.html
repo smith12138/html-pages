@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PH01 · 智能客服流程方案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.7;padding:24px}
+.container{max-width:1180px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1e3a5f,#0d7377);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:24px;box-shadow:0 6px 20px rgba(30,58,95,.3)}
+.header h1{font-size:26px;margin-bottom:6px}.header .sub{font-size:15px;opacity:.9;margin-bottom:16px}
+.header .meta-row{display:flex;gap:24px;font-size:13px;opacity:.8;flex-wrap:wrap}
+.stats{display:flex;gap:14px;margin-bottom:24px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:120px;background:#fff;padding:18px;border-radius:10px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.stat-card .num{font-size:30px;font-weight:700}.stat-card .label{font-size:12px;color:#888;margin-top:4px}
+.c-red .num{color:#e74c3c}.c-ora .num{color:#e67e22}.c-blu .num{color:#2980b9}.c-grn .num{color:#27ae60}.c-pur .num{color:#8e44ad}.c-teal .num{color:#0d7377}
+.toc{background:#fff;border-radius:12px;padding:22px 28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-left:5px solid #1e3a5f}
+.toc h2{font-size:17px;color:#1e3a5f;margin-bottom:12px}
+.toc ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:4px 28px}.toc li{padding:4px 0}.toc a{color:#2980b9;text-decoration:none;font-size:14px;font-weight:500}.toc a:hover{text-decoration:underline}
+.sec{background:#fff;border-radius:12px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden}
+.sec-head{padding:18px 28px 12px;border-bottom:1px solid #f0f0f0}.sec-head h2{font-size:18px;font-weight:700;color:#1e3a5f}.sec-head .desc{font-size:13px;color:#888;margin-top:4px}
+.sec-body{padding:20px 28px}.sec-body p{font-size:14px;color:#444;margin-bottom:10px}
+.chg{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0}
+.chg-card{flex:1;min-width:240px;border-radius:10px;padding:16px 18px;border:1px solid #eee}
+.chg-card.c1{background:#e7f6f7;border-color:#9fd9dd}.chg-card.c2{background:#eef4fb;border-color:#bcd6ef}.chg-card.c3{background:#fdf2e9;border-color:#f5cfa6}
+.chg-card h4{font-size:14px;margin-bottom:6px;color:#16607a}.chg-card.c2 h4{color:#1f5f9e}.chg-card.c3 h4{color:#b8690b}
+.chg-card p{font-size:12.5px;color:#555;margin:0}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:10px;margin:0 4px 4px 0}
+.tag-cz{background:#dae8fc;color:#1a6fb5}.tag-tx{background:#f8cecc;color:#c0392b}.tag-cpf{background:#fff2cc;color:#b8860b}.tag-acct{background:#d5e8d4;color:#2d7600}.tag-game{background:#eee;color:#555}.tag-act{background:#ffe6cc;color:#b8690b}.tag-api{background:#d4f0f0;color:#0e8088}
+.stbl{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}.stbl th{background:#f4f7fa;padding:9px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dce4ec;font-size:12px;color:#555}.stbl td{padding:9px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top;line-height:1.6}.stbl tr:hover{background:#fafbfc}.stbl code{background:#eef3f8;color:#1f5f9e;padding:1px 6px;border-radius:4px;font-family:"SF Mono",Consolas,monospace;font-size:12px}
+.fc-container{background:#fff;border-radius:12px;padding:22px 24px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.fc-container h2{font-size:18px;margin-bottom:4px;color:#1e3a5f}.fc-container .fcsub{font-size:13px;color:#888;margin-bottom:12px}
+.fc-toolbar{display:flex;gap:8px;align-items:center;margin:10px 0;padding:8px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap}
+.fc-toolbar button{padding:6px 14px;border:1px solid #ddd;border-radius:6px;background:#f8f9fa;cursor:pointer;font-size:13px;font-weight:500}.fc-toolbar button:hover{background:#e8edf2;border-color:#bbb}
+.fc-toolbar button.btn{background:#0d7377;color:#fff;border:0}.fc-toolbar button.btn:hover{background:#0a5a5d;border:0}
+.fc-toolbar .zlbl{font-size:13px;color:#666;min-width:48px;text-align:center}
+.dg-viewport{overflow:auto;border:1px solid #e8e8e8;border-radius:8px;background:#fcfcfc;position:relative;cursor:grab;max-height:680px;padding:16px}.dg-viewport:active{cursor:grabbing}
+.dg-inner{transform-origin:0 0;transition:transform .08s;display:inline-block;min-width:100%}
+.dg-inner .mermaid{display:flex;justify-content:center}
+.fchint{font-size:12px;color:#aaa;margin-top:6px}
+.branch-group{margin:10px 0;border:1px solid #eee;border-radius:10px;overflow:hidden}
+.branch-tab-bar{display:flex;background:#f6f8fa;border-bottom:1px solid #e8e8e8;flex-wrap:wrap}
+.branch-tab{padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;color:#666}.branch-tab:hover{background:#eef2f7}.branch-tab.active{border-bottom-color:#0d7377;color:#0d7377;background:#fff}
+.branch-panel{display:none}.branch-panel.active{display:block}
+.branch-cap{font-size:12.5px;color:#888;padding:8px 14px 0}
+.btn{display:inline-flex;align-items:center;gap:6px;background:#0d7377;color:#fff;text-decoration:none;padding:9px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:0}.btn:hover{background:#0a5a5d}
+.note{background:#f9f9f9;border-left:3px solid #999;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:12.5px;color:#666}
+.tip{background:#edf7ff;border-left:3px solid #2980b9;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px}
+.warn{background:#fff4f4;border-left:3px solid #e74c3c;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#7c2d2d}
+.footer{text-align:center;padding:22px;color:#bbb;font-size:12px}
+.fab{position:fixed;right:22px;bottom:26px;width:46px;height:46px;border-radius:50%;background:#fff;border:1px solid #e0e0e0;box-shadow:0 2px 12px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;color:#555;text-decoration:none;font-size:20px;opacity:.85}.fab:hover{opacity:1;transform:scale(1.08)}
+.viewer{display:none;position:fixed;inset:0;background:rgba(22,24,30,.93);z-index:99999;cursor:grab;overflow:auto;padding:40px}
+.viewer.active{display:block}
+.viewer .vinner{transform-origin:0 0;display:inline-block;background:#fff;border-radius:6px;padding:24px;box-shadow:0 8px 50px rgba(0,0,0,.55)}
+.vtoolbar{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;gap:5px;align-items:center;background:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.35);padding:7px 9px;z-index:100001}
+.vtoolbar button{border:0;background:#f1f3f5;border-radius:8px;width:36px;height:36px;font-size:17px;cursor:pointer;color:#333;line-height:1}.vtoolbar button:hover{background:#e2e6ea}
+.vtoolbar .vzlbl{min-width:56px;text-align:center;font-size:13px;color:#444;font-weight:600}
+.vclose{position:fixed;top:18px;right:22px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);border:0;font-size:22px;cursor:pointer;z-index:100001;box-shadow:0 2px 12px rgba(0,0,0,.35);color:#333}
+.vtitle{position:fixed;top:22px;left:24px;color:#fff;font-size:14px;opacity:.85;z-index:100001}
+@media(max-width:768px){body{padding:12px}.stats{flex-direction:column}.chg{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>PH01 · 智能客服流程方案</h1>
+  <div class="sub">Salesmartly 插件接入（PH01 · project 770364 / channel 796065）· FAQ 知识库驱动 · 精简 SOP 与完整工作流</div>
+  <div class="meta-row">
+    <span>● 渠道：PH 菲律宾市场 · Salesmartly 在线插件</span>
+    <span>● 支付：GCash / Maya（Paymaya）· 货币 PHP（₱）</span>
+    <span>● 语言：English / Tagalog</span>
+    <span>● 来源：FAQ 知识库（17 条）+ 客服 SOP</span>
+    <span>● 更新：2026-08-17</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat-card c-teal"><div class="num">6</div><div class="label">业务分支</div></div>
+  <div class="stat-card c-blu"><div class="num">17</div><div class="label">FAQ 知识条目</div></div>
+  <div class="stat-card c-grn"><div class="num">7</div><div class="label">完整流程子页</div></div>
+  <div class="stat-card c-ora"><div class="num">3</div><div class="label">精简 SOP 页</div></div>
+  <div class="stat-card c-pur"><div class="num">6</div><div class="label">关键业务规则</div></div>
+</div>
+
+<div class="toc">
+  <h2>目录</h2>
+  <ul>
+    <li><a href="#s1">一、方案概述与关键改动</a></li>
+    <li><a href="#s2">二、精简流程图（SOP）</a></li>
+    <li><a href="#s3">三、完整流程图（按业务域 · 7 子页）</a></li>
+    <li><a href="#s4">四、FAQ 知识库（17 条）</a></li>
+    <li><a href="#s5">五、关键业务规则与风险点</a></li>
+  </ul>
+</div>
+
+<div class="sec" id="s1">
+  <div class="sec-head"><h2>一、方案概述与关键改动</h2><div class="desc">基于 PH01 项目 FAQ 知识库，针对菲律宾市场（Salesmartly 接入）的智能客服流程</div></div>
+  <div class="sec-body">
+    <p>本方案面向 <b>PH01 项目</b>（通过 Salesmartly 在线插件接入，project <code>770364</code> / channel <code>796065</code>）的菲律宾市场智能客服场景，以官方 FAQ（17 条）为知识底座，重做接待与处置 SOP。与巴西 TT 包网方案的主要差异如下：</p>
+    <div class="chg">
+      <div class="chg-card c1"><h4>① 支付/货币/语言本地化</h4>
+        <p>支付渠道为 <b>GCash / Maya（Paymaya）</b>（非 PIX/SPEI）；货币为 <b>PHP（₱）</b>；界面与话术为 <b>English / Tagalog</b>。注册采用 <b>手机号 + OTP</b> 验证。</p></div>
+      <div class="chg-card c2"><h4>② FAQ 知识库驱动</h4>
+        <p>将 17 条官方 FAQ 结构化为「意图 → 标准答复 + 操作路径」，AI 直接命中知识库给出<b>可执行步骤</b>（如 Deposit / Withdrawal / Bind Wallet 的点击路径），减少臆测与转人工。</p></div>
+      <div class="chg-card c3"><h4>③ 需核实类问题分流转人工</h4>
+        <p>充值/提现<b>未到账</b>、账号<b>找回/删除/改号</b>、<b>账号受限/风控</b>等需核实场景，收集 UID + 凭证截图后<b>创建工单转人工</b>，其余走 AI 自动闭环。</p></div>
+    </div>
+    <p style="margin-top:12px"><b>分支总览：</b>
+      <span class="tag tag-acct">账户（注册/用户名/密码/删号）</span><span class="tag tag-cz">充值（GCash/Maya）</span>
+      <span class="tag tag-tx">提现（流水/到账）</span><span class="tag tag-cpf">钱包绑定/解绑</span>
+      <span class="tag tag-game">投注历史</span><span class="tag tag-act">优惠/彩金/返现</span></p>
+    <div class="tip"><b>UID 自动携带：</b>前端在 Salesmartly 插件初始化时携带 <b>用户ID(UID)+平台</b>，我方后台经 <b>Webhook 解析</b>绑定会话；AI 收集环节直接复用 UID，无需向用户索要账户ID；插件未携带时降级引导用户提供手机号 / User ID 核验。</div>
+    <div class="warn"><b>⚠️ 高风险规则（须在话术与测试中重点覆盖）：</b>官方 FAQ 明确「<b>登录密码 = 提现密码（login Password is same to WITHDRAWAL PASSWORD）</b>」。绑卡/解绑/提现均以该密码校验，属安全敏感点；AI 不得在会话中索取或回显密码，仅引导用户自行操作。</div>
+  </div>
+</div>
+
+<div class="fc-container" id="s2">
+  <h2>二、精简流程图（SOP）</h2>
+  <div class="fcsub">全局接待与处置 SOP（Salesmartly 接入版）· 3 页：操作 SOP + 意图分类映射 + 转人工/核实判定</div>
+  <div class="branch-group">
+    <div class="branch-tab-bar">
+      <div class="branch-tab active" onclick="showTab(this)">操作 SOP 流程</div>
+      <div class="branch-tab" onclick="showTab(this)">意图分类映射</div>
+      <div class="branch-tab" onclick="showTab(this)">转人工 / 核实判定</div>
+    </div>
+    <div class="fc-toolbar">
+      <button onclick="zoom(this,0.83)">－ 缩小</button><span class="zlbl">100%</span>
+      <button onclick="zoom(this,1.2)">＋ 放大</button><button onclick="zreset(this)">重置</button>
+      <button class="btn" onclick="openViewerBtn(this)" style="margin-left:auto;padding:6px 14px">⛶ 全屏查看</button>
+    </div>
+    <div class="branch-panel active">
+      <div class="branch-cap">操作 SOP · 全局接待流程（插件进线 → UID 绑定 → 意图识别 → 分流 → 闭环）</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart TD
+  A["用户经 Salesmartly 插件(PH01)进线"] --> B{"插件是否携带 UID?"}
+  B -- 是 --> C["Webhook 解析 UID+平台<br/>自动绑定会话"]
+  B -- 否 --> B1["降级: 引导提供<br/>手机号 / User ID 核验"]
+  B1 --> C
+  C --> D["LLM 识别意图"]
+  D --> E{"问题分类"}
+  E -->|账户| F1["账户流程<br/>注册/用户名/密码/删号"]
+  E -->|充值| F2["充值流程<br/>GCash / Maya"]
+  E -->|提现| F3["提现流程<br/>流水 / 到账"]
+  E -->|钱包| F4["绑定 / 解绑钱包"]
+  E -->|投注| F5["投注历史"]
+  E -->|优惠| F6["活动 / 彩金 / 返现"]
+  E -->|意图模糊| M["发送菜单引导"]
+  M --> D
+  F1 --> G["命中 FAQ 知识库<br/>给出标准答复 + 操作路径"]
+  F2 --> G
+  F3 --> G
+  F4 --> G
+  F5 --> G
+  F6 --> G
+  G --> H{"是否需人工核实?<br/>未到账 / 找回删号 / 风控"}
+  H -- 是 --> I["收集 UID+截图<br/>创建工单 → 转人工"]
+  H -- 否 --> J["AI 自动闭环回复"]
+  I --> K{"问题是否解决?"}
+  J --> K
+  K -- 已解决 --> L["礼貌结束 / 满意度"]
+  K -- 未解决 --> D
+</pre></div></div>
+    </div>
+    <div class="branch-panel">
+      <div class="branch-cap">意图分类映射 · FAQ（17 条）→ 六大业务域 intent</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart LR
+  ACC["账户 account"] --> a1["注册 register"]
+  ACC --> a2["用户名/User ID get_userid"]
+  ACC --> a3["忘记密码 forgot_password"]
+  ACC --> a4["添加登录密码 add_login_password"]
+  ACC --> a5["删除账户 delete_account"]
+  DEP["充值 deposit"] --> d1["如何充值 deposit_how"]
+  DEP --> d2["充值记录 deposit_history"]
+  WD["提现 withdraw"] --> w1["如何提现 withdraw_how"]
+  WD --> w2["提现记录 withdraw_history"]
+  WD --> w3["剩余流水 remaining_turnover"]
+  WAL["钱包 wallet"] --> b1["绑定钱包 bind_wallet"]
+  WAL --> b2["解绑钱包 remove_wallet"]
+  BET["投注 bet"] --> t1["投注历史 bet_history"]
+  PRO["优惠 promotion"] --> p1["领取优惠 claim_promotion"]
+  PRO --> p2["奖励历史 reward_history"]
+  PRO --> p3["返现是否到账 cashback_check"]
+  PRO --> p4["15 免费彩金 free_bonus_15"]
+</pre></div></div>
+    </div>
+    <div class="branch-panel">
+      <div class="branch-cap">转人工 / 核实判定 · 标准答复后的分流决策</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart TD
+  X["已给出 FAQ 标准答复"] --> Y{"场景判定"}
+  Y -->|充值未到账·无订单| H1["请求充值成功凭证<br/>结合UID建工单核实"]
+  Y -->|提现未到账·超10min| H2["收集UID+成功截图<br/>转风控/人工核实"]
+  Y -->|账号找回/删除/改号| H3["身份核验(手机/User ID)<br/>转人工"]
+  Y -->|账号受限/风控| H4["谨慎告知<br/>转风控 不泄露细节"]
+  Y -->|疑似诈骗/非官方链接| H5["警示勿点链接/转账<br/>不引导按该消息操作"]
+  Y -->|一般 FAQ| H6["AI 自动闭环<br/>无需转人工"]
+</pre></div></div>
+    </div>
+  </div>
+  <div class="fchint">提示：切换上方标签查看 SOP / 意图映射 / 转人工判定；工具栏可缩放，「全屏查看」进入大图模式。</div>
+</div>
+
+<div class="fc-container" id="s3">
+  <h2>三、完整流程图（按业务域 · 7 子页）</h2>
+  <div class="fcsub">按 6 大业务域 + 总览拆分，切换标签查看各分支的详细操作路径（均源自官方 FAQ）</div>
+  <div class="branch-group">
+    <div class="branch-tab-bar">
+      <div class="branch-tab active" onclick="showTab(this)">0 总览</div>
+      <div class="branch-tab" onclick="showTab(this)">1 账户</div>
+      <div class="branch-tab" onclick="showTab(this)">2 充值</div>
+      <div class="branch-tab" onclick="showTab(this)">3 提现</div>
+      <div class="branch-tab" onclick="showTab(this)">4 钱包绑定</div>
+      <div class="branch-tab" onclick="showTab(this)">5 投注</div>
+      <div class="branch-tab" onclick="showTab(this)">6 优惠</div>
+    </div>
+    <div class="fc-toolbar">
+      <button onclick="zoom(this,0.83)">－ 缩小</button><span class="zlbl">100%</span>
+      <button onclick="zoom(this,1.2)">＋ 放大</button><button onclick="zreset(this)">重置</button>
+      <button class="btn" onclick="openViewerBtn(this)" style="margin-left:auto;padding:6px 14px">⛶ 全屏查看</button>
+    </div>
+    <div class="branch-panel active">
+      <div class="branch-cap">第 0 页 · 业务域总览与入口分类</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart TD
+  U["用户进线(插件PH01)"] --> D["意图识别"]
+  D --> ACC["① 账户"]
+  D --> DEP["② 充值"]
+  D --> WD["③ 提现"]
+  D --> WAL["④ 钱包绑定"]
+  D --> BET["⑤ 投注历史"]
+  D --> PRO["⑥ 优惠/彩金"]
+  ACC --> ACCn["注册·用户名·忘记密码·加登录密码·删账户"]
+  DEP --> DEPn["充值流程·充值记录·未到账核实"]
+  WD --> WDn["提现流程·提现记录·剩余流水·未到账"]
+  WAL --> WALn["绑定/解绑 GCash·Maya"]
+  BET --> BETn["Bet History 四类标签"]
+  PRO --> PROn["领取优惠·奖励历史·返现·15彩金"]
+</pre></div></div>
+    </div>
+    <div class="branch-panel">
+      <div class="branch-cap">第 1 页 · 账户（注册 / 用户名 / 忘记密码 / 加登录密码 / 删账户）</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart TD
+  A["账户问题"] --> B{"子类"}
+  B -->|注册| R["输入手机号 → 设置字母+数字密码<br/>点 Register/Login<br/>提示: 核对手机号与密码避免登录问题"]
+  B -->|用户名/User ID| U["Account(右下) → Profile 顶部显示 Username<br/>下方 User ID → 点复制图标 → 发送给我方"]
+  B -->|忘记密码| F["登录页 Forgot? → Get Code(SMS)<br/>输入验证码 → 设新密码 → 确认 → 登录"]
+  B -->|添加登录密码| P["Profile → Account → Password(Account Management)<br/>输入并再次确认 → Confirm"]
+  B -->|删除账户| D["告知: 不可删除或修改注册手机号<br/>(OTP 绑定) 必须本人号码注册"]
+  F --> F1{"注册手机号能收码?"}
+  F1 -->|能| F2["重置成功 → 登录<br/>⚠️ 登录密码=提现密码"]
+  F1 -->|不能| F3["手机号不一致 → 身份核验 → 转人工"]
+</pre></div></div>
+    </div>
+    <div class="branch-panel">
+      <div class="branch-cap">第 2 页 · 充值（GCash / Maya · 流程 / 记录 / 未到账）</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart TD
+  A["充值咨询"] --> B{"意图"}
+  B -->|如何充值| G["Deposit → 选 GCash / Maya → 输入金额<br/>Continue → 完成支付 → 等待到账&余额更新"]
+  B -->|充值记录| H["Profile(右下) → Transactions<br/>查看充值记录(状态 Pending / Completed)"]
+  B -->|充值未到账| C["请求充值成功凭证截图<br/>(时间/金额/收款户/付款户/交易ID)"]
+  C --> C1{"凭证是否完整?"}
+  C1 -->|完整| T["结合 UID 创建人工核实工单"]
+  C1 -->|不全| C2["提示补全要素后再提交"]
+  C1 -->|截图不匹配| C3["提示重发充值成功凭证<br/>不建核实工单"]
+</pre></div></div>
+    </div>
+    <div class="branch-panel">
+      <div class="branch-cap">第 3 页 · 提现（流水前置 / 到账 / 记录 / 未到账）</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart TD
+  A["提现咨询"] --> B{"意图"}
+  B -->|如何提现| W["Profile → Withdrawal → 选/输入金额 → Continue<br/>输入登录密码验证 → Confirm → 约10分钟到账"]
+  B -->|剩余流水| R["Profile → Withdrawal 页显示 Remaining Turnover<br/>需为 ₱0 才能提现, 否则继续游戏"]
+  B -->|提现记录| H["Profile → Transactions 提现记录(Pending/Completed)"]
+  B -->|无法提现| N{"失败原因"}
+  N -->|流水未完成| N1["告知还需完成的流水金额"]
+  N -->|信息/密码错误| N2["核对账户信息与提现(=登录)密码"]
+  B -->|提现未到账·超10min| E["收集 UID+提现成功截图<br/>转风控/人工核实"]
+</pre></div></div>
+    </div>
+    <div class="branch-panel">
+      <div class="branch-cap">第 4 页 · 钱包绑定 / 解绑（GCash / Maya）</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart TD
+  A["钱包操作"] --> B{"操作类型"}
+  B -->|绑定| BF["Profile → Bank tab → Add Withdrawal Account<br/>选 GCash/Maya → 输入注册手机号<br/>输入登录密码验证 → Submit"]
+  B -->|解绑| UN["Profile → Bank tab → Unbind<br/>输入登录密码验证 → Submit"]
+  BF --> V{"手机号/信息校验通过?"}
+  V -->|通过| VS["绑定成功"]
+  V -->|不通过| VF["提示信息不符, 核对后重试"]
+</pre></div></div>
+    </div>
+    <div class="branch-panel">
+      <div class="branch-cap">第 5 页 · 投注历史（Bet History）</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart TD
+  A["查看投注历史"] --> B["点 Profile/Account 图标"]
+  B --> C["选择 Bet History"]
+  C --> D{"选择标签"}
+  D -->|Settled| S["已结算注单"]
+  D -->|Unsettled| U["未结算注单"]
+  D -->|Cancelled| X["已取消注单"]
+  D -->|Promos| P["活动/彩金相关注单"]
+  S --> E["截图选中页发我方核实"]
+  U --> E
+  X --> E
+  P --> E
+</pre></div></div>
+    </div>
+    <div class="branch-panel">
+      <div class="branch-cap">第 6 页 · 优惠（领取 / 奖励历史 / 返现 / 15 免费彩金）</div>
+      <div class="dg-viewport"><div class="dg-inner"><pre class="mermaid">
+flowchart TD
+  A["优惠咨询"] --> B{"子类"}
+  B -->|查看/领取优惠| P["打开网站 → Promotions → 浏览优惠<br/>选择查看详情 → 按说明参与"]
+  B -->|奖励历史| R["Account → Transactions → Reward tab<br/>查看奖励(Claimed / Successful)"]
+  B -->|返现是否到账| C["点顶部通知铃 → Inbox/Notification<br/>找 'Reward credited' 消息, 金额在通知中"]
+  B -->|15 免费彩金| F["注册 NUSTAR Play → 合格充值 → 领 ₱15<br/>完成 10x 流水 → 提现"]
+  F --> Q{"资格校验"}
+  Q -->|独立IP+设备·一人一号| QP["合格"]
+  Q -->|多开/同IP同设备| QN["不合格"]
+</pre></div></div>
+    </div>
+  </div>
+  <div class="fchint">提示：切换上方标签查看不同业务域；「全屏查看」进入大图模式（可缩放）。</div>
+</div>
+
+<div class="sec" id="s4">
+  <div class="sec-head"><h2>四、FAQ 知识库（17 条）</h2><div class="desc">官方 FAQ 结构化 · 意图 / 标准答复要点 / 操作路径 / 处置方式</div></div>
+  <div class="sec-body">
+    <table class="stbl">
+      <tr><th style="width:90px">分类</th><th style="width:150px">问题（Q）</th><th>标准答复要点 / 操作路径</th><th style="width:90px">处置</th></tr>
+      <tr><td><span class="tag tag-acct">账户</span></td><td>How to create account</td><td>输入手机号 → 设置<b>字母+数字</b>密码 → 点 <code>Register/Login</code>；提示核对手机号与密码避免登录问题</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-acct">账户</span></td><td>Delete Account</td><td>告知<b>无法删除或修改</b>注册手机号（已入库，OTP 验证需要）；必须用本人号码注册</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-acct">账户</span></td><td>Get Username &amp; User ID</td><td>Account(右下) → Profile 顶部 Username → 下方 User ID → 点复制图标 → 发送给我方</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-acct">账户</span></td><td>Forgot Password / Reset</td><td>登录页 <code>Forgot?</code> → <code>Get Code</code>(SMS) → 输码 → 设新密码 → 确认 → 登录。<b>⚠️ 登录密码=提现密码</b>；需注册手机号可用</td><td>AI / 转人工</td></tr>
+      <tr><td><span class="tag tag-acct">账户</span></td><td>How to add login password</td><td>Profile → Account → <code>Password</code>(Account Management) → 输入并再次确认 → <code>Confirm</code></td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-cz">充值</span></td><td>How to Deposit</td><td>Deposit → 选 <b>GCash / Maya</b> → 输入金额 → Continue → 完成支付 → 等待到账&余额更新</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-cz">充值</span></td><td>Deposit Transaction History</td><td>Profile(右下) → Transactions → 查看充值记录（状态 Pending / Completed）</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-tx">提现</span></td><td>How to Withdraw</td><td>Profile → Withdrawal → 选/输入金额 → Continue → 输入登录密码验证 → Confirm；<b>约 10 分钟到账</b></td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-tx">提现</span></td><td>Withdrawal Transaction History</td><td>Profile → Transactions → 查看提现记录（Pending / Completed）</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-tx">提现</span></td><td>Check Remaining Turnover</td><td>Profile → Withdrawal 页显示 <b>Remaining Turnover</b>；<b>需为 ₱0</b> 才能提现，否则继续游戏完成流水</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-game">投注</span></td><td>Check bet history</td><td>Profile/Account → Bet History → 选 <b>Settled / Unsettled / Cancelled / Promos</b> → 截图发我方核实</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-cpf">钱包</span></td><td>Bind withdrawal wallet</td><td>Profile → Bank tab → <code>Add Withdrawal Account</code> → 选 GCash/Maya → 输入注册手机号 → 输入登录密码验证 → Submit</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-cpf">钱包</span></td><td>Remove withdrawal wallet</td><td>Profile → Bank tab → <code>Unbind</code> → 输入登录密码验证 → Submit</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-act">优惠</span></td><td>Claim a Promotion</td><td>打开网站 → Promotions → 浏览优惠与折扣 → 选择查看详情 → 按说明参与</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-act">优惠</span></td><td>Check reward history</td><td>Account/Profile → Transactions → <b>Reward tab</b> → 查看奖励（Claimed / Successful）</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-act">优惠</span></td><td>Check cashback bonus</td><td>点顶部<b>通知铃</b> → Inbox/Notification → 找 <code>Reward credited</code> 消息；金额显示在通知中（如 “Your reward 7.68 has been credited.”）</td><td>AI 自动</td></tr>
+      <tr><td><span class="tag tag-act">优惠</span></td><td>Get the 15 free bonus</td><td>注册 NUSTAR Play → 合格充值 → 领 <b>₱15</b> → 完成 <b>10x 流水</b> → 提现。资格：独立 IP+设备、<b>一人一号</b>；多开 / 同 IP 同设备<b>不合格</b></td><td>AI 自动</td></tr>
+    </table>
+    <div class="note">上表「处置」为默认路径；当出现<b>未到账、账号找回/删号、账号受限、疑似诈骗</b>等需核实场景时，按第二节「转人工/核实判定」升级为人工工单。</div>
+  </div>
+</div>
+
+<div class="sec" id="s5">
+  <div class="sec-head"><h2>五、关键业务规则与风险点</h2><div class="desc">测试预期与话术须严格遵循以下口径</div></div>
+  <div class="sec-body">
+    <table class="stbl">
+      <tr><th style="width:170px">规则</th><th>口径</th><th style="width:90px">风险级</th></tr>
+      <tr><td><b>登录密码 = 提现密码</b></td><td>Forgot Password 明确二者相同；绑卡/解绑/提现均以该密码校验。AI <b>不得索取或回显密码</b>，仅引导用户自行操作。</td><td><span class="tag tag-tx">高</span></td></tr>
+      <tr><td><b>账户不可删除/改号</b></td><td>注册手机号已入库并绑定 OTP，<b>不可删除或修改</b>；必须本人号码注册。删除/改号请求一律告知不可并转人工核验身份。</td><td><span class="tag tag-cpf">中</span></td></tr>
+      <tr><td><b>提现前置：流水归零</b></td><td>Remaining Turnover 必须为 <b>₱0</b> 才能提现；未完成则告知还需完成的流水金额，引导继续游戏。</td><td><span class="tag tag-tx">高</span></td></tr>
+      <tr><td><b>提现到账时效</b></td><td>提现请求提交成功后通常 <b>约 10 分钟</b>到账；超时未到账收集 UID+成功截图转风控/人工。</td><td><span class="tag tag-tx">中</span></td></tr>
+      <tr><td><b>15 免费彩金规则</b></td><td>合格充值激活 + <b>10x 流水</b>才能提现；<b>一人一号</b>，独立 IP+设备；重复账户 / 同 IP 同设备<b>不合格</b>。</td><td><span class="tag tag-act">中</span></td></tr>
+      <tr><td><b>支付渠道限定</b></td><td>充值/提现仅支持 <b>GCash / Maya（Paymaya）</b>；其他渠道不予受理。</td><td><span class="tag tag-cz">低</span></td></tr>
+    </table>
+    <div class="warn"><b>FAQ 文档一致性提示（供知识库维护）：</b>① Deposit 写 “GCash or Paymaya/Maya”，绑定钱包写 “GCash or Maya”，命名不统一；② 解绑（Remove）答复末句仍写 “complete the <b>binding</b> process”，为复制未改；③ 返现/奖励入口在 Notification Bell 与 Transactions→Reward tab 之间描述不一致。上线前建议在知识库中统一口径，避免 AI 答复自相矛盾。</div>
+  </div>
+</div>
+
+<div class="footer">PH01 · 智能客服流程方案 · 2026-08-17 · Salesmartly 插件接入 · FAQ 知识库驱动 · 流程图 Mermaid 渲染</div>
+</div>
+
+<a class="fab" href="/html-pages/" title="返回首页">⌂</a>
+
+<div class="viewer" id="viewer">
+  <div class="vinner" id="vinner"></div>
+  <div class="vtitle" id="vtitle"></div>
+  <button class="vclose" onclick="closeViewer()" title="关闭（Esc）">×</button>
+  <div class="vtoolbar">
+    <button onclick="vzoom(0.83)" title="缩小">－</button>
+    <span class="vzlbl" id="vzlbl">100%</span>
+    <button onclick="vzoom(1.2)" title="放大">＋</button>
+    <button onclick="vreset()" title="重置">⤢</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({startOnLoad:false,theme:'neutral',securityLevel:'loose',flowchart:{useMaxWidth:false,htmlLabels:true}});
+mermaid.run();
+
+// 标签切换
+function showTab(tab){var g=tab.closest('.branch-group');var ts=[].slice.call(g.querySelectorAll('.branch-tab')),ps=[].slice.call(g.querySelectorAll('.branch-panel'));var idx=ts.indexOf(tab);ts.forEach(function(t,i){t.classList.toggle('active',i==idx)});ps.forEach(function(p,i){p.classList.toggle('active',i==idx)});}
+// 内嵌缩放（作用于当前面板 .dg-inner）
+function dgInner(btn){var g=btn.closest('.branch-group');if(g)return g.querySelector('.branch-panel.active .dg-inner');return btn.closest('.fc-container').querySelector('.dg-inner');}
+function dgLbl(btn,z){var l=btn.closest('.fc-toolbar').querySelector('.zlbl');if(l)l.textContent=Math.round(z*100)+'%';}
+function zoom(btn,m){var i=dgInner(btn);if(!i)return;i._z=Math.max(.3,Math.min(4,(i._z||1)*m));i.style.transform='scale('+i._z+')';dgLbl(btn,i._z);}
+function zreset(btn){var i=dgInner(btn);if(!i)return;i._z=1;i.style.transform='scale(1)';dgLbl(btn,1);}
+// 全屏查看器
+var V={s:1};
+function vapply(){document.getElementById('vinner').style.transform='scale('+V.s+')';document.getElementById('vzlbl').textContent=Math.round(V.s*100)+'%';}
+function vzoom(m){V.s=Math.max(.2,Math.min(6,V.s*m));vapply();}
+function vreset(){V.s=1;vapply();}
+function openViewerBtn(btn){var i=dgInner(btn);if(!i)return;var cap=btn.closest('.branch-group').querySelector('.branch-panel.active .branch-cap');var vw=document.getElementById('viewer'),vi=document.getElementById('vinner');vi.innerHTML=i.innerHTML;document.getElementById('vtitle').textContent=cap?cap.textContent:'';V.s=1;vapply();vw.classList.add('active');}
+function closeViewer(){document.getElementById('viewer').classList.remove('active');document.getElementById('vinner').innerHTML='';}
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.dg-viewport').forEach(function(vp){
+    var d=false,sx,sy,sl,st;
+    vp.addEventListener('mousedown',function(e){d=true;sx=e.pageX;sy=e.pageY;sl=vp.scrollLeft;st=vp.scrollTop;e.preventDefault();});
+    window.addEventListener('mouseup',function(){d=false;});
+    window.addEventListener('mousemove',function(e){if(!d)return;vp.scrollLeft=sl-(e.pageX-sx);vp.scrollTop=st-(e.pageY-sy);});
+  });
+  var vw=document.getElementById('viewer');
+  vw.addEventListener('wheel',function(e){if(!vw.classList.contains('active'))return;e.preventDefault();vzoom(e.deltaY<0?1.12:0.9);},{passive:false});
+  window.addEventListener('keydown',function(e){if(e.key==='Escape'&&vw.classList.contains('active'))closeViewer();});
+});
+</script>
+</body>
+</html>
