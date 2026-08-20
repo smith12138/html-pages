@@ -374,11 +374,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     <div class="form-grid" style="margin-bottom:12px">
       <div class="form-group">
         <label class="form-label">Base Domain</label>
-        <input class="form-input mono" id="cs_domain" placeholder="测试环境域名, 不含 https://">
+        <input class="form-input mono" id="cs_domain" value="http://18.138.19.23:8081" placeholder="测试环境域名, 可含 http:// / https://">
       </div>
       <div class="form-group">
         <label class="form-label">App ID <span style="font-weight:400;color:#9ca3af">(X-CS-App-ID)</span></label>
-        <input class="form-input mono" id="cs_appid" placeholder="如 cs_sm_xxxxxxxxxxxx">
+        <input class="form-input mono" id="cs_appid" value="cs_sm_ohqlcgjesf6bcgrqvue2bxg6" placeholder="如 cs_sm_xxxxxxxxxxxx">
       </div>
       <div class="form-group full">
         <label class="form-label">Secret</label>
@@ -1062,7 +1062,9 @@ function csRandomNonce() {
 
 /* 构建请求(含签名), 返回 {url,method,headers,body,sign,ts,nonce,canonical,api} */
 async function csBuild() {
-  var domain = csVal('cs_domain').replace(/^https?:\/\//,'').replace(/\/+$/,'');
+  var rawDomain = csVal('cs_domain');
+  var scheme = /^http:\/\//i.test(rawDomain) ? 'http' : 'https';   // staging 走 http; 无前缀默认 https
+  var domain = rawDomain.replace(/^https?:\/\//i,'').replace(/\/+$/,'');
   var appId = csVal('cs_appid'), secret = csVal('cs_secret');
   if (!domain || !appId || !secret) { log('请填写 CS API 凭证 (domain / App ID / Secret)', 'err'); return null; }
   var col = csCollect();
@@ -1073,7 +1075,7 @@ async function csBuild() {
   var rawQuery = '', body = '', url;
   if (api.method === 'GET') {
     rawQuery = col.pairs.map(function(kv){ return encodeURIComponent(kv[0]) + '=' + encodeURIComponent(kv[1]); }).join('&');
-    url = 'https://' + domain + api.path + (rawQuery ? '?' + rawQuery : '');
+    url = scheme + '://' + domain + api.path + (rawQuery ? '?' + rawQuery : '');
   } else {
     var obj = {};
     col.pairs.forEach(function(kv){
@@ -1081,7 +1083,7 @@ async function csBuild() {
       else obj[kv[0]] = kv[1];
     });
     body = JSON.stringify(obj);
-    url = 'https://' + domain + api.path;
+    url = scheme + '://' + domain + api.path;
   }
   var bodyHash = await csSha256Hex(body);
   var canonical = [api.method.toUpperCase(), api.path, rawQuery, ts, nonce, bodyHash].join('\n');
