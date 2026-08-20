@@ -73,7 +73,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     <span>● 支付：GCash / Maya（Paymaya）· 货币 PHP（₱）</span>
     <span>● 语言：English / Tagalog</span>
     <span>● 来源：FAQ 知识库（17 条）+ 客服 SOP</span>
-    <span>● 更新：2026-08-17</span>
+    <span>● 更新：2026-08-20（接口实测校准）</span>
   </div>
 </div>
 
@@ -81,7 +81,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
   <div class="stat-card c-teal"><div class="num">6</div><div class="label">业务分支</div></div>
   <div class="stat-card c-blu"><div class="num">17</div><div class="label">FAQ 知识条目</div></div>
   <div class="stat-card c-grn"><div class="num">7</div><div class="label">完整流程子页</div></div>
-  <div class="stat-card c-red"><div class="num">10</div><div class="label">后端接口(建议)</div></div>
+  <div class="stat-card c-red"><div class="num">10</div><div class="label">后端接口(实测)</div></div>
   <div class="stat-card c-ora"><div class="num">3</div><div class="label">精简 SOP 页</div></div>
   <div class="stat-card c-pur"><div class="num">6</div><div class="label">关键业务规则</div></div>
 </div>
@@ -92,7 +92,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     <li><a href="#s1">一、方案概述与关键改动</a></li>
     <li><a href="#s2">二、精简流程图（SOP）</a></li>
     <li><a href="#s3">三、完整流程图（按业务域 · 7 子页）</a></li>
-    <li><a href="#sapi">四、后端接口设计（自研 · 建议稿）</a></li>
+    <li><a href="#sapi">四、后端接口（自研 CS API v1 · 已实测校准）</a></li>
     <li><a href="#s4">五、FAQ 知识库（17 条）</a></li>
     <li><a href="#s5">六、关键业务规则与风险点</a></li>
   </ul>
@@ -110,7 +110,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
       <div class="chg-card c3"><h4>③ 需核实类问题分流转人工</h4>
         <p>充值/提现<b>未到账</b>、账号<b>找回/删除/改号</b>、<b>账号受限/风控</b>等需核实场景，收集 UID + 凭证截图后<b>创建工单转人工</b>，其余走 AI 自动闭环。</p></div>
       <div class="chg-card c2"><h4>④ 用户信息查询尽量走后端接口</h4>
-        <p>PH 项目<b>自研</b>，账户状态 / 订单 / 流水 / 奖励等<b>查询类</b>问题优先调后端接口拿<b>实时状态</b>，减少让用户截图与等待；AI 一律以 <b>uid</b> 为主键调用。所需接口见第四节（<b>建议稿，待后端确认</b>）。</p></div>
+        <p>PH 项目<b>自研</b>，账户状态 / 订单 / 流水 / 奖励等<b>查询类</b>问题优先调后端接口拿<b>实时状态</b>，减少让用户截图与等待；AI 一律以 <b>uid</b> 为主键调用。所需接口见第四节（<b>已按 staging 实测校准</b>）。</p></div>
     </div>
     <p style="margin-top:12px"><b>分支总览：</b>
       <span class="tag tag-acct">账户（注册/用户名/密码/删号）</span><span class="tag tag-cz">充值（GCash/Maya）</span>
@@ -357,27 +357,27 @@ flowchart TD
 </div>
 
 <div class="sec" id="sapi">
-  <div class="sec-head"><h2>四、后端接口设计（自研 · 建议稿）</h2><div class="desc">PH 项目为自研，用户信息与订单状态尽量走后端接口查询；以下为 AI 客服所需接口清单，待与后端确认字段与认证</div></div>
+  <div class="sec-head"><h2>四、后端接口（自研 CS API v1 · 已实测校准）</h2><div class="desc">PH 自研客服接口，查询类问题走接口拿实时状态；下列已按 staging 实测校准（详见测试用例模块 10–11）</div></div>
   <div class="sec-body">
-    <div class="tip"><b>设计原则：</b>① 所有「查询类」问题优先调后端接口拿<b>实时状态</b>，减少让用户截图/等待；② UID 由插件携带，接口一律以 <code>uid</code> 为主键；③ 以<b>只读查询</b>为主，写操作（建工单）单列并需人工介入；④ 金额单位<b>分</b>（÷100=₱），时间 <b>UTC/ISO8601</b> → 马尼拉时区（UTC+8, PHT）展示，订单号/手机号/钱包号等敏感字段<b>脱敏</b>。</div>
-    <div class="warn"><b>认证（建议，待后端确认）：</b>服务间调用建议 <code>app_id + timestamp + sign</code> 签名（HMAC-SHA256，服务端校验 ±5 分钟防重放）；或内网服务令牌。以后端实际方案为准。</div>
-    <p style="font-weight:600;color:#1e3a5f;margin:14px 0 4px">接口清单　Base：<code>https://{ph-domain}/api/cs/v1</code></p>
+    <div class="tip"><b>设计原则：</b>① 所有「查询类」问题优先调后端接口拿<b>实时状态</b>，减少让用户截图/等待；② UID 由插件携带，接口一律以 <code>uid</code>（=会员公开编号 <code>user_no</code>）为主键；③ 以<b>只读查询</b>为主，写操作（校验/建工单）单列并需人工介入；④ <b>金额为十进制字符串</b>（如 <code>"28.50000000"</code>，<b>直接展示为 ₱ 值，不÷100</b>），时间 <b>UTC/ISO8601</b> → 马尼拉时区（UTC+8, PHT）展示，手机号/钱包号等敏感字段<b>脱敏</b>。</div>
+    <div class="warn"><b>认证（已确认 · HMAC-SHA256）：</b>每请求带 4 个头 <code>X-CS-App-ID</code> / <code>X-CS-Timestamp</code>(±5min) / <code>X-CS-Nonce</code>(不复用) / <code>X-CS-Signature</code>。签名原文为 6 行以 <code>\n</code> 连接：<code>METHOD · PATH · RAW_QUERY · TIMESTAMP · NONCE · SHA256(body)</code>，<code>sign = hex(HMAC-SHA256(secret, canonical))</code>。凭据由后台「客服配置 &gt; API 集成」维护，Secret 仅初始化/轮换时显示一次。</div>
+    <p style="font-weight:600;color:#1e3a5f;margin:14px 0 4px">接口清单　Base：<code>http://18.138.19.23:8081/api/cs/v1</code>（staging）</p>
     <table class="stbl">
       <tr><th style="width:150px">接口</th><th>请求</th><th>关键返回字段</th><th style="width:150px">用于流程节点</th></tr>
       <tr><td><b>① 玩家信息</b><br><span class="tag tag-acct">账户</span> <span class="tag tag-tx">P0</span></td><td><code>GET /player/profile?uid=</code></td>
         <td><code>user_id</code> · <code>username</code> · <code>phone_masked</code> · <code>account_status</code>(active/disabled/restricted) · <code>vip_level</code> · <code>register_time</code> · <code>real_name_verified</code></td><td>账户分流 / 找回 / 手机号比对</td></tr>
       <tr><td><b>② 充值订单</b><br><span class="tag tag-cz">充值</span> <span class="tag tag-tx">P0</span></td><td><code>GET /deposit/orders?uid=&amp;status=</code><br>分页 page/page_size</td>
-        <td><code>order_id</code> · <code>amount</code>(分) · <code>channel</code>(gcash/maya) · <code>status</code> · <code>create_time</code> · <code>complete_time</code> · <code>txn_id_masked</code> · <code>fail_reason</code></td><td>充值记录 / 未到账分流</td></tr>
+        <td><code>order_id</code> · <code>amount</code>(十进制) · <code>channel</code>(如 gcash/maya/ch_usdt) · <code>status</code> · <code>create_time</code> · <code>complete_time</code> · <code>txn_id_masked</code> · <code>fail_reason</code></td><td>充值记录 / 未到账分流</td></tr>
       <tr><td><b>③ 提现订单</b><br><span class="tag tag-tx">提现</span> <span class="tag tag-tx">P0</span></td><td><code>GET /withdraw/orders?uid=&amp;status=</code><br>分页 page/page_size</td>
-        <td><code>order_id</code> · <code>amount</code>(分) · <code>status</code> · <code>create_time</code> · <code>review_time</code> · <code>complete_time</code> · <code>wallet_masked</code> · <code>reject_reason</code></td><td>提现状态 / 未到账</td></tr>
+        <td><code>order_id</code> · <code>amount</code>(十进制) · <code>status</code> · <code>create_time</code> · <code>review_time</code> · <code>complete_time</code> · <code>wallet_masked</code> · <code>reject_reason</code></td><td>提现状态 / 未到账</td></tr>
       <tr><td><b>④ 流水进度</b><br><span class="tag tag-tx">提现</span> <span class="tag tag-tx">P0</span></td><td><code>GET /turnover/status?uid=</code></td>
-        <td><code>required</code>(分) · <code>completed</code>(分) · <code>remaining</code>(分) · <code>can_withdraw</code>(bool) · <code>sources[]</code>(deposit/bonus 及各自倍数)</td><td>剩余流水 / 能否提现 / 15彩金进度</td></tr>
+        <td><code>required</code> · <code>completed</code> · <code>remaining</code>(均十进制字符串) · <code>can_withdraw</code>(bool) · <code>sources[]</code>(deposit/bonus 及各自倍数)</td><td>剩余流水 / 能否提现 / 15彩金进度</td></tr>
       <tr><td><b>⑤ 绑定钱包</b><br><span class="tag tag-cpf">钱包</span> <span class="tag tag-tx">P0</span></td><td><code>GET /wallet/bindings?uid=</code></td>
         <td><code>bindings[]</code>：<code>type</code>(gcash/maya) · <code>account_masked</code> · <code>bind_time</code> · <code>status</code></td><td>提现前置 / 绑定核对</td></tr>
       <tr><td><b>⑥ 投注记录</b><br><span class="tag tag-game">投注</span> <span class="tag tag-cpf">P1</span></td><td><code>GET /bet/history?uid=&amp;type=</code><br>type=settled/unsettled/cancelled/promos</td>
-        <td><code>bet_id</code> · <code>game</code> · <code>stake</code>(分) · <code>status</code> · <code>payout</code>(分) · <code>bet_time</code> · <code>settle_time</code></td><td>投注历史 / 注单争议</td></tr>
+        <td><code>bet_id</code> · <code>game</code> · <code>stake</code>(十进制) · <code>status</code> · <code>payout</code>(十进制) · <code>bet_time</code> · <code>settle_time</code></td><td>投注历史 / 注单争议</td></tr>
       <tr><td><b>⑦ 奖励/返现记录</b><br><span class="tag tag-act">优惠</span> <span class="tag tag-tx">P0</span></td><td><code>GET /bonus/records?uid=&amp;category=&amp;activity_key=</code></td>
-        <td><code>bonus_id</code> · <code>activity_name</code> · <code>category</code>(cashback/promo/free_bonus_15/commission) · <code>amount</code>(分) · <code>status</code>(pending/claimed/credited) · <code>claim_time</code> · <code>turnover_multiplier</code></td><td>奖励历史 / 返现 / 彩金未到</td></tr>
+        <td><code>bonus_id</code> · <code>activity_name</code> · <code>category</code>(cashback/promo/free_bonus_15/commission) · <code>amount</code>(十进制) · <code>status</code>(pending/claimed/credited) · <code>claim_time</code> · <code>turnover_multiplier</code></td><td>奖励历史 / 返现 / 彩金未到</td></tr>
       <tr><td><b>⑧ 优惠活动列表</b><br><span class="tag tag-act">优惠</span> <span class="tag tag-cpf">P1</span></td><td><code>GET /promotions?status=active</code></td>
         <td><code>promo_id</code> · <code>name</code> · <code>type</code> · <code>conditions</code>(充值/流水/注册要求) · <code>valid_from</code> · <code>valid_to</code></td><td>领取优惠 / 资格判断</td></tr>
       <tr><td><b>⑨ 账户找回校验</b><br><span class="tag tag-acct">账户</span> <span class="tag tag-cpf">P1</span></td><td><code>POST /player/verify</code><br>{ phone, extra }</td>
@@ -391,8 +391,8 @@ flowchart TD
     <p><b>提现订单状态（status）：</b>
       <span class="tag tag-tx">pending_review 待审核</span><span class="tag tag-tx">reviewing 审核中</span><span class="tag tag-tx">approved 审核通过</span><span class="tag tag-tx">processing 出款中</span><span class="tag tag-tx">completed 已到账</span><span class="tag tag-tx">rejected 已退回</span><span class="tag tag-tx">manual_review 人工复审</span>
       <span class="tag tag-tx">reject_reason: insufficient_turnover / info_mismatch / risk_review / limit_exceeded</span></p>
-    <div class="note">通用约定：分页 <code>page</code>/<code>page_size</code>（≤100）；金额分→元 ÷100 展示（₱xx.xx）；时间 UTC→马尼拉时区；错误码 <code>0</code> 成功 / <code>401</code> 未认证 / <code>403</code> 无权限或签名失败 / <code>404</code> 资源不存在 / <code>500</code> 服务器错误。查询失败或超时，AI 走「系统繁忙，正在为您加急核实」兜底并按需转人工，<b>不卡死无回复</b>。</div>
-    <div class="warn"><b>说明：</b>本节为<b>建议稿</b>，接口路径 / 字段 / 认证方式均需与后端对齐；PH01–PH10 若共用同一后端，建议 <code>uid</code> 之外带 <code>platform_id/product_id</code> 以区分产品线。</div>
+    <div class="note">通用约定：分页 <code>page</code>/<code>page_size</code>（≤100）；金额为<b>十进制字符串直接展示</b>（₱xx.xx，不÷100）；时间 UTC→马尼拉时区；统一响应 <code>{code,message,data,request_id}</code>，成功 <code>code="OK"</code>；失败 <code>400 VALIDATION_ERROR</code> / <code>401 UNAUTHORIZED</code>(签名/时间戳/Nonce/Origin/IP 不通过，且不区分原因) / <code>403 PERMISSION_DENIED</code> / <code>404 NOT_FOUND</code>。查询失败或超时，AI 走「系统繁忙，正在为您加急核实」兜底并按需转人工，<b>不卡死无回复</b>。</div>
+    <div class="warn"><b>说明：</b>本节已按 staging <b>实测校准</b>（Base/字段/认证/金额/错误码均为实测值）。当前 IP 白名单 <code>0.0.0.0/0</code>（全放行），上线前应收紧。</div>
   </div>
 </div>
 

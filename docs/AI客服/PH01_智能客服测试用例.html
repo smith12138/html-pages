@@ -67,11 +67,11 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 
 <div class="header">
 <h1>PH01 · 智能客服测试用例</h1>
-<div class="sub">基于《PH01 · 智能客服流程方案》（精简 SOP + 7 业务域子页 + FAQ 知识库 17 条）全节点拆解 · Salesmartly 插件接入 · GCash/Maya · PHP(₱) · English/Tagalog</div>
+<div class="sub">基于《PH01 · 智能客服流程方案》（精简 SOP + 7 业务域子页 + FAQ 17 条 + 后端接口）全节点拆解 · Salesmartly 插件接入 · <strong>CS API v1（HMAC-SHA256）</strong> · GCash/Maya · PHP(₱) · English/Tagalog</div>
 <div class="meta">
 <span>渠道：PH 菲律宾 / Salesmartly 插件（PH01）</span>
-<span>版本：v1.0</span>
-<span>更新时间：2026-08-17</span>
+<span>版本：v2.0（增补 CS API 集成）</span>
+<span>更新时间：2026-08-20</span>
 <span>用例总数：<strong id="totalCases">0</strong></span>
 </div>
 </div>
@@ -84,6 +84,7 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 <div class="stat c5"><div class="num" id="s5">0</div><div class="label">钱包/投注</div></div>
 <div class="stat c4"><div class="num" id="s6">0</div><div class="label">优惠奖励</div></div>
 <div class="stat c6"><div class="num" id="s7">0</div><div class="label">闭环/本地化</div></div>
+<div class="stat c7"><div class="num" id="s8">0</div><div class="label">CS API 集成</div></div>
 </div>
 
 <div class="filter-bar" id="filterBar">
@@ -106,6 +107,9 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 <li><a href="#m7">7. 优惠活动（领取/奖励历史/返现/15彩金）</a><span class="cnt" id="mc7"></span></li>
 <li><a href="#m8">8. 流程闭环（是否已解决）</a><span class="cnt" id="mc8"></span></li>
 <li><a href="#m9">9. 本地化 / 合规 / 安全</a><span class="cnt" id="mc9"></span></li>
+<li><a href="#m10">10. CS API 鉴权与签名（HMAC-SHA256）</a><span class="cnt" id="mc10"></span></li>
+<li><a href="#m11">11. CS API 接口数据契约（真实会员）</a><span class="cnt" id="mc11"></span></li>
+<li><a href="#m12">12. AI ↔ CS API 联动（消费接口结果）</a><span class="cnt" id="mc12"></span></li>
 </ul>
 </div>
 
@@ -241,7 +245,67 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 </tbody></table>
 </div>
 
-<div class="footer">PH01 · 智能客服测试用例 · v1.0（2026-08-17）· 流程依据：PH01_智能客服流程方案 · 知识来源：官方 FAQ（17 条）</div>
+<div class="sec" id="m10">
+<div class="sec-head"><h2>10. CS API 鉴权与签名（HMAC-SHA256）</h2><span class="cnt-badge" id="mb10"></span></div>
+<div class="flow-ref">依据《Salesmartly 客服 API 对接文档》：Base <code>http://18.138.19.23:8081</code> · 前缀 /api/cs/v1 · 头 X-CS-App-ID/Timestamp/Nonce/Signature · 签名原文6行(METHOD\nPATH\nRAW_QUERY\nTS\nNONCE\nSHA256(body)) · sign=hex(HMAC-SHA256(secret,canonical)) · 统一响应 {code,message,data,request_id}</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-10001</td><td><span class="tag tag-int">集成</span></td><td>★ 正确签名 → 200</td><td>已配置 App ID(cs_sm_)+Secret, 状态启用</td><td><ol class="steps"><li>按6行 canonical 计算 X-CS-Signature</li><li>带 4 个 X-CS-* 头请求 GET /promotions?status=active</li></ol></td><td class="expect"><strong>HTTP 200 <code>code:"OK"</code></strong>，返回 data。签名算法与本地工具/聊天页一致(已实测逐字节相同)</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10002</td><td><span class="tag tag-int">集成</span></td><td>时间戳 ±5min 防重放</td><td>合法凭证</td><td><ol class="steps"><li>X-CS-Timestamp 偏差 &gt;5 分钟发送</li></ol></td><td class="expect"><strong>401 UNAUTHORIZED</strong>；窗口内正常。<span class="warn">缺 Timestamp 同样拒绝</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10003</td><td><span class="tag tag-int">集成</span></td><td>Nonce 不可复用</td><td>合法凭证</td><td><ol class="steps"><li>同一 Nonce 二次请求</li></ol></td><td class="expect">重复 Nonce 被拒(401)，需每次随机(16-128 位)</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-10004</td><td><span class="tag tag-int">集成</span></td><td>缺签名头 → 401</td><td>-</td><td><ol class="steps"><li>不带任何 X-CS-* 头直接请求</li></ol></td><td class="expect"><strong>401 UNAUTHORIZED</strong>（实测：<code>{"code":"UNAUTHORIZED",...}</code>）</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10005</td><td><span class="tag tag-int">集成</span></td><td>错误签名 → 401</td><td>用错误 Secret 生成签名</td><td><ol class="steps"><li>signature 与参数不匹配</li></ol></td><td class="expect"><strong>401 UNAUTHORIZED</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10006</td><td><span class="tag tag-int">集成</span></td><td>未知/无效 App ID → 401</td><td>构造不存在的 App ID</td><td><ol class="steps"><li>X-CS-App-ID 填无效值</li></ol></td><td class="expect"><strong>401 UNAUTHORIZED</strong></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10007</td><td><span class="tag tag-reg">安全</span></td><td>★ 401 不区分失败原因</td><td>分别构造 缺头/错签/错AppID/过期</td><td><ol class="steps"><li>对比四类失败的响应体</li></ol></td><td class="expect"><strong>响应完全一致</strong>(均 <code>UNAUTHORIZED/unauthorized</code>)，<span class="warn">不给攻击者区分线索(防爆破)</span> — 已实测确认</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10008</td><td><span class="tag tag-int">集成</span></td><td>无权限 scope → 403</td><td>App ID 未勾选某接口权限</td><td><ol class="steps"><li>调用未授权接口</li></ol></td><td class="expect"><strong>403 PERMISSION_DENIED</strong>（当前 10 权限全勾，需按接口 <code>cs:*:read/execute/create</code> 校验）</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-10009</td><td><span class="tag tag-edge">边界</span></td><td>参数校验失败 → 400</td><td>合法鉴权</td><td><ol class="steps"><li>传非法参数(如 page_size 非数字)</li></ol></td><td class="expect"><strong>400 VALIDATION_ERROR</strong></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-10010</td><td><span class="tag tag-edge">边界</span></td><td>资源不存在 → 404</td><td>合法鉴权</td><td><ol class="steps"><li>GET /player/profile?uid=U10001(不存在)</li></ol></td><td class="expect"><strong>404 NOT_FOUND</strong>（实测：鉴权通过、仅 uid 不存在）</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10011</td><td><span class="tag tag-int">集成</span></td><td>统一响应封套</td><td>任意请求</td><td><ol class="steps"><li>检查响应结构</li></ol></td><td class="expect">恒为 <code>{code,message,data,request_id}</code>；成功 <code>code="OK"</code></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10012</td><td><span class="tag tag-int">集成</span></td><td>uid = user_no（非内部 id）</td><td>-</td><td><ol class="steps"><li>用会员公开编号 user_no 作 uid</li></ol></td><td class="expect">uid 始终为 <code>users.user_no</code>，<span class="warn">不接受数据库内部 users.id</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-10013</td><td><span class="tag tag-reg">安全</span></td><td>Origin / 来源 IP 白名单</td><td>后台配置 Origin/IP</td><td><ol class="steps"><li>白名单外来源请求</li><li>当前 IP 白名单=0.0.0.0/0</li></ol></td><td class="expect">在白名单内放行；外部拒绝。<span class="warn">上线前应收紧(当前全放行)</span></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-10014</td><td><span class="tag tag-int">集成</span></td><td>请求日志可审计</td><td>发起若干请求</td><td><ol class="steps"><li>后台「客服配置&gt;API集成&gt;最近请求」查看</li></ol></td><td class="expect">每请求落 request_id/方法/路径/权限/状态码，可对账(实测 request_id 可对上)</td><td><span class="prio p2">P2</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m11">
+<div class="sec-head"><h2>11. CS API 接口数据契约（真实会员）</h2><span class="cnt-badge" id="mb11"></span></div>
+<div class="flow-ref">10 接口(8 GET + 2 POST)。断言数据取自 staging 真实会员：uid <code>5672255279</code>(ph_639187037052, 有充值/流水/彩金)、uid <code>7999999943</code>(pwq13_staging, 有投注)。<b>金额为十进制字符串</b>(如 "28.50000000")，<b>非分/÷100</b>；时间 UTC/ISO8601。</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-11001</td><td><span class="tag tag-int">集成</span></td><td>① 玩家信息 player/profile</td><td>uid=5672255279</td><td><ol class="steps"><li>GET /player/profile?uid=5672255279</li></ol></td><td class="expect">200：<code>user_no=5672255279</code> · <code>username=ph_639187037052</code> · <code>phone_masked=********7052</code> · <strong>account_status=active</strong> · <code>vip_level=VIP0</code> · register_time · real_name_verified=false</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11002</td><td><span class="tag tag-int">集成</span></td><td>② 充值订单 deposit/orders</td><td>uid=5672255279</td><td><ol class="steps"><li>GET /deposit/orders?uid=5672255279&page=1&page_size=5</li></ol></td><td class="expect">200：items[]{order_id · <strong>amount(十进制,如"1.00000000")</strong> · channel · <strong>status=completed</strong> · create_time · complete_time · fail_reason} · total/page/page_size</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11003</td><td><span class="tag tag-int">集成</span></td><td>③ 提现订单 withdraw/orders</td><td>uid=5672255279</td><td><ol class="steps"><li>GET /withdraw/orders?uid=...</li></ol></td><td class="expect">200：items[] + total(该会员为空列表 total=0 亦合法)；含 status/create_time/review_time/complete_time/reject_reason 字段</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11004</td><td><span class="tag tag-int">集成</span></td><td>★ ④ 流水进度 turnover/status</td><td>uid=5672255279</td><td><ol class="steps"><li>GET /turnover/status?uid=5672255279</li></ol></td><td class="expect">200：<code>required=28.5</code> · completed=0 · <code>remaining=28.5</code> · <strong>can_withdraw=false</strong> · sources[]{source_type=<strong>deposit_principal / activity_reward</strong>, multiplier=1.5, status=pending}</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11005</td><td><span class="tag tag-int">集成</span></td><td>⑤ 绑定钱包 wallet/bindings</td><td>uid=5672255279</td><td><ol class="steps"><li>GET /wallet/bindings?uid=...</li></ol></td><td class="expect">200：bindings[]（该会员为空 []）；有绑定时含 type/<strong>account_masked</strong>/bind_time/status</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11006</td><td><span class="tag tag-int">集成</span></td><td>⑥ 投注记录 bet/history</td><td>uid=7999999943, type=settled</td><td><ol class="steps"><li>GET /bet/history?uid=7999999943&type=settled</li></ol></td><td class="expect">200：items[]{bet_id · game(omg_1) · <code>stake=10</code> · <strong>status=settled</strong> · <code>payout=20</code> · bet_time · settle_time}</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11007</td><td><span class="tag tag-int">集成</span></td><td>⑦ 奖励记录 bonus/records</td><td>uid=5672255279</td><td><ol class="steps"><li>GET /bonus/records?uid=...&category=</li></ol></td><td class="expect">200：items[]（含 activity_name/category/amount/status/claim_time 字段；空亦合法）</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11008</td><td><span class="tag tag-int">集成</span></td><td>⑧ 优惠活动 promotions</td><td>status=active</td><td><ol class="steps"><li>GET /promotions?status=active</li></ol></td><td class="expect">200：items[]{promo_id · name · <strong>type=deposit</strong> · conditions(JSON含tiers/bonus/wagering) · valid_from · valid_to}（实测返回真实活动）</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11009</td><td><span class="tag tag-reg">安全</span></td><td>⑨ 账户校验 player/verify (POST)</td><td>合法鉴权</td><td><ol class="steps"><li>POST /player/verify {phone,extra}</li></ol></td><td class="expect">200：<code>match</code> + candidates_masked。<span class="warn">敏感·限流+审计；命中仍须转人工完成身份核验，不直接放行</span></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11010</td><td><span class="tag tag-int">集成</span></td><td>⑩ 创建工单 ticket (POST)</td><td>合法鉴权</td><td><ol class="steps"><li>POST /ticket {uid,type,context,evidence[]}</li></ol></td><td class="expect">200：返回 <code>ticket_id</code>。<span class="warn">写操作，测试勿造脏数据；evidence 为数组</span></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11011</td><td><span class="tag tag-edge">边界</span></td><td>★ 金额十进制（非分）</td><td>任意含金额接口</td><td><ol class="steps"><li>读取 amount/remaining/payout 等</li></ol></td><td class="expect">值为<strong>十进制字符串</strong>(如 "28.50000000")，<span class="warn">直接使用，不得再 ÷100</span>（与旧假设"分"不同）</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11012</td><td><span class="tag tag-edge">边界</span></td><td>时间 UTC/ISO8601 → 马尼拉</td><td>含时间字段接口</td><td><ol class="steps"><li>读取 create_time/register_time 等</li></ol></td><td class="expect">返回 UTC/ISO8601(Z)，展示给用户时转<strong>马尼拉时区(UTC+8, PHT)</strong></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11013</td><td><span class="tag tag-edge">边界</span></td><td>分页 page_size≤100</td><td>列表接口</td><td><ol class="steps"><li>请求 page_size&gt;100</li></ol></td><td class="expect">服务端按最大 100 处理；正确翻页聚合不漏单</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-11014</td><td><span class="tag tag-reg">安全</span></td><td>敏感字段脱敏</td><td>-</td><td><ol class="steps"><li>读取 phone/钱包账号</li></ol></td><td class="expect">返回 <strong>phone_masked</strong>(如 ********7052)、<strong>account_masked</strong>，<span class="warn">不回显完整敏感信息</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-11015</td><td><span class="tag tag-func">功能</span></td><td>冻结/受限账号 account_status</td><td>uid 为冻结账号(会员列表存在"冻结账号")</td><td><ol class="steps"><li>GET /player/profile?uid=&lt;冻结会员&gt;</li></ol></td><td class="expect"><code>account_status</code> ≠ active(如 disabled/frozen)，AI 据此<strong>转风控</strong>不放行</td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="m12">
+<div class="sec-head"><h2>12. AI ↔ CS API 联动（消费接口结果）</h2><span class="cnt-badge" id="mb12"></span></div>
+<div class="flow-ref">流程方案要点：查询类问题 AI 优先调后端接口拿实时状态再答(以 uid 为主键)，减少让用户截图/等待。本模块验证 AI 正确消费接口结果并据此话术/分流。</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>前置条件</th><th>详细步骤</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">TC-12001</td><td><span class="tag tag-int">集成</span></td><td>★ 能否提现 → 读 can_withdraw</td><td>用户问"为什么不能提现", uid 已绑</td><td><ol class="steps"><li>AI 调 ④turnover/status</li><li>读 can_withdraw / remaining</li></ol></td><td class="expect">can_withdraw=false 时告知"还需完成流水 <strong>remaining ₱</strong>"，引导继续游戏；<span class="warn">不再一味只要截图</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12002</td><td><span class="tag tag-int">集成</span></td><td>充值未到账 → 读 deposit.status</td><td>用户称充值没到, uid 已绑</td><td><ol class="steps"><li>AI 调 ②deposit/orders</li><li>按 status 分流</li></ol></td><td class="expect">completed→告知已到账刷新余额；pending→处理中；failed→说明 fail_reason；无记录→请求凭证</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12003</td><td><span class="tag tag-int">集成</span></td><td>提现状态 → 读 withdraw.status</td><td>用户问提现进度</td><td><ol class="steps"><li>AI 调 ③withdraw/orders</li><li>按 status 分流</li></ol></td><td class="expect">按 completed/pending_review/processing/rejected(reject_reason)/manual_review 分别给出对应话术</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12004</td><td><span class="tag tag-int">集成</span></td><td>★ 流水追问 → 解释来源</td><td>用户问"流水为什么这么多"</td><td><ol class="steps"><li>AI 调 ④turnover(sources) + ⑦bonus</li></ol></td><td class="expect">按 sources 说明：充值本金(deposit_principal) + <strong>活动彩金(activity_reward)</strong> 各需完成的倍数流水，附 activity_name</td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12005</td><td><span class="tag tag-int">集成</span></td><td>账户状态 → 读 profile.account_status</td><td>账户问题</td><td><ol class="steps"><li>AI 调 ①player/profile</li></ol></td><td class="expect">active→提供指引；<strong>disabled/frozen→转风控</strong>，<span class="warn">不泄露风控细节</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12006</td><td><span class="tag tag-int">集成</span></td><td>奖励/返现 → 读 bonus.status</td><td>用户称彩金/返现没到</td><td><ol class="steps"><li>AI 调 ⑦bonus/records</li></ol></td><td class="expect">credited/claimed→告知已发放金额+时间；pending/未达条件→引导；无记录且确属异常→建工单</td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-12007</td><td><span class="tag tag-edge">边界</span></td><td>API 超时/500 → 兜底</td><td>接口异常</td><td><ol class="steps"><li>接口超时或 5xx</li></ol></td><td class="expect">AI 给"系统繁忙，正在加急核实"兜底并按需转人工，<span class="warn">不卡死无回复</span></td><td><span class="prio p1">P1</span></td></tr>
+<tr><td class="id">TC-12008</td><td><span class="tag tag-int">集成</span></td><td>404/空数据的话术</td><td>uid 无对应记录</td><td><ol class="steps"><li>接口返回 404 或空 items</li></ol></td><td class="expect">AI 转"未查询到相关记录，请核对"，<span class="warn">不误报成功、不臆造数据</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12009</td><td><span class="tag tag-edge">边界</span></td><td>★ 金额展示直接用十进制</td><td>AI 展示接口金额</td><td><ol class="steps"><li>AI 读 amount/remaining 展示</li></ol></td><td class="expect">按 <strong>₱ + 十进制值</strong>展示(如 ₱28.50)，<span class="warn">不得再 ÷100(会缩小100倍)</span></td><td><span class="prio p0">P0</span></td></tr>
+<tr><td class="id">TC-12010</td><td><span class="tag tag-edge">边界</span></td><td>时间本地化展示</td><td>AI 展示接口时间</td><td><ol class="steps"><li>AI 读 UTC 时间展示</li></ol></td><td class="expect">转马尼拉时区展示，不直接甩 UTC(Z) 给用户</td><td><span class="prio p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="footer">PH01 · 智能客服测试用例 · v2.0（2026-08-20 · 增补 CS API 集成 3 模块，真实会员断言）· 流程依据：PH01_智能客服流程方案 · 知识来源：官方 FAQ + Salesmartly 客服 API v1</div>
 </div>
 
 <a class="fab" href="/html-pages/" title="返回首页">⌂</a>
@@ -250,11 +314,11 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 <script>
 // ===== Stats =====
 (function(){
-  var map={'s1':['m1'],'s2':['m2'],'s3':['m3'],'s4':['m4'],'s5':['m5','m6'],'s6':['m7'],'s7':['m8','m9']};
+  var map={'s1':['m1'],'s2':['m2'],'s3':['m3'],'s4':['m4'],'s5':['m5','m6'],'s6':['m7'],'s7':['m8','m9'],'s8':['m10','m11','m12']};
   var total=0;
   for(var k in map){var c=0;map[k].forEach(function(id){c+=document.querySelectorAll('#'+id+' tbody tr').length});var el=document.getElementById(k);if(el)el.textContent=c;total+=c}
   document.getElementById('totalCases').textContent=total;
-  for(var i=1;i<=9;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;var el=document.getElementById('mc'+i);if(el)el.textContent=' ('+n+')';var el2=document.getElementById('mb'+i);if(el2)el2.textContent=n+' 条'}
+  for(var i=1;i<=12;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;var el=document.getElementById('mc'+i);if(el)el.textContent=' ('+n+')';var el2=document.getElementById('mb'+i);if(el2)el2.textContent=n+' 条'}
 })();
 // ===== Filter =====
 (function(){var btns=document.querySelectorAll('.fbtn');btns.forEach(function(btn){btn.addEventListener('click',function(){btns.forEach(function(b){b.classList.remove('active')});btn.classList.add('active');var f=btn.dataset.f;document.querySelectorAll('.tc tbody tr').forEach(function(tr){if(f==='all'){tr.style.display='';return}var tag=tr.querySelector('.tag');tr.style.display=tag&&tag.className.indexOf('tag-'+f)>=0?'':'none'})})})})();
