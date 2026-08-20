@@ -363,6 +363,123 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
   </div>
 </div>
 
+<!-- PH01 CS API Query -->
+<div class="card" style="margin-bottom:28px">
+  <div class="card-head">
+    <h2><span class="dot" style="background:#0d7377"></span>PH01 客服 API 查询
+      <span style="font-size:11px;font-weight:400;color:#9ca3af;margin-left:8px">CS v1 · HMAC-SHA256 · /api/cs/v1</span>
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="form-grid" style="margin-bottom:12px">
+      <div class="form-group">
+        <label class="form-label">Base Domain</label>
+        <input class="form-input mono" id="cs_domain" placeholder="测试环境域名, 不含 https://">
+      </div>
+      <div class="form-group">
+        <label class="form-label">App ID <span style="font-weight:400;color:#9ca3af">(X-CS-App-ID)</span></label>
+        <input class="form-input mono" id="cs_appid" placeholder="如 cs_sm_xxxxxxxxxxxx">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Secret</label>
+        <input class="form-input mono" id="cs_secret" placeholder="初始化/轮换时一次性显示">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">CORS Proxy <span style="font-weight:400;color:#9ca3af">（浏览器内「查询」需经代理转发 X-CS-* 头；留空仅可用「复制 cURL」）</span></label>
+        <input class="form-input mono" id="cs_proxy" placeholder="如 https://xxx.username.workers.dev">
+      </div>
+    </div>
+    <div class="form-hint" style="margin-bottom:14px">凭据由后台「客服配置 &gt; API 集成」维护，Secret 仅初始化/轮换时显示一次。浏览器发送自定义头 <code>X-CS-*</code> 会触发 CORS 预检，通常需经代理或由服务端调用；<b>「复制 cURL」可直接在终端执行验证</b>。</div>
+
+    <div class="api-tabs" id="csTabs">
+      <button class="api-tab active" onclick="csSwitchTab('profile',this)">玩家信息</button>
+      <button class="api-tab" onclick="csSwitchTab('deposit',this)">充值订单</button>
+      <button class="api-tab" onclick="csSwitchTab('withdraw',this)">提现订单</button>
+      <button class="api-tab" onclick="csSwitchTab('turnover',this)">流水进度</button>
+      <button class="api-tab" onclick="csSwitchTab('wallet',this)">绑定钱包</button>
+      <button class="api-tab" onclick="csSwitchTab('bet',this)">投注记录</button>
+      <button class="api-tab" onclick="csSwitchTab('bonus',this)">奖励记录</button>
+      <button class="api-tab" onclick="csSwitchTab('promotions',this)">优惠活动</button>
+      <button class="api-tab" onclick="csSwitchTab('verify',this)">账户校验</button>
+      <button class="api-tab" onclick="csSwitchTab('ticket',this)">创建工单</button>
+    </div>
+
+    <div class="api-panel active" id="cspanel_profile">
+      <div class="form-grid"><div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_profile_uid" placeholder="会员公开编号 user_no"></div></div>
+    </div>
+    <div class="api-panel" id="cspanel_deposit">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_deposit_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">status</label><input class="form-input mono" id="cs_deposit_status" placeholder="如 pending/completed/failed（以 Swagger 为准）"></div>
+        <div class="form-group"><label class="form-label">page</label><input class="form-input" id="cs_deposit_page" value="1" type="number"></div>
+        <div class="form-group"><label class="form-label">page_size</label><input class="form-input" id="cs_deposit_psize" value="10" type="number"></div>
+      </div>
+    </div>
+    <div class="api-panel" id="cspanel_withdraw">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_withdraw_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">status</label><input class="form-input mono" id="cs_withdraw_status" placeholder="如 pending_review/completed/rejected"></div>
+        <div class="form-group"><label class="form-label">page</label><input class="form-input" id="cs_withdraw_page" value="1" type="number"></div>
+        <div class="form-group"><label class="form-label">page_size</label><input class="form-input" id="cs_withdraw_psize" value="10" type="number"></div>
+      </div>
+    </div>
+    <div class="api-panel" id="cspanel_turnover">
+      <div class="form-grid"><div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_turnover_uid" placeholder="user_no"></div></div>
+    </div>
+    <div class="api-panel" id="cspanel_wallet">
+      <div class="form-grid"><div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_wallet_uid" placeholder="user_no"></div></div>
+    </div>
+    <div class="api-panel" id="cspanel_bet">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_bet_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">type</label><input class="form-input mono" id="cs_bet_type" placeholder="settled/unsettled/cancelled/promos"></div>
+        <div class="form-group"><label class="form-label">page</label><input class="form-input" id="cs_bet_page" value="1" type="number"></div>
+        <div class="form-group"><label class="form-label">page_size</label><input class="form-input" id="cs_bet_psize" value="10" type="number"></div>
+      </div>
+    </div>
+    <div class="api-panel" id="cspanel_bonus">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_bonus_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">category</label><input class="form-input mono" id="cs_bonus_category" placeholder="cashback/promo/free_bonus_15/commission"></div>
+        <div class="form-group"><label class="form-label">page</label><input class="form-input" id="cs_bonus_page" value="1" type="number"></div>
+        <div class="form-group"><label class="form-label">page_size</label><input class="form-input" id="cs_bonus_psize" value="10" type="number"></div>
+      </div>
+    </div>
+    <div class="api-panel" id="cspanel_promotions">
+      <div class="form-grid"><div class="form-group"><label class="form-label">status</label><input class="form-input mono" id="cs_promotions_status" value="active" placeholder="如 active"></div></div>
+    </div>
+    <div class="api-panel" id="cspanel_verify">
+      <div class="form-hint" style="margin-bottom:8px">POST · JSON body（敏感·限流+审计，命中仍须转人工）</div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">phone <span class="req">*</span></label><input class="form-input mono" id="cs_verify_phone" placeholder="手机号"></div>
+        <div class="form-group"><label class="form-label">extra</label><input class="form-input mono" id="cs_verify_extra" placeholder="附加信息（可选）"></div>
+      </div>
+    </div>
+    <div class="api-panel" id="cspanel_ticket">
+      <div class="form-hint" style="margin-bottom:8px">POST · JSON body（转人工/核实统一入口）</div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_ticket_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">type <span class="req">*</span></label><input class="form-input mono" id="cs_ticket_type" placeholder="工单类型"></div>
+        <div class="form-group full"><label class="form-label">context</label><input class="form-input mono" id="cs_ticket_context" placeholder="上下文（可选）"></div>
+        <div class="form-group full"><label class="form-label">evidence</label><input class="form-input mono" id="cs_ticket_evidence" placeholder="凭证URL，逗号分隔（可选）"></div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-green" onclick="csQuery('fetch')">查询</button>
+      <button class="btn-outline" onclick="csQuery('curl')">复制 cURL</button>
+    </div>
+    <div class="api-sign-info" id="csSignInfo" style="display:none"></div>
+    <div class="api-result" id="csResult">
+      <div class="api-result-head">
+        <span class="st" id="csSt"></span>
+        <span style="color:#9ca3af" id="csTime"></span>
+      </div>
+      <pre class="api-result-body" id="csBody"></pre>
+    </div>
+  </div>
+</div>
+
 <!-- Test Scenarios -->
 <div class="scenario-section">
   <h2><span class="dot"></span>测试场景清单</h2>
@@ -883,6 +1000,136 @@ function showApiResult(httpStatus, data, ms) {
   else { st.className = 'st st-err'; st.textContent = 'code: ' + (code || httpStatus); }
   document.getElementById('apiTime').textContent = ms + 'ms';
   document.getElementById('apiBody').textContent = JSON.stringify(data, null, 2);
+}
+
+/* ========== PH01 客服 API (CS v1 · HMAC-SHA256) ========== */
+var CS_API = {
+  profile:    { method:'GET',  path:'/api/cs/v1/player/profile',  name:'玩家信息', perm:'cs:player_profile:read' },
+  deposit:    { method:'GET',  path:'/api/cs/v1/deposit/orders',  name:'充值订单', perm:'cs:deposit_orders:read' },
+  withdraw:   { method:'GET',  path:'/api/cs/v1/withdraw/orders', name:'提现订单', perm:'cs:withdraw_orders:read' },
+  turnover:   { method:'GET',  path:'/api/cs/v1/turnover/status', name:'流水进度', perm:'cs:turnover_status:read' },
+  wallet:     { method:'GET',  path:'/api/cs/v1/wallet/bindings', name:'绑定钱包', perm:'cs:wallet_bindings:read' },
+  bet:        { method:'GET',  path:'/api/cs/v1/bet/history',     name:'投注记录', perm:'cs:bet_history:read' },
+  bonus:      { method:'GET',  path:'/api/cs/v1/bonus/records',   name:'奖励记录', perm:'cs:bonus_records:read' },
+  promotions: { method:'GET',  path:'/api/cs/v1/promotions',      name:'优惠活动', perm:'cs:promotions:read' },
+  verify:     { method:'POST', path:'/api/cs/v1/player/verify',   name:'账户校验', perm:'cs:player_verify:execute' },
+  ticket:     { method:'POST', path:'/api/cs/v1/ticket',          name:'创建工单', perm:'cs:ticket:create' }
+};
+var csCurrentTab = 'profile';
+
+function csSwitchTab(tab, btn) {
+  csCurrentTab = tab;
+  document.querySelectorAll('#csTabs .api-tab').forEach(function(t){ t.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  ['profile','deposit','withdraw','turnover','wallet','bet','bonus','promotions','verify','ticket'].forEach(function(k){
+    var p = document.getElementById('cspanel_' + k); if (p) p.classList.remove('active');
+  });
+  var panel = document.getElementById('cspanel_' + tab);
+  if (panel) panel.classList.add('active');
+}
+
+function csVal(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+/* 收集参数, 保持声明顺序; 返回 {pairs:[[k,v]], missing:'...'} */
+function csCollect() {
+  var t = csCurrentTab, pairs = [], missing = null;
+  function req(k, v) { if (!v) missing = missing || k; else pairs.push([k, v]); }
+  function opt(k, v) { if (v !== '') pairs.push([k, v]); }
+  if (t === 'profile')      { req('uid', csVal('cs_profile_uid')); }
+  else if (t === 'turnover'){ req('uid', csVal('cs_turnover_uid')); }
+  else if (t === 'wallet')  { req('uid', csVal('cs_wallet_uid')); }
+  else if (t === 'deposit') { req('uid', csVal('cs_deposit_uid')); opt('status', csVal('cs_deposit_status')); opt('page', csVal('cs_deposit_page') || '1'); opt('page_size', csVal('cs_deposit_psize') || '10'); }
+  else if (t === 'withdraw'){ req('uid', csVal('cs_withdraw_uid')); opt('status', csVal('cs_withdraw_status')); opt('page', csVal('cs_withdraw_page') || '1'); opt('page_size', csVal('cs_withdraw_psize') || '10'); }
+  else if (t === 'bet')     { req('uid', csVal('cs_bet_uid')); opt('type', csVal('cs_bet_type')); opt('page', csVal('cs_bet_page') || '1'); opt('page_size', csVal('cs_bet_psize') || '10'); }
+  else if (t === 'bonus')   { req('uid', csVal('cs_bonus_uid')); opt('category', csVal('cs_bonus_category')); opt('page', csVal('cs_bonus_page') || '1'); opt('page_size', csVal('cs_bonus_psize') || '10'); }
+  else if (t === 'promotions'){ opt('status', csVal('cs_promotions_status')); }
+  else if (t === 'verify')  { req('phone', csVal('cs_verify_phone')); opt('extra', csVal('cs_verify_extra')); }
+  else if (t === 'ticket')  { req('uid', csVal('cs_ticket_uid')); req('type', csVal('cs_ticket_type')); opt('context', csVal('cs_ticket_context')); opt('evidence', csVal('cs_ticket_evidence')); }
+  return { pairs: pairs, missing: missing };
+}
+
+function csHex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function(b){ return ('0' + b.toString(16)).slice(-2); }).join(''); }
+async function csSha256Hex(str) { var d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)); return csHex(d); }
+async function csHmacHex(secret, msg) {
+  var key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name:'HMAC', hash:'SHA-256' }, false, ['sign']);
+  var sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(msg));
+  return csHex(sig);
+}
+function csRandomNonce() {
+  var a = new Uint8Array(20); crypto.getRandomValues(a);
+  return csHex(a.buffer);
+}
+
+/* 构建请求(含签名), 返回 {url,method,headers,body,sign,ts,nonce,canonical,api} */
+async function csBuild() {
+  var domain = csVal('cs_domain').replace(/^https?:\/\//,'').replace(/\/+$/,'');
+  var appId = csVal('cs_appid'), secret = csVal('cs_secret');
+  if (!domain || !appId || !secret) { log('请填写 CS API 凭证 (domain / App ID / Secret)', 'err'); return null; }
+  var col = csCollect();
+  if (col.missing) { log('缺少必填参数: ' + col.missing, 'err'); return null; }
+  var api = CS_API[csCurrentTab];
+  var ts = Math.floor(Date.now() / 1000).toString();
+  var nonce = csRandomNonce();
+  var rawQuery = '', body = '', url;
+  if (api.method === 'GET') {
+    rawQuery = col.pairs.map(function(kv){ return encodeURIComponent(kv[0]) + '=' + encodeURIComponent(kv[1]); }).join('&');
+    url = 'https://' + domain + api.path + (rawQuery ? '?' + rawQuery : '');
+  } else {
+    var obj = {};
+    col.pairs.forEach(function(kv){
+      if (csCurrentTab === 'ticket' && kv[0] === 'evidence') obj[kv[0]] = kv[1].split(',').map(function(s){return s.trim();}).filter(Boolean);
+      else obj[kv[0]] = kv[1];
+    });
+    body = JSON.stringify(obj);
+    url = 'https://' + domain + api.path;
+  }
+  var bodyHash = await csSha256Hex(body);
+  var canonical = [api.method.toUpperCase(), api.path, rawQuery, ts, nonce, bodyHash].join('\n');
+  var sign = await csHmacHex(secret, canonical);
+  var headers = { 'X-CS-App-ID': appId, 'X-CS-Timestamp': ts, 'X-CS-Nonce': nonce, 'X-CS-Signature': sign };
+  if (api.method === 'POST') headers['Content-Type'] = 'application/json';
+  var info = document.getElementById('csSignInfo');
+  info.style.display = 'block';
+  info.innerHTML = '<b>' + api.name + '</b> ' + api.method + ' ' + api.path + ' &nbsp;<span style="color:#9ca3af">[' + api.perm + ']</span><br>'
+    + '<b>X-CS-Signature:</b> ' + sign + '<br><b>X-CS-Timestamp:</b> ' + ts + ' &nbsp; <b>X-CS-Nonce:</b> ' + nonce;
+  log('[CS] ' + api.name + ' 签名完成', 'ok');
+  return { url:url, method:api.method, headers:headers, body:body, sign:sign, ts:ts, nonce:nonce, canonical:canonical, api:api };
+}
+
+async function csQuery(mode) {
+  var b;
+  try { b = await csBuild(); } catch (e) { log('[CS] 签名失败: ' + e.message, 'err'); return; }
+  if (!b) return;
+  if (mode === 'curl') {
+    var parts = ["curl -X " + b.method + " '" + b.url + "'"];
+    Object.keys(b.headers).forEach(function(k){ parts.push("  -H '" + k + ": " + b.headers[k] + "'"); });
+    if (b.method === 'POST') parts.push("  --data '" + b.body + "'");
+    var cmd = parts.join(' \\\n');
+    navigator.clipboard.writeText(cmd).then(function(){ log('[CS] cURL 已复制到剪贴板', 'ok'); }).catch(function(){ prompt('复制以下命令:', cmd); });
+    return;
+  }
+  var proxy = csVal('cs_proxy').replace(/\/+$/, '');
+  var fetchUrl = proxy ? proxy + '/?target=' + encodeURIComponent(b.url) : b.url;
+  var t0 = Date.now();
+  log('[CS] 正在请求...' + (proxy ? '（经 CORS Proxy）' : ''), 'warn');
+  var opts = { method: b.method, headers: b.headers };
+  if (b.method === 'POST') opts.body = b.body;
+  fetch(fetchUrl, opts).then(function(r){
+    return r.json().then(function(data){ csShowResult(r.status, data, Date.now() - t0); log('[CS] 响应: code=' + data.code + ', ' + (Date.now() - t0) + 'ms', data.code === 'OK' ? 'ok' : 'err'); });
+  }).catch(function(err){
+    csShowResult(0, { error: err.message, hint: proxy ? '代理请求失败，请检查 Proxy 是否转发 X-CS-* 头' : '浏览器自定义头触发 CORS 预检，请填写可转发头的 CORS Proxy，或用「复制 cURL」在终端执行' }, Date.now() - t0);
+    log('[CS] 请求失败: ' + err.message, 'err');
+  });
+}
+
+function csShowResult(httpStatus, data, ms) {
+  var box = document.getElementById('csResult'); box.classList.add('visible');
+  var st = document.getElementById('csSt'), code = data.code;
+  if (code === 'OK') { st.className = 'st st-ok'; st.textContent = 'code: OK 成功'; }
+  else if (httpStatus === 0) { st.className = 'st st-err'; st.textContent = '请求失败'; }
+  else { st.className = 'st st-err'; st.textContent = 'code: ' + (code || httpStatus); }
+  document.getElementById('csTime').textContent = ms + 'ms';
+  document.getElementById('csBody').textContent = JSON.stringify(data, null, 2);
 }
 
 /* ========== Init ========== */
