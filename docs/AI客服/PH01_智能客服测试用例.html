@@ -60,6 +60,17 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 .finfo .fi.f-done .n{color:#059669}.finfo .fi.f-left .n{color:#d97706}.finfo .fi.f-total .n{color:#0d7377}
 .fab{position:fixed;right:22px;bottom:26px;width:46px;height:46px;border-radius:50%;background:#fff;border:1px solid #e0e0e0;box-shadow:0 2px 12px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;color:#555;text-decoration:none;font-size:20px;opacity:.85;z-index:50}.fab:hover{opacity:1;transform:scale(1.08)}
 @media(max-width:900px){body{padding:12px}.stats{flex-direction:column}.tc{display:block;overflow-x:auto}.toc ul{columns:1}.finfo{display:none}}
+/* 需上传截图用例：分步对话 + 截图缩略图 + 灯箱 */
+.shot{display:block;width:118px;max-height:230px;object-fit:contain;background:#fafafa;border:1px solid #e5e7eb;border-radius:6px;cursor:pointer;transition:transform .15s}
+.shot:hover{transform:scale(1.06);border-color:#0d7377}
+.shot-cap{font-size:10px;color:#6b7280;margin-top:4px;text-align:center;max-width:118px;line-height:1.3}
+.dlg{margin:0;padding:0;list-style:none;font-size:12px;line-height:1.65}
+.dlg li{margin-bottom:5px}
+.dlg .u{color:#1f5f9e;font-weight:600}.dlg .a{color:#0d7377;font-weight:600}.dlg .up{color:#d97706;font-weight:700}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:14px;padding:30px}
+.lb.show{display:flex}.lb img{max-width:92vw;max-height:82vh;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.lb-close{position:absolute;top:18px;right:24px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;border:none;font-size:22px;cursor:pointer}
+.sec.imgsec{border-left:4px solid #d97706}
 </style>
 </head>
 <body>
@@ -85,6 +96,7 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 <div class="stat c4"><div class="num" id="s6">0</div><div class="label">优惠奖励</div></div>
 <div class="stat c6"><div class="num" id="s7">0</div><div class="label">闭环/本地化</div></div>
 <div class="stat c7"><div class="num" id="s8">0</div><div class="label">CS API 集成</div></div>
+<div class="stat c3"><div class="num" id="s9">0</div><div class="label">需上传截图(人工)</div></div>
 </div>
 
 <div class="filter-bar" id="filterBar">
@@ -110,6 +122,7 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 <li><a href="#m10">10. CS API 鉴权与签名（HMAC-SHA256）</a><span class="cnt" id="mc10"></span></li>
 <li><a href="#m11">11. CS API 接口数据契约（真实会员）</a><span class="cnt" id="mc11"></span></li>
 <li><a href="#m12">12. AI ↔ CS API 联动（消费接口结果）</a><span class="cnt" id="mc12"></span></li>
+<li><a href="#m13">📷 13. 需上传截图的用例（人工测试专用）</a><span class="cnt" id="mc13"></span></li>
 </ul>
 </div>
 
@@ -305,20 +318,73 @@ tr.done td.id::after{content:"  ✓";color:#10b981;font-weight:800;font-size:13p
 </tbody></table>
 </div>
 
-<div class="footer">PH01 · 智能客服测试用例 · v2.0（2026-08-20 · 增补 CS API 集成 3 模块，真实会员断言）· 流程依据：PH01_智能客服流程方案 · 知识来源：官方 FAQ + Salesmartly 客服 API v1</div>
+<div class="sec imgsec" id="m13">
+<div class="sec-head"><h2>📷 13. 需上传截图的用例（人工测试专用）</h2><span class="cnt-badge" id="mb13"></span></div>
+<div class="flow-ref">说明：以下用例需在聊天中<b>上传图片</b>，自动化/脚本无法驱动 salesmartly 跨域插件的文件上传，故单列供<b>人工测试</b>。每格「分步对话」已写好逐步提问与上传时机；右侧为<b>可直接使用的合成测试截图</b>（点击放大后右键另存）。截图目录：<code>ph01-test-shots/</code>。</div>
+<table class="tc"><thead><tr><th>ID</th><th>类型</th><th>用例名称</th><th>分步对话（照此逐步发送）</th><th>上传截图</th><th>期望结果</th><th>优先级</th></tr></thead><tbody>
+<tr><td class="id">IMG-01</td><td><span class="tag tag-int">集成</span></td><td>充值未到账·凭证四要素识别→转三方群</td>
+<td><ol class="dlg"><li><span class="u">玩家：</span>I deposited but it hasn't arrived. Order no. DEP20260820XXXXX.</li><li><span class="a">AI：</span>(查无订单) Please send a screenshot of your payment receipt showing transaction time, amount, sender, receiver and transaction ID.</li><li><span class="up">玩家上传：</span>充值凭证截图（右图）</li></ol></td>
+<td><div class="shot-cell"><img class="shot" src="ph01-test-shots/01_deposit_proof.png" data-cap="充值凭证四要素(测试)"><div class="shot-cap">凭证四要素</div></div></td>
+<td class="expect">AI 识别四要素完整 → 结合 UID 生成 <strong>【三方查询·充值未到账】</strong> 转发到 TG 群「AI客服测试群-PH01」核实；缺要素则提示补全；<span class="warn">截图与问题不匹配则要求重发、不建工单</span></td><td><span class="prio p0">P0</span></td></tr>
+
+<tr><td class="id">IMG-02</td><td><span class="tag tag-func">功能</span></td><td>提现失败·流水不足识别</td>
+<td><ol class="dlg"><li><span class="u">玩家：</span>I can't withdraw my money.</li><li><span class="up">玩家上传：</span>提现失败截图（右图，提示需投注 ₱158）</li></ol></td>
+<td><div class="shot-cell"><img class="shot" src="ph01-test-shots/02_withdraw_turnover.png" data-cap="提现失败-流水不足 ₱158"><div class="shot-cap">流水不足</div></div></td>
+<td class="expect"><strong>AI 识别为「流水不足」</strong>，告知「还需完成 ₱158 流水即可提现」，中英（可他加禄语）双语</td><td><span class="prio p0">P0</span></td></tr>
+
+<tr><td class="id">IMG-03</td><td><span class="tag tag-func">功能</span></td><td>提现失败·当日未充值识别</td>
+<td><ol class="dlg"><li><span class="u">玩家：</span>Why can't I withdraw?</li><li><span class="up">玩家上传：</span>提现失败截图（右图，提示需再充值 ₱10）</li></ol></td>
+<td><div class="shot-cell"><img class="shot" src="ph01-test-shots/03_withdraw_deposit_today.png" data-cap="提现失败-当日需充值 ₱10"><div class="shot-cap">当日未充值</div></div></td>
+<td class="expect"><strong>AI 识别为「当日未充值」</strong>，告知今日需充值 ₱10 并完成 1x 流水；提示<strong>充值后先别领奖励，发起提现后再领</strong></td><td><span class="prio p1">P1</span></td></tr>
+
+<tr><td class="id">IMG-04</td><td><span class="tag tag-func">功能</span></td><td>提现失败·未绑定钱包识别</td>
+<td><ol class="dlg"><li><span class="u">玩家：</span>My withdrawal is not working.</li><li><span class="up">玩家上传：</span>提现失败截图（右图，提示未绑定提现账户）</li></ol></td>
+<td><div class="shot-cell"><img class="shot" src="ph01-test-shots/04_withdraw_no_wallet.png" data-cap="提现失败-未绑定钱包"><div class="shot-cap">未绑钱包</div></div></td>
+<td class="expect">AI 引导先<strong>绑定 GCash/Maya 提现账户</strong>（Profile→Bank tab→Add Withdrawal Account）再提现</td><td><span class="prio p1">P1</span></td></tr>
+
+<tr><td class="id">IMG-05</td><td><span class="tag tag-edge">边界</span></td><td>兑换码无效识别</td>
+<td><ol class="dlg"><li><span class="u">玩家：</span>My redeem code doesn't work.</li><li><span class="up">玩家上传：</span>兑换码报错截图（右图，Code not found）</li></ol></td>
+<td><div class="shot-cell"><img class="shot" src="ph01-test-shots/05_redeem_fail.png" data-cap="兑换码 Code not found"><div class="shot-cap">兑换码无效</div></div></td>
+<td class="expect">AI 引导核对兑换码是否正确/过期/是否对应本渠道，必要时查活动记录；<span class="warn">不臆造可兑换</span></td><td><span class="prio p1">P1</span></td></tr>
+
+<tr><td class="id">IMG-06</td><td><span class="tag tag-func">功能</span></td><td>登录失败·账号或密码错误</td>
+<td><ol class="dlg"><li><span class="u">玩家：</span>I can't log in to my account.</li><li><span class="up">玩家上传：</span>登录报错截图（右图，Account or password incorrect）</li></ol></td>
+<td><div class="shot-cell"><img class="shot" src="ph01-test-shots/06_login_error.png" data-cap="登录失败-账号或密码错误"><div class="shot-cap">登录失败</div></div></td>
+<td class="expect">AI 引导核对手机号与密码；忘记则走 <strong>Forgot? → Get Code(SMS)</strong> 用注册手机号重置（提示登录密码=提现密码）</td><td><span class="prio p1">P1</span></td></tr>
+
+<tr><td class="id">IMG-07</td><td><span class="tag tag-func">功能</span></td><td>游戏/页面加载卡住</td>
+<td><ol class="dlg"><li><span class="u">玩家：</span>The game keeps loading and won't open.</li><li><span class="up">玩家上传：</span>一直加载的截图（右图）</li></ol></td>
+<td><div class="shot-cell"><img class="shot" src="ph01-test-shots/07_loading_stuck.png" data-cap="游戏一直加载"><div class="shot-cap">加载卡住</div></div></td>
+<td class="expect">AI 引导「清缓存、切换网络、重新进入」；仍不行则记录机型/系统版本转技术；多用户同现则上报平台故障</td><td><span class="prio p1">P1</span></td></tr>
+
+<tr><td class="id">IMG-08</td><td><span class="tag tag-edge">边界</span></td><td>★ 无效/不匹配截图·不臆测</td>
+<td><ol class="dlg"><li><span class="u">玩家：</span>(不发文字) 直接上传一张与平台无关的截图</li><li><span class="up">玩家上传：</span>无关截图（右图，杂货小票）</li></ol></td>
+<td><div class="shot-cell"><img class="shot" src="ph01-test-shots/08_invalid_shot.png" data-cap="无关截图(杂货小票)"><div class="shot-cap">无效截图</div></div></td>
+<td class="expect">AI 回复「该截图未提供可检索的信息，请重新发送清晰且与本平台相关的截图」。<span class="warn">不臆测归类、不创建工单、不转发</span></td><td><span class="prio p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="footer">PH01 · 智能客服测试用例 · v3.0（2026-08-22 · 新增「需上传截图」人工分类，含合成测试截图）· 流程依据：PH01_智能客服流程方案 · 知识来源：官方 FAQ + Salesmartly 客服 API v1 · 实测记录见 PH01_AI问答测试记录.csv</div>
 </div>
 
 <a class="fab" href="/html-pages/" title="返回首页">⌂</a>
 <div class="toast" id="toast" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:9999;opacity:0;transition:opacity .25s"></div>
+<div class="lb" id="lb"><button class="lb-close" onclick="document.getElementById('lb').classList.remove('show')">×</button><img id="lbImg" alt="预览"><div style="color:#fff;font-size:12px;opacity:.7">右键图片「图片另存为」下载后用于人工上传测试</div></div>
 
+<script>
+/* 截图灯箱 */
+document.querySelectorAll('img.shot').forEach(function(im){im.addEventListener('click',function(){var lb=document.getElementById('lb');document.getElementById('lbImg').src=im.src;lb.classList.add('show');});});
+document.getElementById('lb').addEventListener('click',function(e){if(e.target.id==='lb')this.classList.remove('show');});
+window.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('lb').classList.remove('show');});
+</script>
 <script>
 // ===== Stats =====
 (function(){
-  var map={'s1':['m1'],'s2':['m2'],'s3':['m3'],'s4':['m4'],'s5':['m5','m6'],'s6':['m7'],'s7':['m8','m9'],'s8':['m10','m11','m12']};
+  var map={'s1':['m1'],'s2':['m2'],'s3':['m3'],'s4':['m4'],'s5':['m5','m6'],'s6':['m7'],'s7':['m8','m9'],'s8':['m10','m11','m12'],'s9':['m13']};
   var total=0;
   for(var k in map){var c=0;map[k].forEach(function(id){c+=document.querySelectorAll('#'+id+' tbody tr').length});var el=document.getElementById(k);if(el)el.textContent=c;total+=c}
   document.getElementById('totalCases').textContent=total;
-  for(var i=1;i<=12;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;var el=document.getElementById('mc'+i);if(el)el.textContent=' ('+n+')';var el2=document.getElementById('mb'+i);if(el2)el2.textContent=n+' 条'}
+  for(var i=1;i<=13;i++){var n=document.querySelectorAll('#m'+i+' tbody tr').length;var el=document.getElementById('mc'+i);if(el)el.textContent=' ('+n+')';var el2=document.getElementById('mb'+i);if(el2)el2.textContent=n+' 条'}
 })();
 // ===== Filter =====
 (function(){var btns=document.querySelectorAll('.fbtn');btns.forEach(function(btn){btn.addEventListener('click',function(){btns.forEach(function(b){b.classList.remove('active')});btn.classList.add('active');var f=btn.dataset.f;document.querySelectorAll('.tc tbody tr').forEach(function(tr){if(f==='all'){tr.style.display='';return}var tag=tr.querySelector('.tag');tr.style.display=tag&&tag.className.indexOf('tag-'+f)>=0?'':'none'})})})})();
