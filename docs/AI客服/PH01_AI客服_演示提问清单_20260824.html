@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PH01 AI客服 演示提问清单（实测版）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f4f6f9; color: #1f2933; line-height: 1.6; padding: 0 0 60px; }
+  header { background: linear-gradient(135deg, #1e3a5f 0%, #0d7377 100%); color: #fff; padding: 30px 40px; box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+  header h1 { font-size: 25px; font-weight: 700; }
+  header .sub { font-size: 14px; opacity: .92; margin-top: 6px; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  .tips { background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px; padding: 15px 20px; margin: 22px 0; font-size: 14px; }
+  .tips b { color: #b26a00; }
+  .tips ol { margin: 8px 0 0 20px; } .tips li { margin: 4px 0; }
+  .legend { font-size: 13px; color: #52606d; margin: 6px 0 0; }
+  .legend span { margin-right: 16px; }
+  .sec-title { font-size: 18px; font-weight: 700; color: #0d5c60; margin: 30px 0 6px; padding-bottom: 6px; border-bottom: 2px solid #0d7377; }
+  .block { background: #fff; border-radius: 12px; box-shadow: 0 1px 6px rgba(0,0,0,.06); margin: 16px 0; overflow: hidden; }
+  .block-h { background: #eef4f4; padding: 11px 20px; font-size: 15px; font-weight: 700; color: #0d5c60; border-left: 5px solid #0d7377; display: flex; align-items: center; gap: 10px; }
+  .block-h .num { background: #0d7377; color: #fff; border-radius: 50%; width: 25px; height: 25px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; flex: 0 0 25px; }
+  .block-body { padding: 14px 20px; }
+  .meta { font-size: 13px; color: #52606d; background: #f0f4f8; border-radius: 8px; padding: 8px 12px; margin: 4px 0 12px; }
+  .meta b { color: #d64545; }
+  .step { font-size: 12px; color: #7b8794; margin: 12px 0 4px; font-weight: 600; }
+  .qa { border: 1px solid #e4e9ef; border-radius: 10px; padding: 10px 12px; margin: 10px 0; background: #fbfcfd; }
+  .zh { font-size: 13px; color: #5c6b7a; margin: 0 2px 6px; }
+  .zh::before { content: "中文："; color: #9aa5b1; }
+  .q { display: flex; align-items: stretch; gap: 8px; }
+  .q code { flex: 1; background: #1f2933; color: #e6edf3; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 14px; padding: 9px 13px; border-radius: 8px; white-space: pre-wrap; word-break: break-word; }
+  .copy-btn { flex: 0 0 auto; background: #0d7377; color: #fff; border: none; border-radius: 8px; padding: 0 15px; font-size: 13px; cursor: pointer; transition: background .15s; font-weight: 600; }
+  .copy-btn:hover { background: #0a5c60; } .copy-btn.done { background: #2f9e44; }
+  .reply { font-size: 12.5px; margin: 8px 2px 0; padding: 8px 10px; border-radius: 8px; background: #f1f5f9; color: #33404d; }
+  .reply .tag { font-weight: 700; margin-right: 6px; }
+  .ok { border-left: 3px solid #2f9e44; } .ok .tag { color: #2f9e44; }
+  .warn { border-left: 3px solid #f59f00; } .warn .tag { color: #b26a00; }
+  .bad { border-left: 3px solid #e03131; } .bad .tag { color: #c0392b; }
+  .flow-step { font-size: 12px; color: #0d7377; font-weight: 700; margin: 12px 0 2px; }
+  .avoid { background: #fdecea; border: 1px solid #f5c2bd; border-radius: 10px; padding: 14px 20px; margin: 22px 0; font-size: 13px; }
+  .avoid b { color: #c0392b; } .avoid ul { margin: 6px 0 0 18px; }
+  footer { text-align: center; font-size: 12px; color: #9aa5b1; margin-top: 30px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>PH01 AI 智能客服 · 演示提问清单（实测版）</h1>
+    <div class="sub">2026-08-24 · 每条含中文对照 + 实测 AI 回复 · 点「复制」即粘贴到聊天窗</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="tips">
+    <b>演示前必看</b>
+    <ol>
+      <li>每换一个「数据查询」账号，<b>先清缓存换新访客</b>，避免上条会话干扰。</li>
+      <li>查数据时 <b>UID 单独先发一条</b>，AI 确认账号后<b>再发问题</b>（同一句"UID+问题"会被吞）。</li>
+      <li><b>责任博彩 / 转人工放最后</b> —— AI 转人工后该会话静默，后面问不动。</li>
+    </ol>
+    <div class="legend"><span>✅ 实测回答好</span><span>⚠️ 答不全</span><span>❌ 当前有缺陷（已提单）</span></div>
+  </div>
+
+  <div class="sec-title">一、单轮提问清单（覆盖 13 个功能块）</div>
+
+  <!-- 1 -->
+  <div class="block">
+    <div class="block-h"><span class="num">1</span>开场 / 身份识别</div>
+    <div class="block-body">
+      <div class="qa">
+        <div class="zh">你好，我账户上想找点帮助</div>
+        <div class="q"><code>Hi, I need some help with my account</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>回招呼语 + 功能菜单（Account / Deposit / Withdrawal / Wallet / Bet history / Promotions）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="block">
+    <div class="block-h"><span class="num">2</span>账户类（注册 / 改密码 / 找回）</div>
+    <div class="block-body">
+      <div class="qa">
+        <div class="zh">如何注册一个新账号？</div>
+        <div class="q"><code>How do I register a new account?</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>输入手机号 → 设置字母+数字的密码 → 点 Register/Login，并提示注册前核对手机号密码</div>
+      </div>
+      <div class="qa">
+        <div class="zh">如何设置 / 修改我的登录密码？</div>
+        <div class="q"><code>How do I set or change my login password?</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>Profile/Account → Account → Password → 输入并确认新密码 → Confirm</div>
+      </div>
+      <div class="qa">
+        <div class="zh">我忘记密码了，怎么重置？</div>
+        <div class="q"><code>I forgot my password, how can I reset it?</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>登录页点 Forgot → Get Code 收短信验证码 → 输码 → 设新密码 → Confirm（并提示登录密码=提现密码）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="block">
+    <div class="block-h"><span class="num">3</span>充值 How-to</div>
+    <div class="block-body">
+      <div class="qa">
+        <div class="zh">我要怎么充值到账户里？</div>
+        <div class="q"><code>How do I deposit money into my account?</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>Tap Deposit → 选 GCash/Maya → 输金额 → Continue → 付款 → 等到账（含 Quick Flow 图示）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="block">
+    <div class="block-h"><span class="num">4</span>提现 How-to</div>
+    <div class="block-body">
+      <div class="qa">
+        <div class="zh">我要怎么提现我的奖金？</div>
+        <div class="q"><code>How do I withdraw my winnings?</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>Profile → Withdrawal → 选/输金额 → Continue → 验证登录密码 → Confirm，通常 10 分钟内到账</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="block">
+    <div class="block-h"><span class="num">5</span>绑定钱包 How-to</div>
+    <div class="block-body">
+      <div class="qa">
+        <div class="zh">我要怎么绑定我的 GCash 钱包用于提现？</div>
+        <div class="q"><code>How do I bind my GCash wallet for withdrawal?</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>Profile → Bank 标签 → Add Withdrawal Account → 选 GCash/Maya → 填手机号+登录密码 → 提交</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="block">
+    <div class="block-h"><span class="num">6</span>优惠活动</div>
+    <div class="block-body">
+      <div class="qa">
+        <div class="zh">现在有哪些优惠活动？</div>
+        <div class="q"><code>What promotions are available now?</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>列出 Deposit Bonus、Referral Reward、Registration Bonus，并指引到 Promotions 页看详情</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="block">
+    <div class="block-h"><span class="num">7</span>数据查询（重点：AI 实时查账）</div>
+    <div class="block-body">
+
+      <div class="meta">① 查最近充值 — 账号 <b>7808237375</b></div>
+      <div class="step">先发 UID：</div>
+      <div class="q"><code>my user id is 7808237375</code><button class="copy-btn">复制</button></div>
+      <div class="step">再问（中文：我最近一笔充值多少？）：</div>
+      <div class="q"><code>how much was my last deposit?</code><button class="copy-btn">复制</button></div>
+      <div class="reply ok"><span class="tag">实测✅</span>"₱1,500.00 已于 2026-08-12 23:43 到账"（马尼拉时区，金额准确）</div>
+
+      <div class="meta" style="margin-top:16px;">② 查最近投注 — 账号 <b>7999999943</b></div>
+      <div class="step">先发 UID：</div>
+      <div class="q"><code>hello, my id is 7999999943</code><button class="copy-btn">复制</button></div>
+      <div class="step">再问（中文：给我看看我最近一次投注）：</div>
+      <div class="q"><code>show me my last bet</code><button class="copy-btn">复制</button></div>
+      <div class="reply ok"><span class="tag">实测✅</span>"omg_1，下注 ₱10.00，派彩 ₱20.00，settled，2026-08-19 11:23"（准确）</div>
+
+      <div class="meta" style="margin-top:16px;">③ 查绑定钱包 — 账号 <b>2959403358</b></div>
+      <div class="step">先发 UID：</div>
+      <div class="q"><code>hi, my user id is 2959403358</code><button class="copy-btn">复制</button></div>
+      <div class="step">再问（中文：我账户绑定了哪个钱包？）：</div>
+      <div class="q"><code>which wallet is bound to my account?</code><button class="copy-btn">复制</button></div>
+      <div class="reply ok"><span class="tag">实测✅</span>"已绑定 Ewallet（尾号 0205），可直接提现"</div>
+
+      <div class="meta" style="margin-top:16px;">④ 查提现状态 — 账号 <b>2959403358</b>（承上会话直接问）</div>
+      <div class="step">中文：我的提现是什么状态？</div>
+      <div class="q"><code>what is the status of my withdrawal?</code><button class="copy-btn">复制</button></div>
+      <div class="reply ok"><span class="tag">实测✅</span>"₱100.00 已于 2026-08-05 21:28 完成，打到尾号 4567"（准确）</div>
+
+      <div class="meta" style="margin-top:16px;">⑤ 查账户状态 / VIP — 账号 <b>2959403358</b>（可选，效果一般）</div>
+      <div class="step">中文：我的账户正常吗？我是什么 VIP 等级？</div>
+      <div class="q"><code>is my account active? what is my VIP level?</code><button class="copy-btn">复制</button></div>
+      <div class="reply warn"><span class="tag">实测⚠️</span>只返回"用户名 + User ID"，未明确回答是否 active / VIP 等级（建议演示时略过此条）</div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="block">
+    <div class="block-h"><span class="num">8</span>多轮对话 / 上下文记忆</div>
+    <div class="block-body">
+      <div class="reply ok" style="margin:0 0 10px;"><span class="tag">实测✅</span>见下方"二、多轮脚本 · 脚本 A"——一次报 UID 后，连续多轮查不同数据，AI 全程记住账号无需重报</div>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="block">
+    <div class="block-h"><span class="num">9</span>语言能力（听懂菲式他加禄语）</div>
+    <div class="block-body">
+      <div class="qa">
+        <div class="zh">（他加禄语）请问怎么提现钱？</div>
+        <div class="q"><code>paano po mag-withdraw ng pera?</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>听懂"如何提现"，给出完整提现步骤（注：回复用英文）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="block">
+    <div class="block-h"><span class="num">10</span>负向 / 防幻觉（查无数据不乱编，加分项）</div>
+    <div class="block-body">
+      <div class="meta">账号 <b>7999999943</b>（今日无充值）</div>
+      <div class="step">先发 UID：</div>
+      <div class="q"><code>hi im 7999999943</code><button class="copy-btn">复制</button></div>
+      <div class="step">再问（中文：我今天充的 5000 比索到账了吗？）：</div>
+      <div class="q"><code>did my 5000 peso deposit today go through?</code><button class="copy-btn">复制</button></div>
+      <div class="reply ok"><span class="tag">实测✅</span>不瞎编 ₱5000，回"请提供付款回执截图（时间/金额/收发方/交易号）以便核实"</div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="block">
+    <div class="block-h"><span class="num">11</span>时间 / 汇总查询</div>
+    <div class="block-body">
+      <div class="meta">账号 <b>1000000000</b>（充值数据丰富。真值：本月 6 笔=₱203、今天 0 笔）</div>
+      <div class="step">先发 UID：</div>
+      <div class="q"><code>hi my id is 1000000000</code><button class="copy-btn">复制</button></div>
+      <div class="step">中文：这个月到目前我一共充了多少？</div>
+      <div class="q"><code>how much have I deposited so far this month?</code><button class="copy-btn">复制</button></div>
+      <div class="reply bad"><span class="tag">实测❌</span>只报最近 1 笔 ₱50，未汇总本月（已提单）</div>
+      <div class="step">中文：我今天有充值吗？</div>
+      <div class="q"><code>did I make any deposit today?</code><button class="copy-btn">复制</button></div>
+      <div class="reply bad"><span class="tag">实测❌</span>无视"今天"，回"Good news ₱50/08-18"，把旧充值当肯定答复（已提单）</div>
+      <div class="step">中文：把我上周的充值都列出来</div>
+      <div class="q"><code>can you list all the deposits I made last week?</code><button class="copy-btn">复制</button></div>
+      <div class="reply bad"><span class="tag">实测❌</span>只报 1 笔，未列全（已提单）</div>
+    </div>
+  </div>
+
+  <!-- 12 -->
+  <div class="block">
+    <div class="block-h"><span class="num">12</span>奖励 / Bonus 到账查询</div>
+    <div class="block-body">
+      <div class="meta">账号 <b>7808237375</b>（后台实有奖励 ₱188、₱88）</div>
+      <div class="step">先发 UID：</div>
+      <div class="q"><code>my user id is 7808237375</code><button class="copy-btn">复制</button></div>
+      <div class="step">中文：我的奖励到账了吗？一共领了多少奖励？</div>
+      <div class="q"><code>did my bonus arrive? how much bonus have I received?</code><button class="copy-btn">复制</button></div>
+      <div class="reply bad"><span class="tag">实测❌</span>回"查无任何奖励记录"（假阴性，实际有 ₱188/₱88，已提单）</div>
+    </div>
+  </div>
+
+  <!-- 13 -->
+  <div class="block">
+    <div class="block-h"><span class="num">13</span>责任博彩 &amp; 转人工（放最后演示）</div>
+    <div class="block-body">
+      <div class="qa">
+        <div class="zh">这游戏就是个骗局，我要向 PAGCOR 投诉</div>
+        <div class="q"><code>this game is a scam, I want to file a complaint to PAGCOR</code><button class="copy-btn">复制</button></div>
+        <div class="reply ok"><span class="tag">实测✅</span>不还嘴、保持专业，回"已转交支持团队核查，请稍候"（转人工）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-title">二、多轮对话脚本（现场按顺序逐条发）</div>
+
+  <!-- Flow A -->
+  <div class="block">
+    <div class="block-h"><span class="num">A</span>提现咨询 + 连续查账（展示上下文记忆）· 账号 2959403358</div>
+    <div class="block-body">
+      <div class="reply ok" style="margin:0 0 10px;"><span class="tag">实测✅</span>全程只报 1 次 UID，AI 记住账号连续答 3 个不同问题</div>
+      <div class="flow-step">第 1 步（中文：你好，我的 ID 是 2959403358）</div>
+      <div class="q"><code>hi, my user id is 2959403358</code><button class="copy-btn">复制</button></div>
+      <div class="flow-step">第 2 步（中文：我要怎么提现？）</div>
+      <div class="q"><code>how do I withdraw?</code><button class="copy-btn">复制</button></div>
+      <div class="flow-step">第 3 步（中文：我绑定了哪个钱包？）</div>
+      <div class="q"><code>which wallet is bound to my account?</code><button class="copy-btn">复制</button></div>
+      <div class="flow-step">第 4 步（中文：我最近那笔提现到账了吗？）</div>
+      <div class="q"><code>what is the status of my withdrawal?</code><button class="copy-btn">复制</button></div>
+    </div>
+  </div>
+
+  <!-- Flow B -->
+  <div class="block">
+    <div class="block-h"><span class="num">B</span>充值到账核对（展示查数据 + 追问）· 账号 7808237375</div>
+    <div class="block-body">
+      <div class="flow-step">第 1 步（中文：你好，我的用户 ID 是 7808237375）</div>
+      <div class="q"><code>hi, my user id is 7808237375</code><button class="copy-btn">复制</button></div>
+      <div class="flow-step">第 2 步（中文：我最近一笔充值是多少？）</div>
+      <div class="q"><code>how much was my last deposit?</code><button class="copy-btn">复制</button></div>
+      <div class="flow-step">第 3 步（中文：那我这个账号还能提现吗？要怎么操作？）</div>
+      <div class="q"><code>can I withdraw now? how do I do it?</code><button class="copy-btn">复制</button></div>
+    </div>
+  </div>
+
+  <!-- Flow C -->
+  <div class="block">
+    <div class="block-h"><span class="num">C</span>新手入门引导（无需 UID，展示 how-to 连贯性）</div>
+    <div class="block-body">
+      <div class="flow-step">第 1 步（中文：你好，我是新玩家，第一步该做什么？）</div>
+      <div class="q"><code>Hi, I am a new player. What should I do first?</code><button class="copy-btn">复制</button></div>
+      <div class="flow-step">第 2 步（中文：我要怎么充值？）</div>
+      <div class="q"><code>How do I deposit money into my account?</code><button class="copy-btn">复制</button></div>
+      <div class="flow-step">第 3 步（中文：现在有什么优惠可以领？）</div>
+      <div class="q"><code>What promotions can I claim now?</code><button class="copy-btn">复制</button></div>
+    </div>
+  </div>
+
+  <div class="avoid">
+    <b>⚠️ 现场斟酌 —— 以下为已知缺陷（第 11、12 块属此类，客户追问可答"已提单、优化中"）</b>
+    <ul>
+      <li>时间 / 汇总查询（第 11 块）：会答错，只报最近 1 笔；"今天"会拿旧充值冒充。</li>
+      <li>奖励 / Bonus 查询（第 12 块）：会回"查无奖励记录"（假阴性）。</li>
+      <li>账户状态 / VIP（7⑤）：只返用户名+ID，不明说 active/VIP。</li>
+      <li>一句话同时给 UID + 问题：会被吞（务必分两条）。</li>
+      <li>要求 AI "说简单点 / 换个说法"：会退回主菜单。</li>
+    </ul>
+  </div>
+
+  <footer>PH01 AI 客服演示提问清单（实测版）· Smith（测试工程师）· 2026-08-24 · 回复摘自真实客服工作台实测记录</footer>
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.previousElementSibling.innerText;
+      function ok(){ btn.textContent='已复制'; btn.classList.add('done'); setTimeout(function(){ btn.textContent='复制'; btn.classList.remove('done'); }, 1400); }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(ok).catch(fallback); }
+      else { fallback(); }
+      function fallback(){ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); ok(); }catch(e){} document.body.removeChild(ta); }
+    });
+  });
+</script>
+</body>
+</html>
