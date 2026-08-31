@@ -1,0 +1,112 @@
+<meta charset="utf-8">
+<title>PH02 模块测试分配</title>
+<style>
+  :root{--blue:#3b5bdb;--blue2:#5c7cfa;--smith:#1c7ed6;--phoenix:#e8590c;--bg:#f5f7fb;--card:#fff;--ink:#1f2a44;--mut:#6b7794;--line:#e3e8f0;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 60px}
+  .top{background:linear-gradient(120deg,var(--blue),var(--blue2));color:#fff;border-radius:16px;padding:26px 30px;box-shadow:0 8px 24px rgba(59,91,219,.25)}
+  .top h1{margin:0 0 6px;font-size:26px;letter-spacing:.5px}
+  .top p{margin:0;opacity:.92;font-size:14px}
+  .legend{display:flex;gap:18px;margin-top:16px;flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:7px;font-size:13px;background:rgba(255,255,255,.15);padding:5px 12px;border-radius:20px}
+  .dot{width:11px;height:11px;border-radius:50%}
+  .sec-title{font-size:18px;font-weight:700;margin:34px 0 16px;padding-left:12px;border-left:4px solid var(--blue)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:820px){.cols{grid-template-columns:1fr}}
+  .owner{background:var(--card);border-radius:14px;border:1px solid var(--line);overflow:hidden;box-shadow:0 2px 10px rgba(30,42,68,.05)}
+  .owner h2{margin:0;padding:16px 20px;color:#fff;font-size:17px;display:flex;justify-content:space-between;align-items:center}
+  .owner.s h2{background:var(--smith)} .owner.p h2{background:var(--phoenix)}
+  .owner h2 .n{background:rgba(255,255,255,.25);border-radius:20px;padding:2px 12px;font-size:13px}
+  .mods{padding:14px 18px 18px}
+  .mod{border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin-top:10px;background:#fbfcfe}
+  .mod b{font-size:14.5px}
+  .mod .subs{color:var(--mut);font-size:12.5px;margin-top:3px}
+  .side{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:6px;margin-left:8px;vertical-align:middle}
+  .side.be{background:#e7f0ff;color:#1c56c9}.side.fe{background:#fff0e6;color:#c9541c}.side.both{background:#eef7ec;color:#2f8f2f}
+  /* mindmap */
+  .map{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 20px;overflow-x:auto}
+  .tree{display:flex;gap:40px;min-width:760px}
+  .tnode{position:relative}
+  .troot{align-self:center;background:var(--blue);color:#fff;padding:12px 18px;border-radius:12px;font-weight:700;white-space:nowrap}
+  .branch{display:flex;flex-direction:column;gap:14px}
+  .bcard{border-radius:10px;padding:9px 13px;font-size:13.5px;border:1px solid var(--line);background:#fbfcfe}
+  .bcard .h{font-weight:700;margin-bottom:5px}
+  .leaf{font-size:12px;color:var(--mut);padding:1px 0}
+  .leaf .who{font-weight:700}
+  .leaf .who.s{color:var(--smith)} .leaf .who.p{color:var(--phoenix)}
+  .note{color:var(--mut);font-size:12.5px;margin-top:10px}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <h1>PH02 · Casino Plus 模块测试分配</h1>
+    <p>包网平台（管理后台 + 前端 H5）· 按模块分配给 Smith / Phoenix 两位测试 · 更新 2026-08-31</p>
+    <div class="legend">
+      <span><i class="dot" style="background:#74c0fc"></i>Smith 负责</span>
+      <span><i class="dot" style="background:#ffa94d"></i>Phoenix 负责</span>
+      <span><i class="dot" style="background:#69db7c"></i>前后端拆分</span>
+    </div>
+  </div>
+
+  <div class="sec-title">一、管理后台 · 分配看板</div>
+  <div class="cols">
+    <div class="owner s">
+      <h2>Smith<span class="n">5 模块</span></h2>
+      <div class="mods">
+        <div class="mod"><b>钱包管理</b><span class="side be">后台</span><div class="subs">服务商配置 · 支付渠道 · 出款通道 · 钱包流水 · 人工调账 · 充值订单 · 出款订单 · 提现规则 · VIP免审核规则 · 出款人工审核</div></div>
+        <div class="mod"><b>会员中心</b><span class="side be">后台</span><div class="subs">会员列表 · 会员标签 · 会员VIP管理</div></div>
+        <div class="mod"><b>报表管理</b><span class="side be">后台</span><div class="subs">用户日报 · 代理日报 · 平台日报 · 导出任务</div></div>
+        <div class="mod"><b>运营配置 CMS</b><span class="side be">后台</span><div class="subs">公告配置 · 轮播图 · 底部导航 · 社群链接 · 客服配置 · 浮标配置</div></div>
+        <div class="mod"><b>短信管理</b><span class="side be">后台</span><div class="subs">短信服务商 · 短信模板 · 短信发送 · 发送记录</div></div>
+      </div>
+    </div>
+    <div class="owner p">
+      <h2>Phoenix<span class="n">4 模块</span></h2>
+      <div class="mods">
+        <div class="mod"><b>系统管理</b><span class="side be">后台</span><div class="subs">角色管理 · 账号管理 · 菜单管理 · API权限 · 操作日志 · 登录日志 · 字典管理 · 参数设置</div></div>
+        <div class="mod"><b>活动管理</b><span class="side be">后台</span><div class="subs">注册活动 · 充值活动 · 返水活动 · 好友邀请 · 下载有礼 · 签到活动 · 亏损救援金 · 返水结算发件箱</div></div>
+        <div class="mod"><b>游戏管理</b><span class="side be">后台</span><div class="subs">游戏列表 · 热门推荐 · 游戏分类 · 厂商设置 · 供应商管理 · 游戏钱包流水 · 游戏注单 · RTP点控</div></div>
+        <div class="mod"><b>代理管理</b><span class="side be">后台</span><div class="subs">代理列表 · 代理团队 · 代理小组 · 代理渠道</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-title">二、前端 H5 · 分配看板</div>
+  <div class="cols">
+    <div class="owner s">
+      <h2>Smith<span class="n">前端</span></h2>
+      <div class="mods">
+        <div class="mod"><b>会员/资金</b><span class="side fe">前端</span><div class="subs">登录注册 · 充值 · 提现 · 收款人/资金密码/改密 · 交易记录 · 余额(双桶)</div></div>
+        <div class="mod"><b>内容/社区</b><span class="side fe">前端</span><div class="subs">个人资料 · 公告/消息 · 社区 · News</div></div>
+      </div>
+    </div>
+    <div class="owner p">
+      <h2>Phoenix<span class="n">前端</span></h2>
+      <div class="mods">
+        <div class="mod"><b>游戏/优惠</b><span class="side fe">前端</span><div class="subs">游戏大厅 · 游戏启动/下注 · 优惠 Rewards · 活动参与</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-title">三、思维导图</div>
+  <div class="map">
+    <div class="tree">
+      <div class="tnode"><div class="troot">PH02<br>Casino Plus</div></div>
+      <div class="branch">
+        <div class="bcard"><div class="h">🖥 管理后台</div>
+          <div class="leaf"><span class="who s">S</span> 钱包管理 · 会员中心 · 报表管理 · 运营配置 · 短信管理</div>
+          <div class="leaf"><span class="who p">P</span> 系统管理 · 活动管理 · 游戏管理 · 代理管理</div>
+        </div>
+        <div class="bcard"><div class="h">📱 前端 H5</div>
+          <div class="leaf"><span class="who s">S</span> 登录注册 · 充值 · 提现 · 资金密码/绑卡 · 交易记录 · 个人资料 · 公告/消息 · 社区/News</div>
+          <div class="leaf"><span class="who p">P</span> 游戏大厅 · 下注 · 优惠 Rewards · 活动</div>
+        </div>
+        <div class="bcard"><div class="h">🗄 数据库 · CockroachDB(hash库)</div>
+          <div class="leaf">会员/钱包/订单/账变/标签/评定/黑名单/审计 — 双人共用只读断言</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">说明：Smith = 资金链路 + 会员运营 + 数据/内容/触达；Phoenix = 系统权限 + 游戏 + 活动 + 代理。前端按「资金&内容 / 游戏&优惠」拆分。数据库层为双人共用（只读断言 + 造数）。</div>
+  </div>
+</div>

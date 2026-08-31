@@ -744,6 +744,35 @@
           ],
           "module": "短信管理",
           "line": "PH02"
+        },
+        {
+          "file": "docs/PH02/前端H5测试用例.html",
+          "title": "前端H5测试用例",
+          "category": "testcase",
+          "date": "2026-08-31",
+          "tags": [
+            "前端",
+            "H5",
+            "充值",
+            "提现",
+            "资金密码",
+            "公告"
+          ],
+          "module": "前端H5",
+          "line": "PH02"
+        },
+        {
+          "file": "docs/PH02/PH02模块分配.html",
+          "title": "PH02模块分配",
+          "category": "reference",
+          "date": "2026-08-31",
+          "tags": [
+            "分配",
+            "思维导图",
+            "项目通用"
+          ],
+          "module": "项目通用",
+          "line": "PH02"
         }
       ]
     }
