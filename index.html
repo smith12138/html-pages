@@ -140,9 +140,13 @@
         .module-section .card-list { padding: 14px 14px; }
         .module-section.collapsed .mod-chevron { transform: rotate(-90deg); }
         .module-section.collapsed .card-list { display: none; }
-        .line-band { display: flex; align-items: center; gap: 10px; margin: 24px 0 12px; padding: 9px 16px; border-radius: 11px; background: linear-gradient(135deg,#6366f1,#818cf8); color: #fff; font-size: 16px; font-weight: 800; letter-spacing: .03em; }
+        .line-band { display: flex; align-items: center; gap: 10px; margin: 24px 0 12px; padding: 9px 16px; border-radius: 11px; background: linear-gradient(135deg,#6366f1,#818cf8); color: #fff; font-size: 16px; font-weight: 800; letter-spacing: .03em; cursor: pointer; user-select: none; }
         .line-band:first-child { margin-top: 4px; }
-        .line-band span { font-size: 12px; font-weight: 600; background: rgba(255,255,255,.24); padding: 2px 10px; border-radius: 8px; }
+        .line-band .mod-chevron { display: inline-flex; transition: transform .2s; }
+        .line-band.collapsed .mod-chevron { transform: rotate(-90deg); }
+        .line-band .line-name { flex: 1; }
+        .line-band .line-count { font-size: 12px; font-weight: 600; background: rgba(255,255,255,.24); padding: 2px 10px; border-radius: 8px; }
+        .line-group.collapsed { display: none; }
 
         .card-list { display: flex; flex-direction: column; gap: 8px; }
         .card {
@@ -272,6 +276,7 @@
     let activeProject = null;
     let activeFilter = 'all';
     let moduleCollapsed = {};   // 模块折叠状态（键=模块名）
+    let lineCollapsed = {};     // 产品线折叠状态（键=线名 PH01/PH02）
 
     // ── Clock ──
     function updateClock() {
@@ -392,7 +397,8 @@
                 }).join('')}</div>`;
             const secs = lines.map(ln => {
                 const lp = ln === null ? visPages : visPages.filter(p => (p.line || '其他') === ln);
-                const band = ln === null ? '' : `<div class="line-band">${ln}<span>${lp.length}</span></div>`;
+                const lcol = ln !== null && lineCollapsed[ln] ? ' collapsed' : '';
+                const band = ln === null ? '' : `<div class="line-band${lcol}" data-line="${ln}"><span class="mod-chevron">${CHEVRON}</span><span class="line-name">${ln}</span><span class="line-count">${lp.length}</span></div>`;
                 const mods = [...new Set(lp.map(p => p.module || '项目通用'))];
                 const modHtml = mods.map(mod => {
                     const modPages = lp.filter(p => (p.module || '项目通用') === mod);
@@ -409,21 +415,29 @@
                         <div class="card-list">${modPages.map(cardHtml).join('')}</div>
                     </div>`;
                 }).join('');
-                return band + modHtml;
+                return ln === null ? modHtml : band + `<div class="line-group${lcol}">${modHtml}</div>`;
             }).join('') || '<div class="empty">暂无文档</div>';
             el.innerHTML = nav + secs;
+            el.querySelectorAll('.line-band').forEach(b =>
+                b.addEventListener('click', () => { const ln = b.dataset.line; lineCollapsed[ln] = !lineCollapsed[ln]; renderDetail(); }));
             el.querySelectorAll('.module-header').forEach(h =>
                 h.addEventListener('click', () => { const m = h.dataset.toggle; moduleCollapsed[m] = !moduleCollapsed[m]; renderDetail(); }));
             el.querySelectorAll('.mod-chip[data-jump]').forEach(c =>
                 c.addEventListener('click', () => {
                     const m = c.dataset.jump;
+                    lineCollapsed = {};   // 跳转时展开所有产品线，确保目标模块可见
                     el.querySelectorAll(`.module-section[data-name="${m}"]`).forEach(s => moduleCollapsed[s.dataset.mod] = false);
                     renderDetail();
                     const sec = document.querySelector(`.module-section[data-name="${m}"]`);
                     if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }));
             el.querySelectorAll('.mod-chip[data-all]').forEach(c =>
-                c.addEventListener('click', () => { const cf = c.dataset.all === 'collapse'; document.querySelectorAll('.module-section').forEach(s => moduleCollapsed[s.dataset.mod] = cf); renderDetail(); }));
+                c.addEventListener('click', () => {
+                    const cf = c.dataset.all === 'collapse';
+                    document.querySelectorAll('.module-section').forEach(s => moduleCollapsed[s.dataset.mod] = cf);
+                    lines.forEach(ln => { if (ln !== null) lineCollapsed[ln] = cf; });
+                    renderDetail();
+                }));
             return;
         }
 
