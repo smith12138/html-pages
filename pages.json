@@ -390,7 +390,7 @@
     {
       "id": "ph-game",
       "name": "PH_GAME",
-      "description": "游戏项目（产品线 Ph01-Ph10）·后台+前端，用标签区分",
+      "description": "PH01（BingoPlus）+ PH02（Casino Plus）· 包网产品线 · 后台+前端",
       "color": "#ec4899",
       "pages": [
         {
@@ -403,7 +403,8 @@
             "会员中心",
             "PANDA"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/项目资源与访问信息.html",
@@ -417,7 +418,8 @@
             "Figma",
             "已脱敏"
           ],
-          "module": "项目通用"
+          "module": "项目通用",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员管理测试用例.html",
@@ -429,7 +431,8 @@
             "功能测试",
             "接口测试"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员管理接口测试用例.html",
@@ -442,7 +445,8 @@
             "API",
             "后台"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员管理需求规格说明.html",
@@ -455,7 +459,8 @@
             "原型整理",
             "后台"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员资金-充值提现测试用例.html",
@@ -469,7 +474,8 @@
             "并发",
             "接口测试"
           ],
-          "module": "会员资金"
+          "module": "会员资金",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员评定验证_用例与数据.html",
@@ -481,7 +487,8 @@
             "评定验证",
             "BUG"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员评定全量用例_设计.html",
@@ -493,7 +500,8 @@
             "评定验证",
             "用例设计"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员评定全量用例_结果.html",
@@ -505,7 +513,8 @@
             "评定验证",
             "核对结果"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员层级标签VIP测试点.html",
@@ -517,7 +526,8 @@
             "测试点",
             "评定验证"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员评定测试账号清单.html",
@@ -529,7 +539,8 @@
             "测试账号",
             "评定验证"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/银行卡绑定接口测试用例.html",
@@ -542,7 +553,8 @@
             "安全",
             "并发"
           ],
-          "module": "会员资金"
+          "module": "会员资金",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/密码修改接口测试用例.html",
@@ -555,7 +567,8 @@
             "安全",
             "资金安全"
           ],
-          "module": "账户安全"
+          "module": "账户安全",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/提现接口测试用例.html",
@@ -569,7 +582,8 @@
             "安全",
             "并发"
           ],
-          "module": "会员资金"
+          "module": "会员资金",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员标签测试用例.html",
@@ -583,7 +597,8 @@
             "接口测试",
             "界面测试"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员标签测试账号清单.html",
@@ -595,7 +610,8 @@
             "会员标签",
             "测试账号"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/会员标签测试点.html",
@@ -607,7 +623,8 @@
             "会员标签",
             "测试点"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/数据管理测试用例.html",
@@ -621,7 +638,8 @@
             "数据准确性",
             "需求对照"
           ],
-          "module": "数据管理"
+          "module": "数据管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/财务管理测试用例.html",
@@ -635,7 +653,8 @@
             "资金安全",
             "写操作实测"
           ],
-          "module": "财务管理"
+          "module": "财务管理",
+          "line": "PH01"
         },
         {
           "file": "docs/PH_GAME/全量测试用例_会员财务报表.html",
@@ -649,7 +668,82 @@
             "运营管理",
             "全量用例"
           ],
-          "module": "会员管理"
+          "module": "会员管理",
+          "line": "PH01"
+        },
+        {
+          "file": "docs/PH02/钱包管理测试用例.html",
+          "title": "钱包管理测试用例",
+          "category": "testcase",
+          "date": "2026-08-31",
+          "tags": [
+            "钱包管理",
+            "充值",
+            "提现",
+            "审核",
+            "并发",
+            "DB",
+            "接口"
+          ],
+          "module": "钱包管理",
+          "line": "PH02"
+        },
+        {
+          "file": "docs/PH02/会员中心测试用例.html",
+          "title": "会员中心测试用例",
+          "category": "testcase",
+          "date": "2026-08-31",
+          "tags": [
+            "会员",
+            "标签",
+            "VIP",
+            "评定",
+            "DB"
+          ],
+          "module": "会员中心",
+          "line": "PH02"
+        },
+        {
+          "file": "docs/PH02/报表管理测试用例.html",
+          "title": "报表管理测试用例",
+          "category": "testcase",
+          "date": "2026-08-31",
+          "tags": [
+            "报表",
+            "对数",
+            "导出",
+            "DB"
+          ],
+          "module": "报表管理",
+          "line": "PH02"
+        },
+        {
+          "file": "docs/PH02/运营配置CMS测试用例.html",
+          "title": "运营配置CMS测试用例",
+          "category": "testcase",
+          "date": "2026-08-31",
+          "tags": [
+            "CMS",
+            "公告",
+            "Banner",
+            "富文本"
+          ],
+          "module": "运营配置",
+          "line": "PH02"
+        },
+        {
+          "file": "docs/PH02/短信管理测试用例.html",
+          "title": "短信管理测试用例",
+          "category": "testcase",
+          "date": "2026-08-31",
+          "tags": [
+            "短信",
+            "OTP",
+            "模板",
+            "脱敏"
+          ],
+          "module": "短信管理",
+          "line": "PH02"
         }
       ]
     }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PH02 短信管理 测试用例（Smith）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1320px;margin:0 auto}
+.header{background:linear-gradient(135deg,#059669,#047857);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:24px}
+.header h1{font-size:24px;margin-bottom:8px}.header .sub{font-size:14px;opacity:.9;margin-bottom:6px}
+.header .meta{font-size:12px;opacity:.75}
+.stats{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.stat{flex:1;min-width:110px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+.stat .num{font-size:30px;font-weight:700}.stat .label{font-size:12px;color:#6b7280;margin-top:2px}
+.c0 .num{color:#059669}.c1 .num{color:#dc2626}.c2 .num{color:#d97706}.c3 .num{color:#059669}.c4 .num{color:#7c3aed}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px;background:#fff;border-radius:10px;border:1px solid #e5e7eb}
+.prog .bar{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.prog .fill{height:100%;background:#059669;border-radius:3px;transition:width .3s}
+.prog .txt{font-size:12px;color:#6b7280;white-space:nowrap;font-weight:600}
+.prog .btn{font-size:11px;cursor:pointer;border:1px solid #e5e7eb;background:#fff;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.toc{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:22px;border:1px solid #e5e7eb;border-left:4px solid #059669}
+.toc h2{font-size:15px;color:#059669;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}
+.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.toc .cnt{color:#9ca3af;font-size:12px;margin-left:4px}
+.filter-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
+.filter-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.filter-label{font-size:12px;font-weight:600;color:#374151;width:52px;flex-shrink:0;letter-spacing:.5px}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px}
+.fbtn{padding:5px 14px;border-radius:16px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer;font-weight:500;transition:all .15s;line-height:1.4}
+.fbtn:hover{border-color:#059669;color:#059669}.fbtn.active{background:#059669;border-color:#059669;color:#fff;box-shadow:0 1px 4px rgba(5,150,105,.25)}
+.sec{background:#fff;border-radius:12px;margin-bottom:22px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:16px 22px 10px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head h2{font-size:16px;font-weight:700;flex:1}
+.sec-head .cnt-badge{font-size:12px;color:#059669;background:#ecfdf5;padding:3px 10px;border-radius:8px;font-weight:600}
+.sec-desc{font-size:12px;color:#6b7280;padding:8px 22px 0}
+.tc{width:100%;border-collapse:collapse;font-size:13px}
+.tc th{background:#f9fafb;padding:9px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap}
+.tc td{padding:10px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top;line-height:1.6}
+.tc tr:hover{background:#fafbfc}
+.tc .id{color:#047857;font-weight:600;white-space:nowrap}
+.prio{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.p0{background:#fef2f2;color:#dc2626}.p1{background:#fef3c7;color:#d97706}.p2{background:#ecfdf5;color:#059669}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;font-weight:600}
+.tag-pos{background:#eef2ff;color:#2563eb}.tag-val{background:#fef3c7;color:#d97706}.tag-auth{background:#f3e8ff;color:#7c3aed}
+.tag-bnd{background:#fefce8;color:#a16207}.tag-err{background:#fef2f2;color:#dc2626}.tag-con{background:#f0fdfa;color:#0d9488}
+.expect strong{color:#059669}.expect .warn{color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:1px 5px;border-radius:3px;font-size:11px;color:#b45309;font-family:"SF Mono",monospace}
+.ck-col{width:34px;text-align:center;padding:8px 4px !important}
+.ck{width:16px;height:16px;cursor:pointer;accent-color:#059669}
+tr.done{background:#f0fdf4 !important}
+tr.done td:not(.ck-col){opacity:.45;text-decoration:line-through;text-decoration-color:#cbd5e1}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px}
+</style></head>
+<body><div class="container">
+<div class="header"><h1>PH02 短信管理 测试用例（Smith）</h1><div class="sub"><span class="tag tag-pos">功能</span> <span class="tag tag-err">安全</span> <span class="tag tag-err">异常</span> <span class="tag tag-bnd">规则</span> <span class="tag tag-auth">鉴权</span> <span class="tag tag-con">一致</span> <span class="tag tag-con">性能</span></div><div class="meta"></div></div>
+<div class="stats">
+<div class="stat c0"><div class="num">16</div><div class="label">用例总数</div></div>
+<div class="stat c1"><div class="num">4</div><div class="label">P0 核心</div></div>
+<div class="stat c2"><div class="num">8</div><div class="label">P1 主要</div></div>
+<div class="stat c3"><div class="num">4</div><div class="label">P2 次要</div></div>
+<div class="stat c4"><div class="num">7</div><div class="label">用例类型</div></div>
+</div>
+<div class="prog"><span class="txt" id="progTxt">进度 0/16</span><div class="bar"><div class="fill" id="progFill" style="width:0%"></div></div>
+<span class="btn" id="resetBtn">重置勾选</span></div>
+<div class="filter-card">
+<div class="filter-row"><span class="filter-label">优先级</span><div class="seg">
+<span class="fbtn active" data-f="prio" data-v="all">全部</span>
+<span class="fbtn" data-f="prio" data-v="P0">P0</span>
+<span class="fbtn" data-f="prio" data-v="P1">P1</span>
+<span class="fbtn" data-f="prio" data-v="P2">P2</span>
+</div></div>
+<div class="filter-row"><span class="filter-label">类型</span><div class="seg">
+<span class="fbtn active" data-f="type" data-v="all">全部</span>
+<span class="fbtn" data-f="type" data-v="FUNC">功能</span>
+<span class="fbtn" data-f="type" data-v="API">接口</span>
+<span class="fbtn" data-f="type" data-v="UI">界面</span>
+<span class="fbtn" data-f="type" data-v="RULE">规则</span>
+<span class="fbtn" data-f="type" data-v="SEC">安全</span>
+<span class="fbtn" data-f="type" data-v="DB">数据</span>
+</div></div>
+</div>
+<div class="toc"><h2>目录</h2><ul><li><a href="#sec0">一、供应商配置 · 码 SMS-P</a><span class="cnt">(3)</span></li><li><a href="#sec1">二、模板 · 码 SMS-T</a><span class="cnt">(3)</span></li><li><a href="#sec2">三、发送 / OTP 场景 · 码 SMS-S</a><span class="cnt">(6)</span></li><li><a href="#sec3">四、发送记录 · 码 SMS-R</a><span class="cnt">(4)</span></li><li><a href="#sec4">五、真实接口（PH02 API 文档）</a><span class="cnt">(0)</span></li><li><a href="#sec5">六、待确认</a><span class="cnt">(0)</span></li></ul></div>
+<div class="sec" id="sec0"><div class="sec-head"><h2>一、供应商配置 · 码 SMS-P</h2><span class="cnt-badge">3 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-P-FUNC-001 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>供应商配置 CRUD</td><td>增删改短信供应商(名称/接口/APIKey/Secret/签名)</td><td class="expect"><strong>✓</strong> 保存生效、可切换启用供应商</td></tr><tr data-prio="P0" data-type="SEC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-P-SEC-001 <span class="tag tag-err">安全</span></td><td><span class="prio p0">P0</span></td><td>APIKey/Secret 查看鉴权</td><td>查看密钥(<code>viewApiKey</code>/<code>viewApiSecret</code>)</td><td class="expect"><span class="warn">⚠</span> 高权限专属、页面脱敏展示、查看动作审计、越权 403</td></tr><tr data-prio="P2" data-type="NEG"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-P-NEG-001 <span class="tag tag-err">异常</span></td><td><span class="prio p2">P2</span></td><td>非法供应商配置</td><td>空必填/非法接口地址</td><td class="expect"><span class="warn">⚠</span> 校验拒绝</td></tr></tbody></table></div><div class="sec" id="sec1"><div class="sec-head"><h2>二、模板 · 码 SMS-T</h2><span class="cnt-badge">3 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-T-FUNC-001 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>模板 CRUD</td><td>增删改模板(含变量占位如 <code>{code}</code>/<code>{amount}</code>)</td><td class="expect"><strong>✓</strong> 保存、变量占位正确解析</td></tr><tr data-prio="P1" data-type="RULE"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-T-RULE-001 <span class="tag tag-bnd">规则</span></td><td><span class="prio p1">P1</span></td><td>模板变量渲染</td><td>用带变量模板发送，传入变量</td><td class="expect"><strong>✓</strong> 变量正确替换、缺变量有兜底/报错</td></tr><tr data-prio="P2" data-type="NEG"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-T-NEG-001 <span class="tag tag-err">异常</span></td><td><span class="prio p2">P2</span></td><td>模板校验</td><td>非法占位/超长/空</td><td class="expect"><span class="warn">⚠</span> 校验拒绝</td></tr></tbody></table></div><div class="sec" id="sec2"><div class="sec-head"><h2>三、发送 / OTP 场景 · 码 SMS-S</h2><span class="cnt-badge">6 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-S-FUNC-001 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>测试发送</td><td>后台「发送-测试」发到指定号</td><td class="expect"><strong>✓</strong> 收到短信、内容正确、记录一条</td></tr><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-S-FUNC-002 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>按模板发送</td><td>选模板+变量+目标发送</td><td class="expect"><strong>✓</strong> 渲染正确、发送成功</td></tr><tr data-prio="P0" data-type="RULE"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-S-RULE-001 <span class="tag tag-bnd">规则</span></td><td><span class="prio p0">P0</span></td><td>OTP 触达（注册/改密/提现）</td><td>触发注册/改密/提现验证码</td><td class="expect"><strong>✓</strong> 收到 OTP、有效期/一次性正确（对齐前端登录即注册、资金密码流程）</td></tr><tr data-prio="P0" data-type="SEC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-S-SEC-001 <span class="tag tag-err">安全</span></td><td><span class="prio p0">P0</span></td><td>OTP 防刷/频率限制</td><td>同号/同IP 高频请求验证码</td><td class="expect"><span class="warn">⚠</span> 限频、防轰炸、防枚举（关联注册风控线）</td></tr><tr data-prio="P2" data-type="NEG"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-S-NEG-001 <span class="tag tag-err">异常</span></td><td><span class="prio p2">P2</span></td><td>非法目标/供应商故障</td><td>非法手机号 / 供应商返回失败</td><td class="expect"><span class="warn">⚠</span> 校验拒绝；失败有重试/记录、不误报成功</td></tr><tr data-prio="P1" data-type="AUTH"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-S-AUTH-001 <span class="tag tag-auth">鉴权</span></td><td><span class="prio p1">P1</span></td><td>发送权限</td><td>无 <code>sms_send</code> 权限</td><td class="expect"><span class="warn">⚠</span> 403</td></tr></tbody></table></div><div class="sec" id="sec3"><div class="sec-head"><h2>四、发送记录 · 码 SMS-R</h2><span class="cnt-badge">4 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-R-FUNC-001 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>发送记录查询</td><td>按状态/时间/模板/号码筛选</td><td class="expect"><strong>✓</strong> 记录准确、状态(成功/失败/发送中)正确</td></tr><tr data-prio="P0" data-type="SEC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-R-SEC-001 <span class="tag tag-err">安全</span></td><td><span class="prio p0">P0</span></td><td>号码脱敏 + 查看鉴权</td><td>记录里手机号</td><td class="expect"><span class="warn">⚠</span> 默认脱敏；查看完整号(<code>GetSmsSendRecordPhones</code>)需专门权限+审计</td></tr><tr data-prio="P1" data-type="CONS"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-R-CONS-001 <span class="tag tag-con">一致</span></td><td><span class="prio p1">P1</span></td><td>记录↔发送一致</td><td>发送后比对记录</td><td class="expect"><strong>✓</strong> 每条发送有且一条记录、状态回填正确</td></tr><tr data-prio="P2" data-type="PERF"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">SMS-R-PERF-001 <span class="tag tag-con">性能</span></td><td><span class="prio p2">P2</span></td><td>大量记录翻页</td><td>海量发送记录</td><td class="expect"><strong>✓</strong> 翻页/筛选性能可接受</td></tr></tbody></table></div><div class="sec" id="sec4"><div class="sec-head"><h2>五、真实接口（PH02 API 文档）</h2></div><table class="tc"><thead><tr><th>场景</th><th>方法 路径</th></tr></thead><tbody><tr><td>供应商配置</td><td>/v1/admin/sms-provider-configs/<code>{create,list,update,delete}</code></td></tr><tr><td>**查看密钥**</td><td>GET /v1/admin/sms-provider-configs/api-key · /api-secret（高权限+审计）</td></tr><tr><td>模板</td><td>/v1/admin/sms-template-configs/<code>{create,list,update,delete}</code></td></tr><tr><td>测试发送 / 按模板发送</td><td>POST /v1/admin/sms-send/test · /sms-send/by-template</td></tr><tr><td>发送记录</td><td>GET /v1/admin/sms-send-records/list</td></tr><tr><td>**查看完整号码**</td><td>GET /v1/admin/sms-send-records/phones（专门权限+审计）</td></tr><tr><td>**OTP 发送(前端)**</td><td>POST /v1/bff/auth/send-code（account 手机/邮箱，业务判类型）</td></tr></tbody></table></div><div class="sec" id="sec5"><div class="sec-head"><h2>六、待确认</h2></div></div>
+<div class="footer">ph_game_test · 会员管理模块测试用例 · 勾选状态本地保存</div>
+</div>
+<script>
+var KEY="tc_"+document.title;
+var rows=[].slice.call(document.querySelectorAll('.tc tbody tr'));
+var caseRows=rows.filter(function(r){return r.querySelector('.ck')});
+function save(){var s={};caseRows.forEach(function(r,i){s[i]=r.querySelector('.ck').checked});localStorage.setItem(KEY,JSON.stringify(s));}
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'{}');caseRows.forEach(function(r,i){if(s[i]){r.querySelector('.ck').checked=true;r.classList.add('done');}});}catch(e){}}
+function prog(){var d=caseRows.filter(function(r){return r.querySelector('.ck').checked}).length;var t=caseRows.length;document.getElementById('progTxt').textContent='进度 '+d+'/'+t;document.getElementById('progFill').style.width=(t?d/t*100:0)+'%';}
+caseRows.forEach(function(r){r.querySelector('.ck').addEventListener('change',function(){r.classList.toggle('done',this.checked);save();prog();});});
+document.getElementById('resetBtn').addEventListener('click',function(){caseRows.forEach(function(r){r.querySelector('.ck').checked=false;r.classList.remove('done');});save();prog();});
+var filters={prio:'all',type:'all'};
+[].slice.call(document.querySelectorAll('.fbtn')).forEach(function(b){b.addEventListener('click',function(){var f=b.dataset.f;filters[f]=b.dataset.v;[].slice.call(document.querySelectorAll('.fbtn[data-f='+f+']')).forEach(function(x){x.classList.remove('active')});b.classList.add('active');apply();});});
+function apply(){caseRows.forEach(function(r){var ok=(filters.prio==='all'||r.dataset.prio===filters.prio)&&(filters.type==='all'||r.dataset.type===filters.type);r.style.display=ok?'':'none';});}
+load();prog();
+</script>
+</body></html>

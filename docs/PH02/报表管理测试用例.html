@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PH02 报表管理 测试用例（Smith）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1320px;margin:0 auto}
+.header{background:linear-gradient(135deg,#059669,#047857);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:24px}
+.header h1{font-size:24px;margin-bottom:8px}.header .sub{font-size:14px;opacity:.9;margin-bottom:6px}
+.header .meta{font-size:12px;opacity:.75}
+.stats{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.stat{flex:1;min-width:110px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+.stat .num{font-size:30px;font-weight:700}.stat .label{font-size:12px;color:#6b7280;margin-top:2px}
+.c0 .num{color:#059669}.c1 .num{color:#dc2626}.c2 .num{color:#d97706}.c3 .num{color:#059669}.c4 .num{color:#7c3aed}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px;background:#fff;border-radius:10px;border:1px solid #e5e7eb}
+.prog .bar{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.prog .fill{height:100%;background:#059669;border-radius:3px;transition:width .3s}
+.prog .txt{font-size:12px;color:#6b7280;white-space:nowrap;font-weight:600}
+.prog .btn{font-size:11px;cursor:pointer;border:1px solid #e5e7eb;background:#fff;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.toc{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:22px;border:1px solid #e5e7eb;border-left:4px solid #059669}
+.toc h2{font-size:15px;color:#059669;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}
+.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.toc .cnt{color:#9ca3af;font-size:12px;margin-left:4px}
+.filter-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
+.filter-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.filter-label{font-size:12px;font-weight:600;color:#374151;width:52px;flex-shrink:0;letter-spacing:.5px}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px}
+.fbtn{padding:5px 14px;border-radius:16px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer;font-weight:500;transition:all .15s;line-height:1.4}
+.fbtn:hover{border-color:#059669;color:#059669}.fbtn.active{background:#059669;border-color:#059669;color:#fff;box-shadow:0 1px 4px rgba(5,150,105,.25)}
+.sec{background:#fff;border-radius:12px;margin-bottom:22px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:16px 22px 10px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head h2{font-size:16px;font-weight:700;flex:1}
+.sec-head .cnt-badge{font-size:12px;color:#059669;background:#ecfdf5;padding:3px 10px;border-radius:8px;font-weight:600}
+.sec-desc{font-size:12px;color:#6b7280;padding:8px 22px 0}
+.tc{width:100%;border-collapse:collapse;font-size:13px}
+.tc th{background:#f9fafb;padding:9px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap}
+.tc td{padding:10px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top;line-height:1.6}
+.tc tr:hover{background:#fafbfc}
+.tc .id{color:#047857;font-weight:600;white-space:nowrap}
+.prio{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.p0{background:#fef2f2;color:#dc2626}.p1{background:#fef3c7;color:#d97706}.p2{background:#ecfdf5;color:#059669}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;font-weight:600}
+.tag-pos{background:#eef2ff;color:#2563eb}.tag-val{background:#fef3c7;color:#d97706}.tag-auth{background:#f3e8ff;color:#7c3aed}
+.tag-bnd{background:#fefce8;color:#a16207}.tag-err{background:#fef2f2;color:#dc2626}.tag-con{background:#f0fdfa;color:#0d9488}
+.expect strong{color:#059669}.expect .warn{color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:1px 5px;border-radius:3px;font-size:11px;color:#b45309;font-family:"SF Mono",monospace}
+.ck-col{width:34px;text-align:center;padding:8px 4px !important}
+.ck{width:16px;height:16px;cursor:pointer;accent-color:#059669}
+tr.done{background:#f0fdf4 !important}
+tr.done td:not(.ck-col){opacity:.45;text-decoration:line-through;text-decoration-color:#cbd5e1}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px}
+</style></head>
+<body><div class="container">
+<div class="header"><h1>PH02 报表管理 测试用例（Smith）</h1><div class="sub"><span class="tag tag-pos">功能</span> <span class="tag tag-con">一致</span> <span class="tag tag-bnd">规则</span> <span class="tag tag-bnd">边界</span> <span class="tag tag-err">安全</span> <span class="tag tag-con">性能</span> <span class="tag tag-auth">鉴权</span></div><div class="meta"></div></div>
+<div class="stats">
+<div class="stat c0"><div class="num">17</div><div class="label">用例总数</div></div>
+<div class="stat c1"><div class="num">7</div><div class="label">P0 核心</div></div>
+<div class="stat c2"><div class="num">9</div><div class="label">P1 主要</div></div>
+<div class="stat c3"><div class="num">1</div><div class="label">P2 次要</div></div>
+<div class="stat c4"><div class="num">8</div><div class="label">用例类型</div></div>
+</div>
+<div class="prog"><span class="txt" id="progTxt">进度 0/17</span><div class="bar"><div class="fill" id="progFill" style="width:0%"></div></div>
+<span class="btn" id="resetBtn">重置勾选</span></div>
+<div class="filter-card">
+<div class="filter-row"><span class="filter-label">优先级</span><div class="seg">
+<span class="fbtn active" data-f="prio" data-v="all">全部</span>
+<span class="fbtn" data-f="prio" data-v="P0">P0</span>
+<span class="fbtn" data-f="prio" data-v="P1">P1</span>
+<span class="fbtn" data-f="prio" data-v="P2">P2</span>
+</div></div>
+<div class="filter-row"><span class="filter-label">类型</span><div class="seg">
+<span class="fbtn active" data-f="type" data-v="all">全部</span>
+<span class="fbtn" data-f="type" data-v="FUNC">功能</span>
+<span class="fbtn" data-f="type" data-v="API">接口</span>
+<span class="fbtn" data-f="type" data-v="UI">界面</span>
+<span class="fbtn" data-f="type" data-v="RULE">规则</span>
+<span class="fbtn" data-f="type" data-v="SEC">安全</span>
+<span class="fbtn" data-f="type" data-v="DB">数据</span>
+</div></div>
+</div>
+<div class="toc"><h2>目录</h2><ul><li><a href="#sec0">一、日报数据准确 / 对数 · 码 RPT</a><span class="cnt">(7)</span></li><li><a href="#sec1">二、导出 / 权限 / 性能 · 码 EXP</a><span class="cnt">(6)</span></li><li><a href="#sec2">三、真实接口（PH02 API 文档）</a><span class="cnt">(0)</span></li><li><a href="#sec3">四、DB 层对数（`hash` 库）· 码 DB</a><span class="cnt">(4)</span></li><li><a href="#sec4">五、待确认</a><span class="cnt">(0)</span></li></ul></div>
+<div class="sec" id="sec0"><div class="sec-head"><h2>一、日报数据准确 / 对数 · 码 RPT</h2><span class="cnt-badge">7 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P0" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">RPT-FUNC-001 <span class="tag tag-pos">功能</span></td><td><span class="prio p0">P0</span></td><td>用户日报字段与汇总</td><td>打开用户日报，选日期</td><td class="expect"><strong>✓</strong> 充值/提现/有效投注/输赢/返水/活动彩金/GGR 等字段完整、汇总正确</td></tr><tr data-prio="P0" data-type="CONS"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">RPT-CONS-001 <span class="tag tag-con">一致</span></td><td><span class="prio p0">P0</span></td><td>报表↔明细对数</td><td>报表某会员某日 充值额 vs 钱包充值订单明细</td><td class="expect"><strong>✓</strong> 一致（**PH01 跨报表充值额差 40% BUG，P0 回归**）</td></tr><tr data-prio="P0" data-type="CONS"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">RPT-CONS-002 <span class="tag tag-con">一致</span></td><td><span class="prio p0">P0</span></td><td>GGR / 充提差 口径</td><td>校验 GGR=投注-派彩-返水…、充提差=充值-提现</td><td class="expect"><strong>✓</strong> 口径正确、与游戏/钱包线一致</td></tr><tr data-prio="P1" data-type="CONS"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">RPT-CONS-003 <span class="tag tag-con">一致</span></td><td><span class="prio p1">P1</span></td><td>代理归因正确</td><td>代理日报某代理下会员数据归属</td><td class="expect"><strong>✓</strong> 归因到正确代理（**PH01 operator 归因错误，回归**）</td></tr><tr data-prio="P1" data-type="RULE"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">RPT-RULE-001 <span class="tag tag-bnd">规则</span></td><td><span class="prio p1">P1</span></td><td>时区 / 日切</td><td>跨马尼拉 0 点的充提/投注</td><td class="expect"><strong>✓</strong> 归入正确自然日（对齐 Asia/Manila）</td></tr><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">RPT-FUNC-002 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>平台日报总量</td><td>平台日报 vs 各用户日报求和</td><td class="expect"><strong>✓</strong> 平台=Σ用户（**PH01 平台合计曾有 BUG，回归**）</td></tr><tr data-prio="P2" data-type="BND"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">RPT-BND-001 <span class="tag tag-bnd">边界</span></td><td><span class="prio p2">P2</span></td><td>日期/范围边界</td><td>空数据日、未来日、超大范围</td><td class="expect"><span class="warn">⚠</span> 空态正确、范围校验</td></tr></tbody></table></div><div class="sec" id="sec1"><div class="sec-head"><h2>二、导出 / 权限 / 性能 · 码 EXP</h2><span class="cnt-badge">6 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">EXP-FUNC-001 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>报表导出</td><td>导出用户/代理/平台日报</td><td class="expect"><strong>✓</strong> 文件字段与页面一致、编码正确、金额精度</td></tr><tr data-prio="P0" data-type="SEC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">EXP-SEC-001 <span class="tag tag-err">安全</span></td><td><span class="prio p0">P0</span></td><td>导出鉴权与审计</td><td>有/无 <code>report:Export*</code> 权限导出</td><td class="expect"><span class="warn">⚠</span> 无权 403；导出记录审计（导出日志）留操作人/时间/范围</td></tr><tr data-prio="P1" data-type="CONS"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">EXP-CONS-001 <span class="tag tag-con">一致</span></td><td><span class="prio p1">P1</span></td><td>导出日志准确</td><td>导出后查导出日志</td><td class="expect"><strong>✓</strong> 记录一条、状态/条数/操作人正确</td></tr><tr data-prio="P1" data-type="SEC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">EXP-SEC-002 <span class="tag tag-err">安全</span></td><td><span class="prio p1">P1</span></td><td>导出敏感字段脱敏/审批</td><td>导出含手机号等</td><td class="expect"><span class="warn">⚠</span> 脱敏或审批留痕（对齐 PH01 非功能）</td></tr><tr data-prio="P1" data-type="PERF"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">EXP-PERF-001 <span class="tag tag-con">性能</span></td><td><span class="prio p1">P1</span></td><td>大数据导出</td><td>导出海量日报</td><td class="expect"><strong>✓</strong> 分页或异步、不超时、不 OOM</td></tr><tr data-prio="P0" data-type="AUTH"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">RPT-AUTH-001 <span class="tag tag-auth">鉴权</span></td><td><span class="prio p0">P0</span></td><td>报表查看权限</td><td>无 <code>report:List*</code> 角色</td><td class="expect"><span class="warn">⚠</span> 看不到/403</td></tr></tbody></table></div><div class="sec" id="sec2"><div class="sec-head"><h2>三、真实接口（PH02 API 文档）</h2></div><table class="tc"><thead><tr><th>场景</th><th>方法 路径</th></tr></thead><tbody><tr><td>用户/代理/平台日报</td><td>GET /v1/admin/reports/<code>{user-daily, agent-daily, platform-daily}</code></td></tr><tr><td>导出(异步任务)</td><td>POST /v1/admin/reports/<code>{user-daily,agent-daily,platform-daily}</code>/export</td></tr><tr><td>导出任务日志</td><td>GET /v1/admin/reports/export-logs</td></tr><tr><td>**脱敏字段过滤配置**</td><td>GET /v1/admin/reports/field-filter · PUT /field-filter/update</td></tr></tbody></table></div><div class="sec" id="sec3"><div class="sec-head"><h2>四、DB 层对数（`hash` 库）· 码 DB</h2><span class="cnt-badge">4 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P0" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">DB-RPT-001 <span class="tag tag-pos"></span></td><td><span class="prio p0">P0</span></td><td>报表↔明细对数</td><td>报表某会员某日 vs hash_deposit_orders / hash_withdraw_orders / hash_wallet_transactions 汇总</td><td class="expect"><strong>✓</strong> 充提/账变一致（回归 PH01 差 40%）</td></tr><tr data-prio="P0" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">DB-RPT-002 <span class="tag tag-pos"></span></td><td><span class="prio p0">P0</span></td><td>投注/GGR 对数</td><td>vs agg_game_records（聚合注单）</td><td class="expect"><strong>✓</strong> 有效投注/输赢/GGR 口径一致</td></tr><tr data-prio="P1" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">DB-RPT-003 <span class="tag tag-pos"></span></td><td><span class="prio p1">P1</span></td><td>平台=Σ用户</td><td>平台日报 vs 用户日报求和</td><td class="expect"><strong>✓</strong> 相等</td></tr><tr data-prio="P1" data-type=""><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">DB-RPT-004 <span class="tag tag-pos"></span></td><td><span class="prio p1">P1</span></td><td>代理归因</td><td>vs hash_users.agent_id</td><td class="expect"><strong>✓</strong> 归因正确（回归 PH01 归因错）</td></tr></tbody></table></div><div class="sec" id="sec4"><div class="sec-head"><h2>五、待确认</h2></div></div>
+<div class="footer">ph_game_test · 会员管理模块测试用例 · 勾选状态本地保存</div>
+</div>
+<script>
+var KEY="tc_"+document.title;
+var rows=[].slice.call(document.querySelectorAll('.tc tbody tr'));
+var caseRows=rows.filter(function(r){return r.querySelector('.ck')});
+function save(){var s={};caseRows.forEach(function(r,i){s[i]=r.querySelector('.ck').checked});localStorage.setItem(KEY,JSON.stringify(s));}
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'{}');caseRows.forEach(function(r,i){if(s[i]){r.querySelector('.ck').checked=true;r.classList.add('done');}});}catch(e){}}
+function prog(){var d=caseRows.filter(function(r){return r.querySelector('.ck').checked}).length;var t=caseRows.length;document.getElementById('progTxt').textContent='进度 '+d+'/'+t;document.getElementById('progFill').style.width=(t?d/t*100:0)+'%';}
+caseRows.forEach(function(r){r.querySelector('.ck').addEventListener('change',function(){r.classList.toggle('done',this.checked);save();prog();});});
+document.getElementById('resetBtn').addEventListener('click',function(){caseRows.forEach(function(r){r.querySelector('.ck').checked=false;r.classList.remove('done');});save();prog();});
+var filters={prio:'all',type:'all'};
+[].slice.call(document.querySelectorAll('.fbtn')).forEach(function(b){b.addEventListener('click',function(){var f=b.dataset.f;filters[f]=b.dataset.v;[].slice.call(document.querySelectorAll('.fbtn[data-f='+f+']')).forEach(function(x){x.classList.remove('active')});b.classList.add('active');apply();});});
+function apply(){caseRows.forEach(function(r){var ok=(filters.prio==='all'||r.dataset.prio===filters.prio)&&(filters.type==='all'||r.dataset.type===filters.type);r.style.display=ok?'':'none';});}
+load();prog();
+</script>
+</body></html>

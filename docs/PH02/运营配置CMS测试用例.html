@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PH02 运营配置 CMS 测试用例（Smith）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f7f8fa;color:#1f2937;line-height:1.7;padding:24px}
+.container{max-width:1320px;margin:0 auto}
+.header{background:linear-gradient(135deg,#059669,#047857);color:#fff;padding:36px 32px;border-radius:14px;margin-bottom:24px}
+.header h1{font-size:24px;margin-bottom:8px}.header .sub{font-size:14px;opacity:.9;margin-bottom:6px}
+.header .meta{font-size:12px;opacity:.75}
+.stats{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.stat{flex:1;min-width:110px;background:#fff;padding:16px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
+.stat .num{font-size:30px;font-weight:700}.stat .label{font-size:12px;color:#6b7280;margin-top:2px}
+.c0 .num{color:#059669}.c1 .num{color:#dc2626}.c2 .num{color:#d97706}.c3 .num{color:#059669}.c4 .num{color:#7c3aed}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px;background:#fff;border-radius:10px;border:1px solid #e5e7eb}
+.prog .bar{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.prog .fill{height:100%;background:#059669;border-radius:3px;transition:width .3s}
+.prog .txt{font-size:12px;color:#6b7280;white-space:nowrap;font-weight:600}
+.prog .btn{font-size:11px;cursor:pointer;border:1px solid #e5e7eb;background:#fff;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.toc{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:22px;border:1px solid #e5e7eb;border-left:4px solid #059669}
+.toc h2{font-size:15px;color:#059669;margin-bottom:10px}
+.toc ul{list-style:none;columns:2;column-gap:24px}.toc li{padding:3px 0;break-inside:avoid}
+.toc a{color:#2563eb;text-decoration:none;font-size:13px;font-weight:500}.toc a:hover{text-decoration:underline}
+.toc .cnt{color:#9ca3af;font-size:12px;margin-left:4px}
+.filter-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
+.filter-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.filter-label{font-size:12px;font-weight:600;color:#374151;width:52px;flex-shrink:0;letter-spacing:.5px}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px}
+.fbtn{padding:5px 14px;border-radius:16px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#6b7280;cursor:pointer;font-weight:500;transition:all .15s;line-height:1.4}
+.fbtn:hover{border-color:#059669;color:#059669}.fbtn.active{background:#059669;border-color:#059669;color:#fff;box-shadow:0 1px 4px rgba(5,150,105,.25)}
+.sec{background:#fff;border-radius:12px;margin-bottom:22px;border:1px solid #e5e7eb;overflow:hidden}
+.sec-head{padding:16px 22px 10px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:10px}
+.sec-head h2{font-size:16px;font-weight:700;flex:1}
+.sec-head .cnt-badge{font-size:12px;color:#059669;background:#ecfdf5;padding:3px 10px;border-radius:8px;font-weight:600}
+.sec-desc{font-size:12px;color:#6b7280;padding:8px 22px 0}
+.tc{width:100%;border-collapse:collapse;font-size:13px}
+.tc th{background:#f9fafb;padding:9px 12px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb;font-size:11px;color:#6b7280;white-space:nowrap}
+.tc td{padding:10px 12px;border-bottom:1px solid #f3f4f6;vertical-align:top;line-height:1.6}
+.tc tr:hover{background:#fafbfc}
+.tc .id{color:#047857;font-weight:600;white-space:nowrap}
+.prio{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.p0{background:#fef2f2;color:#dc2626}.p1{background:#fef3c7;color:#d97706}.p2{background:#ecfdf5;color:#059669}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;font-weight:600}
+.tag-pos{background:#eef2ff;color:#2563eb}.tag-val{background:#fef3c7;color:#d97706}.tag-auth{background:#f3e8ff;color:#7c3aed}
+.tag-bnd{background:#fefce8;color:#a16207}.tag-err{background:#fef2f2;color:#dc2626}.tag-con{background:#f0fdfa;color:#0d9488}
+.expect strong{color:#059669}.expect .warn{color:#dc2626;font-weight:700}
+code{background:#f3f4f6;padding:1px 5px;border-radius:3px;font-size:11px;color:#b45309;font-family:"SF Mono",monospace}
+.ck-col{width:34px;text-align:center;padding:8px 4px !important}
+.ck{width:16px;height:16px;cursor:pointer;accent-color:#059669}
+tr.done{background:#f0fdf4 !important}
+tr.done td:not(.ck-col){opacity:.45;text-decoration:line-through;text-decoration-color:#cbd5e1}
+.footer{text-align:center;font-size:12px;color:#9ca3af;padding:24px}
+</style></head>
+<body><div class="container">
+<div class="header"><h1>PH02 运营配置 CMS 测试用例（Smith）</h1><div class="sub"><span class="tag tag-pos">功能</span> <span class="tag tag-bnd">规则</span> <span class="tag tag-err">异常</span> <span class="tag tag-err">安全</span> <span class="tag tag-con">一致</span> <span class="tag tag-auth">鉴权</span> <span class="tag tag-con">性能</span></div><div class="meta"></div></div>
+<div class="stats">
+<div class="stat c0"><div class="num">15</div><div class="label">用例总数</div></div>
+<div class="stat c1"><div class="num">0</div><div class="label">P0 核心</div></div>
+<div class="stat c2"><div class="num">7</div><div class="label">P1 主要</div></div>
+<div class="stat c3"><div class="num">8</div><div class="label">P2 次要</div></div>
+<div class="stat c4"><div class="num">7</div><div class="label">用例类型</div></div>
+</div>
+<div class="prog"><span class="txt" id="progTxt">进度 0/15</span><div class="bar"><div class="fill" id="progFill" style="width:0%"></div></div>
+<span class="btn" id="resetBtn">重置勾选</span></div>
+<div class="filter-card">
+<div class="filter-row"><span class="filter-label">优先级</span><div class="seg">
+<span class="fbtn active" data-f="prio" data-v="all">全部</span>
+<span class="fbtn" data-f="prio" data-v="P0">P0</span>
+<span class="fbtn" data-f="prio" data-v="P1">P1</span>
+<span class="fbtn" data-f="prio" data-v="P2">P2</span>
+</div></div>
+<div class="filter-row"><span class="filter-label">类型</span><div class="seg">
+<span class="fbtn active" data-f="type" data-v="all">全部</span>
+<span class="fbtn" data-f="type" data-v="FUNC">功能</span>
+<span class="fbtn" data-f="type" data-v="API">接口</span>
+<span class="fbtn" data-f="type" data-v="UI">界面</span>
+<span class="fbtn" data-f="type" data-v="RULE">规则</span>
+<span class="fbtn" data-f="type" data-v="SEC">安全</span>
+<span class="fbtn" data-f="type" data-v="DB">数据</span>
+</div></div>
+</div>
+<div class="toc"><h2>目录</h2><ul><li><a href="#sec0">一、公告 Announcement · 码 ANN</a><span class="cnt">(4)</span></li><li><a href="#sec1">二、Banner / 底部导航 / 浮标 / 社区链接 · 码 CMS</a><span class="cnt">(7)</span></li><li><a href="#sec2">三、客服配置 / 权限 / 审计 · 码 CSC</a><span class="cnt">(4)</span></li><li><a href="#sec3">四、真实接口（PH02 API 文档）</a><span class="cnt">(0)</span></li><li><a href="#sec4">五、待确认</a><span class="cnt">(0)</span></li></ul></div>
+<div class="sec" id="sec0"><div class="sec-head"><h2>一、公告 Announcement · 码 ANN</h2><span class="cnt-badge">4 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">ANN-FUNC-001 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>公告 CRUD 与发布</td><td>增删改公告(标题/富文本正文/生效时间/置顶)</td><td class="expect"><strong>✓</strong> 保存生效、前端公告列表/详情正确展示</td></tr><tr data-prio="P1" data-type="RULE"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">ANN-RULE-001 <span class="tag tag-bnd">规则</span></td><td><span class="prio p1">P1</span></td><td>富文本/HTML 渲染与转义</td><td>正文含 HTML/富文本/特殊字符/脚本</td><td class="expect"><span class="warn">⚠</span> 正常富文本渲染，**脚本被转义/过滤(防 XSS)**（回归 PH01 公告 HTML）</td></tr><tr data-prio="P2" data-type="RULE"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">ANN-RULE-002 <span class="tag tag-bnd">规则</span></td><td><span class="prio p2">P2</span></td><td>生效时间/置顶</td><td>设未来生效/过期/置顶</td><td class="expect"><strong>✓</strong> 未到期不展示、过期下线、置顶排序正确</td></tr><tr data-prio="P2" data-type="NEG"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">ANN-NEG-001 <span class="tag tag-err">异常</span></td><td><span class="prio p2">P2</span></td><td>必填/长度校验</td><td>空标题/超长正文</td><td class="expect"><span class="warn">⚠</span> 校验拒绝</td></tr></tbody></table></div><div class="sec" id="sec1"><div class="sec-head"><h2>二、Banner / 底部导航 / 浮标 / 社区链接 · 码 CMS</h2><span class="cnt-badge">7 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-FUNC-001 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>Banner CRUD + 图片上传</td><td>上传图、设跳转/排序/平台(h5/web)/状态</td><td class="expect"><strong>✓</strong> 保存、前端对应位置展示、跳转正确</td></tr><tr data-prio="P1" data-type="SEC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-SEC-001 <span class="tag tag-err">安全</span></td><td><span class="prio p1">P1</span></td><td>图片上传校验</td><td>上传超大/非图片/恶意文件</td><td class="expect"><span class="warn">⚠</span> 类型/大小校验、拒非法</td></tr><tr data-prio="P1" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-FUNC-002 <span class="tag tag-pos">功能</span></td><td><span class="prio p1">P1</span></td><td>底部导航配置</td><td>增删改底部 Tab(图标/文案/跳转/排序)</td><td class="expect"><strong>✓</strong> 前端底部导航随之变化</td></tr><tr data-prio="P2" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-FUNC-003 <span class="tag tag-pos">功能</span></td><td><span class="prio p2">P2</span></td><td>游戏浮标 CRUD</td><td>配置浮标(图/跳转/位置/时段)</td><td class="expect"><strong>✓</strong> 前端浮标展示与时段生效</td></tr><tr data-prio="P2" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-FUNC-004 <span class="tag tag-pos">功能</span></td><td><span class="prio p2">P2</span></td><td>社区链接 CRUD</td><td>配置社区/客服链接</td><td class="expect"><strong>✓</strong> 前端 Community/客服入口正确</td></tr><tr data-prio="P1" data-type="CONS"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-CONS-001 <span class="tag tag-con">一致</span></td><td><span class="prio p1">P1</span></td><td>多端展示一致</td><td>h5 与 web(若有) 展示</td><td class="expect"><strong>✓</strong> 按 platform 配置正确分端展示</td></tr><tr data-prio="P2" data-type="RULE"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-RULE-001 <span class="tag tag-bnd">规则</span></td><td><span class="prio p2">P2</span></td><td>排序/启停/时段</td><td>调排序、禁用、设时段</td><td class="expect"><strong>✓</strong> 前端顺序/显隐随配置</td></tr></tbody></table></div><div class="sec" id="sec2"><div class="sec-head"><h2>三、客服配置 / 权限 / 审计 · 码 CSC</h2><span class="cnt-badge">4 条</span></div><table class="tc"><thead><tr><th class="ck-col"></th><th>编号</th><th>优先级</th><th>用例标题</th><th>操作步骤</th><th>预期结果</th></tr></thead><tbody><tr data-prio="P2" data-type="FUNC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CSC-FUNC-001 <span class="tag tag-pos">功能</span></td><td><span class="prio p2">P2</span></td><td>客服配置编辑</td><td>改客服入口/链接/开关</td><td class="expect"><strong>✓</strong> 前端客服入口随之变化</td></tr><tr data-prio="P1" data-type="AUTH"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-AUTH-001 <span class="tag tag-auth">鉴权</span></td><td><span class="prio p1">P1</span></td><td>CMS 操作权限</td><td>无 <code>banner/announcement/...</code> 权限</td><td class="expect"><span class="warn">⚠</span> 403</td></tr><tr data-prio="P2" data-type="SEC"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-SEC-002 <span class="tag tag-err">安全</span></td><td><span class="prio p2">P2</span></td><td>变更审计</td><td>改 CMS 后查日志</td><td class="expect"><strong>✓</strong> 操作人/前后值留痕</td></tr><tr data-prio="P2" data-type="PERF"><td class="ck-col"><input type="checkbox" class="ck"></td><td class="id">CMS-PERF-001 <span class="tag tag-con">性能</span></td><td><span class="prio p2">P2</span></td><td>前端配置加载</td><td>前端拉取 CMS 配置(/bff)</td><td class="expect"><strong>✓</strong> 首屏加载可接受、缓存正确</td></tr></tbody></table></div><div class="sec" id="sec3"><div class="sec-head"><h2>四、真实接口（PH02 API 文档）</h2></div><table class="tc"><thead><tr><th>内容</th><th>后台 CRUD</th><th>前端拉取(bff)</th></tr></thead><tbody><tr><td>公告</td><td>/v1/admin/announcements/<code>{create,list,update,delete}</code> + **/user-inboxes/batch-send**(批量推消息)</td><td>GET /v1/bff/announcements/list</td></tr><tr><td>Banner</td><td>/v1/admin/banners/*</td><td>GET /v1/bff/banners/list?position=</td></tr><tr><td>底部导航</td><td>/v1/admin/bottom-navs/*</td><td>GET /v1/bff/bottom-navs/list?clientForm=1</td></tr><tr><td>游戏浮标</td><td>/v1/admin/game-floats/*</td><td>GET /v1/bff/game-floats/list</td></tr><tr><td>社区链接</td><td>/v1/admin/community-links/*</td><td>GET /v1/bff/community-links/list?clientForm=1</td></tr><tr><td>客服配置</td><td>/v1/admin/customer-service-config/<code>{detail,update}</code></td><td>GET /v1/bff/customer-service-config/detail</td></tr><tr><td>图片上传</td><td>/v1/admin/upload/*</td><td>—</td></tr></tbody></table></div><div class="sec" id="sec4"><div class="sec-head"><h2>五、待确认</h2></div></div>
+<div class="footer">ph_game_test · 会员管理模块测试用例 · 勾选状态本地保存</div>
+</div>
+<script>
+var KEY="tc_"+document.title;
+var rows=[].slice.call(document.querySelectorAll('.tc tbody tr'));
+var caseRows=rows.filter(function(r){return r.querySelector('.ck')});
+function save(){var s={};caseRows.forEach(function(r,i){s[i]=r.querySelector('.ck').checked});localStorage.setItem(KEY,JSON.stringify(s));}
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'{}');caseRows.forEach(function(r,i){if(s[i]){r.querySelector('.ck').checked=true;r.classList.add('done');}});}catch(e){}}
+function prog(){var d=caseRows.filter(function(r){return r.querySelector('.ck').checked}).length;var t=caseRows.length;document.getElementById('progTxt').textContent='进度 '+d+'/'+t;document.getElementById('progFill').style.width=(t?d/t*100:0)+'%';}
+caseRows.forEach(function(r){r.querySelector('.ck').addEventListener('change',function(){r.classList.toggle('done',this.checked);save();prog();});});
+document.getElementById('resetBtn').addEventListener('click',function(){caseRows.forEach(function(r){r.querySelector('.ck').checked=false;r.classList.remove('done');});save();prog();});
+var filters={prio:'all',type:'all'};
+[].slice.call(document.querySelectorAll('.fbtn')).forEach(function(b){b.addEventListener('click',function(){var f=b.dataset.f;filters[f]=b.dataset.v;[].slice.call(document.querySelectorAll('.fbtn[data-f='+f+']')).forEach(function(x){x.classList.remove('active')});b.classList.add('active');apply();});});
+function apply(){caseRows.forEach(function(r){var ok=(filters.prio==='all'||r.dataset.prio===filters.prio)&&(filters.type==='all'||r.dataset.type===filters.type);r.style.display=ok?'':'none';});}
+load();prog();
+</script>
+</body></html>
