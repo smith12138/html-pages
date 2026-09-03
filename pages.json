@@ -778,13 +778,13 @@
           "file": "docs/PH02/PH02_BUG汇总提单清单.html",
           "title": "BUG汇总提单清单",
           "category": "feedback",
-          "date": "2026-09-02",
+          "date": "2026-09-03",
           "tags": [
             "BUG",
             "提单",
-            "69条",
+            "74条",
             "归属",
-            "双击复制"
+            "验收状态"
           ],
           "module": "BUG汇总",
           "line": "PH02"
@@ -793,7 +793,7 @@
           "file": "docs/PH02/PH02全面测试计划.html",
           "title": "全面测试计划",
           "category": "flow",
-          "date": "2026-09-02",
+          "date": "2026-09-03",
           "tags": [
             "测试计划",
             "待人工",
