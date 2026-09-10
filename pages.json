@@ -135,6 +135,13 @@
             "演示",
             "实测"
           ]
+        },
+        {
+          "file": "docs/AI客服/PH01_AI客服测试总报告_20260822.html",
+          "title": "PH01_AI客服测试总报告",
+          "category": "feedback",
+          "date": "2026-09-10",
+          "tags": []
         }
       ]
     },
@@ -801,6 +808,19 @@
           ],
           "module": "项目通用",
           "line": "PH02"
+        },
+        {
+          "file": "docs/PH_GAME/时段报表测试用例.html",
+          "title": "时段报表测试用例",
+          "category": "testcase",
+          "date": "2026-09-10",
+          "tags": [
+            "时段报表",
+            "功能测试",
+            "数据库",
+            "后台"
+          ],
+          "module": "数据管理"
         }
       ]
     }

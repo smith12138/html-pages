@@ -1,0 +1,38 @@
+﻿用例ID,模块,判定,验证结果
+TC-10001,CS API鉴权,通过,正确HMAC-SHA256签名→HTTP200 code=OK
+TC-10002,CS API鉴权,通过,时间戳-6000s(>5min)→401 UNAUTHORIZED
+TC-10003,CS API鉴权,通过,同Nonce二次:首次200/重放401(Nonce单用)
+TC-10004,CS API鉴权,通过,缺X-CS-Signature→401 UNAUTHORIZED
+TC-10005,CS API鉴权,通过,错误签名→401 UNAUTHORIZED
+TC-10006,CS API鉴权,通过,未知App ID→401 UNAUTHORIZED
+TC-10007,CS API鉴权,通过,"缺签/错签/未知App/过期 四类401的(code,message)完全一致(UNAUTHORIZED/unauthorized)防爆破,不泄露失败原因"
+TC-10008,CS API鉴权,未测,"权限scope→403:当前AppID10权限全勾,无缺权限场景可触发"
+TC-10009,CS API鉴权,通过,缺uid→400 VALIDATION_ERROR
+TC-10010,CS API鉴权,通过,不存在uid(9999999999)→404 NOT_FOUND
+TC-10011,CS API鉴权,通过,"统一封套{code,message,data,request_id},成功code=OK"
+TC-10012,CS API鉴权,通过·观察,"uid=users.user_no;本会员user_id==user_no,内部id不可区分测试"
+TC-10013,CS API鉴权,观察,"Origin/IP白名单:据记忆当前全放行,上线前需收紧"
+TC-10014,CS API鉴权,通过,每请求返request_id可审计(与recon对账一致)
+TC-11001,数据契约,通过,player/profile:user_no/username/phone_masked/account_status/vip_level/register_time
+TC-11002,数据契约,通过,"deposit/orders:items/total/page/page_size,amount十进制"
+TC-11003,数据契约,通过,withdraw/orders:items/total(空列表total=0亦合法)
+TC-11004,数据契约,通过,turnover/status:required/completed/remaining/can_withdraw/sources(₱28.50实测)
+TC-11005,数据契约,通过,wallet/bindings:bindings[](该会员空[])
+TC-11006,数据契约,通过,bet/history:items/total/page/page_size
+TC-11007,数据契约,通过,bonus/records:items/total/page/page_size
+TC-11008,数据契约,通过,promotions:items[]
+TC-11009,数据契约,通过,player/verify(POST):命中号→match:true+candidates_masked(user_no/phone_masked/status);不存在号→match:false/[](不泄露完整信息)
+TC-11010,数据契约,阻塞·doc gap,"ticket(POST)端点强校验:任意type均400 invalid request body;有效type枚举文档未提供,无法完成正向建单,建议产品补枚举"
+TC-11011,数据契约,通过,"金额=十进制字符串('1.00000000'/'28.50000000'),直接用不÷100"
+TC-11012,数据契约,通过,"时间=UTC ISO8601('2026-08-18T07:10:52.502989Z'),展示需转马尼拉时区"
+TC-11013,数据契约,通过,"page_size=200→400 VALIDATION_ERROR(直接拒绝>100,比静默封顶更严;与文档'按100处理'口径略异)"
+TC-11014,数据契约,通过,phone_masked脱敏('********7052')不回显完整号
+TC-11015,数据契约,通过,"冻结账号8000012858 account_status=frozen,AI据此可转风控"
+TC-12001~12010,AI↔API联动,见AI侧,API数据正确可用;AI在会话身份已绑定时能正确消费(TC-4008返₱28.50);同句UID+问题时丢弃=BUG-002(已提单)
+SEC-CSAPI-SQLi,CS API安全,通过,"uid=""1' OR '1'='1""→404当字面量,无SQL注入"
+SEC-CSAPI-Path,CS API安全,通过,"uid=""../../etc/passwd""→404,无路径穿越"
+SEC-CSAPI-XSS,CS API安全,通过,"uid=""<script>alert(1)</script>""→404当字面量"
+SEC-CSAPI-IDOR,CS API安全,观察,"任意有效AppID可查任意uid(无坐席级scoping),CS后端设计如此;若AppID泄露=全会员数据可读,建议加来源IP白名单(见TC-10013)+审计"
+ACC-turnover准确性,数据准确性,不通过·P1,CS API turnover(5672255279=28.5/8000012858=40 can_withdraw=false) vs 管理后台wagering权威引擎(均remaining_turnover=0)矛盾;仅无打码账号一致。AI会播报错误可提现结论
+ACC-内部一致性,数据准确性,通过,Σsources=required;remaining=req-completed;can_withdraw逻辑;deposit_principal base=充值额×倍数;金额十进制无÷100
+ACC-投注/充值值,数据准确性,通过,bet stake10→payout20 settled/25→failed;deposit ₱1.00 completed 准确;time UTC ISO8601
