@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PH02 QA 找 Bug 清单 · 2026-09-12</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#f6f6fb;color:#1d2129;line-height:1.6;padding-bottom:60px}
+.hero{background:linear-gradient(135deg,#722ed1,#9254de);color:#fff;padding:32px 40px}
+.hero h1{font-size:24px;font-weight:700;margin-bottom:6px}
+.hero .sub{opacity:.9;font-size:14px}
+.hero .meta{margin-top:14px;font-size:13px;opacity:.85}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.cards{display:flex;gap:14px;margin:-24px auto 28px;max-width:1080px;padding:0 20px;flex-wrap:wrap}
+.card{flex:1;min-width:150px;background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.card .num{font-size:30px;font-weight:800}
+.card .lbl{font-size:13px;color:#86909c;margin-top:2px}
+.section-title{font-size:18px;font-weight:700;margin:30px 0 14px;padding-left:10px;border-left:4px solid #722ed1}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.05);font-size:13.5px}
+th,td{padding:12px 14px;text-align:left;vertical-align:top;border-bottom:1px solid #f0f0f5}
+th{background:#faf7ff;color:#4e5969;font-weight:600;white-space:nowrap}
+td.bid{font-weight:700;color:#722ed1;white-space:nowrap}
+td.title{font-weight:600;min-width:180px}
+td.ev{color:#4e5969;font-size:13px}
+.sev{display:inline-block;padding:2px 9px;border-radius:6px;font-weight:700;font-size:12px}
+.pos-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.pos-card{background:#fff;border-radius:12px;padding:18px 22px;box-shadow:0 2px 12px rgba(0,0,0,.05);border-left:4px solid #059669}
+.pos-card h3{font-size:15px;color:#059669;margin-bottom:8px}
+.pos-card ul{padding-left:20px}
+.pos-card li{margin:4px 0;font-size:13.5px;color:#4e5969}
+.note{background:#fff7e8;border:1px solid #ffd591;border-radius:10px;padding:14px 18px;margin-top:16px;font-size:13.5px;color:#874d00}
+.foot{text-align:center;color:#a9aeb8;font-size:12px;margin-top:34px}
+code{background:#f2f2f7;padding:1px 5px;border-radius:4px;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="wrap">
+    <h1>PH02 (Casino Plus) QA 找 Bug 清单</h1>
+    <div class="sub">BFF/Admin 接口实测（明文登录）+ CockroachDB(hash库)直查 + 并发/边界/越权/精度专项</div>
+    <div class="meta">日期 2026-09-12 ｜ 共 8 条缺陷（4×P2 / 4×P3，无 P0/P1）｜ 金额均为 1e6 微单位缩放（₱1=1,000,000）</div>
+  </div>
+</div>
+<div class="cards">
+  <div class="card"><div class="num" style="color:#722ed1">8</div><div class="lbl">缺陷总数</div></div>
+  <div class="card"><div class="num" style="color:#f77234">4</div><div class="lbl">P2 中等</div></div>
+  <div class="card"><div class="num" style="color:#0ea5e9">4</div><div class="lbl">P3 轻微</div></div>
+  <div class="card"><div class="num" style="color:#059669">✓</div><div class="lbl">资金并发完整性全过</div></div>
+</div>
+<div class="wrap">
+  <div class="section-title">缺陷清单</div>
+  <table>
+    <thead><tr><th>#</th><th>级别</th><th>模块</th><th>标题</th><th>现象 / 复现</th></tr></thead>
+    <tbody>
+<tr>
+  <td class="bid">B01</td>
+  <td><span class="sev" style="color:#f77234;background:#fff3ec">P2</span></td>
+  <td>出款规则</td>
+  <td class="title">可提现时段 start>end 无逻辑校验</td>
+  <td class="ev">PUT /admin/withdraw-rules/update 设 daily_allow_start_minute=1200、daily_allow_end_minute=600 → code=0 接受。对照：start==end(600,600) 被拒 11969、单值越界(>1440) 返 400、min>max/daily_max<max 被 11989 拒 —— 说明有相等/范围/其它关系校验，唯独漏 start<end。另 min_amount=0 也被接受（可提现无下限）。影响：可保存一个开始晚于结束的时间窗，导致该窗口全天不可提或行为未定义。</td>
+</tr>
+<tr>
+  <td class="bid">B02</td>
+  <td><span class="sev" style="color:#f77234;background:#fff3ec">P2</span></td>
+  <td>配置管理</td>
+  <td class="title">现有配置原样回存报 400（更新校验严于存量数据）</td>
+  <td class="ev">把列表接口 GET 到的一条现有记录，原封不动 PUT 回更新接口即 400：① vip-configs 存 icon_url=&quot;&quot;(全10级)，update 校验 IconUrl≥1；② vip-withdraw-no-review-rules 存 vip_level=-1，update 校验 VipLevel≥0；③ banners 存 banner_name 含空格/下划线(如 &quot;QA Banner&quot;)，update 正则 ^[\p{L}\p{N}]+$ 拒。影响：运营编辑上述记录的其它字段（如 VIP 返水率/门槛）并保存时被无关字段校验拦死；且 VIP 空 icon_url 一旦被改就再也无法置回空。</td>
+</tr>
+<tr>
+  <td class="bid">B03</td>
+  <td><span class="sev" style="color:#f77234;background:#fff3ec">P2</span></td>
+  <td>错误处理</td>
+  <td class="title">部分业务/鉴权失败返 HTTP 500 + 双重字符串化 JSON</td>
+  <td class="ev">期望业务失败返 HTTP 200+base.code、鉴权失败返 401/403；实际部分场景返 HTTP 500 且 message 是被字符串化的内层 JSON，前端无法解析。实例：资金密码连错锁定 → 500 reason=BFFService message="{\"base\":{\"code\":10332}}"；用户 token 调 /admin/* → 500 reason=AdminService code=4002(鉴权拒绝，应 401/403)。</td>
+</tr>
+<tr>
+  <td class="bid">B04</td>
+  <td><span class="sev" style="color:#f77234;background:#fff3ec">P2</span></td>
+  <td>错误处理</td>
+  <td class="title">业务失败 message 仅为服务名，无可读文案</td>
+  <td class="ev">几乎所有业务失败(非 400 校验类)的 base.message 都是 &quot;ADMIN&quot; 或 &quot;BFF&quot;(服务名)，无人类可读原因。实例：加扣款失败 11980 message=&quot;ADMIN&quot;；出款 10320/10300 message=&quot;BFF&quot;；规则冲突 11989 message=&quot;ADMIN&quot;。影响：前端须自行维护全部数字码→文案映射；后台运营看到 &quot;ADMIN&quot; 无法判断失败原因。</td>
+</tr>
+<tr>
+  <td class="bid">B05</td>
+  <td><span class="sev" style="color:#0ea5e9;background:#e0f2fe">P3</span></td>
+  <td>金额精度</td>
+  <td class="title">存款/规则金额接受亚分精度</td>
+  <td class="ev">POST /bff/wallet/deposit amount=100000001(₱100.000001) → code=0，DB hash_deposit_orders 落库 amount=100000001 status=1；PUT /admin/withdraw-rules/update min_amount=100000001 → code=0。金额最小粒度应为分(10000 微单位)，系统未做整除校验，可产生 ₱100.000001 这类亚分金额，累积舍入/对账风险。</td>
+</tr>
+<tr>
+  <td class="bid">B06</td>
+  <td><span class="sev" style="color:#0ea5e9;background:#e0f2fe">P3</span></td>
+  <td>资金密码</td>
+  <td class="title">资金密码接受弱 PIN</td>
+  <td class="ev">POST /bff/wallet/withdraw-password/set 仅校验长度 6-12；111111 / 000000 / 123456 / abcdef 均设置成功 code=0，无连号/重复/字典校验。</td>
+</tr>
+<tr>
+  <td class="bid">B07</td>
+  <td><span class="sev" style="color:#0ea5e9;background:#e0f2fe">P3</span></td>
+  <td>校验规则</td>
+  <td class="title">展示字段正则过严（禁空格/下划线）</td>
+  <td class="ev">banner_name、加扣款 remark 等正则 ^[\p{L}\p{N}]+$ 仅允字母数字；正常展示名 &quot;QA Banner&quot;(含空格) create/update 均 400；备注无法写含空格/标点内容。建议展示/备注类字段放宽。</td>
+</tr>
+<tr>
+  <td class="bid">B08</td>
+  <td><span class="sev" style="color:#0ea5e9;background:#e0f2fe">P3</span></td>
+  <td>分页</td>
+  <td class="title">列表分页参数无校验</td>
+  <td class="ev">GET /admin/withdraw-orders 等：page.page=-1、page.page_size=0 / -5 / &quot;abc&quot; 均 HTTP200 返默认10条不报 400；page_size 无上限。建议对分页入参做范围校验。</td>
+</tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">已验证稳健（正向 QA 结论，非 bug）</div>
+  <div class="pos-grid">
+<div class="pos-card"><h3>资金完整性 · 并发（marquee，端到端跑通）</h3><ul><li>出款并发无双花：可提 ₱189，6 并发各 ₱100 提现 → 恰 1 笔成功建单(status 300)、5 拒(10330)；本金精确冻结 ₱100、可提精确 -₱100、DB 仅 1 单</li>
+<li>后台审核并发无竞态：对同一待审单 5 并发 approve → 恰 1 次生效(300→500)、4 拒(code2)、frozen 不重复扣</li>
+<li>出款失败→退款闭环：EzPay 模拟代付失败 → 单 500→1001(已退款)，冻结 ₱100 精确释放回本金，无悬挂</li>
+<li>存款同 idempotency_key 并发×6 仅 1 单；签到领取并发×8 仅 1 领；默认收款人并发×4 仅 1 默认</li>
+<li>充值到账正确：₱500 本金入账 + 首充赠金 ₱510 入赠金桶；下注清打码后本金转可提</li></ul></div>
+<div class="pos-card"><h3>安全 · 越权/鉴权</h3><ul><li>IDOR 全拦：收款人 get/update/delete、存款单 get、inbox read-status 用他人 ID → 拒(10320/10333/10334)</li>
+<li>鉴权边界：用户 token 调 admin 加款(合法 body) → 4002 拒、余额不变，无提权</li>
+<li>Banner image_url 拒 javascript:/内网IP/file:/非URL(无 SSRF/存储XSS)</li></ul></div>
+<div class="pos-card"><h3>校验 · 配置</h3><ul><li>收款人/昵称/邮箱/游戏ID/金额(正负零/长度/枚举/正则)校验严；渠道最小额强制</li>
+<li>配置 round-trip 正常：bottom-navs/game-floats/community-links/支付渠道</li>
+<li>说明：PH02 注册为手机+密码、无 OTP 流程(设计如此，非 bug)</li></ul></div>
+  </div>
+
+  <div class="note"><b>需开发处理的残留：</b>验证 B02 时把 vip0 的 <code>icon_url</code> 设成了占位 URL，而空值经 API 无法写回（正是该 bug），需在配置服务端把 vip0 图标重置为空。</div>
+
+  <div class="foot">PH_GAME · PH02 · 反馈汇总 · QA 自动化接口测试 · 2026-09-12</div>
+</div>
+</body>
+</html>
