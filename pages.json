@@ -851,22 +851,6 @@
           ],
           "module": "财务管理",
           "line": "PH01"
-        },
-        {
-          "file": "docs/PH02/PH02找Bug_20260912.html",
-          "title": "PH02找Bug清单",
-          "category": "feedback",
-          "line": "PH02",
-          "date": "2026-09-12",
-          "module": "缺陷汇总",
-          "tags": [
-            "找Bug",
-            "接口",
-            "并发",
-            "越权",
-            "精度",
-            "错误处理"
-          ]
         }
       ]
     }
