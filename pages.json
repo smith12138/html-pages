@@ -836,6 +836,20 @@
           ],
           "module": "运营管理",
           "line": "PH01"
+        },
+        {
+          "file": "docs/PH_GAME/提现规则.html",
+          "title": "提现规则",
+          "category": "reference",
+          "date": "2026-09-12",
+          "tags": [
+            "提现",
+            "打码流水",
+            "可提现额度",
+            "规则",
+            "资金分层"
+          ],
+          "module": "财务管理"
         }
       ]
     }
