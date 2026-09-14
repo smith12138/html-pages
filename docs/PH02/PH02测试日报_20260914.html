@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PH02 测试日报 · 2026-09-14</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f6fa;color:#1f2a44;line-height:1.6;padding-bottom:50px}
+.hero{background:linear-gradient(135deg,#3b5bdb,#5c7cfa);color:#fff;padding:28px 34px}
+.hero h1{font-size:22px} .hero .s{opacity:.9;font-size:13px;margin-top:4px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+.cards{display:flex;gap:12px;margin:-20px auto 22px;max-width:1120px;padding:0 18px;flex-wrap:wrap}
+.card{flex:1;min-width:120px;background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.card .n{font-size:26px;font-weight:800} .card .l{font-size:12px;color:#8a94a6}
+h2{font-size:17px;margin:26px 0 12px;padding-left:9px;border-left:4px solid #3b5bdb}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:13px;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid #eef1f6}
+th{background:#f0f3fa;color:#41506b;font-size:12px}
+.tag{color:#fff;border-radius:6px;padding:1px 9px;font-size:11.5px;font-weight:700;white-space:nowrap;display:inline-block}
+td.t{font-weight:600;min-width:180px} td.no{font-weight:700;color:#3b5bdb;white-space:nowrap} td.d{color:#4e5969}
+ul{background:#fff;border-radius:10px;padding:14px 14px 14px 34px;box-shadow:0 1px 6px rgba(0,0,0,.05)} li{margin:5px 0;font-size:13px;color:#4e5969}
+.note{background:#ecfdf5;border:1px solid #6ee7b7;border-radius:9px;padding:12px 16px;margin-top:10px;font-size:13px;color:#065f46}
+.foot{text-align:center;color:#a9aeb8;font-size:12px;margin-top:30px}
+</style></head><body>
+<div class="hero"><div class="wrap"><h1>PH02 (Casino Plus) 测试日报</h1>
+<div class="s">2026-09-14 ｜ 范围：Bug验收回归(3批) + 管理后台/前端H5 UI找Bug + 数据交叉核对 ｜ 方法：接口实测 + CockroachDB直查 + UI逐页 + 并发/边界/精度专项</div></div></div>
+<div class="cards">
+<div class="card"><div class="n" style="color:#ea580c">1</div><div class="l">P1 新bug(M1金额剥离)</div></div>
+<div class="card"><div class="n" style="color:#0891b2">15</div><div class="l">UI bug(P1-P3,含U01-U11)</div></div>
+<div class="card"><div class="n" style="color:#059669">6</div><div class="l">验收确认已修</div></div>
+<div class="card"><div class="n" style="color:#dc2626">2</div><div class="l">未修/按设计撤</div></div>
+<div class="card"><div class="n" style="color:#6b7280">8</div><div class="l">纪律纠错(未误报)</div></div>
+</div>
+<div class="wrap">
+<h2>一、Bug 验收回归结论</h2>
+<table><thead><tr><th>Bug</th><th>结论</th><th>证据</th></tr></thead><tbody>
+<tr><td class="t">批1·交易类标签当日不打标</td><td><span class="tag" style="background:#d97706">🟡 部分</span></td><td class="d">同日T+0仍未修(今日真实充值window=1标签covered=0)；窗口指标已改善(干净规则deposit_amount≥1 window=30 covered=14，与DB近30天14个充值会员精确吻合)。原'窗口恒0'症状消失，唯严格同日未反映(dws滞后)。</td></tr><tr><td class="t">批1·昵称搜索不生效</td><td><span class="tag" style="background:#059669">✅ 已修</span></td><td class="d">basic.nickname=834624→精确返1条、不存在→0条(原恒返全部已不复现；注:前缀匹配非全子串)。</td></tr><tr><td class="t">批1·充值渠道status枚举不校验</td><td><span class="tag" style="background:#059669">✅ 已修</span></td><td class="d">status=99/-1/2/3→400 VALIDATOR 'value must be in list [0 1]'，仅0/1通过。</td></tr><tr><td class="t">批2·充值订单失败码字段</td><td><span class="tag" style="background:#d97706">🟡 结构已修</span></td><td class="d">失败单记录已含独立 failed_code/failed_message/callback_message 三字段(原始Go错误串不再塞进失败信息)；但环境内无真实10407(WALLET错误)单、EzPay造不出该场景，无法确认code提取。</td></tr><tr><td class="t">批2·订单按user_id查强制时间范围</td><td><span class="tag" style="background:#dc2626">❌ 未修/按设计</span></td><td class="d">无created_at_start仍400强制；后经proto核实 created_at_start/end 标注必填(validate gt:0)、UI默认给7天范围 → martin确认'时间是必填'，此条按设计撤单(非bug)。</td></tr><tr><td class="t">批2·提现规则边界校验</td><td><span class="tag" style="background:#059669">✅ 已修</span></td><td class="d">负打码倍数/min>max/负每日次数 全拒(400/11989)。</td></tr><tr><td class="t">批2·用户日报register_date零值</td><td><span class="tag" style="background:#d97706">🟡 疑修复</span></td><td class="d">全部143报表行无任何0001-01-01/零值日期；但原始用户2094395433853243392已不在环境，无法精确复现该用户。</td></tr><tr><td class="t">批2·报表排序sort_by/sort_desc</td><td><span class="tag" style="background:#059669">✅ 已修</span></td><td class="d">sort_by=valid_bet_amount&desc=true→正确降序、false→升序，desc≠asc生效。</td></tr><tr><td class="t">批2·运营配置sort_order非负</td><td><span class="tag" style="background:#059669">✅ 已修</span></td><td class="d">社区链接/底部导航/提现渠道 create+update 设-99 全400。</td></tr><tr><td class="t">批3(martin反驳)·充值订单失败码</td><td><span class="tag" style="background:#dc2626">复现不准/撤</span></td><td class="d">充值订单无独立'详情'端点(实测全404)，列表记录即含分离字段。原复现'GET 详情'调用链路不准，10407串疑为错误调用的响应串。按无法复现撤单。</td></tr><tr><td class="t">批3(martin反驳)·订单user_id强制时间</td><td><span class="tag" style="background:#dc2626">按设计/撤</span></td><td class="d">同上：proto必填+UI默认范围，按设计非bug。</td></tr>
+</tbody></table>
+
+<h2>二、UI 找Bug 新发现</h2>
+<table><thead><tr><th>编号</th><th>级别</th><th>模块</th><th>现象</th></tr></thead><tbody>
+<tr><td class="no">M1</td><td><span class="tag" style="background:#ea580c">P1</span></td><td>前端H5-充值</td><td class="d">Top Up金额框剥离小数点致金额放大约100倍：输入100.50→显示10,050、Pay按钮'Pay ₱10,050'(下单即用放大值)；提现金额框对照正常保留小数。</td></tr><tr><td class="no">U03</td><td><span class="tag" style="background:#0891b2">P2</span></td><td>管理后台-钱包管理</td><td class="d">VIP免审规则编辑：VIP等级-1(全等级)被静默钳位为0，保存即把免审范围改成仅VIP0，无提示。</td></tr><tr><td class="no">U07</td><td><span class="tag" style="background:#0891b2">P2</span></td><td>管理后台-会员中心</td><td class="d">解除黑名单弹窗复用增加黑名单表单(拉黑类型登录锁定预勾)，措辞误导易把会员进一步锁定。</td></tr><tr><td class="no">U09</td><td><span class="tag" style="background:#0891b2">P2</span></td><td>前端H5-提现</td><td class="d">提现弹窗header'Current Balance'明文，同弹窗body已脱敏(₱***)，隐藏开关未覆盖header总余额。</td></tr><tr><td class="no">U10</td><td><span class="tag" style="background:#0891b2">P2</span></td><td>前端H5-提现</td><td class="d">新增收款人占位符称'letters and spaces only'允许空格，但后端拒空格，错误仅'Something went wrong'无真实原因。</td></tr><tr><td class="no">D1</td><td><span class="tag" style="background:#0891b2">P2</span></td><td>管理后台-首页</td><td class="d">首页核心指标'统计日09-12'、近7日趋势仅到09-12(实测日09-14)，数据滞后2-3天(报表管线仅到09-11)。也可能T+1批处理，口径待定。</td></tr><tr><td class="no">U01/U02</td><td><span class="tag" style="background:#6b7280">P3</span></td><td>管理后台-钱包管理</td><td class="d">人工调账金额低于下限静默钳位无提示；金额显示6位小数(100.000000)。</td></tr><tr><td class="no">U04</td><td><span class="tag" style="background:#6b7280">P3</span></td><td>管理后台-钱包管理</td><td class="d">VIP免审列表-1直接显示'-1'(应'全部')、金额6位小数。</td></tr><tr><td class="no">U05/U06</td><td><span class="tag" style="background:#6b7280">P3</span></td><td>管理后台-会员中心</td><td class="d">会员列表进入不自动加载('暂无数据/共0条')；手机号明文；每行恒同时显示黑名单+解除黑名单两互斥操作。</td></tr><tr><td class="no">U08</td><td><span class="tag" style="background:#6b7280">P2</span></td><td>前端H5-通用</td><td class="d">(按口径撤)注册奖励弹窗中文，属可配置内容后续配菲律宾语。</td></tr><tr><td class="no">U11</td><td><span class="tag" style="background:#6b7280">P3</span></td><td>前端H5-提现</td><td class="d">新增提现收款人页header'FUND ACCOUNT'(充值语义)与body'Withdrawal Account'矛盾。</td></tr><tr><td class="no">C1</td><td><span class="tag" style="background:#6b7280">P3</span></td><td>管理后台-活动管理</td><td class="d">充值活动档位目标金额可设₱0.01即发₱500赠金(目标额无最小值/比例校验)。</td></tr><tr><td class="no">V1</td><td><span class="tag" style="background:#6b7280">P3</span></td><td>前端H5-通用</td><td class="d">VIP升级奖励₱0时Claim仍可点，点击弹'Claimed🎉 Awesome'庆祝但无实际入账。</td></tr>
+</tbody></table>
+<div class="note"><b>M1 为本轮唯一 P1</b>：Top Up 充值金额框剥离小数点(100.50→Pay ₱10,050，约100倍)，用户或未察觉多充巨额；提现金额框对照正常，属充值框明确缺陷。全部条目已并入 PH02 BUG 提单清单。</div>
+
+<h2>三、正向健壮结论（实测通过，非bug）</h2>
+<ul><li>资金并发完整性(marquee)：出款并发无双花(6并发各₱100→恰1笔建单、精确冻结)、后台审核并发无竞态(5并发approve→恰1次生效)、出款失败→退款闭环(冻结精确释放)。</li><li>账本一致性：C的164条交易 balance_before+money_delta=balance_after 全对(0错位)；DB数据交叉核对(总充值/VIP档位/钱包/赠金打码任务)全部吻合。</li><li>安全：IDOR全拦(收款人/存款单/inbox他人ID→拒)、跨服务token无提权(4002)、Banner image_url拒SSRF/存储XSS、渠道最小额强制。</li><li>校验/表单：改登录密码(两次不一致英文报错)、资金密码(<6字报错)、收款人/昵称/邮箱/游戏ID校验、短信/公告/活动/VIP免审 新增编辑表单、admin分页/渠道status枚举。</li><li>交易记录API+账本、VIP页、News页 实测健康。</li></ul>
+
+<h2>四、纪律纠错（识别为非bug，未写入清单）</h2>
+<ul><li>T1(交易记录空)：我代码查错响应键(items应为records)，交易API实际健康(164条)。</li><li>L2/L4/L5(签到活动名/渠道名/活动模块名中文)：H5有自有英文i18n(Daily Sign-in/Cash Rebate/Grabpay)，不展示后端中文名，对用户不可见。</li><li>L1/L3/U08(站内信/公告/弹窗中文)：按product口径，后台可配置内容的中文先不算bug(后续配菲律宾语)。</li><li>邀请页HTTP500：会话artifact(同端点直调返200、邀请码存在)。</li><li>收款人账号框'空'、部分按钮'无反应'：浏览器工具触摸未聚焦/未触发，非产品bug(JS click可正常)。</li></ul>
+<div class="note"><b>口径说明</b>：后台可配置内容(公告/弹窗/活动推送)的中文先不计bug(后续配置菲律宾语即可)；H5 有自有英文i18n，不展示后端中文活动名/渠道名。</div>
+
+<h2>五、待办 / 建议</h2>
+<ul>
+<li>M1(P1) 建议优先修：充值金额框正确解析2位小数或明确禁止小数点。</li>
+<li>批1'交易类标签同日T+0'：若要求同日圈选，dws需支持当日充值即时反映；否则确认'合理时延'口径。</li>
+<li>批2失败码：需真实WALLET(10407)失败单再核对详情 failed_code 填充。</li>
+<li>D1 首页数据滞后：确认是否T+1批处理设计。</li>
+</ul>
+<div class="foot">PH_GAME · PH02 · 测试日报 · Smith-测试工程师 · 2026-09-14</div>
+</div></body></html>
