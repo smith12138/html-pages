@@ -1,0 +1,73 @@
+<meta charset="utf-8"><title>PH02 测试账号清单 · Casino Plus</title>
+<style>
+:root{--bg:#f5f7fb;--ink:#1f2a44;--mut:#6b7794;--line:#e3e8f0;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:1280px;margin:0 auto;padding:24px 18px 70px}
+h1{font-size:23px;margin:0 0 4px}
+.sub{color:var(--mut);font-size:13px;margin-bottom:4px}
+.note{background:#eef4ff;border:1px solid #cdddff;border-radius:10px;padding:12px 16px;font-size:13px;margin:16px 0}
+.note b{color:#2b4a8b}
+.warn{background:#fff5f5;border:1px solid #f3c9c9;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#9b2c2c;margin:12px 0}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;font-size:13px;box-shadow:0 1px 6px rgba(0,0,0,.05);margin:10px 0}
+th,td{padding:9px 11px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f0f3fa;font-size:12px;color:#41506b;position:sticky;top:0}
+td.mono{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;white-space:nowrap}
+td.copy{cursor:copy}
+.pill{color:#fff;border-radius:6px;padding:1px 8px;font-size:11px;font-weight:700;white-space:nowrap;display:inline-block}
+.lock{background:#dc2626}.money{background:#0891b2}.cfg{background:#16a34a}.plain{background:#94a3b8}
+.purpose{font-weight:700;color:#1f2a44;white-space:nowrap}
+.feat{color:#42506b;font-size:12px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1f2a44;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:99}
+.toast.show{opacity:.95}
+.legend{font-size:12px;color:var(--mut);margin:8px 0}
+.acc{font-family:ui-monospace,Menlo,monospace}
+</style>
+<div class="wrap">
+<h1>PH02 · Casino Plus 测试账号清单</h1>
+<div class="sub">环境：H5 <span class="acc">https://testcdn.haoyunlai888vip.com/h5ph02/</span> · 管理后台 <span class="acc">https://slot.haoyunlai888vip.com/ph02admin/</span></div>
+<div class="sub">编制：Smith-测试工程师 · 2026-09-17 · 共 13 个 · <b>登录密码统一 123123</b>（有配资金密码的，资金密码也是 <b>123123</b>）</div>
+
+<div class="note">
+<b>使用须知</b>
+<ul style="margin:6px 0 0;padding-left:18px">
+<li><b>登录：</b>H5 用「手机号 + 密码 123123」登录（手机号即下表，登录时前面可不加 +63）。</li>
+<li><b>黑名单-登录锁定 / 全锁</b> 两个号<b>无法登录 H5</b>（已被登录锁），用于在<b>管理后台</b>验证黑名单/解除黑名单弹窗；如需登录先在后台解除登录锁。</li>
+<li><b>加款(人工调账)本金不可提</b>（平台反套现控制）：下表的"本金余额"用于账变/投注/账户历史等测试；<b>真正"可提额度"需真实充值并完成打码后才产生</b>，提现全配号已配好资金密码+收款人+投注，走提现流程时可提额度可能仍为 0（属预期，可测最低额/打码闸门）。</li>
+<li><b>black_types 位掩码：</b>1=登录锁 · 2=充值锁 · 4=提款锁 · 7=三锁全开。</li>
+<li>双击表格任意单元格可复制。</li>
+</ul>
+</div>
+
+<div class="legend">标签：<span class="pill money">余额</span> 有本金/赠金 · <span class="pill cfg">已配</span> 资金密码/收款人已配 · <span class="pill lock">锁</span> 黑名单锁定 · <span class="pill plain">空</span> 干净号</div>
+
+<table>
+<thead><tr><th>用途</th><th>手机号</th><th>密码</th><th>UID</th><th>已配置状态</th><th>建议测试功能/场景</th></tr></thead>
+<tbody>
+<tr><td class="purpose">空号·全新注册 <span class="pill plain">空</span></td><td class="mono copy">9541405291</td><td class="mono copy">123123</td><td class="mono copy">2100558751291813888</td><td>0 余额 · 无资金密码 · 无收款人</td><td class="feat">首充 / 新手引导 / 注册流程 / 领新手礼 / 空态展示</td></tr>
+<tr><td class="purpose">本金余额号 <span class="pill money">余额</span></td><td class="mono copy">9974486508</td><td class="mono copy">123123</td><td class="mono copy">2100558999422644224</td><td>本金 ₱1000 · 无资金密码</td><td class="feat">账变 / 加扣款 / 账户历史 / 可提额度闸门 / 投注前准备</td></tr>
+<tr><td class="purpose">提现全配号 <span class="pill money">余额</span><span class="pill cfg">已配</span></td><td class="mono copy">9980033742</td><td class="mono copy">123123</td><td class="mono copy">2100558754450124800</td><td>本金 ₱993 · 资金密码✓ · GCASH 收款人×1 · 已投注15</td><td class="feat">提现全流程 / 资金密码 / 收款人 / 账户历史脱敏 / 打码后提现</td></tr>
+<tr><td class="purpose">打码拦截号 <span class="pill money">余额</span><span class="pill cfg">已配</span></td><td class="mono copy">9969733868</td><td class="mono copy">123123</td><td class="mono copy">2100558776709296128</td><td>本金 ₱500 · 资金密码✓ · 收款人×1 · <b>未投注</b></td><td class="feat">提现打码流水闸门（有余额、无打码，验证被拦）</td></tr>
+<tr><td class="purpose">多收款人号 <span class="pill money">余额</span><span class="pill cfg">已配</span></td><td class="mono copy">9620479686</td><td class="mono copy">123123</td><td class="mono copy">2100559100979326976</td><td>本金 ₱500 · 资金密码✓ · GCASH 收款人×3</td><td class="feat">收款人管理 / 切换 / 删除 / 默认收款人 / 上限</td></tr>
+<tr><td class="purpose">无资金密码号 <span class="pill money">余额</span></td><td class="mono copy">9080816128</td><td class="mono copy">123123</td><td class="mono copy">2100559002262188032</td><td>本金 ₱500 · <b>未设资金密码</b></td><td class="feat">设置资金密码 / 提现前置校验（要求先设资金密码）</td></tr>
+<tr><td class="purpose">赠金号 <span class="pill money">余额</span></td><td class="mono copy">9296202007</td><td class="mono copy">123123</td><td class="mono copy">2100558786058399744</td><td>本金 ₱300 · <b>赠金 ₱200</b></td><td class="feat">赠金/礼金流水 / 账变 / gift 不可提 / 赠金消耗对账</td></tr>
+<tr><td class="purpose">投注记录号 <span class="pill money">余额</span></td><td class="mono copy">9578341858</td><td class="mono copy">123123</td><td class="mono copy">2100558795625607168</td><td>本金 ₱798 · <b>已投注25</b></td><td class="feat">游戏注单 / 账变 / 报表 / RTP / 游戏钱包流水 / 打码流水</td></tr>
+<tr><td class="purpose">黑名单·登录锁定 <span class="pill lock">锁</span></td><td class="mono copy">9882067354</td><td class="mono copy">123123</td><td class="mono copy">2100558834380976128</td><td>本金 ₱300 · 登录锁(block=1) · <b>H5 无法登录</b></td><td class="feat">黑名单登录锁 / 解除黑名单弹窗 / 后台会员状态</td></tr>
+<tr><td class="purpose">黑名单·提款锁定 <span class="pill lock">锁</span><span class="pill cfg">已配</span></td><td class="mono copy">9345795998</td><td class="mono copy">123123</td><td class="mono copy">2100558841695842304</td><td>本金 ₱500 · 资金密码✓ · 收款人×1 · 提款锁(block=4)</td><td class="feat">黑名单提款锁（能登录、能充值，提现被拦）</td></tr>
+<tr><td class="purpose">黑名单·充值锁定 <span class="pill lock">锁</span></td><td class="mono copy">9693352216</td><td class="mono copy">123123</td><td class="mono copy">2100558846687064064</td><td>本金 ₱300 · 充值锁(block=2)</td><td class="feat">黑名单充值锁（能登录，充值被拦）</td></tr>
+<tr><td class="purpose">黑名单·全锁 <span class="pill lock">锁</span></td><td class="mono copy">9170547467</td><td class="mono copy">123123</td><td class="mono copy">2100558851120443392</td><td>本金 ₱300 · 三锁(block=7 登录+充值+提款) · <b>H5 无法登录</b></td><td class="feat">黑名单三锁 / 解除黑名单多选勾选 / 后台</td></tr>
+<tr><td class="purpose">VIP冲级大户号 <span class="pill money">余额</span></td><td class="mono copy">9569211429</td><td class="mono copy">123123</td><td class="mono copy">2100558854656241664</td><td>本金 ₱4993 · <b>已投注40</b></td><td class="feat">VIP 管理 / 等级评定 / 标签评定 / 报表大户 / 返水</td></tr>
+</tbody>
+</table>
+
+<div class="warn">
+提示：这些号铺在测试环境；若环境再次<b>重建</b>（历史上出现过 DB 迁移、数据清空、账号 uid 变更），本清单的 UID/余额会失效，需按同一脚本 <span class="acc">tools/qa_seed_accounts.py</span> 重新造号。加款、投注、黑名单、资金密码、收款人均通过接口铺设：加款 <span class="acc">POST /admin/wallet-transactions/adjust</span>、资金密码 <span class="acc">/bff/wallet/withdraw-password/set</span>、收款人 <span class="acc">/bff/wallet/recipients/create</span>、黑名单 <span class="acc">/admin/members/blacklist/add</span>、投注 <span class="acc">api/game/pg_bet.bet()</span>。
+</div>
+</div>
+<div class="toast" id="t">已复制</div>
+<script>
+document.querySelectorAll('td.copy').forEach(td=>td.addEventListener('dblclick',()=>{
+  navigator.clipboard&&navigator.clipboard.writeText(td.innerText.trim());
+  var t=document.getElementById('t');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),700);
+}));
+</script>
