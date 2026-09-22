@@ -23,12 +23,12 @@ td.c{text-align:center}
 </style>
 <div class="wrap">
 <h1>PH01 · 生命周期 v0.4 BUG 汇总 · 提单清单</h1>
-<div class="sub">共 3 条 · 提款额度/本金错账/流水折算/返水救援/迁移报表 · Smith · 更新 2026-09-22 · 双击单元格复制</div>
+<div class="sub">共 5 条 · 提款额度/本金错账/流水折算/返水救援/迁移报表 · Smith · 更新 2026-09-22 · 双击单元格复制</div>
 <div class="cards">
 <div class="card" style="border-color:#e03131"><div class="n">0</div><div class="l">P0</div></div>
 <div class="card" style="border-color:#f08c00"><div class="n">2</div><div class="l">P1</div></div>
-<div class="card" style="border-color:#3b5bdb"><div class="n">1</div><div class="l">P2</div></div>
-<div class="card" style="border-color:#868e96"><div class="n">3</div><div class="l">合计</div></div>
+<div class="card" style="border-color:#3b5bdb"><div class="n">2</div><div class="l">P2</div></div>
+<div class="card" style="border-color:#868e96"><div class="n">5</div><div class="l">合计</div></div>
 </div>
 <table><thead><tr><th>#</th><th>问题名称/类型</th><th>优先级</th><th>复现步骤</th><th>预期结果</th><th>实测证据/后果</th><th>状态</th><th>提单</th></tr></thead>
 <tbody><tr>
@@ -46,7 +46,7 @@ td.c{text-align:center}
 <td><span class="pill" style="background:#f08c00">P1</span></td>
 <td class="sm">连Tacnode分析库(host=tacnode-lb07188ee334643f-0a7295dc203ddf42.elb.ap-southeast-1.amazonaws.com:5432, db=slot_platform, user=slot_test_user)，SELECT查 analytics schema 下的 analytics_*_facts 表清单；对照源库PG(13.251.234.1:55432) analytics schema 同类表</td>
 <td class="sm">按手册点70复制清单应为8张(含2026-09-21新加的 analytics_principal_credit_facts=充值三段口径的第三段&quot;本金入账事实&quot;)；Tacnode侧必须有这张表,否则切rv_视图后第三段读空、充值少算</td>
-<td class="ev">源库PG analytics_principal_credit_facts 存在、9行、最新occurred_at=2026-09-22 01:48(今日实时);Tacnode analytics schema 仅7张(analytics_classification_state/deposit_facts/game_bet_facts/member_facts/promotion_grant_facts/wallet_transaction_facts/withdraw_facts)，**analytics_principal_credit_facts表在Tacnode不存在(relation does not exist)**;Tacnode复制实时正常(最新心跳2026-09-22 10:36、analytics_wallet_transaction_facts行数45863/最新时间与源库完全一致)→排除同步延迟,确系第8张表未加入复制发布清单。后果(手册点70):充值三段第三段读空→充值金额少算无告警;当前dev若仍读projection(PG)报表暂未受影响,但Tacnode不完整、切rv_视图即少算,上线前置&quot;清单应为8&quot;未满足。【2026-09-22迁移完成后复检】Tacnode analytics 现有8张facts表(activity_reward/deposit/game_bet/member/promotion_grant/referral/wallet_transaction/withdraw)但**仍无 analytics_principal_credit_facts**;源库该表已增至243行且在增长→迁移未把本金入账事实表纳入复制清单,P1存续未修复。。【2026-09-22迁移完成后复检】Tacnode analytics 现有8张facts表(activity_reward/deposit/game_bet/member/promotion_grant/referral/wallet_transaction/withdraw)但**仍无 analytics_principal_credit_facts**;源库该表已增至243行且在增长→迁移未把本金入账事实表纳入复制清单,P1存续未修复。。【2026-09-22迁移完成后复检】Tacnode analytics 现有8张facts表(activity_reward/deposit/game_bet/member/promotion_grant/referral/wallet_transaction/withdraw)但**仍无 analytics_principal_credit_facts**;源库该表已增至243行且在增长→迁移未把本金入账事实表纳入复制清单,P1存续未修复。</td>
+<td class="ev">源库PG analytics_principal_credit_facts 存在、9行、最新occurred_at=2026-09-22 01:48(今日实时);Tacnode analytics schema 仅7张(analytics_classification_state/deposit_facts/game_bet_facts/member_facts/promotion_grant_facts/wallet_transaction_facts/withdraw_facts)，**analytics_principal_credit_facts表在Tacnode不存在(relation does not exist)**;Tacnode复制实时正常(最新心跳2026-09-22 10:36、analytics_wallet_transaction_facts行数45863/最新时间与源库完全一致)→排除同步延迟,确系第8张表未加入复制发布清单。后果(手册点70):充值三段第三段读空→充值金额少算无告警;当前dev若仍读projection(PG)报表暂未受影响,但Tacnode不完整、切rv_视图即少算,上线前置&quot;清单应为8&quot;未满足。【2026-09-22迁移完成后复检】Tacnode analytics 现有8张facts表(activity_reward/deposit/game_bet/member/promotion_grant/referral/wallet_transaction/withdraw)但**仍无 analytics_principal_credit_facts**;源库该表已增至243行且在增长→迁移未把本金入账事实表纳入复制清单,P1存续未修复。。【2026-09-22迁移完成后复检】Tacnode analytics 现有8张facts表(activity_reward/deposit/game_bet/member/promotion_grant/referral/wallet_transaction/withdraw)但**仍无 analytics_principal_credit_facts**;源库该表已增至243行且在增长→迁移未把本金入账事实表纳入复制清单,P1存续未修复。。【2026-09-22迁移完成后复检】Tacnode analytics 现有8张facts表(activity_reward/deposit/game_bet/member/promotion_grant/referral/wallet_transaction/withdraw)但**仍无 analytics_principal_credit_facts**;源库该表已增至243行且在增长→迁移未把本金入账事实表纳入复制清单,P1存续未修复。。【2026-09-22迁移完成后复检】Tacnode analytics 现有8张facts表(activity_reward/deposit/game_bet/member/promotion_grant/referral/wallet_transaction/withdraw)但**仍无 analytics_principal_credit_facts**;源库该表已增至243行且在增长→迁移未把本金入账事实表纳入复制清单,P1存续未修复。</td>
 <td class="c"><span class="mod">待处理</span></td>
 <td class="date">Smith<br>2026-09-21<br>后端/运维</td>
 </tr><tr>
@@ -56,6 +56,24 @@ td.c{text-align:center}
 <td class="sm">造首充VIP0号铺够quota(≥100可提2单50)+设资金密码+绑卡。①串行验上限:逐单POST /api/v1/user/withdraws{amount:50,...}→第1单200 OK、第2单400 WITHDRAW_DAILY_COUNT_EXCEEDED(证VIP0每日上限=1)。②并发绕过:换同类0历史号,ThreadPoolExecutor 2线程同时发2单(各独立Idempotency-Key)→两单均200 OK、DB落2笔。</td>
 <td class="sm">无论串行还是并发提交,单日提现单数都不得超过VIP档位上限(VIP0=1);每日次数校验应原子/串行化(如DB行锁或唯一约束),并发下也精准拦截,超出的应返 WITHDRAW_DAILY_COUNT_EXCEEDED。</td>
 <td class="ev">实测:干净号uid13960串行→第1单200/第2单400 DAILY_COUNT_EXCEEDED(上限=1确立);uid13976(0历史,quota117)并发2单→(200 OK,200 OK)、DB落2笔;uid14021并发3单→2单200(第3单WITHDRAW_QUOTA_INSUFFICIENT,受quota非次数限制)。→每日次数校验是read-then-check非原子,并发请求都在计数自增前读到count&lt;上限而全部放行(TOCTOU竞态)。资金侧安全:每单仍受quota/本金约束(无双花,前已验),但绕过每日提现次数=风控/velocity限制形同虚设,可被拆多单并发提交规避人工复核阈值/反洗钱速率监控。建议:提现落单前对(user,自然日,马尼拉时区)做原子计数(行锁/唯一约束/串行化),或提交入队串行处理。 【严重度】高quota号(quota387)并发发12单→7单成功(3 DAILY_COUNT_EXCEEDED+2 QUOTA_INSUFFICIENT),DB落7单/6待处理。即每日次数上限=1被一次并发爆发放行7单,唯一真实约束是quota(7×50=350≤387,第8单起才被quota拦)——每日次数控被完全击穿,可拆到quota上限的单数并发规避。落败的3单才看到已自增计数。</td>
+<td class="c"><span class="mod">待处理</span></td>
+<td class="date">Smith<br>2026-09-22<br>后端</td>
+</tr><tr>
+<td class="c num">4</td>
+<td class="nm"><b>【充值-金额精度】充值金额不校验小数位,3位小数(如100.123)被接受并按原值入账,与提现(强制2位)不一致</b><div class="meta">充值·金额精度·校验一致性</div></td>
+<td><span class="pill" style="background:#3b5bdb">P2</span></td>
+<td class="sm">前端 POST /api/v1/user/deposits {deposit_option_code:&quot;fast_gcash&quot;,currency:&quot;PHP&quot;,amount:&quot;100.123&quot;}→200 OK建单;后台人工入账后钱包 lifecycle_principal_available 增加100.12300000(3位小数进账本)。对比:提现 POST /withdraws amount:&quot;50.123&quot;→400 VALIDATION_ERROR &quot;Please enter no more than 2 decimal places&quot;。</td>
+<td class="sm">货币金额应统一校验≤2位小数;充值应与提现一致,3位及以上小数返400拒绝,不产生亚分(sub-cent)入账污染账本。</td>
+<td class="ev">实测:amount=0/负/0.01/0.001/极大/非数字/空/缺字段均400拒;但100.123→200 OK,库存deposit_orders.amount=100.12300000,审批后本金实增100.123(3位小数进账本)。提现侧50.123/50.001→400&quot;no more than 2 decimal places&quot;正确拦。→充值缺少小数位校验,与提现不一致,可用亚分金额污染账本、给对账/报表留隐患。</td>
+<td class="c"><span class="mod">待处理</span></td>
+<td class="date">Smith<br>2026-09-22<br>后端</td>
+</tr><tr>
+<td class="c num">5</td>
+<td class="nm"><b>【充值-审批】人工入账不存在的充值单号返500 INTERNAL_ERROR(应404/400)</b><div class="meta">充值·审批·错误处理</div></td>
+<td><span class="pill" style="background:#868e96">低 - P3</span></td>
+<td class="sm">后台 POST /api/v1/admin/deposits/DP-NOTEXIST-999/manual-approve {remark,confirm_token}→500 INTERNAL_ERROR。</td>
+<td class="sm">审批不存在的充值单应返404 NOT_FOUND或400 VALIDATION_ERROR并给清晰提示,不应500内部错误。</td>
+<td class="ev">实测:审批不存在单号→500 INTERNAL_ERROR(错误处理质量问题,同PH01历史&quot;不存在ID→500非404&quot;模式)。对比:重复审批已success单→400 VALIDATION_ERROR正确拦;5并发审批同一pending单→仅1笔200、本金只增1次(充值审批并发安全无重复入账)。</td>
 <td class="c"><span class="mod">待处理</span></td>
 <td class="date">Smith<br>2026-09-22<br>后端</td>
 </tr></tbody></table>
