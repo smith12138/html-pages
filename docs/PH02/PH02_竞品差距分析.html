@@ -1,0 +1,126 @@
+<meta charset="utf-8"><title>PH02 竞品差距分析 · Casino Plus</title>
+<style>
+:root{--bg:#f5f7fb;--ink:#1f2a44;--mut:#6b7794;--line:#e3e8f0;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 80px}
+h1{font-size:24px;margin:0 0 4px}
+.sub{color:var(--mut);font-size:13px;margin-bottom:6px}
+h2{font-size:18px;margin:30px 0 12px;padding-left:10px;border-left:4px solid #3b5bdb}
+h3{font-size:15px;margin:18px 0 8px;color:#2b3a5c}
+p{margin:8px 0}
+.note{background:#fff8e6;border:1px solid #f5e3a8;border-radius:10px;padding:12px 16px;font-size:13px;color:#6b5a1e;margin:14px 0}
+.cards{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+.card{flex:1;min-width:150px;background:var(--card);border-radius:10px;border-left:4px solid;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card .n{font-size:26px;font-weight:800}
+.card .l{font-size:12px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;font-size:13.5px;box-shadow:0 1px 6px rgba(0,0,0,.05);margin:10px 0 18px}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f0f3fa;font-size:12.5px;color:#41506b}
+td.c{text-align:center;white-space:nowrap}
+.pill{color:#fff;border-radius:6px;padding:1px 9px;font-size:11px;font-weight:700;white-space:nowrap;display:inline-block}
+.p0{background:#dc2626}.p1{background:#ea580c}.p2{background:#0891b2}.p3{background:#6b7280}
+.yes{color:#16a34a;font-weight:700}.no{color:#dc2626;font-weight:700}
+.tag{display:inline-block;background:#eef1f7;color:#41506b;border-radius:6px;padding:1px 8px;font-size:11.5px;margin:1px 2px}
+ul{margin:6px 0 6px 2px;padding-left:20px}
+li{margin:3px 0}
+.foot{color:var(--mut);font-size:12px;margin-top:26px;border-top:1px solid var(--line);padding-top:12px}
+.k{font-weight:700}
+</style>
+<div class="wrap">
+<h1>PH02 · Casino Plus 竞品差距分析</h1>
+<div class="sub">对比对象：竞品 <b>casinoplus.com.ph</b>（PAGCOR 持牌线上娱乐场，实景经代理访问）　vs　我们的 <b>PH02 H5</b>（testcdn.haoyunlai888vip.com/h5ph02）</div>
+<div class="sub">编制：Smith-测试工程师　·　日期：2026-09-17　·　访问方式：竞品官网地区封锁（仅 PH），经浏览器代理进入实景对比 + App Store 官方页 + 接口数据核对</div>
+
+<div class="note">
+<b>一句话结论：</b>我们的 H5 与竞品<b>共用同一套品牌与信息架构（News/Community/Promotions/Lucky Plus/VIP 命名结构一致，确系按该竞品克隆）</b>，但<b>只落地了「老虎机 Slots」一个品类</b>——竞品的真人现场、Color Game、百家乐、扑克、捕鱼、体育等核心品类<b>我们全部缺失</b>；同时缺少 PAGCOR 合规闸、强搜索、个性化（收藏/最近/为你）等能力。
+</div>
+
+<div class="cards">
+<div class="card" style="border-color:#dc2626"><div class="n" style="color:#dc2626">9+</div><div class="l">缺失的游戏/内容品类</div></div>
+<div class="card" style="border-color:#ea580c"><div class="n" style="color:#ea580c">784</div><div class="l">我方游戏数，<b>100% 为 Slots</b></div></div>
+<div class="card" style="border-color:#0891b2"><div class="n" style="color:#0891b2">1</div><div class="l">我方有效游戏分类（另 3 类空壳）</div></div>
+<div class="card" style="border-color:#16a34a"><div class="n" style="color:#16a34a">≈</div><div class="l">品牌/导航结构与竞品一致</div></div>
+</div>
+
+<h2>一、功能缺失（最核心）</h2>
+<h3>1.1 游戏品类对比</h3>
+<p>竞品左侧 <span class="k">Games</span> 菜单与首页筛选实测品类；我方接口 <code>/games/categories/list</code> 定义了 4 类（SLOTS/HUNDRED/FISHING/MiniGame），但 <code>/games/list</code> 全部 784 款均为 <b>category_id=1 (SLOTS)</b>，其余三类 0 款（空壳）。</p>
+<table>
+<tr><th>品类</th><th class="c">竞品</th><th class="c">我方 PH02</th><th>竞品实景细节 / 影响</th><th class="c">优先级</th></tr>
+<tr><td>老虎机 Slots</td><td class="c yes">有</td><td class="c yes">有</td><td>PG/JILI/Pragmatic/JDB/FC；双方均有</td><td class="c">—</td></tr>
+<tr><td><b>真人现场 Live Games</b></td><td class="c yes">有</td><td class="c no">无</td><td>Live Roulette / Live Baccarat / Crazy Time / Funky Time / Lightning Baccarat / Craps Live / Monopoly Live（Evolution 级），带 <b>Voice Chat 语音</b></td><td class="c"><span class="pill p0">P0</span></td></tr>
+<tr><td><b>Color Game 彩色游戏</b></td><td class="c yes">有</td><td class="c no">无</td><td>菲律宾国民游戏、竞品招牌"PROUD FILIPINO"，jackpot ₱171,594,073</td><td class="c"><span class="pill p0">P0</span></td></tr>
+<tr><td><b>百家乐 Baccarat</b></td><td class="c yes">有</td><td class="c no">无</td><td>独立入口 + Baccarat CashBack + Grand Championship 奖池 ₱41,300,000</td><td class="c"><span class="pill p0">P0</span></td></tr>
+<tr><td><b>BlackJack（真人）</b></td><td class="c yes">有</td><td class="c no">无</td><td>LIVE、RTP 98%</td><td class="c"><span class="pill p1">P1</span></td></tr>
+<tr><td><b>扑克 Poker</b></td><td class="c yes">有</td><td class="c no">无</td><td>独立品类（含 Tongits 等本地棋牌）</td><td class="c"><span class="pill p1">P1</span></td></tr>
+<tr><td><b>捕鱼 Fishing</b></td><td class="c yes">有</td><td class="c no">空壳</td><td>我方分类存在但 0 款</td><td class="c"><span class="pill p1">P1</span></td></tr>
+<tr><td><b>体育 Sports</b></td><td class="c yes">有</td><td class="c no">无</td><td>独立品类</td><td class="c"><span class="pill p2">P2</span></td></tr>
+<tr><td><b>Live Slots</b></td><td class="c yes">有</td><td class="c no">无</td><td>首页筛选独立 chip</td><td class="c"><span class="pill p2">P2</span></td></tr>
+<tr><td>MiniGame / 百人 HUNDRED</td><td class="c yes">有</td><td class="c no">空壳</td><td>我方分类存在但 0 款</td><td class="c"><span class="pill p2">P2</span></td></tr>
+</table>
+
+<h3>1.2 产品能力对比</h3>
+<table>
+<tr><th>能力</th><th class="c">竞品</th><th class="c">我方</th><th>说明 / 影响</th><th class="c">优先级</th></tr>
+<tr><td><b>PAGCOR 合规闸</b></td><td class="c yes">有</td><td class="c no">无</td><td>竞品注册/登录前强制弹「21+、限制人群名单、Gambling can be addictive, Know when to stop」确认。我方无——属<b>合规风险</b>，非普通功能缺失</td><td class="c"><span class="pill p0">P0</span></td></tr>
+<tr><td><b>强搜索</b></td><td class="c yes">有</td><td class="c no">弱</td><td>竞品可按 providers / shortform / type / theme / gameplay / popular words / promotion tag 搜；我方仅按游戏名</td><td class="c"><span class="pill p1">P1</span></td></tr>
+<tr><td><b>个性化：For U / 收藏 / 最近</b></td><td class="c yes">有</td><td class="c no">无</td><td>竞品首页有 Favourite / Recent / For U 筛选；我方无收藏、无最近在玩、无为你推荐</td><td class="c"><span class="pill p1">P1</span></td></tr>
+<tr><td><b>活动页结构</b></td><td class="c yes">强</td><td class="c no">弱</td><td>竞品 Promotions 有 <b>ALL/HOT/ENDED</b> 分页 + 卡片（含活动<b>起止日期</b> + DETAILS）；我方以抽奖(Extra Lucky Drop)为主、活动结构弱、无日期区间</td><td class="c"><span class="pill p2">P2</span></td></tr>
+<tr><td><b>实时滚动奖池 Jackpot</b></td><td class="c yes">有</td><td class="c no">静态</td><td>竞品多处实时跳动奖池金额；我方仅静态"TODAY'S JACKPOT"跑马灯</td><td class="c"><span class="pill p2">P2</span></td></tr>
+<tr><td><b>支付方式</b></td><td class="c">GCash / Maya / UnionBank</td><td class="c">GCash 系</td><td>我方仅 Grabpay/Mockpay/EzPay(GCash 系)，<b>Maya / UnionBank 疑缺</b>（建议核对渠道配置）</td><td class="c"><span class="pill p1">P1</span></td></tr>
+</table>
+
+<h2>二、布局 / 样式差异</h2>
+<ul>
+<li><b>信息架构不同</b>：竞品桌面 Web 为<b>左侧边栏</b>（Home / Games 展开全品类 / Community / Promotions / News 展开三项 / Account / 语言），顶部为强搜索 + Login/Register + 通知铃，右侧悬浮 Lucky Plus + Support；我方为<b>移动底部导航</b>（Rewards / Home / Games / News / Menu）。竞品是 Web+App 双端形态，我方更像单一 H5。</li>
+<li><b>本地化主题</b>：竞品浓厚菲律宾特色（Color Game 彩球、Perya 嘉年华、PAGCOR 形象大使、"Proud Filipino Inspired"）；我方偏通用博彩模板，本地文化辨识度弱。</li>
+<li><b>首页信息密度</b>：竞品首页并列多品类区块（Popular Games / Live Games / Slot Machines…）+ 筛选 chips（Favourite/Recent/For U/Jackpot/New/Baccarat/BlackJack/Live Slots）；我方首页以 Slots 网格 + Jackpot 跑马灯为主。</li>
+<li><b>我方已记录、影响"样式对不对"的缺陷</b>（竞品未见）：浮标(game-floats)遮挡首页横幅/资讯页签/游戏卡、News 页签移动端截断、货币金额格式尾随零不一致。详见 BUG 清单 #197/#198/#196。</li>
+</ul>
+
+<h2>三、交互逻辑差异</h2>
+<ul>
+<li><b>浏览/筛选</b>：竞品按<b>品类 + 属性(主题/玩法/厂商/标签)</b>多维筛选与搜索，并有 For U/收藏/最近；我方仅<b>按厂商</b>(PG/JILI/…)切换，交互维度单一。</li>
+<li><b>活动领取/展示</b>：竞品活动带明确起止日期、HOT/ENDED 状态、DETAILS 详情；我方活动状态与有效期展示弱。</li>
+<li><b>我方已记录的交互缺陷</b>（相对成熟竞品的打磨差距）：提现最低额校验滞后到资金密码之后、账户历史余额脱敏被架空、我的资料 Account ID/Phone 空白、导出任务不自动刷新、收款人表单非法输入无提示等。详见 BUG 清单 #170/#185/#186/#187/#195/#188。</li>
+</ul>
+
+<h2>四、我方"已对齐"的部分（克隆正确）</h2>
+<p>以下命名与结构与竞品一致，说明产品确按该竞品打造，仅游戏品类未落地：</p>
+<p>
+<span class="tag">News：Jackpot Winner / Faces of Brand / Social Impact</span>
+<span class="tag">Community 社群</span>
+<span class="tag">Promotions 入口</span>
+<span class="tag">Lucky Plus 抽奖（= 我方 Extra Lucky Drop）</span>
+<span class="tag">VIP 体系</span>
+<span class="tag">1.5% Cashback / Rebate</span>
+<span class="tag">品牌 Logo（CASINO PLUS 彩字）</span>
+</p>
+
+<h2>五、游戏大厅与呈现细节（实景深挖补充）</h2>
+<p>进入竞品 Games 大厅、Live Games 落地页、搜索实测，补充以下"呈现层"差距——即使不谈品类，竞品在<b>浏览体验与信息密度</b>上也明显更强：</p>
+<table>
+<tr><th>维度</th><th>竞品 casinoplus.com.ph</th><th>我方 PH02</th><th class="c">优先级</th></tr>
+<tr><td><b>大厅筛选维度</b></td><td><b>二维</b>：品类 tab（Live Games / Slot Machines / Slot Games / Poker / Baccarat CashBack / 5%+1.5% / 98%）<b>×</b> 供应商·类型 tab（Table Game / Game Show / JILI / SPIN MASTER / Hacksaw / <b>EVOLVE</b> / PRAGMATIC PLAY / FC / EEZE SLOT…）</td><td><b>一维</b>：仅厂商 tab（PG/JILI/Pragmatic/JDB/FC）+ Must Try/All Games</td><td class="c"><span class="pill p1">P1</span></td></tr>
+<tr><td><b>供应商广度</b></td><td>含 <b>EVOLVE(Evolution 真人)</b>、Hacksaw、Spin Master、EEZE Slot、Game Show、Table Game 等</td><td>5 家、<b>全为 Slot 厂商</b>（PG/JILI/Pragmatic/JDB/FC）</td><td class="c"><span class="pill p0">P0</span></td></tr>
+<tr><td><b>游戏卡信息密度</b></td><td>富徽标：<b>RTP%</b>、倍数（150X/250X/56X）、最低投注（MIN.P5）、<b>实时 Jackpot 金额</b>、HOT/NEW、<b>Voice Chat 语音</b>、cashback%、真人荷官实拍图</td><td>仅<b>游戏名 + 厂商</b>；无徽标、无奖池、无 RTP</td><td class="c"><span class="pill p2">P2</span></td></tr>
+<tr><td><b>实时奖池（每游戏）</b></td><td>每款显示实时 Jackpot：Color Game ₱171,784,447 / Jin Ji Bao Xi ₱71,806,012 / Super Ace ₱12,846,487…</td><td>无</td><td class="c"><span class="pill p2">P2</span></td></tr>
+<tr><td><b>真人语音 Voice Chat</b></td><td>部分 Live 游戏支持</td><td>无（无真人品类）</td><td class="c"><span class="pill p1">P1</span></td></tr>
+<tr><td><b>搜索维度</b></td><td>即时联想（Baccarat/Speed Baccarat/Fortune7…带品类标签），可按 providers/shortform/type/theme/gameplay/popular words/promotion tag 多维</td><td>有即时联想，但以<b>游戏名</b>为主，无多维属性搜索</td><td class="c"><span class="pill p2">P2</span></td></tr>
+<tr><td><b>内容 / SEO 落地页</b></td><td>品类页含 Testimonials、Popular Tags（colorgame/Pula Puti/Lightning Baccarat/Monopoly Live）、"Ready to Play?"营销文案；另有 <b>Charity</b> 页</td><td>无内容/SEO 落地页</td><td class="c"><span class="pill p3">P3</span></td></tr>
+</table>
+
+<h2>六、优先级建议</h2>
+<table>
+<tr><th class="c">优先级</th><th>建议</th></tr>
+<tr><td class="c"><span class="pill p0">P0 战略</span></td><td><b>补齐核心品类</b>：真人现场(Live)、Color Game、百家乐——这三者是竞品的产品心智核心，缺失则与竞品完全不是同一类产品。<b>补 PAGCOR 合规闸</b>（21+/限制人群/责任博彩提示），消除合规风险。</td></tr>
+<tr><td class="c"><span class="pill p1">P1 重要</span></td><td>BlackJack / Poker(含 Tongits) / Fishing 落地；强搜索(按厂商/主题/玩法/标签)、收藏/最近/为你推荐；补 Maya / UnionBank 支付渠道。</td></tr>
+<tr><td class="c"><span class="pill p2">P2 优化</span></td><td>体育 / Live Slots；活动页 ALL/HOT/ENDED 分页 + 活动起止日期；实时滚动奖池；空分类(HUNDRED/FISHING/MiniGame)下架或填充；本地化主题强化。</td></tr>
+</table>
+
+<div class="foot">
+数据依据：竞品实景（经代理访问 casinoplus.com.ph 首页/Games/Promotions/登录合规闸）、<a href="https://apps.apple.com/ph/app/casino-plus-ph/id6479251349">App Store 官方页</a>、Web 检索；我方数据来自 BFF 接口 <code>/games/categories/list</code>（4 类：SLOTS/HUNDRED/FISHING/MiniGame）与 <code>/games/list</code>（784 款全为 SLOTS）及现场实测。<br>
+备注：竞品官网对非 PH IP 地区封锁，本对比经浏览器代理进入实景；如需逐屏像素级差异清单，可就单一模块（如 Live 大厅 / Color Game 玩法 / 充提流程）继续深挖。
+</div>
+</div>
