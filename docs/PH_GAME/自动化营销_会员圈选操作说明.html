@@ -1,0 +1,166 @@
+<meta charset="utf-8"><title>自动化营销 · 会员圈选（人群组合）操作说明</title>
+<style>
+:root{--bg:#f5f7fb;--ink:#1f2a44;--mut:#6b7794;--line:#e3e8f0;--brand:#3b5bdb;--and:#e8590c;--or:#2f9e44}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.wrap{max-width:960px;margin:0 auto;padding:26px 20px 70px}
+h1{font-size:25px;margin:0 0 6px}
+.sub{color:var(--mut);font-size:13.5px;margin-bottom:22px}
+h2{font-size:18px;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--brand)}
+h3{font-size:15px;margin:18px 0 8px}
+p{margin:8px 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.tldr{background:#eef4ff;border:1px solid #cdddff;border-radius:12px;padding:16px 20px;margin:14px 0}
+.tldr b{color:var(--brand)}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:13.5px;box-shadow:0 1px 6px rgba(0,0,0,.05);margin:10px 0}
+th,td{padding:11px 13px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f0f3fa;font-size:12.5px;color:#41506b}
+td .f{font-weight:700;color:var(--ink)}
+td .en{color:var(--mut);font-size:11.5px;font-family:ui-monospace,Menlo,monospace}
+code{background:#eef1f6;padding:1px 6px;border-radius:5px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace;color:#324}
+.or{color:var(--or);font-weight:700}.and{color:var(--and);font-weight:700}
+.pill{display:inline-block;color:#fff;border-radius:6px;padding:1px 9px;font-size:11.5px;font-weight:700}
+.pill.or{background:var(--or)}.pill.and{background:var(--and)}
+.eg{background:#fbfcfe;border:1px dashed #cfd8e8;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+.eg .r{color:var(--brand);font-weight:700}
+.warn{background:#fff8ec;border:1px solid #ffe3a3;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+.diagram{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:14px 0;text-align:center}
+.lvl{display:inline-block;vertical-align:top;background:#f6f8fc;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:6px;min-width:120px}
+.lvl .t{font-weight:700;font-size:13px;margin-bottom:4px}
+.lvl .i{color:var(--mut);font-size:11.5px}
+.op{display:inline-block;font-weight:800;font-size:15px;margin:0 4px;vertical-align:middle}
+.op.or{color:var(--or)}.op.and{color:var(--and)}
+ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
+.foot{color:var(--mut);font-size:12px;margin-top:30px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+<div class="wrap">
+<h1>自动化营销 · 会员圈选（人群组合）操作说明</h1>
+<div class="sub">营销旅程编辑器 → 人群组合面板 · 面向运营/产品 · 每个字段与组合逻辑一次看懂</div>
+
+<div class="tldr">
+<b>一句话理解：</b>人群组合就是「用几把筛子筛会员」。每把筛子（标签 / MASTER / TEAM / GROUP / CHANNEL / 名单）里，<span class="or">同一把里填多个 = 满足任意一个即可（OR / 取并集）</span>；<span class="and">不同筛子之间 = 必须同时满足（AND / 取交集）</span>。最终人群 = 通过所有已填筛子的会员。
+</div>
+
+<h2>一、核心规则（务必先记住）</h2>
+<div class="card">
+<table>
+<tr><th style="width:26%">规则</th><th>含义</th></tr>
+<tr><td><span class="pill or">同级 OR</span></td><td>同一个字段里填多个值（如两个标签 ID、两个 MASTER），会员<b>命中其中任意一个</b>就算通过这把筛子（取<b>并集</b>）。</td></tr>
+<tr><td><span class="pill and">跨级 AND</span></td><td>不同字段之间（标签 / MASTER / TEAM / GROUP / CHANNEL / 名单）会员<b>必须每一项都通过</b>才进入人群（取<b>交集</b>）。</td></tr>
+<tr><td>只认「已授权」</td><td>每个字段只能填<b>你当前权限范围内已授权</b>的 ID；填了没权限的会被拒绝。这是数据权限边界，不是圈人条件。</td></tr>
+<tr><td>0 匹配也保留</td><td>某个合法字段筛出来<b>0 个会员</b>时，系统<b>照样保留这条限制</b>（结果就是空/更小人群），<b>不会自动放宽</b>范围帮你凑人。填错=真的圈不到人。</td></tr>
+<tr><td>留空 = 不筛</td><td>某个字段<b>不填</b>=这把筛子不启用，不参与 AND。留空 ≠ 圈 0 人，而是「这一维不设限」。</td></tr>
+</table>
+</div>
+
+<h2>二、组合逻辑图</h2>
+<div class="diagram">
+<div style="font-size:12.5px;color:var(--mut);margin-bottom:8px">最终人群 = 下面每一列的交集（AND），每一列内部是并集（OR）</div>
+<div class="lvl"><div class="t">标签定义</div><div class="i">标签A <span class="op or">OR</span> 标签B</div></div>
+<span class="op and">AND</span>
+<div class="lvl"><div class="t">MASTER</div><div class="i">M1 <span class="op or">OR</span> M2</div></div>
+<span class="op and">AND</span>
+<div class="lvl"><div class="t">TEAM</div><div class="i">T1 <span class="op or">OR</span> …</div></div>
+<span class="op and">AND</span>
+<div class="lvl"><div class="t">GROUP</div><div class="i">G1 <span class="op or">OR</span> …</div></div>
+<span class="op and">AND</span>
+<div class="lvl"><div class="t">CHANNEL</div><div class="i">C1 <span class="op or">OR</span> …</div></div>
+<span class="op and">AND</span>
+<div class="lvl"><div class="t">CSV名单</div><div class="i">上传的号码</div></div>
+<div style="font-size:12.5px;color:var(--mut);margin-top:10px">（哪一列留空，哪一列就不参与）</div>
+</div>
+
+<h2>三、字段逐个说明</h2>
+<div class="card">
+<table>
+<tr><th style="width:20%">字段</th><th>是什么 / 填什么</th><th style="width:14%">组合</th></tr>
+<tr>
+<td><div class="f">全量授权会员</div><div class="en">mode</div></td>
+<td>总开关。开启「<b>已明确选择</b>」= 把<b>你当前权限能看到的全部会员</b>当作完整人群（对应 <code>mode=UNRESTRICTED</code>）。<br><b>必须显式打开才生效</b>——防止误把「没设条件」当成「圈全量」。不开就以下面填的条件为准。</td>
+<td>顶层开关</td>
+</tr>
+<tr>
+<td><div class="f">人群组合</div><div class="en">relation</div></td>
+<td>各来源之间怎么组合。默认「<b>同时满足所有来源</b>」= 跨字段 <span class="and">AND</span>（会员要同时通过所有已填字段）。</td>
+<td><span class="pill and">AND</span></td>
+</tr>
+<tr>
+<td><div class="f">标签定义 ID</div><div class="en">selection_keys</div></td>
+<td>填<b>会员标签的定义 ID</b>（不是标签名）。圈出<b>带这些标签</b>的会员。<br>注：标签是按取数周期批量打的（非实时），以最近一次评估的标签为准。</td>
+<td><span class="pill or">同级 OR</span></td>
+</tr>
+<tr>
+<td><div class="f">MASTER</div><div class="en">代理层级·顶</div></td>
+<td>填<b>总代理（MASTER）编号</b>。圈出<b>归属这些总代理旗下</b>的会员。代理层级：<b>MASTER ＞ TEAM ＞ GROUP</b>。</td>
+<td><span class="pill or">同级 OR</span></td>
+</tr>
+<tr>
+<td><div class="f">TEAM</div><div class="en">代理层级·中</div></td>
+<td>填<b>团队（TEAM）编号</b>。圈出归属这些团队的会员。与 MASTER 是<b>不同级</b>→之间 AND（既在某 MASTER 下、又在某 TEAM 下）。</td>
+<td><span class="pill or">同级 OR</span></td>
+</tr>
+<tr>
+<td><div class="f">GROUP</div><div class="en">代理层级·底</div></td>
+<td>填<b>小组（GROUP）编号</b>。圈出归属这些小组的会员。</td>
+<td><span class="pill or">同级 OR</span></td>
+</tr>
+<tr>
+<td><div class="f">CHANNEL</div><div class="en">explicit_channel_ids</div></td>
+<td>填<b>推广渠道编号</b>。圈出<b>从这些渠道进来</b>的会员（渠道类型：官方 official / 代理 agent；推广形式：SOCIAL_AD 社媒广告 / LINK 链接 / SMS 短信）。</td>
+<td><span class="pill or">同级 OR</span></td>
+</tr>
+<tr>
+<td><div class="f">CSV / XLSX 号码名单</div><div class="en">固定名单</div></td>
+<td>上传一份<b>手机号名单</b>做精确圈定。「上传并校验」后系统解析目标会员；<b>确认后的版本作为不可变人群来源</b>（快照固定，之后名单变了也不影响这次）。</td>
+<td><span class="pill and">与其他 AND</span></td>
+</tr>
+</table>
+</div>
+
+<h2>四、举例（帮助建立直觉）</h2>
+
+<div class="eg">
+<b>例 1 · 单维度：</b>只填 标签定义 ID = [VIP大户标签]<br>
+→ <span class="r">人群 = 带「VIP大户」标签的全部会员</span>（其他字段留空=不设限）
+</div>
+
+<div class="eg">
+<b>例 2 · 同级 OR：</b>标签定义 ID = [标签A, 标签B]<br>
+→ <span class="r">人群 = 带标签A <span class="or">或</span> 带标签B 的会员</span>（并集，命中一个就行）
+</div>
+
+<div class="eg">
+<b>例 3 · 跨级 AND：</b>标签 = [活跃玩家] &nbsp;+&nbsp; CHANNEL = [渠道X]<br>
+→ <span class="r">人群 = 「活跃玩家」标签 <span class="and">且</span> 从渠道X进来 的会员</span>（交集，两个都要满足）
+</div>
+
+<div class="eg">
+<b>例 4 · 混合：</b>MASTER = [M1, M2] &nbsp;+&nbsp; TEAM = [T1] &nbsp;+&nbsp; 标签 = [高净值]<br>
+→ <span class="r">人群 =（归属 M1 <span class="or">或</span> M2）<span class="and">且</span>（归属 T1）<span class="and">且</span>（带高净值标签）</span>
+</div>
+
+<div class="warn">
+<b>⚠️ 常见误区</b>
+<ul>
+<li><b>以为留空=圈0人</b>：留空是「这一维不筛」，不是圈不到人。想圈全量请开「全量授权会员」。</li>
+<li><b>以为填多个字段会变多</b>：跨字段是 AND（交集），填越多字段，人群<b>越小</b>不是越大。想扩大人群应在<b>同一字段里多填</b>（OR）。</li>
+<li><b>标签不实时</b>：标签按取数周期评估，刚打标/刚改条件的会员可能要等下一轮评估才进人群。</li>
+<li><b>0 匹配不报错也不放宽</b>：某字段筛出 0 人，最终人群就是 0（或被这一维压成 0），系统不会自动去掉这个条件。发人群前建议先看预览人数。</li>
+<li><b>只能填已授权 ID</b>：填了权限外的 MASTER/TEAM/GROUP/CHANNEL/标签会被拒，不是 bug。</li>
+</ul>
+</div>
+
+<h2>五、操作建议（发人群前自检）</h2>
+<div class="card">
+<ol style="margin:4px 0;padding-left:22px">
+<li>先想清楚要「<b>缩小</b>」还是「<b>扩大</b>」：缩小→加字段（AND）；扩大→同字段多填（OR）或减字段。</li>
+<li>要圈全量→开「<b>全量授权会员 · 已明确选择</b>」，别靠留空。</li>
+<li>填完看<b>预览人数</b>：为 0 先排查是不是某个字段填了权限外/无匹配的 ID，或几个字段 AND 交集太窄。</li>
+<li>用<b>CSV 名单</b>做定向时记得「上传并校验」，确认后名单即固定（快照），后续该名单变动不影响本次。</li>
+<li>依赖<b>标签</b>的人群，确认目标会员已在最近一次标签评估里被打上标（新号/刚改条件的号可能还没进）。</li>
+</ol>
+</div>
+
+<div class="foot">
+说明：本文字段口径基于测试环境实测核对（scope v2：<code>mode / selection_keys / explicit_channel_ids / personnel_binding_ids</code>；代理层级 agent_level = MASTER/TEAM/GROUP；渠道 acquisition_channels）。如产品口径有调整以最新需求为准。· 编写：Smith-测试工程师
+</div>
+</div>
