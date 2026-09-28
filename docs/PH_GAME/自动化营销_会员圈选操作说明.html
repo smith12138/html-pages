@@ -69,7 +69,34 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 <div style="font-size:12.5px;color:var(--mut);margin-top:10px">（哪一列留空，哪一列就不参与）</div>
 </div>
 
-<h2>三、字段逐个说明</h2>
+<h2>三、面板长这样（字段对照图）</h2>
+<div class="card" style="background:#fbfcfe">
+<div style="font-size:12px;color:var(--mut);margin-bottom:10px">营销旅程编辑器 → <b>① 人群与条件</b> → 圈选与资格条件（下图字段与后台一致）</div>
+<div style="border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff;font-size:13px">
+<div style="color:var(--mut);font-size:11.5px;margin-bottom:10px">请显式选择全量授权会员，或至少配置一个人群来源。上传、组织、标签来源会自动关闭全量开关。</div>
+<div style="margin:8px 0"><b>全量授权会员</b> &nbsp;<span style="border:1px solid var(--line);border-radius:20px;padding:2px 10px;color:var(--mut)">已明确选择 ｜ 未选择</span> <span style="color:var(--brand);font-size:11.5px">← 顶层总开关</span></div>
+<div style="margin:8px 0"><b>人群组合</b> &nbsp;<span style="border:1px solid var(--line);border-radius:6px;padding:2px 12px">同时满足所有来源 ▾</span> <span style="color:var(--and);font-size:11.5px">← 点开有 3 种：满足任一(OR)／同时满足所有(AND)／排除后续</span></div>
+<div style="margin:8px 0"><b>标签定义 ID</b> &nbsp;<span style="border:1px solid var(--line);border-radius:6px;padding:2px 12px;color:#9aa;">输入已授权标签定义 ID</span> <span class="or" style="font-size:11.5px">← 同字段多填 = OR</span></div>
+<div style="color:var(--mut);font-size:11px;margin:4px 0 8px">同级多选为 OR，MASTER / TEAM / GROUP / CHANNEL 跨级为 AND；合法的 0 匹配选择会保留，不会自动放宽范围。</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0">
+<span style="border:1px solid var(--line);border-radius:6px;padding:2px 12px;color:#9aa">MASTER</span>
+<span style="border:1px solid var(--line);border-radius:6px;padding:2px 12px;color:#9aa">TEAM</span>
+<span style="border:1px solid var(--line);border-radius:6px;padding:2px 12px;color:#9aa">GROUP</span>
+<span style="border:1px solid var(--line);border-radius:6px;padding:2px 12px;color:#9aa">CHANNEL</span>
+<span class="and" style="font-size:11.5px;align-self:center">← 这四个跨级之间 = AND</span>
+</div>
+<div style="margin:8px 0"><b>CSV / XLSX 号码名单</b> &nbsp;<span style="border:1px solid var(--line);border-radius:6px;padding:2px 12px;color:var(--brand)">⬆ 上传并校验</span></div>
+<hr style="border:none;border-top:1px dashed var(--line);margin:12px 0">
+<div style="margin:6px 0"><b>根资格条件</b> <span style="color:var(--mut);font-size:11.5px">条件使用三值逻辑；未就绪事实不会被当成"未发生"</span></div>
+<div style="font-size:12px;color:var(--mut);padding-left:10px">AND ▸ LEAF：指标 <code>registered_elapsed_minutes</code> · 比较 <code>GT</code> · 值 · 数据来源 · 计算时点 <code>RUN_START</code></div>
+<hr style="border:none;border-top:1px dashed var(--line);margin:12px 0">
+<div style="margin:6px 0"><b>实时人群预估</b> <span style="color:var(--mut);font-size:11.5px">保存草稿后点「估算」才有；没证据不猜人数</span></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11.5px;color:var(--mut);padding-left:10px">
+<span>原始匹配</span>·<span>当前授权</span>·<span>安全排除</span>·<span style="color:var(--brand);font-weight:700">可执行人数</span>·<span>可短信触达</span>·<span>可站内信触达</span></div>
+</div>
+</div>
+
+<h2>四、字段逐个说明</h2>
 <div class="card">
 <table>
 <tr><th style="width:20%">字段</th><th>是什么 / 填什么</th><th style="width:14%">组合</th></tr>
@@ -85,7 +112,7 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 </tr>
 <tr>
 <td><div class="f">标签定义 ID</div><div class="en">selection_keys</div></td>
-<td>填<b>会员标签的定义 ID</b>（不是标签名）。圈出<b>带这些标签</b>的会员。<br>注：标签是按取数周期批量打的（非实时），以最近一次评估的标签为准。</td>
+<td>填<b>会员标签的定义 ID</b>（不是标签名），回车成为一个标签片(chip)；可填多个。圈出<b>带这些标签</b>的会员。<br>⚠️ <b>只有「已发布服务版本(serving version)」的标签才能用</b>：光有标签评估还不够，标签必须有<b>当前开放的服务快照</b>；否则点估算会报 <code>REFERENCE_REQUIRED: tag source needs definition, serving version, and snapshot ids</code>。<br>注：标签按取数周期批量评估（非实时），以最近一次评估结果为准。</td>
 <td><span class="pill or">同级 OR</span></td>
 </tr>
 <tr>
@@ -116,26 +143,36 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 </table>
 </div>
 
-<h2>四、举例（帮助建立直觉）</h2>
+<h2>五、实战示例（测试环境真实人数）</h2>
+<p style="color:var(--mut);font-size:13px">下面用测试环境两个真实标签演示 OR / AND / 排除 对人群的实际影响：<br><b>标签 1191「注册日期」= 15,847 人</b>；<b>标签 1192「首次充值日期」= 1,414 人</b>（充值过的都注册过，所以 1192 是 1191 的子集）。</p>
 
 <div class="eg">
-<b>例 1 · 单维度：</b>只填 标签定义 ID = [VIP大户标签]<br>
-→ <span class="r">人群 = 带「VIP大户」标签的全部会员</span>（其他字段留空=不设限）
+<b>例 1 · 单标签：</b>标签定义 ID = [<code>1191</code>]<br>
+→ <span class="r">人群 = 15,847 人</span>（带「注册日期」标签的全部会员）
+<div style="margin-top:6px;height:14px;background:#e9edf5;border-radius:7px"><div style="width:100%;height:14px;background:var(--brand);border-radius:7px"></div></div>
 </div>
 
 <div class="eg">
-<b>例 2 · 同级 OR：</b>标签定义 ID = [标签A, 标签B]<br>
-→ <span class="r">人群 = 带标签A <span class="or">或</span> 带标签B 的会员</span>（并集，命中一个就行）
+<b>例 2 · 同级 OR（同一字段填两个标签）：</b>标签定义 ID = [<code>1191</code>, <code>1192</code>]<br>
+→ <span class="r">人群 = 15,847 人</span>（1191 <span class="or">或</span> 1192 = <b>并集</b>；因 1192 全在 1191 里，并集仍是 15,847）
+<div style="margin-top:6px;height:14px;background:#e9edf5;border-radius:7px"><div style="width:100%;height:14px;background:var(--or);border-radius:7px"></div></div>
 </div>
 
 <div class="eg">
-<b>例 3 · 跨级 AND：</b>标签 = [活跃玩家] &nbsp;+&nbsp; CHANNEL = [渠道X]<br>
-→ <span class="r">人群 = 「活跃玩家」标签 <span class="and">且</span> 从渠道X进来 的会员</span>（交集，两个都要满足）
+<b>例 3 · 跨来源 AND（人群组合=同时满足所有）：</b>把 1191 当一个来源、1192 当另一个来源做交集<br>
+→ <span class="r">人群 = 1,414 人</span>（1191 <span class="and">且</span> 1192 = <b>交集</b>，<b>明显变小</b>）
+<div style="margin-top:6px;height:14px;background:#e9edf5;border-radius:7px"><div style="width:8.9%;height:14px;background:var(--and);border-radius:7px"></div></div>
+<div style="color:var(--mut);font-size:12px;margin-top:3px">← 交集只有 1,414，条约填得越多、AND 后人群越小</div>
 </div>
 
 <div class="eg">
-<b>例 4 · 混合：</b>MASTER = [M1, M2] &nbsp;+&nbsp; TEAM = [T1] &nbsp;+&nbsp; 标签 = [高净值]<br>
-→ <span class="r">人群 =（归属 M1 <span class="or">或</span> M2）<span class="and">且</span>（归属 T1）<span class="and">且</span>（带高净值标签）</span>
+<b>例 4 · 排除后续来源（黑名单/减法）：</b>人群组合 = 排除后续来源，前置 1191、后续 1192<br>
+→ <span class="r">人群 = 14,433 人</span>（15,847 <b>减去</b> 也带 1192 的 1,414 人 = 只注册没首充的）
+<div style="margin-top:6px;height:14px;background:#e9edf5;border-radius:7px"><div style="width:91.1%;height:14px;background:#7048e8;border-radius:7px"></div></div>
+</div>
+
+<div class="warn" style="background:#eef4ff;border-color:#cdddff">
+<b>一眼看懂 OR / AND / 排除：</b>同样两个标签，<span class="or">OR=15,847（并集，最大）</span>、<span class="and">AND=1,414（交集，最小）</span>、<b style="color:#7048e8">排除=14,433（差集）</b>。<b>想扩大人群用 OR，想精准收窄用 AND，想去掉某批人用排除。</b>
 </div>
 
 <div class="warn">
@@ -149,7 +186,7 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 </ul>
 </div>
 
-<h2>五、操作建议（发人群前自检）</h2>
+<h2>六、操作建议（发人群前自检）</h2>
 <div class="card">
 <ol style="margin:4px 0;padding-left:22px">
 <li>先想清楚要「<b>缩小</b>」还是「<b>扩大</b>」：缩小→加字段（AND）；扩大→同字段多填（OR）或减字段。</li>
@@ -160,7 +197,7 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 </ol>
 </div>
 
-<h2>六、根资格条件（人群之外的第二层过滤）</h2>
+<h2>七、根资格条件（人群之外的第二层过滤）</h2>
 <div class="card">
 <p>圈出人群后，还可以加一层「<b>资格条件</b>」按会员的<b>行为/属性指标</b>再过滤（如「注册满 N 分钟」「从未成功充值」）。这层和人群是 <span class="and">AND</span> 关系：<b>既在人群里、又满足资格条件</b>的会员才最终进入旅程。</p>
 <h3>条件是一棵「布尔树」</h3>
@@ -180,7 +217,7 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 </div>
 </div>
 
-<h2>七、实时人群预估（发之前先算人数）</h2>
+<h2>八、实时人群预估（发之前先算人数）</h2>
 <div class="card">
 <p>配好人群+条件后，<b>先保存草稿，再点「估算」</b>，系统会按证据算出真实人数，给出 6 个口径：</p>
 <table>
@@ -195,13 +232,13 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 <div class="warn"><b>「没有证据不会猜测人数」</b>：不点估算就没有人数（显示"暂无数据"）；估算只在保存草稿后手动触发。<b>提交审批前务必先估算、确认可执行人数不为 0 且符合预期。</b></div>
 </div>
 
-<h2>八、预算上限</h2>
+<h2>九、预算上限</h2>
 <div class="card">
 <p>控制这条旅程的花费上限，四个口径：<b>总预算 / 每日预算 / 单会员预算 / 单消息成本上限</b>（均为 PHP）。</p>
 <p style="color:var(--mut);font-size:13px">注：金额只提交 decimal 字符串，<b>不在浏览器里计算或扣减预算</b>（实际扣减由后端执行时处理）。</p>
 </div>
 
-<h2>九、一条旅程从草稿到上线的顺序</h2>
+<h2>十、一条旅程从草稿到上线的顺序</h2>
 <div class="card">
 <p>顶部动作条：<b>保存草稿 → 验证 → 估算 → 测试 → 提交审批 →（审批通过）→ 上线</b>；旁边还有<b>归档</b>。</p>
 <p>创建后是 <code>DRAFT 草稿</code>；<b>人群、合规、审批必须在提交前完成</b>。编辑区分四步：<b>①人群与条件 ②运行设置 ③工作流动作 ④检查发布</b>。运行上下文里能看到：版本状态、下次检查时间、参与者最长生命周期（如 90 天）、静默期（如 22:00–08:00 UTC+8）。</p>
