@@ -1,0 +1,107 @@
+<meta charset="utf-8"><title>提现限制优化 · 产品方案（给老大确认）</title>
+<style>
+:root{--bg:#f5f7fb;--ink:#1f2a44;--mut:#6b7794;--line:#e6eaf1;--brand:#2f6bff;--ok:#22a06b;--warn:#e8873b;--red:#e5484d}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+.wrap{max-width:820px;margin:0 auto;padding:28px 22px 70px}
+h1{font-size:25px;margin:0 0 4px}
+.sub{color:var(--mut);font-size:13px;margin-bottom:22px}
+.one{background:linear-gradient(135deg,#eaf1ff,#f3f0ff);border:1px solid #d6e0ff;border-radius:14px;padding:18px 22px;margin:14px 0;font-size:15.5px}
+.one b{color:var(--brand)}
+h2{font-size:18px;margin:30px 0 10px;display:flex;align-items:center;gap:8px}
+h2 .n{display:inline-flex;width:26px;height:26px;background:var(--brand);color:#fff;border-radius:50%;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:12px 0;box-shadow:0 1px 5px rgba(0,0,0,.04)}
+p{margin:8px 0}
+.now{color:var(--mut)}
+.arrow{text-align:center;color:var(--brand);font-size:20px;margin:2px 0}
+.door{display:flex;gap:12px;margin:10px 0;flex-wrap:wrap}
+.d{flex:1;min-width:220px;border-radius:12px;padding:14px 16px;font-size:14px}
+.d1{background:#f3effe;border:1px solid #dccffb}
+.d2{background:#fff4ea;border:1px solid #ffdcb8}
+.d .tt{font-weight:700;margin-bottom:4px}
+.eg{background:#f8fafc;border-left:3px solid var(--brand);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:14px}
+.eg .r{color:var(--ok);font-weight:600}
+.warn{background:#fff6ec;border:1px solid #ffddb0;border-radius:12px;padding:14px 18px;margin:12px 0}
+.warn .h{font-weight:700;color:var(--warn);margin-bottom:4px}
+.ask{background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:12px;padding:14px 18px;margin:12px 0}
+.ask .h{font-weight:700;margin-bottom:2px}
+.ask .why{color:var(--mut);font-size:13px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:14px;margin:8px 0}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:#f0f3fa;font-size:13px;color:#41506b}
+.pend{color:var(--mut);font-size:12px;margin-top:26px;border-top:1px solid var(--line);padding-top:12px}
+ul{margin:6px 0;padding-left:20px}li{margin:4px 0}
+</style>
+<div class="wrap">
+<h1>提现限制优化 · 产品方案</h1>
+<div class="sub">给老大确认 · 大白话版 · 2026-09-28</div>
+
+<div class="one">
+<b>一句话：</b>现在用户每天只能提现固定<b>几次</b>（最低等级每天就 1 次），提完得等明天，体验差、易投诉。建议<b>不再限次数，改成按 VIP 等级限"每天最多能提多少钱"</b>，超了给友好弹窗、能一键填入剩余额度。
+</div>
+
+<h2><span class="n">1</span> 为什么要改</h2>
+<div class="card">
+<p>运营反馈：现在提现按<b>次数</b>卡，等级越低次数越少——</p>
+<ul>
+<li>普通用户（VIP0/1）<b>每天只能提 1 笔</b>，提完想再提只能等明天；</li>
+<li>用户体验差、容易流失、客诉多；</li>
+<li>"按次数"也不太合理：提 1 笔 5 万 和 提 1 笔 50，占用的都是"1 次"。</li>
+</ul>
+<p><b>改成按"金额"更合理</b>：关心的是"一天最多提走多少钱"，而不是"提了几次"。</p>
+</div>
+
+<h2><span class="n">2</span> 建议改成什么样</h2>
+<div class="card">
+<p class="now">现在：每天限<b>次数</b>（VIP0=1 次 … VIP9=9 次），金额不分等级。</p>
+<div class="arrow">↓ 改为 ↓</div>
+<p><b>每天限"累计金额"，按 VIP 分档</b>（等级越高，每天能提越多）。当天提现总额没到上限就随便提；到了上限，友好弹窗提示，引导改金额或升 VIP。</p>
+<div class="eg">举例（数字待定）：假设某等级每天上限 ₱1,000。用户上午提了 500，下午想再提 600 → 提示"今天还能提 500"，点一下"填入剩余额度"自动改成 500，体验顺滑。</div>
+</div>
+
+<h2><span class="n">3</span> ⚠️ 一个容易被忽略的关键点</h2>
+<div class="warn">
+<div class="h">用户能不能提钱，其实卡"两道门"，运营方案只说了第二道</div>
+<div class="door">
+<div class="d d1"><div class="tt">🚪 门 1：得先"玩够流水"（打码）</div>充进来的钱不能马上原样提走，要先投注玩够量才解锁可提——这是平台防套利的老规矩，<b>不变</b>。<b>这道门是用户现在最常撞到的</b>。</div>
+<div class="d d2"><div class="tt">🚪 门 2：每天提现总额上限</div>就是这次要改的 VIP 每日金额限额。</div>
+</div>
+<p style="margin-top:6px"><b>为什么重要：</b>用户可能"每日额度还没用完，但因为流水没玩够，还是提不出来"。如果弹窗只说"额度不足"，用户会一脸懵、来投诉。<br><b>所以：弹窗必须说清楚到底卡在哪道门</b>——是"要先玩够流水"，还是"今天额度提满了"。（运营方案漏了门 1，这块我们要补上。）</p>
+</div>
+
+<h2><span class="n">4</span> 用户会看到什么（几个典型场景）</h2>
+<div class="card">
+<div class="eg"><b>提太多（超今天上限）：</b><br>→ <span class="r">"你当前等级每天最多提 ₱1,000，今天还能提 ₱500，请改金额或提升等级。"</span> ［填入剩余额度］［提升 VIP］</div>
+<div class="eg"><b>今天提满了：</b><br>→ <span class="r">"今天的提款额度已用完，明天再来或提升等级获得更多额度。"</span> ［知道了］［提升 VIP］</div>
+<div class="eg"><b>流水没玩够（门1）：</b><br>→ <span class="r">"还需完成投注要求才能提取这部分，当前可提 ₱XXX。"</span> 引导去玩/查看进度</div>
+<div class="eg"><b>有笔正在审核中：</b>正在审核/出款的钱也算进"今天已提"，防止钻空子重复提。</div>
+</div>
+
+<h2><span class="n">5</span> 需要老大拍板的几件事</h2>
+
+<div class="ask">
+<div class="h">① VIP 各等级每天能提多少钱？</div>
+<div class="why">要定一张表（VIP0 多少 … VIP9 多少）。这是运营/产品要给的核心数字，没有它开发做不了。</div>
+</div>
+<div class="ask">
+<div class="h">② 提现被拒绝/失败，那笔钱的额度要不要"退回来"让他今天接着提？</div>
+<div class="why">现在的做法是<b>不退</b>（被拒也算用掉了额度）。要不要改成"退回、当天还能用"？——更人性化，但要研发改逻辑。</div>
+</div>
+<div class="ask">
+<div class="h">③ 去掉次数后，会不会被人拆成很多小额来刷？</div>
+<div class="why">不限次数=用户可以把 1,000 拆成 20 笔 50 一直提。人工审核量会暴增，也可能被薅。要不要补个"防刷"措施（比如软性笔数上限、提高单笔下限）？风控/财务先评估人手够不够。<b>——当初设次数限制，很可能就是为了防这个。</b></div>
+</div>
+<div class="ask">
+<div class="h">④ "提升 VIP" 引导怎么说？</div>
+<div class="why">升 VIP 需要"充值 + 投注"双达标，<b>不是充钱就能升</b>。文案别让用户以为"充钱马上就能提更多"，否则又是一波投诉。</div>
+</div>
+
+<h2><span class="n">6</span> 风险 & 建议节奏</h2>
+<div class="card">
+<p><b>主要风险：</b>去次数后小额多笔刷单 → 人工审核暴增 + 潜在套利。<b>建议先评估审核承载，再决定要不要配套防刷。</b></p>
+<p><b>建议节奏：</b>① 老大先定上面 4 件事 → ② 产品出细化规则（含两道门的弹窗文案）→ ③ 研发开发 → ④ 测试按场景验收（重点测"两道门取小、审核中占额度、拒绝退回、跨零点、拆单不超额"）。</p>
+</div>
+
+<div class="pend">
+备注：现状（每天限次数 VIP0=1…VIP9=9、金额不分等级、H5 现在展示的是"可提额度/打码"那道门）均为测试环境实测；运营原稿仅作参考，其中"充值即升 VIP""按 VIP 限金额（现在还没有）"等处已在本方案修正。· 产品视角整理：Smith
+</div>
+</div>
