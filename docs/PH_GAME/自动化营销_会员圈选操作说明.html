@@ -45,7 +45,7 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 <table>
 <tr><th style="width:26%">规则</th><th>含义</th></tr>
 <tr><td><span class="pill or">同级 OR</span></td><td>同一个字段里填多个值（如两个标签 ID、两个 MASTER），会员<b>命中其中任意一个</b>就算通过这把筛子（取<b>并集</b>）。</td></tr>
-<tr><td><span class="pill and">跨级 AND</span></td><td>不同字段之间（标签 / MASTER / TEAM / GROUP / CHANNEL / 名单）会员<b>必须每一项都通过</b>才进入人群（取<b>交集</b>）。</td></tr>
+<tr><td><span class="pill and">跨级 AND</span></td><td>① 代理/渠道内部：<b>MASTER / TEAM / GROUP / CHANNEL 跨级之间固定为 AND</b>（既在某 MASTER 下、又在某 CHANNEL 下…）。<br>② 不同来源类型之间（标签 / 代理渠道 / 名单）：默认也是 AND，但可由上方<b>「人群组合」下拉切换</b>成 OR 或 排除（见字段说明）。</td></tr>
 <tr><td>只认「已授权」</td><td>每个字段只能填<b>你当前权限范围内已授权</b>的 ID；填了没权限的会被拒绝。这是数据权限边界，不是圈人条件。</td></tr>
 <tr><td>0 匹配也保留</td><td>某个合法字段筛出来<b>0 个会员</b>时，系统<b>照样保留这条限制</b>（结果就是空/更小人群），<b>不会自动放宽</b>范围帮你凑人。填错=真的圈不到人。</td></tr>
 <tr><td>留空 = 不筛</td><td>某个字段<b>不填</b>=这把筛子不启用，不参与 AND。留空 ≠ 圈 0 人，而是「这一维不设限」。</td></tr>
@@ -75,13 +75,13 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 <tr><th style="width:20%">字段</th><th>是什么 / 填什么</th><th style="width:14%">组合</th></tr>
 <tr>
 <td><div class="f">全量授权会员</div><div class="en">mode</div></td>
-<td>总开关。开启「<b>已明确选择</b>」= 把<b>你当前权限能看到的全部会员</b>当作完整人群（对应 <code>mode=UNRESTRICTED</code>）。<br><b>必须显式打开才生效</b>——防止误把「没设条件」当成「圈全量」。不开就以下面填的条件为准。</td>
+<td>总开关，两态：<b>已明确选择 / 未选择</b>。开启「<b>已明确选择</b>」= 把<b>你当前权限能看到的全部会员</b>当作完整人群（对应 <code>mode=UNRESTRICTED</code>）。<br><b>必须显式打开才生效</b>——防止误把「没设条件」当成「圈全量」。<br>⚠️ <b>一旦你填了 上传名单 / 组织(代理) / 标签 来源，全量开关会被自动关闭</b>（不能又要全量又加筛子）。</td>
 <td>顶层开关</td>
 </tr>
 <tr>
-<td><div class="f">人群组合</div><div class="en">relation</div></td>
-<td>各来源之间怎么组合。默认「<b>同时满足所有来源</b>」= 跨字段 <span class="and">AND</span>（会员要同时通过所有已填字段）。</td>
-<td><span class="pill and">AND</span></td>
+<td><div class="f">人群组合</div><div class="en">relation · 3 选 1</div></td>
+<td>各来源之间怎么组合，<b>三种模式</b>：<br>• <b>同时满足所有来源</b>（默认）= 各来源取 <span class="and">交集 AND</span>，会员要同时通过所有来源<br>• <b>满足任一来源</b> = 各来源取 <span class="or">并集 OR</span>，命中任一来源即可（用于扩大人群）<br>• <b>排除后续来源</b> = 从前面的人群里<b>减去</b>后续来源命中的会员（黑名单/排除法）</td>
+<td>OR / AND / 排除</td>
 </tr>
 <tr>
 <td><div class="f">标签定义 ID</div><div class="en">selection_keys</div></td>
@@ -160,7 +160,54 @@ ul{margin:8px 0;padding-left:22px}li{margin:4px 0}
 </ol>
 </div>
 
+<h2>六、根资格条件（人群之外的第二层过滤）</h2>
+<div class="card">
+<p>圈出人群后，还可以加一层「<b>资格条件</b>」按会员的<b>行为/属性指标</b>再过滤（如「注册满 N 分钟」「从未成功充值」）。这层和人群是 <span class="and">AND</span> 关系：<b>既在人群里、又满足资格条件</b>的会员才最终进入旅程。</p>
+<h3>条件是一棵「布尔树」</h3>
+<ul>
+<li><b>AND / NOT / LEAF</b> 组成：LEAF 是一个具体判断，AND/NOT 把多个 LEAF 组合。</li>
+<li>每个 LEAF（叶子条件）由 4 项组成：
+<ul>
+<li><b>指标</b>：判断什么（如 <code>registered_elapsed_minutes</code> 注册已过分钟、<code>never_successfully_deposited</code> 从未成功充值）</li>
+<li><b>比较</b>：怎么比（<code>GT</code> 大于、<code>EXISTS</code> 存在 等）</li>
+<li><b>值</b>：比较的目标值</li>
+<li><b>计算时点</b>：什么时间点取指标（如 <code>RUN_START</code> 每轮运行开始时）</li>
+</ul>
+</li>
+</ul>
+<div class="warn">
+<b>⚠️ 三值逻辑（重要）</b>：条件判断是<b>真 / 假 / 未就绪</b>三种结果，<b>「未就绪的事实不会被当成'未发生'」</b>。即某会员的某项数据还没算好时，系统不会误判为「不满足」把他错误排除，而是等数据就绪再判。发人群时如果某些会员迟迟不进，可能是其指标数据还没就绪。
+</div>
+</div>
+
+<h2>七、实时人群预估（发之前先算人数）</h2>
+<div class="card">
+<p>配好人群+条件后，<b>先保存草稿，再点「估算」</b>，系统会按证据算出真实人数，给出 6 个口径：</p>
+<table>
+<tr><th style="width:32%">口径</th><th>含义</th></tr>
+<tr><td><b>原始匹配</b></td><td>只按你的人群条件筛出来的原始人数</td></tr>
+<tr><td><b>当前授权</b></td><td>其中在你当前数据权限范围内的人数</td></tr>
+<tr><td><b>安全排除</b></td><td>因合规/黑名单/静默等被安全排除的人数</td></tr>
+<tr><td><b>可执行人数</b></td><td><b>最终真正能触达执行的人数</b>（= 原始匹配 − 越权 − 安全排除）</td></tr>
+<tr><td><b>可短信触达</b></td><td>其中可通过短信触达的人数</td></tr>
+<tr><td><b>可站内信触达</b></td><td>其中可通过站内信触达的人数</td></tr>
+</table>
+<div class="warn"><b>「没有证据不会猜测人数」</b>：不点估算就没有人数（显示"暂无数据"）；估算只在保存草稿后手动触发。<b>提交审批前务必先估算、确认可执行人数不为 0 且符合预期。</b></div>
+</div>
+
+<h2>八、预算上限</h2>
+<div class="card">
+<p>控制这条旅程的花费上限，四个口径：<b>总预算 / 每日预算 / 单会员预算 / 单消息成本上限</b>（均为 PHP）。</p>
+<p style="color:var(--mut);font-size:13px">注：金额只提交 decimal 字符串，<b>不在浏览器里计算或扣减预算</b>（实际扣减由后端执行时处理）。</p>
+</div>
+
+<h2>九、一条旅程从草稿到上线的顺序</h2>
+<div class="card">
+<p>顶部动作条：<b>保存草稿 → 验证 → 估算 → 测试 → 提交审批 →（审批通过）→ 上线</b>；旁边还有<b>归档</b>。</p>
+<p>创建后是 <code>DRAFT 草稿</code>；<b>人群、合规、审批必须在提交前完成</b>。编辑区分四步：<b>①人群与条件 ②运行设置 ③工作流动作 ④检查发布</b>。运行上下文里能看到：版本状态、下次检查时间、参与者最长生命周期（如 90 天）、静默期（如 22:00–08:00 UTC+8）。</p>
+</div>
+
 <div class="foot">
-说明：本文字段口径基于测试环境实测核对（scope v2：<code>mode / selection_keys / explicit_channel_ids / personnel_binding_ids</code>；代理层级 agent_level = MASTER/TEAM/GROUP；渠道 acquisition_channels）。如产品口径有调整以最新需求为准。· 编写：Smith-测试工程师
+说明：本文字段口径基于测试环境后台实测（营销旅程编辑器 → 人群与条件）逐字核对（scope v2：<code>mode / selection_keys / explicit_channel_ids / personnel_binding_ids</code>；代理层级 agent_level = MASTER/TEAM/GROUP；渠道 acquisition_channels）。如产品口径有调整以最新需求为准。· 编写：Smith-测试工程师
 </div>
 </div>
