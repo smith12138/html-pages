@@ -1,0 +1,162 @@
+<meta charset="utf-8"><title>提现限制调整 · 开发需求文档</title>
+<style>
+:root{--bg:#f5f7fb;--ink:#1f2a44;--mut:#6b7794;--line:#e6eaf1;--brand:#2f6bff;--ok:#22a06b;--warn:#e8873b;--red:#e5484d;--q:#7048e8}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+.wrap{max-width:900px;margin:0 auto;padding:28px 22px 70px}
+h1{font-size:25px;margin:0 0 4px}
+.sub{color:var(--mut);font-size:13px;margin-bottom:20px}
+.one{background:linear-gradient(135deg,#eaf1ff,#f3f0ff);border:1px solid #d6e0ff;border-radius:14px;padding:16px 20px;margin:14px 0;font-size:15px}
+.one b{color:var(--brand)}
+h2{font-size:18px;margin:30px 0 10px;display:flex;align-items:center;gap:8px}
+h2 .n{display:inline-flex;width:26px;height:26px;background:var(--brand);color:#fff;border-radius:50%;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+h3{font-size:15px;margin:16px 0 7px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:12px 0;box-shadow:0 1px 5px rgba(0,0,0,.04)}
+p{margin:8px 0}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:14px;margin:8px 0;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:#f0f3fa;font-size:13px;color:#41506b}
+td.n{font-variant-numeric:tabular-nums;font-weight:600}
+code{background:#eef1f6;padding:1px 6px;border-radius:5px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace;color:#324}
+.rule{background:#f8fafc;border-left:3px solid var(--brand);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:14px}
+.warn{background:#fff6ec;border:1px solid #ffddb0;border-radius:12px;padding:12px 18px;margin:12px 0;font-size:14px}
+.warn .h{font-weight:700;color:var(--warn);margin-bottom:3px}
+/* flowchart */
+.flow{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 18px;margin:14px 0;text-align:center}
+.node{display:inline-block;padding:10px 16px;border-radius:10px;font-size:13.5px;font-weight:600;max-width:520px}
+.start{background:var(--brand);color:#fff}
+.proc{background:#eef2ff;border:1px solid #cdd8ff;color:var(--ink)}
+.dec{background:#fff7e9;border:1.5px solid #f0c266;color:#7a5a12;border-radius:12px}
+.end-ok{background:#e7f7ee;border:1px solid #a5e0bf;color:#136c43}
+.end-no{background:#fdeaea;border:1px solid #f3b6b8;color:#a3282c}
+.ar{color:var(--mut);font-size:18px;margin:5px 0;line-height:1}
+.branch{display:flex;justify-content:center;gap:12px;align-items:flex-start;flex-wrap:wrap;margin:5px 0}
+.blabel{font-size:11.5px;color:var(--mut);font-weight:700}
+.eg{background:#fbfcfe;border:1px dashed #cfd8e8;border-radius:10px;padding:11px 15px;margin:9px 0;font-size:14px}
+.eg .r{color:var(--ok);font-weight:600}
+.pop{color:#c0392b}
+.foot{color:var(--mut);font-size:12px;margin-top:28px;border-top:1px solid var(--line);padding-top:12px}
+ul,ol{margin:6px 0;padding-left:22px}li{margin:5px 0}
+.chk{background:#f3effe;border:1px solid #dccffb;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+</style>
+<div class="wrap">
+<h1>提现限制调整 · 开发需求文档</h1>
+<div class="sub">已决策定稿 · 供开发实现 · 2026-09-28</div>
+
+<div class="one">
+<b>核心：</b>去掉每日<b>提款次数</b>限制，改为按 VIP 等级的每日<b>累计成功提款金额</b>上限；单笔最低 <b>₱100</b>；超限按场景友好弹窗。<b>可提额度（打码流水）这道门保持不变，与金额上限一起「取小」生效。</b>
+</div>
+
+<h2><span class="n">1</span> VIP 每日提款额度表（确定值）</h2>
+<div class="card">
+<p>每个 VIP 等级「每日累计成功提款金额上限」如下（数值沿用现「免审额度」）：</p>
+<table>
+<tr><th>VIP 等级</th><th>每日提款额度上限（PHP）</th><th>VIP 等级</th><th>每日提款额度上限（PHP）</th></tr>
+<tr><td>VIP0</td><td class="n">500</td><td>VIP5</td><td class="n">5,000</td></tr>
+<tr><td>VIP1</td><td class="n">1,000</td><td>VIP6</td><td class="n">8,000</td></tr>
+<tr><td>VIP2</td><td class="n">1,500</td><td>VIP7</td><td class="n">12,000</td></tr>
+<tr><td>VIP3</td><td class="n">2,000</td><td>VIP8</td><td class="n">20,000</td></tr>
+<tr><td>VIP4</td><td class="n">3,000</td><td>VIP9</td><td class="n">50,000</td></tr>
+</table>
+<p style="color:var(--mut);font-size:13px">配置项，后台可改。建议存于 VIP 等级配置（如 <code>vip_levels.daily_withdraw_amount_limit</code>）。</p>
+</div>
+
+<h2><span class="n">2</span> 核心规则</h2>
+<div class="card">
+<div class="rule"><b>① 去次数：</b>取消每日提款「次数」限制（拆成多笔小额也无所谓，被总额度卡死）。</div>
+<div class="rule"><b>② 单笔最低 ₱100：</b>单次提款金额 <b>不得低于 100</b>（原 50 提高到 100）。</div>
+<div class="rule"><b>③ 每日额度按「实际成功」计：</b>「今日已用额度」= 当天<b>成功出款</b>的累计金额；被拒绝 / 出款失败的<b>不计入 / 退回额度</b>（当天可继续用）。</div>
+<div class="rule"><b>④ 两道门取小：</b>用户实际可提 = <b>min（可提额度[打码流水]，VIP当日剩余额度）</b>。VIP当日剩余 = max(0, VIP每日上限 − 今日已用)。</div>
+<div class="rule"><b>⑤ 时区：</b>按 <b>马尼拉 Asia/Manila (UTC+8)</b> 自然日；每日 00:00 已用额度清零。</div>
+<div class="rule"><b>⑥ 升级引导：</b>超额弹窗提供「提升 VIP」，文案统一为 <b>「升级 VIP 可获得更高的单日提款额度」</b>。</div>
+</div>
+
+<div class="warn">
+<div class="h">⚠️ 额度占用 / 释放（防拆单绕过，务必实现）</div>
+虽然最终按「成功」计，但<b>提交/审核阶段必须先"预占"额度</b>，否则用户并发拆单可绕过总额度。规则：
+<ul>
+<li><b>提交时</b>：校验「今日已用（成功）+ 处理中（预占）+ 本次金额 ≤ VIP每日上限」，通过才受理，并对本次金额<b>预占</b>。</li>
+<li><b>出款成功</b>：预占转为正式「已用」。</li>
+<li><b>被拒绝 / 出款失败退回</b>：<b>释放预占</b>（额度退回，当天可再用）。</li>
+</ul>
+最终效果 = 只有成功的占额度、失败的退回，且并发/拆单都无法超过每日上限。
+</div>
+
+<h2><span class="n">3</span> 提现校验流程图</h2>
+<div class="flow">
+<div class="node start">用户输入提现金额 X，点击提现</div>
+<div class="ar">↓</div>
+<div class="node dec">X ＜ ₱100 ？</div>
+<div class="branch">
+<div><div class="blabel">是</div><div class="ar">↓</div><div class="node end-no">弹窗：单笔最低提款 ₱100</div></div>
+</div>
+<div class="ar">↓ 否</div>
+<div class="node dec">门1：X ＞ 可提额度（打码流水）？</div>
+<div class="branch">
+<div><div class="blabel">是（流水没够）</div><div class="ar">↓</div><div class="node end-no">弹窗：需完成投注要求<br>当前可提 ₱[可提额度]</div></div>
+</div>
+<div class="ar">↓ 否</div>
+<div class="node dec">门2：今日已用 + 处理中 + X ＞ VIP每日上限？</div>
+<div class="branch">
+<div><div class="blabel">是（超每日额度）</div><div class="ar">↓</div><div class="node end-no">弹窗：今日剩余可提 ₱[剩余]<br>［填入剩余额度］［提升 VIP］</div></div>
+</div>
+<div class="ar">↓ 否（两道门都通过）</div>
+<div class="node proc">受理提现 → <b>预占</b>本次金额</div>
+<div class="ar">↓</div>
+<div class="node dec">出款结果？</div>
+<div class="branch">
+<div><div class="blabel">成功</div><div class="ar">↓</div><div class="node end-ok">预占转「已用」<br>（计入今日累计）</div></div>
+<div><div class="blabel">拒绝 / 失败</div><div class="ar">↓</div><div class="node end-ok">释放预占<br>（额度退回，当天可再用）</div></div>
+</div>
+</div>
+<p style="color:var(--mut);font-size:12.5px;text-align:center">注：门1（打码）与门2（每日额度）都要过；哪道先不通过就弹哪道对应的提示。「剩余」= min(可提额度, VIP当日剩余)。</p>
+
+<h2><span class="n">4</span> 场景与弹窗（图例）</h2>
+<div class="card">
+<div class="eg"><b>场景 A · 未提过，单笔超每日上限</b>（VIP0 上限 500，直接提 2000）<br>→ <span class="pop">"当前 VIP 每日提款上限 ₱500，本次已超限，请修改金额或提升 VIP。"</span> ［修改金额］［提升 VIP］</div>
+<div class="eg"><b>场景 B · 累计超限（最常见）</b>（今日已成功提 300，再提 400，累计 700 &gt; 500）<br>→ <span class="pop">"今日剩余可提 ₱200，请修改金额或提升 VIP。"</span> ［填入剩余额度→自动填 200］［提升 VIP］</div>
+<div class="eg"><b>场景 C · 今日额度用完</b>（已成功提满 500）<br>→ <span class="pop">"今日提款额度已用完，请明日再试或升级 VIP 获得更高额度。"</span> ［知道了］［提升 VIP］</div>
+<div class="eg"><b>场景 D · 流水没够（门1）</b>（每日额度还有，但可提额度不足）<br>→ <span class="pop">"需完成投注要求才能提取，当前可提 ₱[可提额度]。"</span>（引导查看打码进度，勿写成"额度不足"）</div>
+<div class="eg"><b>场景 E · 单笔低于 100</b>（提 50）<br>→ <span class="pop">"单笔最低提款金额为 ₱100。"</span></div>
+<div class="eg"><b>场景 F · 处理中占额度</b>（有 400 处理中，再提 200，400+200 &gt; 500）<br>→ <span class="pop">"今日剩余可提 ₱100（含处理中订单），请修改金额或提升 VIP。"</span></div>
+<div class="eg"><b>场景 G · 前单被拒/失败退回</b> → 该笔金额释放，今日剩余恢复，用户可正常再提（无弹窗）。</div>
+<div class="eg"><b>场景 H · 跨零点</b> → 马尼拉 00:00 已用额度清零，昨日用尽今日可正常提。</div>
+<div class="eg"><b>场景 I · VIP 升/降级</b> → 当日剩余实时按新上限重算；降级后若已用 &gt; 新上限，剩余为 0、阻断（触发场景 C）。</div>
+<p style="color:var(--mut);font-size:13px">以上为中文示意，<b>H5 为英文，需产品出英文文案定稿</b>。</p>
+</div>
+
+<h2><span class="n">5</span> 与「免审 / 自动出款」的关系（别混淆）</h2>
+<div class="card">
+<p>本次的「<b>每日提款额度上限</b>」是一道<b>限制闸门</b>（超了不让提）；现有的「<b>免审额度 / 每日免审次数</b>」是<b>出款审核方式</b>（决定这笔走自动出款还是人工审核），两者<b>各管各的</b>：</p>
+<ul>
+<li>额度上限：先判断这笔<b>能不能提</b>（两道门）。</li>
+<li>免审规则：能提之后，判断这笔<b>走自动出款还是人工审核</b>（≤免审额度且未达每日免审次数→自动；否则人工）。</li>
+</ul>
+<p>数值上「每日提款额度上限」沿用了「免审额度」的数字，但<b>是两个独立配置</b>，后续可分别调整。</p>
+</div>
+
+<h2><span class="n">6</span> 配置项 & 前端展示</h2>
+<div class="card">
+<ul>
+<li><b>配置</b>：VIP0~9 每日提款额度上限（见第 1 节，后台可配）；单笔最低 100（全局，可配）。</li>
+<li><b>H5 展示</b>："Available to withdraw" 显示 <b>min(可提额度, VIP当日剩余)</b>；建议同时能看到「今日剩余额度」。</li>
+<li><b>去掉</b>：每日次数限制相关的判断与文案。</li>
+</ul>
+</div>
+
+<h2><span class="n">7</span> 测试要点（验收清单）</h2>
+<div class="chk">
+<ul>
+<li>单笔 &lt; 100 拦截；= 100 通过。</li>
+<li>两道门取小：打码不足 / 每日额度不足，各自弹对的提示。</li>
+<li>累计：多笔成功累加到上限后拦截；「填入剩余额度」填的是 min 后的剩余。</li>
+<li>预占/释放：提交预占、成功转已用、<b>拒绝/失败释放退回</b>（当天可再提）。</li>
+<li><b>并发拆单</b>：同时发多笔小额，总额不得超过每日上限（防绕过）。</li>
+<li>跨马尼拉 00:00 清零；VIP 升/降级当日剩余实时重算。</li>
+<li>次数限制已彻底移除（提任意多笔只受总额度约束）。</li>
+</ul>
+</div>
+
+<div class="foot">
+数值与现状口径基于测试环境实测；每日提款额度上限沿用「免审额度」数值。本文为定稿开发需求，待补 H5 英文文案。
+</div>
+</div>
