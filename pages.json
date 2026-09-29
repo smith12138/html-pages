@@ -939,6 +939,18 @@
             "流程图"
           ],
           "module": "PH01-提现限制调整"
+        },
+        {
+          "file": "docs/PH_GAME/PH01需求_20260928.html",
+          "title": "PH01需求",
+          "category": "requirement",
+          "date": "2026-09-28",
+          "tags": [
+            "需求文档",
+            "自动化营销",
+            "提现限制"
+          ],
+          "module": "PH01-需求文档"
         }
       ]
     }
