@@ -951,6 +951,18 @@
             "提现限制"
           ],
           "module": "PH01-需求文档"
+        },
+        {
+          "file": "docs/PH_GAME/首充活动.html",
+          "title": "首充活动",
+          "category": "requirement",
+          "date": "2026-09-29",
+          "tags": [
+            "首充活动",
+            "需求",
+            "测试用例"
+          ],
+          "module": "PH01-首充活动"
         }
       ]
     }

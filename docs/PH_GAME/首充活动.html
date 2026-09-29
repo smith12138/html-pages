@@ -1,0 +1,300 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>首充活动</title>
+<style>
+:root{--bg:#f5f7fb;--ink:#1f2a44;--mut:#6b7794;--line:#e6eaf1;--brand:#2f6bff;--ok:#22a06b;--warn:#e8873b;--red:#e5484d}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+.hero{padding:30px 0 6px}
+h1{font-size:30px;margin:0 0 4px}
+.sub{color:var(--mut);font-size:13px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 6px}
+.meta span{background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 12px;font-size:12.5px;color:#41506b}
+.nav{position:sticky;top:0;z-index:5;background:rgba(245,247,251,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 0;margin:14px 0 6px;display:flex;gap:10px}
+.nav a{text-decoration:none;font-size:14px;font-weight:600;color:#41506b;background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 16px}
+.nav a:hover{border-color:var(--brand);color:var(--brand)}
+.board{background:linear-gradient(135deg,#2f6bff,#7c5cff);color:#fff;border-radius:16px;padding:16px 22px;margin:26px 0 6px}
+.board .k{font-size:12px;opacity:.85;letter-spacing:2px}
+.board h2b{display:block;font-size:22px;font-weight:800;margin-top:2px}
+.one{background:linear-gradient(135deg,#eaf1ff,#f3f0ff);border:1px solid #d6e0ff;border-radius:14px;padding:16px 20px;margin:14px 0;font-size:15px}
+.one b{color:var(--brand)}
+h2{font-size:19px;margin:30px 0 10px;display:flex;align-items:center;gap:9px;border-bottom:2px solid var(--line);padding-bottom:7px}
+h2 .n{display:inline-flex;width:26px;height:26px;background:var(--brand);color:#fff;border-radius:8px;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex:none}
+h3{font-size:15.5px;margin:20px 0 6px;color:#2a3757}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:10px 0;box-shadow:0 1px 5px rgba(0,0,0,.04)}
+p{margin:7px 0}
+ul{margin:6px 0;padding-left:20px}li{margin:5px 0}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:12.9px;margin:8px 0 18px;box-shadow:0 1px 5px rgba(0,0,0,.04)}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f0f3fa;font-size:12px;color:#41506b}
+td.id{font-family:ui-monospace,Menlo,monospace;white-space:nowrap;color:#2a3757}
+ol{margin:0;padding-left:16px}ol li{margin:2px 0}
+code{background:#eef2fb;border-radius:5px;padding:1px 6px;font-size:12.3px;color:#2a3757}
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:20px;margin:1px 2px}
+.t-d1{background:#ffe6ef;color:#c1174b}.t-d2{background:#e6f0ff;color:#1a56c4}.t-d3{background:#efe6ff;color:#6a34d6}
+.pri{font-weight:700;border-radius:6px;padding:1px 7px;font-size:11.5px;white-space:nowrap}
+.P0{background:#ffe1e2;color:#c1272d}.P1{background:#ffeccc;color:#a5591a}.P2{background:#e6f7ee;color:#1a7a48}
+.badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:20px;background:#eef2fb;color:#41506b;margin:1px}
+.warn{background:#fff6ec;border:1px solid #ffddb0;border-radius:12px;padding:12px 16px;margin:12px 0}
+.warn .h{font-weight:700;color:var(--warn);margin-bottom:3px}
+.ask{background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:12px;padding:11px 16px;margin:10px 0}
+.ask .h{font-weight:700;margin-bottom:2px}
+.ask .why{color:var(--mut);font-size:13px}
+.flow{background:#f8fafc;border-left:3px solid var(--brand);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:13.5px;font-family:ui-monospace,Menlo,monospace}
+.eg{background:#f3fbf6;border:1px solid #bfe6cf;border-radius:10px;padding:10px 14px;margin:8px 0;font-size:13.5px}
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0 10px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 18px;min-width:118px;box-shadow:0 1px 5px rgba(0,0,0,.04)}
+.stat .v{font-size:24px;font-weight:800;color:var(--brand)}
+.stat .l{font-size:12px;color:var(--mut);margin-top:2px}
+.stat.p0 .v{color:var(--red)}.stat.p1 .v{color:var(--warn)}
+.pts{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 20px;margin:10px 0;box-shadow:0 1px 5px rgba(0,0,0,.04)}
+.pts li{font-size:13.7px}.pts b{color:#2a3757}
+.note{background:#fff6ec;border:1px solid #ffddb0;border-radius:10px;padding:10px 15px;margin:10px 0;font-size:13px}
+.foot{color:var(--mut);font-size:12px;margin-top:26px;border-top:1px solid var(--line);padding-top:12px}
+</style></head><body><div class="wrap">
+
+<div class="hero">
+<h1>首充活动</h1>
+<div class="sub">三天连充活动（3‑Day Consecutive Deposit Rewards）· 来源 Figma「首充活动 (ok) · 精简流程 13屏」逐字核对</div>
+<div class="meta"><span>站点：PH 系列（菲律宾）</span><span>货币：PHP ₱</span><span>端：Web 前端 + 后台</span><span>版本：v1 待评审</span><span>2026-09-29</span></div>
+</div>
+
+<div class="nav"><a href="#b1">板块一 · 需求文档</a><a href="#b2">板块二 · 测试点与测试用例</a></div>
+
+<!-- ============ 板块一 ============ -->
+<div class="board" id="b1"><div class="k">板 块 一</div><span class="board h2b" style="font-size:22px;font-weight:800">需求文档</span></div>
+
+<div class="one"><b>一句话：</b>用户<b>首充后开启</b>为期 3 天的连续充值奖励——每天充值达门槛即按当日比例赠礼金（Day1 <b>20%</b> / Day2 <b>50%</b> / Day3 <b>100%</b>），礼金需 <b>10× 打码</b>；不同天数<b>到账方式不同</b>（含次日、七日分期领取）。<b>断一天，活动即终止</b>。</div>
+
+<h2><span class="n">1</span> 活动概述</h2>
+<div class="card"><ul>
+<li><b>活动名称</b>：三天连充活动 / 3‑Day Consecutive Deposit Rewards（简称"首充活动"）。</li>
+<li><b>参与条件</b>：<b>首次充值后开启</b>（STARTS AFTER YOUR FIRST DEPOSIT），连续 3 个自然日。</li>
+<li><b>目标</b>：拉升新用户首充后的连续充值与留存。</li>
+<li><b>展示位</b>：① 登录页下方 Banner（<b>只展示、不跳转</b>）；② 活动中心列表卡片（与"每日₱5奖励"活动并列）；③ 活动详情弹窗（12 屏主体）。</li>
+<li>无移动端 App，Web 前端 + 后台配置。</li>
+</ul></div>
+
+<h2><span class="n">2</span> 核心规则（权威口径，规则卡逐字核对）</h2>
+<div class="card">
+<h3>2.1 每日门槛与奖励</h3>
+<ul>
+<li><b>每日最低门槛</b>：当天<b>累计</b>充值 ≥ <code>₱100</code>；小额多笔可累计。</li>
+<li><b>奖励基数</b>：达标后按 <b>当天累计充值 × 当日比例</b>，<b>无上限</b>（ON EVERY QUALIFYING DEPOSIT · NO MAXIMUM）。</li>
+<li><b>后续追加</b>：只更新<b>新增部分</b>礼金，不单独生成补发页面。</li>
+</ul>
+<table>
+<tr><th>天</th><th>奖励比例</th><th>打码</th><th>到账方式（PAYOUT TERMS）</th></tr>
+<tr><td><span class="tag t-d1">DAY 1</span></td><td><b>20%</b></td><td>10×</td><td><b>100% 当天即时到账</b></td></tr>
+<tr><td><span class="tag t-d2">DAY 2</span></td><td><b>50%</b></td><td>10×</td><td><b>50% 即时</b> + 剩余 <b>50% 次日 05:00</b> 领取</td></tr>
+<tr><td><span class="tag t-d3">DAY 3</span></td><td><b>100%</b></td><td>10×</td><td><b>30% 即时</b> + 剩余 <b>70% 分 7 天、每天 05:00 解锁 10%</b>（七日奖励）</td></tr>
+</table>
+<div class="eg"><b>计算示例：</b>Day1 充 ₱10,000 → 礼金 ₱2,000（全额即时）；Day2 充 ₱20,000 → ₱10,000（₱5,000 即时 + ₱5,000 次日05:00）；Day3 充 ₱50,000 → ₱50,000（₱15,000 即时 + ₱35,000 分7天，每天 ₱5,000）。</div>
+
+<h3>2.2 打码（流水）要求</h3>
+<p>所有礼金带 <b>10× WAGERING</b>。<b>需与产品/风控确认口径</b>：是"礼金解冻/可提前需完成 10× 有效投注"，还是仅计入现有生命周期打码折算可提额度。见第 6 节。</p>
+
+<h3>2.3 日历解锁与终止</h3>
+<ul>
+<li><b>逐日解锁</b>：前一天完成 + 日期已到 + 活动未结束 → 下一天才可进入。</li>
+<li><b>断一天即终止</b>：DEPOSIT FOR 3 CONSECUTIVE DAYS · <b>MISS A DAY, THE EVENT ENDS</b>。当天截止未达标 → 活动结束。</li>
+<li><b>置灰</b>：未完成的当天及后续日，<b>永久置灰</b>不可再进入。</li>
+</ul>
+
+<h3>2.4 领取交互</h3>
+<ul>
+<li>点击领取后<b>返回当前任务提示</b>，成功用<b>轻碰/Toast 提示</b>，<b>不新增页面</b>。</li>
+<li>往日已获得的分期/held 奖励，通过<b>独立入口</b>领取。</li>
+<li>已获奖励领完/领取后，在原页<b>隐藏奖励区</b>。</li>
+</ul>
+</div>
+
+<h2><span class="n">3</span> 界面状态（12 屏）</h2>
+<div class="card"><table>
+<tr><th>#</th><th>状态</th><th>关键表现 / 文案</th></tr>
+<tr><td>01</td><td>第一天·任务进行中</td><td>未达标：<code>Today ₱60/₱100 · Deposit ₱40 more</code>；差额提示；次日未解锁置灰</td></tr>
+<tr><td>02</td><td>第一天·任务完成</td><td><code>DAY 1 · 100% CREDITED INSTANTLY</code>；充₱200→₱40；<code>Day 2 unlocks at 00:00</code></td></tr>
+<tr><td>03</td><td>第二天·任务进行中</td><td>未达标→50%；<code>DEPOSIT MORE</code></td></tr>
+<tr><td>04</td><td>第二天·任务完成</td><td><code>DAY 2 · 50% CREDITED INSTANTLY</code>；充₱300→₱150；<code>CREDITED 50% ₱75 / NEXT DAY 50% ₱75</code>；<code>Claim remaining 50% tomorrow at 05:00</code></td></tr>
+<tr><td>05</td><td>第三天·任务进行中</td><td>未达标→100%</td></tr>
+<tr><td>06</td><td>第三天·完成待领取</td><td><code>DAY 3 · 30% CREDITED INSTANTLY</code>；充₱1,000→₱1,000；<code>CREDITED 30% ₱300 / 7 DAILY CLAIMS 70% ₱700</code>；①–⑦；<code>PAID ₱300 · LOCKED ₱700 · First claim tomorrow 05:00</code></td></tr>
+<tr><td>07</td><td>第二天礼金·可领取</td><td><code>PREVIOUS REWARD · DAY 2</code>；<code>AVAILABLE ₱75 / PENDING ₱0</code>；<code>₱75 already credited · ₱75 ready to claim</code>；<code>CLAIM ₱75</code></td></tr>
+<tr><td>08</td><td>七日奖励·本期可领取</td><td><code>PAID ₱300 · READY TO CLAIM ₱100 · LOCKED ₱600</code>；<code>CLAIM ₱100</code>；每日05:00解锁10%；领取后原进度更新；失败留当前页重试</td></tr>
+<tr><td>09</td><td>奖励可领取·待下期</td><td><code>AVAILABLE ₱0 / PENDING ₱600</code>；<code>CLAIMED ₱100 · LOCKED ₱600 · Next claim…</code>；<code>DONE</code></td></tr>
+<tr><td>10</td><td>奖励全部领取完成</td><td><code>ALL EARNED REWARDS RECEIVED / ALL REWARDS PAID</code>；<code>No pending rewards</code></td></tr>
+<tr><td>11</td><td>活动结束·无待领奖励</td><td>红叉 <code>TASK NOT COMPLETED</code>；<code>Activity ended. No rewards left to claim.</code>；<code>DONE</code>（示例：第二天截止未达标）</td></tr>
+<tr><td>12</td><td>活动结束·奖励仍可领取</td><td>红叉 <code>TASK NOT COMPLETED</code>；<code>Activity ended. Your earned reward is still available.</code>；<code>READY TO CLAIM ₱75 / CLAIM ₱75</code>（第三天失败，保留第二天已获奖励，领取后同页隐藏）</td></tr>
+</table>
+<div class="flow"><b>屏流转：</b>01→02；达标进 03→04；剩余次日05:00由 07 领取返回；第三天 06→08→09；按结果分支 11（无待领）/ 12（仍有待领）；12 领取后原页隐藏奖励区。</div>
+</div>
+
+<h2><span class="n">4</span> 后台配置项（建议）</h2>
+<div class="card"><ul>
+<li>活动开关、起止时间、生效站点；参与条件（首充后开启）。</li>
+<li>每日门槛金额（默认 ₱100）；三天比例（20/50/100%，可配）。</li>
+<li>打码倍数（默认 10×）。</li>
+<li>各天到账拆分与分期规则（Day2=50/50；Day3=30/70、7期、每期10%）。</li>
+<li>解锁/领取时间锚点（日历 00:00；分期/领取 05:00）与时区。</li>
+<li>Banner/文案多语言（EN / Tagalog…）。</li>
+</ul></div>
+
+<h2><span class="n">5</span> 非功能与合规</h2>
+<div class="card"><ul>
+<li>所有礼金入账/领取写<b>账变流水</b>（前后值、biz 关联），可对账。</li>
+<li>配置变更、手动调整记录<b>操作人 / 时间 / IP / 前后值</b>（审计）。</li>
+<li>金额一律 2 位小数；礼金计算截断/进位口径统一。</li>
+<li>无上限赠金需风控兜底（单用户/单日礼金上限、异常充提监控）。</li>
+</ul></div>
+
+<h2><span class="n">6</span> 待确认问题（需产品/风控拍板后开发）</h2>
+<div class="ask"><div class="h">① 10× 打码的确切口径</div><div class="why">礼金是"完成 10× 有效投注后方可提现"，还是计入现有生命周期"可提额度/打码折算"体系？影响可提逻辑与用例断言。</div></div>
+<div class="ask"><div class="h">② 门槛"当天累计"的时间与冲正口径</div><div class="why">跨零点如何切分？失败/退款/撤单是否回撤已计充值？恰好命中 ₱100 与多笔小额累计的边界。</div></div>
+<div class="ask"><div class="h">③ 两个时间锚点</div><div class="why">日历"下一天解锁"= <b>00:00</b>（02屏），礼金/分期"可领取"= <b>05:00</b>。是否统一 PH 本地时区？漏领是否顺延或作废。</div></div>
+<div class="ask"><div class="h">④ 无上限赠金的风控兜底</div><div class="why">Day3 100% 无封顶，是否需单用户/单日礼金上限、异常监控？</div></div>
+<div class="ask"><div class="h">⑤ 第 12 屏文案疑似写错</div><div class="why">卡片写 <code>DAY 1 REWARD · READY TO CLAIM ₱75</code>，但同屏中文注是"保留<b>第二天</b>已获奖励"，且 ₱75 正是第二天 held 的 50% → 英文标签应为 <b>DAY 2 REWARD</b>，请设计/开发核对。</div></div>
+
+<!-- ============ 板块二 ============ -->
+<div class="board" id="b2" style="background:linear-gradient(135deg,#22a06b,#2f6bff)"><div class="k">板 块 二</div><span class="board h2b" style="font-size:22px;font-weight:800">测试点与测试用例</span></div>
+
+<div class="sub" style="margin:8px 0 0">编号规则 <code>3DD-{类型}-{序号}</code></div>
+<div class="stats">
+<div class="stat"><div class="v">52</div><div class="l">用例总数</div></div>
+<div class="stat p0"><div class="v">18</div><div class="l">P0 核心/资金</div></div>
+<div class="stat p1"><div class="v">22</div><div class="l">P1 主要分支</div></div>
+<div class="stat"><div class="v">12</div><div class="l">P2 边界/样式</div></div>
+<div class="stat"><div class="v">12</div><div class="l">覆盖维度</div></div>
+</div>
+<div class="note"><b>提测前提：</b>需先确认板块一第 6 节 5 个待定项（尤其 <b>10× 打码口径</b> 与 <b>时间锚点</b>）；标 <span class="badge">待定</span> 的用例待口径确认后补全断言。</div>
+
+<h2><span class="n">7</span> 测试点（按维度）</h2>
+<div class="pts"><ul>
+<li><b>功能正向</b>：首充开启活动；Day1/2/3 达标按比例赠金；即时/次日/七日到账；领取 held 与分期；全部领完置完成态。</li>
+<li><b>等价/边界</b>：门槛恰好 ₱100 / ₱99 / 多笔累计；无上限超大额；七日分期 70%÷7 每期金额与精度；金额 2 位小数；比例截断/进位。</li>
+<li><b>异常/校验</b>：未达标不赠；断一天后不可再参与；未首充/非活动期不参与；重复领取；领取未解锁分期；退款/撤单回撤已计充值。</li>
+<li><b>业务规则·日历</b>：前一天未完成次日不解锁；断签当天及后续永久置灰；活动结束分支 11/12。</li>
+<li><b>到账·分期</b>：Day1 100% 即时；Day2 50/50；Day3 30/70 分 7 期；后续追加只算增量；分期每天 05:00 解锁 10%。</li>
+<li><b>时间锚点</b>：日历解锁 00:00 vs 礼金/分期领取 05:00；时区；跨零点切分；漏领顺延/作废。</li>
+<li><b>领取交互</b>：领取 Toast、不新增页、进度更新、领取后隐藏奖励区；往日奖励独立入口。</li>
+<li><b>权限/鉴权</b>：未登录/token 失效；越权领取他人奖励（IDOR）。</li>
+<li><b>并发竞态⭐</b>：领取重复提交幂等；并发领取同一 held/分期只入账一次；并发充值达标不重复赠金；分期不超发。</li>
+<li><b>性能⭐</b>：赠金计算/领取接口 P95；活动列表大数据量；七日分期批量解锁任务吞吐。</li>
+<li><b>安全/风控</b>：无上限赠金兜底；异常充提监控；敏感操作审计。</li>
+<li><b>数据一致</b>：账变流水完整可对账；赠金总额=即时+各分期之和守恒；列表↔详情↔账本一致。</li>
+</ul></div>
+
+<h2><span class="n">8</span> 测试用例</h2>
+
+<h3>8.1 功能正向（FUNC）</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-FUNC-001</td><td><span class="pri P0">P0</span></td><td>首充后活动开启</td><td>新用户未首充</td><td><ol><li>完成首次充值</li><li>进活动中心/弹窗</li></ol></td><td>✓ 活动开启，进入第一天进行中态(01)，展示门槛/进度</td></tr>
+<tr><td class="id">3DD-FUNC-002</td><td><span class="pri P0">P0</span></td><td>Day1 达标赠 20% 全额即时</td><td>活动第1天</td><td><ol><li>当天累计充 ₱200</li></ol></td><td>✓ 赠 ₱40；<b>100% 即时到账</b>；状态→02；账变含赠金一条</td></tr>
+<tr><td class="id">3DD-FUNC-003</td><td><span class="pri P0">P0</span></td><td>Day2 达标 50% 拆分到账</td><td>第1天完成，第2天已解锁</td><td><ol><li>当天累计充 ₱300</li></ol></td><td>✓ 赠 ₱150；即时 ₱75 + 次日05:00 ₱75；状态→04</td></tr>
+<tr><td class="id">3DD-FUNC-004</td><td><span class="pri P0">P0</span></td><td>Day3 达标 100%，30/70 分期</td><td>第2天完成，第3天解锁</td><td><ol><li>当天累计充 ₱1,000</li></ol></td><td>✓ 赠 ₱1,000；即时 ₱300 + 锁定 ₱700(7期×₱100)；状态→06</td></tr>
+<tr><td class="id">3DD-FUNC-005</td><td><span class="pri P0">P0</span></td><td>领取第二天 held 50%</td><td>Day2 完成后次日05:00到点</td><td><ol><li>进 07 屏点 CLAIM ₱75</li></ol></td><td>✓ ₱75 入账；AVAILABLE→₱0；账变一条；Toast，不新增页</td></tr>
+<tr><td class="id">3DD-FUNC-006</td><td><span class="pri P0">P0</span></td><td>七日奖励逐日领取</td><td>Day3 完成，分期已解锁</td><td><ol><li>每日05:00后领 ₱100</li><li>连续 7 天</li></ol></td><td>✓ 每期 ₱100，7 期共 ₱700；PENDING 递减；第7期后→10</td></tr>
+<tr><td class="id">3DD-FUNC-007</td><td><span class="pri P1">P1</span></td><td>全部领完显示完成态</td><td>所有分期领完</td><td><ol><li>查看活动</li></ol></td><td>✓ 状态 10：ALL REWARDS PAID / No pending rewards</td></tr>
+<tr><td class="id">3DD-FUNC-008</td><td><span class="pri P1">P1</span></td><td>活动中心卡片入口</td><td>活动进行中</td><td><ol><li>进活动中心</li></ol></td><td>✓ 卡显示当前天/进度/+X%/按钮；与每日₱5卡并列</td></tr>
+</table>
+
+<h3>8.2 边界值（BND）</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-BND-001</td><td><span class="pri P1">P1</span></td><td>恰好 ₱100 达标</td><td>某天</td><td><ol><li>当天累计正好 ₱100</li></ol></td><td>✓ 达标并赠金（门槛 ≥₱100）</td></tr>
+<tr><td class="id">3DD-BND-002</td><td><span class="pri P1">P1</span></td><td>₱99 不达标</td><td>某天</td><td><ol><li>当天累计 ₱99</li></ol></td><td>⚠ 未达标不赠，显示"还差 ₱1"</td></tr>
+<tr><td class="id">3DD-BND-003</td><td><span class="pri P1">P1</span></td><td>多笔小额累计达标</td><td>某天</td><td><ol><li>₱40+₱30+₱30=₱100</li></ol></td><td>✓ 累计达标；按累计 ₱100×比例</td></tr>
+<tr><td class="id">3DD-BND-004</td><td><span class="pri P0">P0</span></td><td>无上限超大额赠金</td><td>Day3</td><td><ol><li>当天充 ₱1,000,000</li></ol></td><td>✓ 按 100% 赠（或触发风控兜底，见 SEC-003）；金额精确</td></tr>
+<tr><td class="id">3DD-BND-005</td><td><span class="pri P0">P0</span></td><td>七日分期金额与精度</td><td>Day3 赠金非整除</td><td><ol><li>取赠金非 7 整除额</li></ol></td><td>✓ 各期之和=分期总额，无丢分/多分；末期兜差；2 位小数</td></tr>
+<tr><td class="id">3DD-BND-006</td><td><span class="pri P1">P1</span></td><td>后续追加只算增量</td><td>Day2 已达标</td><td><ol><li>先充 ₱300（赠₱150）</li><li>再充 ₱200</li></ol></td><td>✓ 仅对新增 ₱200 按 50% 补赠 ₱100</td></tr>
+<tr><td class="id">3DD-BND-007</td><td><span class="pri P2">P2</span></td><td>比例取整/截断口径</td><td>各天</td><td><ol><li>充带小数额</li></ol></td><td>✓ 赠金截断/进位符合约定，2 位小数 <span class="badge">待定</span></td></tr>
+</table>
+
+<h3>8.3 异常 / 校验（NEG）</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-NEG-001</td><td><span class="pri P1">P1</span></td><td>未首充不参与</td><td>无充值新用户</td><td><ol><li>访问活动</li></ol></td><td>⚠ 活动未开启/入口不可用</td></tr>
+<tr><td class="id">3DD-NEG-002</td><td><span class="pri P0">P0</span></td><td>断一天活动终止</td><td>Day1完成、Day2未达标截止</td><td><ol><li>到 Day3 查看</li></ol></td><td>⚠ 结束(11)；后续日置灰不可参与</td></tr>
+<tr><td class="id">3DD-NEG-003</td><td><span class="pri P0">P0</span></td><td>结束后不可再赠金</td><td>活动已终止</td><td><ol><li>再次充值 ₱500</li></ol></td><td>⚠ 不计入活动、不赠金</td></tr>
+<tr><td class="id">3DD-NEG-004</td><td><span class="pri P0">P0</span></td><td>领取未解锁分期</td><td>分期未到 05:00</td><td><ol><li>直接调领取接口</li></ol></td><td>⚠ 拒绝"待解锁不可领取"；无入账</td></tr>
+<tr><td class="id">3DD-NEG-005</td><td><span class="pri P1">P1</span></td><td>重复领取同一期</td><td>已领本期</td><td><ol><li>再次领取</li></ol></td><td>⚠ 拒绝；不重复入账</td></tr>
+<tr><td class="id">3DD-NEG-006</td><td><span class="pri P1">P1</span></td><td>退款/撤单回撤已计充值</td><td>达标后订单被撤/退</td><td><ol><li>撤销一笔计入达标的充值</li></ol></td><td>⚠ 累计额回撤；跌破门槛后赠金处理符合约定 <span class="badge">待定</span></td></tr>
+<tr><td class="id">3DD-NEG-007</td><td><span class="pri P2">P2</span></td><td>非活动期访问</td><td>活动未开始/已下线</td><td><ol><li>访问详情</li></ol></td><td>⚠ 友好提示，入口不可用</td></tr>
+</table>
+
+<h3>8.4 日历 / 状态机（CAL）</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-CAL-001</td><td><span class="pri P0">P0</span></td><td>前一天未完成不解锁次日</td><td>Day1未达标</td><td><ol><li>看 Day2 入口</li></ol></td><td>⚠ Day2 置灰不可进入</td></tr>
+<tr><td class="id">3DD-CAL-002</td><td><span class="pri P1">P1</span></td><td>Day2 于 00:00 解锁</td><td>Day1完成</td><td><ol><li>跨零点后查看</li></ol></td><td>✓ 到 00:00 Day2 解锁</td></tr>
+<tr><td class="id">3DD-CAL-003</td><td><span class="pri P0">P0</span></td><td>分期/held 05:00 解锁</td><td>有待领奖励</td><td><ol><li>05:00 前后各查一次</li></ol></td><td>✓ 05:00 前不可领，后可领；时区正确</td></tr>
+<tr><td class="id">3DD-CAL-004</td><td><span class="pri P1">P1</span></td><td>断签置灰永久</td><td>中途断签</td><td><ol><li>次日再充值</li></ol></td><td>⚠ 当天及后续永久置灰，不恢复</td></tr>
+<tr><td class="id">3DD-CAL-005</td><td><span class="pri P0">P0</span></td><td>结束分支 12：仍有待领</td><td>Day3失败但Day2有held未领</td><td><ol><li>查看活动</li></ol></td><td>✓ 状态12：可 CLAIM ₱75</td></tr>
+<tr><td class="id">3DD-CAL-006</td><td><span class="pri P1">P1</span></td><td>12 屏领取后隐藏</td><td>状态12</td><td><ol><li>领取 held</li></ol></td><td>✓ 领取成功，奖励区原页隐藏</td></tr>
+</table>
+
+<h3>8.5 到账 / 分期 · 账本（PAY）</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-PAY-001</td><td><span class="pri P0">P0</span></td><td>Day1 即时到账账变</td><td>Day1达标</td><td><ol><li>核对钱包+账变</li></ol></td><td>✓ 即时入可用余额；流水前后值连续正确</td></tr>
+<tr><td class="id">3DD-PAY-002</td><td><span class="pri P0">P0</span></td><td>Day2 50/50 两笔记账</td><td>Day2达标</td><td><ol><li>核对即时段与次日段</li></ol></td><td>✓ 即时 ₱75 + 次日 ₱75；两条流水合计=50%</td></tr>
+<tr><td class="id">3DD-PAY-003</td><td><span class="pri P0">P0</span></td><td>Day3 30/70 + 7 期记账</td><td>Day3达标</td><td><ol><li>核对即时+7期</li></ol></td><td>✓ 即时 ₱300 + 7×₱100；每期到点入账；合计=100%</td></tr>
+<tr><td class="id">3DD-PAY-004</td><td><span class="pri P0">P0</span></td><td>赠金总额守恒</td><td>某天赠金 G</td><td><ol><li>汇总即时+全部分期</li></ol></td><td>✓ Σ入账 = G，无多发/少发</td></tr>
+<tr><td class="id">3DD-PAY-005</td><td><span class="pri P1">P1</span></td><td>10× 打码对可提影响</td><td>已获礼金</td><td><ol><li>未打够尝试提现</li><li>打够后再提现</li></ol></td><td>✓ 符合 10× 口径 <span class="badge">待定</span></td></tr>
+</table>
+
+<h3>8.6 权限 / 鉴权（AUTH）</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-AUTH-001</td><td><span class="pri P1">P1</span></td><td>未登录/token失效</td><td>-</td><td><ol><li>无token调领取/查询</li></ol></td><td>⚠ 401，拒绝</td></tr>
+<tr><td class="id">3DD-AUTH-002</td><td><span class="pri P0">P0</span></td><td>越权领取他人奖励(IDOR)</td><td>A、B两账号</td><td><ol><li>A用自己token传B的id领取</li></ol></td><td>⚠ 拒绝，不入账；无横向越权</td></tr>
+</table>
+
+<h3>8.7 交互 / UI（UI）</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-UI-001</td><td><span class="pri P1">P1</span></td><td>12 屏文案精确匹配</td><td>各状态</td><td><ol><li>逐屏比对设计稿文案</li></ol></td><td>✓ 标题/金额/按钮与设计一致（01–12）</td></tr>
+<tr><td class="id">3DD-UI-002</td><td><span class="pri P1">P1</span></td><td>Banner 只展示不跳转</td><td>登录页</td><td><ol><li>点登录页下方 Banner</li></ol></td><td>✓ 仅展示，无跳转</td></tr>
+<tr><td class="id">3DD-UI-003</td><td><span class="pri P1">P1</span></td><td>领取 Toast 不新增页</td><td>可领取态</td><td><ol><li>点领取</li></ol></td><td>✓ Toast 成功提示，返回任务，无新页</td></tr>
+<tr><td class="id">3DD-UI-004</td><td><span class="pri P2">P2</span></td><td>置灰态样式</td><td>未解锁/断签</td><td><ol><li>查看置灰日</li></ol></td><td>✓ 置灰不可点，符合设计</td></tr>
+<tr><td class="id">3DD-UI-005</td><td><span class="pri P2">P2</span></td><td>进度回显一致</td><td>已领若干期</td><td><ol><li>刷新/重进</li></ol></td><td>✓ 已领/待领/锁定回显与账本一致</td></tr>
+<tr><td class="id">3DD-UI-006</td><td><span class="pri P2">P2</span></td><td>多语言文案</td><td>切换语言</td><td><ol><li>EN/Tagalog</li></ol></td><td>✓ 无错位/未翻译；₱ 正确</td></tr>
+<tr><td class="id">3DD-UI-007</td><td><span class="pri P2">P2</span></td><td>12屏"DAY 1 REWARD"文案核对</td><td>状态12</td><td><ol><li>比对英文标签与实际来源</li></ol></td><td>⚠ 设计疑似应为 DAY 2 REWARD，验证实现取值（提BUG依据）</td></tr>
+</table>
+
+<h3>8.8 并发竞态（CONC）⭐</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-CONC-001</td><td><span class="pri P0">P0</span></td><td>领取重复提交幂等</td><td>可领取一期</td><td><ol><li>同一 Idempotency-Key 并发领取 N 次</li></ol></td><td>✓ 仅 1 次入账；其余幂等；余额只 +1 期</td></tr>
+<tr><td class="id">3DD-CONC-002</td><td><span class="pri P0">P0</span></td><td>并发领取同一 held 不双花</td><td>Day2 held ₱75 可领</td><td><ol><li>线程池并发领取同一笔</li></ol></td><td>✓ 只入账一次 ₱75；账变一条；最终 AVAILABLE=0</td></tr>
+<tr><td class="id">3DD-CONC-003</td><td><span class="pri P0">P0</span></td><td>并发充值达标不重复赠金</td><td>临界达标</td><td><ol><li>并发多笔跨过 ₱100</li></ol></td><td>✓ 赠金按最终累计计一次，无重复赠</td></tr>
+<tr><td class="id">3DD-CONC-004</td><td><span class="pri P0">P0</span></td><td>分期并发领取不超发</td><td>多期可领</td><td><ol><li>并发领取多期</li></ol></td><td>✓ 每期各领一次，总额≤70%分期总额，无超发</td></tr>
+<tr><td class="id">3DD-CONC-005</td><td><span class="pri P1">P1</span></td><td>05:00 解锁瞬间竞态</td><td>临解锁</td><td><ol><li>解锁前后毫秒级并发领取</li></ol></td><td>✓ 解锁前全拒，解锁后仅一次成功</td></tr>
+</table>
+
+<h3>8.9 性能 / 瓶颈（PERF）⭐</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-PERF-001</td><td><span class="pri P1">P1</span></td><td>赠金计算/领取接口延迟</td><td>常态</td><td><ol><li>压测领取与达标计算接口</li></ol></td><td>✓ P95/P99 达基线；错误率≈0</td></tr>
+<tr><td class="id">3DD-PERF-002</td><td><span class="pri P1">P1</span></td><td>活动列表大数据量</td><td>海量参与用户</td><td><ol><li>批量查活动状态/列表</li></ol></td><td>✓ 分页/查询无慢查询、无 N+1</td></tr>
+<tr><td class="id">3DD-PERF-003</td><td><span class="pri P1">P1</span></td><td>七日分期批量解锁任务</td><td>05:00 批量解锁</td><td><ol><li>大量用户同时到解锁点</li></ol></td><td>✓ 解锁/入账按时完成，无堆积/漏发</td></tr>
+</table>
+
+<h3>8.10 安全·风控 / 数据一致（SEC / DATA）</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>前置</th><th>步骤</th><th>预期</th></tr>
+<tr><td class="id">3DD-SEC-001</td><td><span class="pri P0">P0</span></td><td>账变流水完整可对账</td><td>任意赠金/领取后</td><td><ol><li>核对 wallet_transactions</li></ol></td><td>✓ 每笔含前后值/biz关联；链式连续；终值=钱包</td></tr>
+<tr><td class="id">3DD-SEC-002</td><td><span class="pri P1">P1</span></td><td>配置/手动调整审计</td><td>后台改配置</td><td><ol><li>改门槛/比例</li></ol></td><td>✓ 记录操作人/时间/IP/前后值</td></tr>
+<tr><td class="id">3DD-SEC-003</td><td><span class="pri P1">P1</span></td><td>无上限赠金风控兜底</td><td>异常大额</td><td><ol><li>超大额/异常充提</li></ol></td><td>✓ 触发上限/风控拦截或告警 <span class="badge">待定</span></td></tr>
+<tr><td class="id">3DD-DATA-001</td><td><span class="pri P0">P0</span></td><td>列表↔详情↔账本一致</td><td>任意态</td><td><ol><li>三处交叉核对金额/进度</li></ol></td><td>✓ 已领/待领/锁定三方一致</td></tr>
+</table>
+
+<h3>8.11 接口断言（API）</h3>
+<table>
+<tr><th>编号</th><th>优先级</th><th>标题</th><th>关键入参</th><th>断言点</th></tr>
+<tr><td class="id">3DD-API-001</td><td><span class="pri P1">P1</span></td><td>活动状态查询</td><td>user 身份</td><td>200；当前天/进度/各期金额与账本一致</td></tr>
+<tr><td class="id">3DD-API-002</td><td><span class="pri P0">P0</span></td><td>领取接口</td><td>期次id + Idempotency-Key</td><td>成功码；金额正确；重复 key 幂等；未解锁/已领/越权拒绝</td></tr>
+<tr><td class="id">3DD-API-003</td><td><span class="pri P1">P1</span></td><td>达标计算/赠金入账</td><td>充值事件</td><td>赠金=累计×比例；拆分正确；账变生成</td></tr>
+</table>
+
+<div class="foot">测试排期：开发提测后，先跑 P0 冒烟（首充开启 → 三天赠金 → 到账拆分 → 领取幂等 → 账本守恒 → 越权），再回归 P1/P2，并补 DB 层落库断言。待定项以产品确认口径为准，届时更新断言。</div>
+</div></body></html>
