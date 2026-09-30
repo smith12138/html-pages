@@ -1,0 +1,132 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>首充活动 · 实地测试流程</title>
+<style>
+:root{--bg:#f5f7fb;--ink:#1f2a44;--mut:#6b7794;--line:#e6eaf1;--brand:#2f6bff;--ok:#22a06b;--warn:#e8873b;--red:#e5484d}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+.wrap{max-width:960px;margin:0 auto;padding:26px 22px 80px}
+h1{font-size:26px;margin:0 0 4px}.sub{color:var(--mut);font-size:13px;margin-bottom:16px}
+h2{font-size:19px;margin:30px 0 10px;display:flex;align-items:center;gap:9px;border-bottom:2px solid var(--line);padding-bottom:7px}
+h2 .n{display:inline-flex;width:26px;height:26px;background:var(--brand);color:#fff;border-radius:8px;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex:none}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:10px 0;box-shadow:0 1px 5px rgba(0,0,0,.04)}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:13.3px;margin:8px 0;box-shadow:0 1px 5px rgba(0,0,0,.04)}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f0f3fa;font-size:12.5px;color:#41506b}
+code{background:#eef2fb;border-radius:5px;padding:1px 6px;font-size:12.5px;color:#2a3757}
+ol{margin:6px 0;padding-left:20px}ol li{margin:6px 0}ul{margin:6px 0;padding-left:20px}li{margin:4px 0}
+.step{background:#f8fafc;border-left:3px solid var(--brand);border-radius:8px;padding:10px 14px;margin:8px 0}
+.exp{color:var(--ok);font-weight:600}
+.warn{background:#fff6ec;border:1px solid #ffddb0;border-radius:12px;padding:12px 16px;margin:12px 0}
+.warn .h{font-weight:700;color:var(--warn);margin-bottom:3px}
+.bug{background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:10px;padding:10px 15px;margin:8px 0}
+.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:20px;background:#eef2fb;color:#41506b;margin:1px}
+.big{background:linear-gradient(135deg,#eaf1ff,#f3f0ff);border:1px solid #d6e0ff;border-radius:12px;padding:12px 16px;margin:10px 0;font-size:14.5px}
+.foot{color:var(--mut);font-size:12px;margin-top:26px;border-top:1px solid var(--line);padding-top:12px}
+</style></head><body><div class="wrap">
+
+<h1>首充活动（三日充值）· 实地测试流程</h1>
+<div class="sub">给测试人手动实测前端 + 管理后台 · 附现成账号 · 2026-09-30</div>
+
+<div class="big"><b>测试对象：</b>活动 <b>#153「三日充值-实地测试」</b>（RUNNING，05:00 到账配置，<b>测试加速：1天=5分钟</b>，已挂全套展示素材）。后台账变已深度验过零缺陷；<b>本轮重点抓前端展示 + 后台显示的 bug</b>。</div>
+
+<h2><span class="n">1</span> 访问与登录</h2>
+<div class="card"><table>
+<tr><th>端</th><th>地址</th><th>登录</th></tr>
+<tr><td>前端 H5</td><td><code>https://ph01-test.aaoo-test.com</code></td><td>手机号 + 密码 <b><code>Aa123456</code></b>；首充后如需短信验证，固定码 <b>123456</b></td></tr>
+<tr><td>管理后台</td><td><code>http://13.251.234.1:8081/</code></td><td><code>staging_qa</code> + 密码（你知道）</td></tr>
+</table>
+<p style="font-size:13px;color:var(--mut)">⚠️ 后台单会话：只在一处登录，别多端同时登。前端建议用手机/无痕窗口逐个账号切换。</p>
+</div>
+
+<h2><span class="n">2</span> 已准备好的测试账号（都在活动 #153 上）</h2>
+<div class="card"><table>
+<tr><th>账号</th><th>手机号</th><th>会员ID</th><th>状态</th><th>用途</th></tr>
+<tr><td><b>A 全新</b></td><td><code>09171615812</code></td><td>15993</td><td>未充值、未参与</td><td>看首充入口/初始态、亲手走首充</td></tr>
+<tr><td><b>B Day1完成</b></td><td><code>09171427487</code></td><td>15994</td><td>已充₱200、得礼金₱40</td><td>看 Day1 完成态 + <b>测提现被锁</b></td></tr>
+<tr><td><b>C 完整完成</b></td><td><code>09171301134</code></td><td>15995</td><td><b>已跑完 ✓</b> Day1/2/3全完成(充200/300/1000)，礼金已发(40/75/300/75+分期)，余额₱1990+</td><td>看完成态 + 七日分期进度</td></tr>
+</table>
+<p style="font-size:13px;color:var(--mut)">三个账号密码统一 <b><code>Aa123456</code></b>。需要更多状态（断签态、Day2 待领态等）随时喊我造。</p>
+</div>
+
+<div class="warn"><div class="h">关于"测试加速 1 天=5 分钟"</div>
+Day1/2/3 每期只有 5 分钟就滚到下一期。所以 <b>B 的"Day1 完成态"约 5 分钟后会自动进 Day2</b>；要稳定看某一中间态，最好<b>边测边喊我实时入账推进</b>（你在 H5 发起充值→充值单 pending→喊我一声后台入账→状态即推进），这样能亲眼看每一屏。C（完成态）是稳定的。</div>
+
+<h2><span class="n">3</span> 前端 H5 实测步骤</h2>
+
+<div class="card"><b>3.1 【头号检查】活动到底显不显示？</b>
+<div class="step"><b>步骤：</b>登录页先看 → 然后用 A 账号登录 → 进活动中心 / 首页弹窗<br>
+<span class="exp">✔ 期望：</span>登录页下方有 3-DAY 首充 Banner；登录后活动中心/弹窗能看到"三日充值"入口并打开弹窗。<br>
+<span style="color:var(--red)">⚠ 注意：</span>我在后台侧发现 <b>用户端活动列表接口今天返回空</b>（活动在跑、能收钱发奖，但列表拿不到）。<b>请重点确认：真机 H5 上首充活动到底显不显示？</b>不显示的话就是 P1 级 bug（玩家看不到/进不去活动）。</div>
+</div>
+
+<div class="card"><b>3.2 首充流程（A 账号，亲手走）</b>
+<div class="step"><ol>
+<li>A 账号在 H5 发起充值 <b>₱200</b>（选 GCash/QRPh，<b>别真付</b>）→ 生成充值单后<b>喊我入账</b>。</li>
+<li>入账后看弹窗：<span class="exp">Day1 应显示"20% BONUS"，₱200×20%=<b>₱40 即时到账</b>，余额 +₱40，Day2 解锁提示。</span></li>
+<li>等 5 分钟进 Day2，再充 <b>₱300</b> → <span class="exp">50%，即时 ₱75 + 次日 <b>05:00</b> 到账 ₱75</span>（看"待领/次日到账"文案对不对）。</li>
+<li>再等进 Day3，充 <b>₱1000</b> → <span class="exp">100%，即时 ₱300 + 未来 7 天每天 05:00 各 ₱100</span>（看 7 期进度条/日历）。</li>
+</ol></div>
+<b>盯这些点找 bug：</b>
+<ul>
+<li>金额、比例、到账时间文案是否与上面一致（尤其"次日 05:00 / 每天 05:00"，别出现 16:10 之类）。</li>
+<li>未达标时（比如只充 ₱60）提示"还差 ₱40"是否正确、按钮是否置灰。</li>
+<li>各屏切换、进度、置灰是否正常；有无卡态/空白/报错。</li>
+<li>礼金"到账"展示——<b>应是自动到账（负责人已定不做手动领取）</b>；若还有"CLAIM/领取"按钮，是设计稿遗留，需前端去掉。</li>
+</ul>
+</div>
+
+<div class="card"><b>3.3 提现被锁（B 账号）</b>
+<div class="step"><b>步骤：</b>B 账号登录 → 钱包/提现页尝试提现。<br>
+<span class="exp">✔ 期望：可提现金额 = ₱0</span>（余额 ₱240 里，本金 ₱200 需打码折算、礼金 ₱40 需 10× 打码，均<b>不可直接提</b>）。<br>
+<b>找 bug：</b>若能把礼金/未打码本金提出来 = 严重资金 bug；提示文案是否说清"需完成流水"。</div>
+</div>
+
+<div class="card"><b>3.4 完成态（C 账号）</b>
+<div class="step">C 账号登录看弹窗：<span class="exp">三天全完成、七日分期发放进度（已发/待发）、"全部完成/ALL REWARDS PAID"态。</span>核对已到账总额与进度数字。</div>
+</div>
+
+<h2><span class="n">4</span> 管理后台实测步骤（活动管理）</h2>
+<div class="card">
+<b>逐页看，并和玩家实际到账对照：</b>
+<ol>
+<li><b>活动列表</b>：#153 进行中；点<b>控制</b>看开启检查、点<b>更多</b>看有哪些操作。</li>
+<li><b>活动奖励记录</b>：按会员ID(15994/15995)筛 → 看每笔<b>支付分片</b>（40/75/300/75/100…）、状态"已完成"、原始礼金金额是否对。</li>
+<li><b>充值活动判定记录 → 存款判定</b>：看每笔充值"符合/不符合"+原因、"已接纳（签到）"、判定次数；未达标的应显示"不符合"+原因。</li>
+<li><b>充值活动判定记录 → 签到进度</b>：看签到进度是否与前端一致。</li>
+<li><b>运行监控</b>：活动级统计（参与人数/发放额）是否合理。</li>
+<li><b>数据分析</b>：看有无该活动的数据。</li>
+</ol>
+<b>找 bug：</b>后台各页金额/状态是否和前端、和玩家账变一致；<b>特别看 Day3 未到期的分期——后台目前没有"待发未到期分期"的可见页</b>（数据发放明细只有亏损救援），运营看不到将发的钱，可作为改进项提。
+</div>
+
+<h2><span class="n">5</span> 参考正确值（对不上就是 bug）</h2>
+<div class="card"><table>
+<tr><th>天</th><th>充值</th><th>礼金</th><th>到账拆分</th></tr>
+<tr><td>Day1</td><td>₱200</td><td>₱40 (20%)</td><td>100% 即时</td></tr>
+<tr><td>Day2</td><td>₱300</td><td>₱150 (50%)</td><td>即时 ₱75 + 次日 05:00 ₱75</td></tr>
+<tr><td>Day3</td><td>₱1000</td><td>₱1000 (100%)</td><td>即时 ₱300 + 未来7天每天05:00各 ₱100</td></tr>
+</table>
+<ul>
+<li>门槛：当天累计 ≥ <b>₱100</b>（小额多笔累计）；断一天活动终止。</li>
+<li>打码：礼金 <b>10×</b>；本金 1.5× 折算 quota。可提额度=min(本金可提, quota)；<b>礼金本身不可直接提</b>。</li>
+<li>礼金<b>自动到账</b>（无需手动领取）。</li>
+</ul>
+</div>
+
+<h2><span class="n">6</span> 重点找 bug 清单</h2>
+<div class="bug">① <b>活动是否在 H5 显示</b>（后台侧看用户列表接口返回空 → 真机确认）。</div>
+<div class="bug">② 到账<b>时间文案</b>：必须"次日/每天 <b>05:00</b>"，不能出现 16:10。</div>
+<div class="bug">③ 手动<b>CLAIM/领取按钮</b>是否还在（应去掉，改"已到账"）。</div>
+<div class="bug">④ <b>提现</b>能否违规提出礼金/未打码本金（资金安全）。</div>
+<div class="bug">⑤ 金额/进度/置灰/未达标提示是否正确；各屏切换有无卡态、空白、报错。</div>
+<div class="bug">⑥ 后台各记录页与前端、与账变是否一致。</div>
+
+<h2><span class="n">7</span> 已知/待确认（测时别误判）</h2>
+<div class="card"><ul>
+<li>账变、10×打码、分期、并发——后台侧已深度验过<b>零缺陷</b>，本轮主要抓<b>前端展示 + 后台显示</b>。</li>
+<li>待产品/风控确认：10×打码可提口径细节、跨零点冲正、无上限风控、第12屏"DAY 1 REWARD"英文标签疑应为 DAY 2。</li>
+<li>需要更多状态账号（断签/待领/大额/VIP…）随时找我造。</li>
+</ul></div>
+
+<div class="foot">活动 #153 · 测试加速 1天=5分钟 · 有效期至 2026-10-05。中间态易滚动，建议边测边喊我实时入账推进。</div>
+</div></body></html>
