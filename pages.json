@@ -956,11 +956,12 @@
           "file": "docs/PH_GAME/首充活动.html",
           "title": "首充活动",
           "category": "requirement",
-          "date": "2026-09-29",
+          "date": "2026-09-30",
           "tags": [
             "首充活动",
             "需求",
-            "测试用例"
+            "测试用例",
+            "验收结果"
           ],
           "module": "PH01-首充活动"
         }

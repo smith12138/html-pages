@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>首充活动</title><link rel="icon" type="image/svg+xml" href="/html-pages/assets/favicon.svg">
+<title>首充活动</title>
 <style>
 :root{--bg:#f5f7fb;--ink:#1f2a44;--mut:#6b7794;--line:#e6eaf1;--brand:#2f6bff;--ok:#22a06b;--warn:#e8873b;--red:#e5484d}
 *{box-sizing:border-box}body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
@@ -59,7 +59,7 @@ code{background:#eef2fb;border-radius:5px;padding:1px 6px;font-size:12.3px;color
 <div class="meta"><span>站点：PH 系列（菲律宾）</span><span>货币：PHP ₱</span><span>端：Web 前端 + 后台</span><span>版本：v1 待评审</span><span>2026-09-29</span></div>
 </div>
 
-<div class="nav"><a href="#b1">板块一 · 需求文档</a><a href="#b2">板块二 · 测试点与测试用例</a></div>
+<div class="nav"><a href="#b1">板块一 · 需求文档</a><a href="#b2">板块二 · 测试点与测试用例</a><a href="#b3">板块三 · 后台验收结果</a></div>
 
 <!-- ============ 板块一 ============ -->
 <div class="board" id="b1"><div class="k">板 块 一</div><span class="board h2b" style="font-size:22px;font-weight:800">需求文档</span></div>
@@ -297,28 +297,63 @@ code{background:#eef2fb;border-radius:5px;padding:1px 6px;font-size:12.3px;color
 </table>
 
 <div class="foot">测试排期：开发提测后，先跑 P0 冒烟（首充开启 → 三天赠金 → 到账拆分 → 领取幂等 → 账本守恒 → 越权），再回归 P1/P2，并补 DB 层落库断言。待定项以产品确认口径为准，届时更新断言。</div>
-</div><style>
-.fab-group{position:fixed;right:20px;bottom:28px;display:flex;flex-direction:column;gap:10px;z-index:9990}
-.fab{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .25s ease;opacity:.75;text-decoration:none}
-.fab:hover{opacity:1;transform:scale(1.1);box-shadow:0 4px 20px rgba(0,0,0,.25)}
-.fab svg{width:18px;height:18px}
-.fab-back{background:#fff;color:#555}
-.fab-top{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
-.fab-bottom{background:linear-gradient(135deg,#0fc6c2,#0d9e9b);color:#fff}
-.fab-top,.fab-bottom{opacity:0;pointer-events:none;transform:translateY(10px)}
-.fab-top.visible,.fab-bottom.visible{opacity:.75;pointer-events:auto;transform:translateY(0)}
-.fab-top:hover,.fab-bottom:hover{opacity:1;transform:scale(1.1)}
-</style>
-<div class="fab-group">
-<a class="fab fab-back" href="/html-pages/?project=ph-game" title="返回首页">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
-</a>
-<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-</button>
-<button class="fab fab-bottom" onclick="window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})" title="到底部">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-</button>
+<!-- ============ 板块三 ============ -->
+<div class="board" id="b3" style="background:linear-gradient(135deg,#e8873b,#e5484d)"><div class="k">板 块 三</div><span class="board h2b" style="font-size:22px;font-weight:800">后台联调验收结果（2026-09-29 实测）</span></div>
+
+<div class="one"><b>结论：</b>首充活动（存款签到）核心与各条件<b>实测全部通过、零功能缺陷</b>；5 种充值触发模式全覆盖可用。两个待确认已拍板：<b>到账时间 05:00</b>（旧活动误配 16:10）、<b>礼金自动派发</b>（不做手动领取）。</div>
+
+<h2><span class="n">9</span> 测试环境与活动</h2>
+<div class="card"><ul>
+<li>后台 API <code>http://13.251.234.1:8081/api/v1/admin</code>；前端 <code>https://ph01-test.aaoo-test.com</code>。</li>
+<li>后台创建路径：活动管理→活动列表→创建活动→<b>充值赠送</b>模板→触发模式选<b>存款签到</b>。已用 UI 新建并运行 <b>活动134「三日充值-QA」</b>（20/50/100%、门槛₱100、10×、Day2 立即50+次日<b>05:00</b> 50%、Day3 立即30+7天各10%<b>@05:00</b>、自动派发、优先级100）。</li>
+<li><b>「测试加速」开关</b>（仅测试环境，生产不可用）：把每个「天」压缩成 5 分钟，用于快速验证连续/断签/分期到账。</li>
+<li>造数：建充值单(amount 传<b>字符串</b>)→后台人工入账(用 <b>deposit_no</b> 走 <code>deposit_manual_approve</code>)→首充后手机验证(固定码 123456)。</li>
+</ul></div>
+
+<h2><span class="n">10</span> 存款签到（首充）条件覆盖 · 全部 PASS</h2>
+<div class="card"><table>
+<tr><th>条件</th><th>场景</th><th>预期 / 实测</th><th></th></tr>
+<tr><td>Day1 20%</td><td>充₱200</td><td>赠₱40，100% 即时到账</td><td>✅</td></tr>
+<tr><td>Day2 50% 拆分</td><td>充₱300</td><td>赠₱150：即时₱75 + 次日<b>05:00</b>₱75（自动到账）</td><td>✅</td></tr>
+<tr><td>Day3 100% 分期</td><td>充₱1000</td><td>赠₱1000：即时₱300 + 7天×₱100<b>@05:00</b>（逐日自动到账）</td><td>✅</td></tr>
+<tr><td>三连充完成</td><td>连续3期达标</td><td>participation COMPLETED，账本守恒</td><td>✅</td></tr>
+<tr><td>必须连续·断签终止</td><td>Day1后跳一期</td><td>INTERRUPTED / PERIOD_NOT_MET，只留已获</td><td>✅</td></tr>
+<tr><td>不要求连续·断签不终止</td><td>Day1后跳一期(NON_CONSECUTIVE)</td><td>participation 仍 ACTIVE 不终止，下周期重开当前任务继续</td><td>✅</td></tr>
+<tr><td>门槛边界</td><td>恰好₱100 / ₱99</td><td>₱100→₱20 达标；₱99→不发（AWAITING）</td><td>✅</td></tr>
+<tr><td>小额累计</td><td>₱60+₱60=₱120</td><td>按累计计 → ₱24</td><td>✅</td></tr>
+<tr><td>参与起点·首笔合格存款</td><td>首充₱50(&lt;门槛)</td><td>ACTIVE 即开始 period1、accepted50/entitled0（区别于"首次达标"的 AWAITING）</td><td>✅</td></tr>
+<tr><td>礼金封顶</td><td>cap₱30，充₱1000×20%</td><td>封顶 → entitled₱30（非₱200）</td><td>✅</td></tr>
+<tr><td>全额定时(SCHEDULED)</td><td>100%定时</td><td>即时₱0，全额排期到点自动发</td><td>✅</td></tr>
+<tr><td>并发双重入账</td><td>同单并发审核</td><td>幂等，赠金不双倍、无双花</td><td>✅</td></tr>
+<tr><td>自动派发</td><td>held/分期</td><td>到点自动入账，无需领取（负责人确认）</td><td>✅</td></tr>
+</table></div>
+
+<h2><span class="n">11</span> 五种充值触发模式 · 全部可用</h2>
+<div class="card"><table>
+<tr><th>触发模式（枚举）</th><th>机制</th><th>实测</th></tr>
+<tr><td>存款签到 <code>deposit_checkin</code></td><td>周期签到+分期（首充活动）</td><td>✅ 全条件已测</td></tr>
+<tr><td>第N次充值 <code>nth_deposit</code></td><td>第N笔固定额</td><td>✅ 即时，仅第1笔给₱20</td></tr>
+<tr><td>单笔充值档位 <code>per_deposit_tier</code></td><td>每笔达标固定额</td><td>✅ 即时，每笔₱20（2笔→₱40）</td></tr>
+<tr><td>活动累计充值档位 <code>lifetime_tier</code></td><td>活动累计达标</td><td>✅ ~10-15s 结算，₱20</td></tr>
+<tr><td>自然日充值档位 <code>daily_tier</code></td><td>当日累计达标</td><td>✅ ~10-15s 结算，₱20</td></tr>
+</table>
+<p style="font-size:13px;color:var(--mut)">档位模式配置 <code>tiers:[{deposit_amount, bonus_amount(固定额), wagering_multiplier}]</code>；nth 另带 <code>nth_deposit:N</code>。</p>
 </div>
-<script>(function(){var ft=document.querySelector(".fab-top"),fb=document.querySelector(".fab-bottom");if(!ft||!fb)return;function ck(){var st=window.scrollY,dh=document.documentElement.scrollHeight,wh=window.innerHeight;ft.classList.toggle("visible",st>300);fb.classList.toggle("visible",st<dh-wh-300)}window.addEventListener("scroll",ck,{passive:true});ck()})();</script>
-</body></html>
+
+<h2><span class="n">12</span> 结论与提单</h2>
+<div class="card">
+<p><b>已拍板（更新板块一待确认）：</b></p>
+<ul>
+<li>✅ <b>到账时间 = 05:00</b>（次日/每日）。旧活动129 曾误配 16:10；新建 134 已用 05:00，与前端 Banner"5:00 AM"一致。生产按 05:00。</li>
+<li>✅ <b>礼金自动派发（AUTO_CREDIT）</b>，不做手动领取。<b>前端需改</b>：设计稿 07/08/09/12 屏的手动"CLAIM"按钮去掉，改"已到账/已发放"展示（后台「手动领取」标注本期暂不支持）。</li>
+</ul>
+<p><b>观察 / 提示（非缺陷）：</b></p>
+<ul>
+<li>累计档位 / 自然日档位有 <b>~10-15s 结算延迟</b>（vs 第N次/单笔即时）——对账与前端刷新需容忍延迟。</li>
+<li>建充值单 <code>amount</code> 必须传<b>字符串</b>（传数字 400）。</li>
+<li>后台单会话：API 登录会顶掉浏览器后台；后台密码由用户手动登录（或用 Claude-in-Chrome 驱动已登录标签）。</li>
+</ul>
+<p><b>仍待产品/风控确认：</b>①10× 打码对"可提额度"的确切口径；②门槛"当天累计"跨零点/退款撤单回撤；③无上限赠金风控兜底；④第12屏"DAY 1 REWARD"英文标签疑应为 DAY 2。</p>
+</div>
+
+</div></body></html>
