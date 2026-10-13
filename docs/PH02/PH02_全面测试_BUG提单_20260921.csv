@@ -276,3 +276,6 @@
 【前端H5-首页/News】H5 首页「Meet Our Jackpot Winners」和 News 页三个榜单一直是空的，后台对应的配置页面被隐藏，运营没办法配置,"1) 打开 H5 首页滚到底部：Meet Our Jackpot Winners 只有表头
 2) 打开 News：三个榜单都显示 No … to show yet
 3) 后台左侧菜单找不到 Araw 榜、百万俱乐部榜、最近爆奖榜；系统管理-菜单管理里这几个菜单为隐藏",如果这些榜单要上线，就放开对应后台菜单让运营配置；如果暂不上线，H5 先隐藏这几个空区域,功能,低 - P3,待处理,Smith,2026-10-13,前后端,BFF games/araw-leaderboard、million-club-leaderboard、recent-jackpot-leaderboard、all-displays 均返回 0 条；后台对应配置表均 0 条；menus 中 /game/araw-leaderboard-configs、/game/million-club-leaderboard-configs、/game/recent-jackpot-leaderboard-configs、/game/all-displays 的 is_hidden=true
+【前端H5-充值】会员可以连续发起任意多笔充值不付款，没有未支付订单数量或频率限制，后台充值成功率被拉低,"1) 会员登录 H5，Top Up 选 QAEzPayQRPH，金额 ₱100，点 Pay，不付款关掉
+2) 再次打开 Top Up 重复下单，连续 10 次
+3) 每次都成功生成新订单；后台充值订单页可看到 10 笔待支付订单",有未支付订单时提示先完成或取消；或限制同一会员的未支付订单数量(如最多 3 笔)和下单频率,功能,低 - P3,待处理,Smith,2026-10-13,后端,会员 2109846452273557504 连续 10 次 wallet/deposit(₱100，不同防重复键)全部 code 0；wallet/deposits/pending 返回多笔待支付订单；同一防重复键并发 5 次只建 1 单(幂等正常)
