@@ -273,3 +273,6 @@
 【报表管理-导出任务】报表导出的 Excel：19 位的用户 ID、代理/渠道 ID 打开后显示成科学计数且末几位变成 0；金额是文本没法求和；文件名结束日期少一天,"1) 报表管理-用户日报(或平台日报、代理日报)，统计日期选 10-07 ~ 10-13，点导出
 2) 导出任务页下载文件，用文件密码解压，用 Excel 打开
 3) 用户ID 列显示为 2.10985E+18，金额列左对齐(文本)无法求和；文件名结束日期为 10-12",ID 列按文本写入(保留完整 19 位)；金额列按数值写入并保留两位小数；文件名的日期范围和实际导出范围一致(按马尼拉时间),数据,中 - P2,待处理,Smith,2026-10-13,后端,导出文件 user-daily-reports_2026-10-07_2026-10-12.xlsx 首行数据统计日期 2026-10-13；用户ID 单元格为数值 2109846995175878656(>15 位)；充值金额等列单元格类型为文本 '0'、'2200'、'2654.98'；agent-daily/platform-daily 导出文件名同样以 2026-10-12 结尾而内容含 10-13
+【前端H5-首页/News】H5 首页「Meet Our Jackpot Winners」和 News 页三个榜单一直是空的，后台对应的配置页面被隐藏，运营没办法配置,"1) 打开 H5 首页滚到底部：Meet Our Jackpot Winners 只有表头
+2) 打开 News：三个榜单都显示 No … to show yet
+3) 后台左侧菜单找不到 Araw 榜、百万俱乐部榜、最近爆奖榜；系统管理-菜单管理里这几个菜单为隐藏",如果这些榜单要上线，就放开对应后台菜单让运营配置；如果暂不上线，H5 先隐藏这几个空区域,功能,低 - P3,待处理,Smith,2026-10-13,前后端,BFF games/araw-leaderboard、million-club-leaderboard、recent-jackpot-leaderboard、all-displays 均返回 0 条；后台对应配置表均 0 条；menus 中 /game/araw-leaderboard-configs、/game/million-club-leaderboard-configs、/game/recent-jackpot-leaderboard-configs、/game/all-displays 的 is_hidden=true
