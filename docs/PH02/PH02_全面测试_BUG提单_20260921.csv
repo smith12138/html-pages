@@ -297,3 +297,7 @@
 3) 内容改成 Deposit now and get 10 percent bonus.(句末带句号)：发送失败，弹出英文正则报错
 4) 内容带 ₱100、网址或换行，标题带冒号/感叹号：同样失败
 5) 运营配置-公告-新增：标题或内容带句号、感叹号、%、₱、网址，保存失败",标题、内容允许常用标点、货币符号、换行和网址(做好 XSS 转义即可)；不允许的字符在页面上提前说明,功能,中 - P2,待处理,Smith,2026-10-13,后端,"【现象】会员列表勾选会员后点「批量发送站内信」，内容只能是字母、数字、空格和表情。只要带句号、逗号、问号、感叹号、冒号、₱ 符号、网址、换行，点发送就失败，页面弹出一长串英文校验报错(value does not match regex pattern …)；标题同样不能带冒号、感叹号。实际通知几乎都会带标点(例如「Deposit now and get 10% bonus.」「Get ₱100 bonus today!」)，等于这个功能用不了。输入框也没有任何格式说明。运营配置-公告也是同样的限制：公告标题「QA smith: Notice!」、内容「Deposit now and get 10% bonus! Visit https://example.com. ₱100」都保存失败，公告同样写不出正常的句子 ‖ user-inboxes/batch-send：content='Hello this is a QA test message' 成功 sent_count=1；content 含 '.'、'₱'、'https://'、'\n' 均返回 400 invalid BatchSendUserInboxMessagesRequest.Content: value does not match regex pattern ""^[\p{L}\p{N}…emoji](?:[\p{L}\p{N} …emoji]*)?$""；title='QA smith: notice'、'Big Bonus!' 返回 400 Title 不匹配"
+【前端H5-客服(Support)】H5 客服页：FAQ 点进去是服务条款；Live Chat 页提示「仍可通过在线客服联系」，但「Open live chat」按钮点了没反应,"1) 会员登录 H5，点右上角客服图标进入 Support
+2) 点 FAQ：打开的是 Terms of Use 页面
+3) 返回点 Live Chat：页面提示 support console not available，可以 Open live chat
+4) 点 Open live chat：没有任何反应",FAQ 指向真正的常见问题页(没有就先隐藏入口)；客服配置停用或不可用时，Live Chat 页不要再提示「可以通过在线客服联系」，改为引导拨打客服电话；或者让 Open live chat 打开可用的客服渠道,功能,低 - P3,待处理,Smith,2026-10-13,前后端,Support 页 FAQ 路由固定跳 /terms-of-use；customer-service-config/detail 返回 null(后台客服配置 status=0)；/customer-service 页「Open live chat」点击后无跳转、无 window.open。截图 docs/全盘测试/img/311_support.jpg
