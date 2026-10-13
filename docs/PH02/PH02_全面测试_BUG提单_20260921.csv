@@ -261,3 +261,9 @@
 【前端H5-交易记录】提现成功后，交易记录里多出一条「Withdrawal 0.00」，看起来像又提了一笔 0 元,"1) 会员提现 ₱200，后台审核通过并出款成功
 2) H5 Menu - Transactions 查看
 3) 有两条 Withdrawal：-200.00 和 0.00",出款成功只更新原提现记录的状态(如 Withdrawal -200.00 Success)，不要再给会员单独显示一条 0 元记录,UI,低 - P3,待处理,Smith,2026-10-13,前后端,会员 UID 2109837608638099456 账变：tx_type 2002 冻结 -₱200(10:48:01)、tx_type 2000 出款 ₱0(10:50:06)，H5 交易记录两条都显示为 Withdrawal
+【前端H5-站内信】充值、提现成功的系统站内信里金额没有 ₱ 符号也没有小数，例如「Your recharge of 100」,"1) 会员充值 ₱1,000 到账
+2) H5 Menu - Messages 打开「Recharge Successful」
+3) 内容为「Your recharge of 1000 (order no. …) has been credited.」","站内信中的金额统一按 ₱1,000.00 的格式显示",UI,低 - P3,待处理,Smith,2026-10-13,后端,会员 2109840655959343104 站内信：Recharge Successful / Your recharge of 1000 (order no. 2109840658744152064)；会员 2109837608638099456：Withdrawal Successful / Your withdrawal of 200 (order no. 2109838541635858432)
+【前端H5-站内信】提现出款失败、钱已退回余额，会员收不到任何站内信通知,"1) 会员提现 ₱100，后台审核通过
+2) 三方出款失败，订单变为「已退款」，₱100 退回会员余额
+3) 会员 H5 Messages 里没有任何关于这笔提现的消息",出款失败退款时发一条站内信，例如「Your withdrawal of ₱100.00 failed and has been refunded to your wallet」,功能,低 - P3,待处理,Smith,2026-10-13,后端,会员 2109840655959343104 提现单 2109842692470095872 状态 1001(已退款)、账变 2001 退回 ₱100；user-inboxes/list 只有两条 Recharge Successful，无提现失败消息
