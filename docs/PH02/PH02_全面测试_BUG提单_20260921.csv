@@ -255,3 +255,6 @@
 4) 打开轮播图编辑弹窗，看位置字段下的说明文字",请产品确认位置 1 的用途：如果是首页轮播，登录前后都应显示并能轮播多张；如果只是访客注册海报，后台说明改成「1 = 访客首页海报(仅未登录显示，取排序第一张)」。说明文字里「自动弹出、每台设备每天一次」移到 9 号的说明后面,功能,低 - P3,待处理,Smith,2026-10-13,前后端,BFF banners/list 返回位置 1 的两条；H5 WinDayBanner 组件只取 position=1 的第一条，且仅在未登录(!isLoggedIn)时渲染；登录后首页无位置 1 展示
 【运营配置-底部导航】底部导航启用 6 个时，第 6 个被挤出手机屏幕，看不到也点不到,"1) 运营配置-底部导航：启用 6 个导航(当前已是 6 个)
 2) 手机打开 H5 首页看底部导航：只看到 5 个，第 6 个在屏幕右侧外面",后台限制最多启用 5 个(并给出提示)，或者 H5 按数量自动缩小每项宽度,UI,低 - P3,待处理,Smith,2026-10-13,前端,BFF bottom-navs/list clientForm=1 返回 6 条；375 宽度下第 6 项 left=350px、宽 67px，超出屏幕
+【前端H5-我的资料】「我的资料」页 Follow Us 的 X、TikTok、YouTube 三个图标永远点不了，后台配置的 Telegram、WhatsApp 链接在这里也不显示,"1) 运营配置-社群链接：配置 Facebook(类型 Facebook)、Telegram、WhatsApp 三条，启用
+2) 会员登录 H5，Menu - My Profile，看页面底部 Follow Us
+3) 只有 Facebook 能点开；X、TikTok、YouTube、Instagram 点了没反应；Telegram、WhatsApp 不显示",我的资料页的社群图标按后台配置显示(配了哪些显示哪些)；或者后台平台类型补齐 X、TikTok、YouTube,功能,低 - P3,待处理,Smith,2026-10-13,前后端,后台平台类型枚举 1外链/2Telegram/3WhatsApp/4Facebook/5Instagram；H5 Profile 页图标固定为 facebook/twitter/tiktok/youtube/instagram，按平台类型匹配 href，匹配不到的渲染为不可点击的 span
