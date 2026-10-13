@@ -301,3 +301,6 @@
 2) 点 FAQ：打开的是 Terms of Use 页面
 3) 返回点 Live Chat：页面提示 support console not available，可以 Open live chat
 4) 点 Open live chat：没有任何反应",FAQ 指向真正的常见问题页(没有就先隐藏入口)；客服配置停用或不可用时，Live Chat 页不要再提示「可以通过在线客服联系」，改为引导拨打客服电话；或者让 Open live chat 打开可用的客服渠道,功能,低 - P3,待处理,Smith,2026-10-13,前后端,Support 页 FAQ 路由固定跳 /terms-of-use；customer-service-config/detail 返回 null(后台客服配置 status=0)；/customer-service 页「Open live chat」点击后无跳转、无 window.open。截图 docs/全盘测试/img/311_support.jpg
+【前端H5-公告】没有任何公告时，Menu 页的 Announcements 仍然亮红点，点进去是「No announcements yet」,"1) 确认后台 运营配置-公告 当前没有生效中的公告(H5 公告页为空)
+2) 新会员登录 H5，点底部 Menu：Announcements 右侧有红点
+3) 点进去显示 No announcements yet；返回后红点消失",当前没有生效中的公告时不显示红点；只有出现会员还没看过的公告才显示,UI,低 - P3,待处理,Smith,2026-10-13,前端,BFF announcements/list 返回 announcements=[]、version=1791858932982；会员本地 cp_announcement_seen_version 为空时 Menu 显示红点，进入公告页后写入该版本号、红点消失
