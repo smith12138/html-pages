@@ -258,3 +258,6 @@
 【前端H5-我的资料】「我的资料」页 Follow Us 的 X、TikTok、YouTube 三个图标永远点不了，后台配置的 Telegram、WhatsApp 链接在这里也不显示,"1) 运营配置-社群链接：配置 Facebook(类型 Facebook)、Telegram、WhatsApp 三条，启用
 2) 会员登录 H5，Menu - My Profile，看页面底部 Follow Us
 3) 只有 Facebook 能点开；X、TikTok、YouTube、Instagram 点了没反应；Telegram、WhatsApp 不显示",我的资料页的社群图标按后台配置显示(配了哪些显示哪些)；或者后台平台类型补齐 X、TikTok、YouTube,功能,低 - P3,待处理,Smith,2026-10-13,前后端,后台平台类型枚举 1外链/2Telegram/3WhatsApp/4Facebook/5Instagram；H5 Profile 页图标固定为 facebook/twitter/tiktok/youtube/instagram，按平台类型匹配 href，匹配不到的渲染为不可点击的 span
+【前端H5-交易记录】提现成功后，交易记录里多出一条「Withdrawal 0.00」，看起来像又提了一笔 0 元,"1) 会员提现 ₱200，后台审核通过并出款成功
+2) H5 Menu - Transactions 查看
+3) 有两条 Withdrawal：-200.00 和 0.00",出款成功只更新原提现记录的状态(如 Withdrawal -200.00 Success)，不要再给会员单独显示一条 0 元记录,UI,低 - P3,待处理,Smith,2026-10-13,前后端,会员 UID 2109837608638099456 账变：tx_type 2002 冻结 -₱200(10:48:01)、tx_type 2000 出款 ₱0(10:50:06)，H5 交易记录两条都显示为 Withdrawal
