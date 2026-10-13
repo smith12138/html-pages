@@ -288,3 +288,7 @@
 【会员中心-会员列表】会员列表按「最后充值时间」「首充时间」「最后投注时间」降序排序时，前几页全是没充值/没投注过的会员,"1) 会员中心-会员列表，每页 100 条
 2) 点「最后充值时间」列排序，选降序
 3) 第 1 页全部是最后充值时间为空的会员",时间字段排序时空值固定排在最后(无论升序降序)，降序第一条应是最近一次充值/投注的会员,功能,低 - P3,待处理,Smith,2026-10-13,后端,members/list sort_by=last_deposit_at sort_desc=true 第 1 页 100 条时间全为 0；first_deposit_at、last_bet_at、first_bet_at 降序相同
+【前端H5-通用】底部「DOWNLOAD APP」悬浮广告挡住页面最底部的内容，滚到底也露不出来：Menu 页的 Log Out 点不到、VIP 页 VVIP 一行看不到,"1) 手机(或浏览器调成 375×667)登录 H5
+2) 点底部 Menu，把页面滚到最底
+3) Announcements、Log Out 被 DOWNLOAD APP 广告挡住，点 Log Out 打开的是下载广告
+4) 打开 Menu - VIP，滚到底：VVIP 一行被挡住",页面底部预留出悬浮广告的高度，保证最后的内容能滚到广告上方；或者给广告加关闭按钮,UI,中 - P2,待处理,Smith,2026-10-13,前端,375×667 下 Menu 页滚到底(scrollY 已到最大)：Log Out 位置 571~590px，广告 524~593px，Log Out 中心点 elementFromPoint 为 download-app__img；VIP 页 VVIP 行 516~549px 被广告覆盖；广告区域无关闭按钮。截图 docs/全盘测试/img/309_account_logout_covered.jpg
