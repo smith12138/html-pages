@@ -266,7 +266,7 @@
 3) 内容为「Your recharge of 1000 (order no. …) has been credited.」","站内信中的金额统一按 ₱1,000.00 的格式显示",UI,低 - P3,待处理,Smith,2026-10-13,后端,会员 2109840655959343104 站内信：Recharge Successful / Your recharge of 1000 (order no. 2109840658744152064)；会员 2109837608638099456：Withdrawal Successful / Your withdrawal of 200 (order no. 2109838541635858432)
 【前端H5-站内信】提现出款失败、钱已退回余额，会员收不到任何站内信通知,"1) 会员提现 ₱100，后台审核通过
 2) 三方出款失败，订单变为「已退款」，₱100 退回会员余额
-3) 会员 H5 Messages 里没有任何关于这笔提现的消息",出款失败退款时发一条站内信，例如「Your withdrawal of ₱100.00 failed and has been refunded to your wallet」,功能,低 - P3,待处理,Smith,2026-10-13,后端,会员 2109840655959343104 提现单 2109842692470095872 状态 1001(已退款)、账变 2001 退回 ₱100；user-inboxes/list 只有两条 Recharge Successful，无提现失败消息
+3) 会员 H5 Messages 里没有任何关于这笔提现的消息",出款失败退款时发一条站内信，例如「Your withdrawal of ₱100.00 failed and has been refunded to your wallet」,功能,低 - P3,待处理,Smith,2026-10-13,后端,会员 2109840655959343104 提现单 2109842692470095872 状态 1001(已退款)、账变 2001 退回 ₱100；user-inboxes/list 只有两条 Recharge Successful，无提现失败消息；【补充】后台人工审核拒绝退款(提现单 2109846280940433408)同样没有站内信
 【前端H5-Rewards】多个会员同时打开 Rewards(奖励中心)时，可领奖励接口明显变慢，10 人同时打开要 0.9~1.7 秒,"1) 准备一个有待领奖励的会员
 2) 10 个并发同时请求 Rewards 页的可领奖励列表，共 20 次
 3) 统计耗时：p50 约 886ms，p95 约 1748ms；单次请求约 263ms",10 人并发时可领奖励接口 p95 应在 0.5 秒以内，和其他会员端接口同一水平,性能,中 - P2,待处理,Smith,2026-10-13,后端,/bff/activity/claimables/list 单请求 p50 263ms；10 并发 20 次 p50 886ms、p95 1748ms、0 失败。对照：user/balance p95 195ms、wallet/transactions/list p95 255ms、games/home-displays/list p95 200ms、games/list p95 335ms
