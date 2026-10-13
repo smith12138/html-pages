@@ -292,3 +292,7 @@
 2) 点底部 Menu，把页面滚到最底
 3) Announcements、Log Out 被 DOWNLOAD APP 广告挡住，点 Log Out 打开的是下载广告
 4) 打开 Menu - VIP，滚到底：VVIP 一行被挡住",页面底部预留出悬浮广告的高度，保证最后的内容能滚到广告上方；或者给广告加关闭按钮,UI,中 - P2,待处理,Smith,2026-10-13,前端,375×667 下 Menu 页滚到底(scrollY 已到最大)：Log Out 位置 571~590px，广告 524~593px，Log Out 中心点 elementFromPoint 为 download-app__img；VIP 页 VVIP 行 516~549px 被广告覆盖；广告区域无关闭按钮。截图 docs/全盘测试/img/309_account_logout_covered.jpg
+【会员中心-会员列表-批量发送站内信】批量发送站内信的标题和内容不能带任何标点：句号、逗号、₱、链接、换行都会发送失败，运营写不出正常的通知,"1) 会员中心-会员列表，勾选一个会员，点「批量发送站内信」
+2) 标题填 QA test，内容填 Hello this is a QA test message(不带标点)：发送成功
+3) 内容改成 Deposit now and get 10 percent bonus.(句末带句号)：发送失败，弹出英文正则报错
+4) 内容带 ₱100、网址或换行，标题带冒号/感叹号：同样失败",标题、内容允许常用标点、货币符号、换行和网址(做好 XSS 转义即可)；不允许的字符在页面上提前说明,功能,中 - P2,待处理,Smith,2026-10-13,后端,"user-inboxes/batch-send：content='Hello this is a QA test message' 成功 sent_count=1；content 含 '.'、'₱'、'https://'、'\n' 均返回 400 invalid BatchSendUserInboxMessagesRequest.Content: value does not match regex pattern ""^[\p{L}\p{N}…emoji](?:[\p{L}\p{N} …emoji]*)?$""；title='QA smith: notice'、'Big Bonus!' 返回 400 Title 不匹配"
