@@ -241,7 +241,7 @@
 【代理管理-代理团队】代理团队的「负责人」没有「仅字母与空格」的校验，和代理、小组、渠道页不一致,"1) 代理管理-代理团队-新增：负责人填「李四」，保存成功
 2) 代理管理-代理小组-新增：负责人填「李四」，提示只能填字母与空格",四个页面的负责人校验规则统一,校验,低 - P3,验收通过,Smith,2026-10-13,前端,AgentTeamView 负责人无格式校验规则；AgentListView/AgentGroupView/AgentChannelView 使用字母空格校验；【补充】10-15 傍晚验收通过
 【游戏管理-游戏列表】游戏图标素材有误：H5 首页 Popular Games 第一个 Inferno Mayhem 的图上写的是 MAYAN DESTINY；17 个上架游戏没有横版图标,"1) 打开 H5 首页，看 Popular Games 第一个游戏卡片：名称 Inferno Mayhem，图片标题 MAYAN DESTINY
-2) 游戏管理-游戏列表搜 Hip Hop Panda，横版列没有图片",替换 Inferno Mayhem 的竖版图标；补齐上架游戏的横版图标,数据,低 - P3,已提交Lark,Smith,2026-10-13,后端,1950910 Inferno Mayhem 竖版 ICON/VERTICAL/PG/1950910_Inferno_Mayhem.png 图中文字为 MAYAN DESTINY；上架/维护游戏 horizontal_icon_url 为空 17 个：1881268 1865521 1827457 1432733 10523 10191 10142 10051 10044 10026 10016 10014 10013 107 100 59 33
+2) 游戏管理-游戏列表搜 Hip Hop Panda，横版列没有图片",替换 Inferno Mayhem 的竖版图标；补齐上架游戏的横版图标,数据,低 - P3,验收不通过,Smith,2026-10-13,后端,1950910 Inferno Mayhem 竖版 ICON/VERTICAL/PG/1950910_Inferno_Mayhem.png 图中文字为 MAYAN DESTINY；上架/维护游戏 horizontal_icon_url 为空 17 个：1881268 1865521 1827457 1432733 10523 10191 10142 10051 10044 10026 10016 10014 10013 107 100 59 33
 【系统管理-账号管理/登录】后台登录连续输错密码不会锁定，也没有验证码，可以无限次试密码；而且提示会区分「用户不存在」和「密码错误」,"1) 打开后台登录页，用户名 cs001，密码随便输错，连续提交 12 次：每次都提示密码错误，没有任何限制
 2) 第 13 次输入正确密码：直接登录成功
 3) 用户名输入一个不存在的名字：提示用户不存在",连续输错若干次(例如 5 次)后锁定一段时间或要求验证码；用户名或密码错误统一提示「用户名或密码错误」,安全,中 - P2,验收通过,Smith,2026-10-13,后端,auth/login cs001 错误密码 12 次均返回 code 125(密码错误)，随后正确密码返回 code 0 并下发 token；登录日志记录了 12 条失败；错误码 120=用户不存在、125=密码错误；【补充】10-14 验收通过：输错 4 次后 60 秒冷却，再错锁约 1 小时，冷却期内正确密码也拒；不存在用户与密码错误提示一致
@@ -332,11 +332,11 @@
 3) 游戏管理-最近爆奖榜-新增：用户 ID 填 9999999999999999(不存在)，中奖时间 2030-01-01 00:00:00，奖池金额 1，保存成功",百万俱乐部榜中奖金额至少达到榜单门槛(或大于 0)，同一状态下排名不允许重复或明确排序规则；最近爆奖榜用户 ID 校验会员必须存在，中奖时间不能晚于当前时间,校验,低 - P3,验收通过,Smith,2026-10-16,前后端,"game-million-club-leaderboard-configs/create win_amount=0,bet=0 返回 0；rank=1、win_amount=1000000 再建一条返回 0(两条 rank 均为 1)；win_amount 负数返回 400；game-recent-jackpot-leaderboard-configs/create user_id=9999999999999999 返回 0，win_time=2030-01-01 00:00:00 返回 0；测试数据已删；【补充】10-17 验收不通过：金额门槛已修；排名重复、最近爆奖榜不存在用户/未来时间仍可保存；【补充】10-17 中午验收不通过：用户ID被写死须 21109 开头(页面+接口)，21110 开头真实会员填不进；不存在会员仍可保存；排名重复仍可保存；【补充】10-17 下午验收通过：用户ID前缀放开为 2/3 开头 19 位；排名为排序值可重复；不存在会员ID仍可保存(展示类数据，已请研发确认口径)"
 【短信管理-短信模板】短信模板：内容不填点保存弹英文报错；内容只填空格能保存(发出去是空白短信)；模板编码前后带空格也能保存,"1) 短信管理-短信模板-新增，填编码、名称，内容不填，保存：弹英文报错
 2) 内容只输入 4 个空格，保存：保存成功
-3) 编码填「 qa sp 123」(前后带空格)，保存：保存成功",内容标为必填，去掉首尾空格后不能为空，提示用中文；模板编码只允许字母、数字、下划线并去掉首尾空格,校验,低 - P3,已提交Lark,Smith,2026-10-17,前后端,sms-template-configs/create content='' 返回 400 invalid CreateSmsTemplateConfigRequest.Content: value length must be between 1 and 1000 runes；content='    ' 返回 0；template_code=' qa sp 1792230773' 返回 0；页面表单只校验编码/名称/状态，内容无必填规则；编码重复(11880)、变量括号不成对(11993)校验正常；测试模板已删
+3) 编码填「 qa sp 123」(前后带空格)，保存：保存成功",内容标为必填，去掉首尾空格后不能为空，提示用中文；模板编码只允许字母、数字、下划线并去掉首尾空格,校验,低 - P3,验收通过,Smith,2026-10-17,前后端,sms-template-configs/create content='' 返回 400 invalid CreateSmsTemplateConfigRequest.Content: value length must be between 1 and 1000 runes；content='    ' 返回 0；template_code=' qa sp 1792230773' 返回 0；页面表单只校验编码/名称/状态，内容无必填规则；编码重复(11880)、变量括号不成对(11993)校验正常；测试模板已删
 【活动管理-签到活动/亏损救援金/下载有礼】签到活动、亏损救援金、下载有礼三类活动都无法编辑保存，点确定提示「数据库操作失败（11001）」,"1) 活动管理-签到活动，任选一条点编辑
 2) 不做任何修改，直接点确定：提示「数据库操作失败（11001）」
 3) 新增一条开始时间在 1 小时后的签到活动(新增成功)，再编辑它点确定：同样提示数据库操作失败
-4) 亏损救援金、下载有礼重复以上步骤，结果相同",三类活动编辑后能正常保存，修改内容在列表和详情中正确回显,功能,高 - P1,待处理,Smith,2026-10-21,后端,sign-in-activity-configs/update、loss-rescue-activity-configs/update、download-gift-activity-configs/update 原样提交返回 code 11001；同样做法 register/deposit/rebate/friend-invite-activity-configs、deposit-grant-plan-configs 的 update 返回 0；三类活动的 create、update-status、delete 均返回 0
+4) 亏损救援金、下载有礼重复以上步骤，结果相同",三类活动编辑后能正常保存，修改内容在列表和详情中正确回显,功能,高 - P1,验收通过,Smith,2026-10-21,后端,sign-in-activity-configs/update、loss-rescue-activity-configs/update、download-gift-activity-configs/update 原样提交返回 code 11001；同样做法 register/deposit/rebate/friend-invite-activity-configs、deposit-grant-plan-configs 的 update 返回 0；三类活动的 create、update-status、delete 均返回 0
 【钱包管理-人工调账】余额调整成功后，人工调账列表和顶部统计卡不刷新，刚加的这笔看不到，要手动点查询才出来,"1) 钱包管理-人工调账，记下列表第一行和顶部加款总额
 2) 点余额调整，填用户ID、加款 100、备注，点确定，二次确认点确定，提示调整成功
 3) 列表第一行和加款总额都没变化
