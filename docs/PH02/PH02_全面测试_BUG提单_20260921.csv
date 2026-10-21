@@ -333,3 +333,7 @@
 【短信管理-短信模板】短信模板：内容不填点保存弹英文报错；内容只填空格能保存(发出去是空白短信)；模板编码前后带空格也能保存,"1) 短信管理-短信模板-新增，填编码、名称，内容不填，保存：弹英文报错
 2) 内容只输入 4 个空格，保存：保存成功
 3) 编码填「 qa sp 123」(前后带空格)，保存：保存成功",内容标为必填，去掉首尾空格后不能为空，提示用中文；模板编码只允许字母、数字、下划线并去掉首尾空格,校验,低 - P3,已提交Lark,Smith,2026-10-17,前后端,sms-template-configs/create content='' 返回 400 invalid CreateSmsTemplateConfigRequest.Content: value length must be between 1 and 1000 runes；content='    ' 返回 0；template_code=' qa sp 1792230773' 返回 0；页面表单只校验编码/名称/状态，内容无必填规则；编码重复(11880)、变量括号不成对(11993)校验正常；测试模板已删
+【活动管理-签到活动/亏损救援金/下载有礼】签到活动、亏损救援金、下载有礼三类活动都无法编辑保存，点确定提示「数据库操作失败（11001）」,"1) 活动管理-签到活动，任选一条点编辑
+2) 不做任何修改，直接点确定：提示「数据库操作失败（11001）」
+3) 新增一条开始时间在 1 小时后的签到活动(新增成功)，再编辑它点确定：同样提示数据库操作失败
+4) 亏损救援金、下载有礼重复以上步骤，结果相同",三类活动编辑后能正常保存，修改内容在列表和详情中正确回显,功能,高 - P1,待处理,Smith,2026-10-21,后端,sign-in-activity-configs/update、loss-rescue-activity-configs/update、download-gift-activity-configs/update 原样提交返回 code 11001；同样做法 register/deposit/rebate/friend-invite-activity-configs、deposit-grant-plan-configs 的 update 返回 0；三类活动的 create、update-status、delete 均返回 0
