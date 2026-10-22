@@ -390,3 +390,6 @@
 2) 会员列表对该会员加黑名单「提款锁定」
 3) 出款人工审核页：该单无任何锁定提示，点通过：提示成功
 4) 订单进入出款中并提交支付商，随后出款成功",会员处于提款锁定时，审核通过应拦截或至少在审核页醒目提示锁定状态并二次确认；锁定前已提交的待审核单可考虑自动挂起,功能/风控,中 - P2,验收通过,Smith,2026-10-22,前后端,提现单 2113116853225861120(会员 2112812778181533696，₱100，status 300)；加 block_types=4 提款锁定成功后调用 POST /withdraw-orders/manual-review/approve 返回 code=0，订单 status=500 并取得 transaction_id DU5V3116892485910528，模拟出款成功后 status=501；出款人工审核页列字段无黑名单/锁定信息；对照：锁定状态下会员新发起提现会被拦截
+【H5-领奖中心-每日签到】昨天没领的每日存款签到和今天的签到同时显示时，两张卡片完全一样、没有日期，都写着「today」，会员分不清是哪天的,"1) 后台有启用中的每日存款签到活动(手动领取)
+2) 会员第一天充值达标，不领取
+3) 第二天再充值达标，打开 H5 领奖中心：Daily Sign-in 下出现两张同名卡片，都写 Requires 1 deposit today，没有日期",卡片显示所属日期(如 Oct 21 / Today)，昨天的卡片不要写「today」；或者把往日未领的单独归到「往日待领」,UI/跨日,低 - P3,待处理,Smith,2026-10-22,前端,会员 2112812731251466240 领奖中心 Daily Sign-in 出现两张「Deposit sign-in」卡片：一张 now ₱30.00、一张 now ₱20.00，均为 Requires 1 deposit today — you have 1、Ready to claim；GET /api/v1/bff/activity/claimables/list 两条 sign_in 分别 sign_in_date=20261022、20261021；截图 img/1022_signin_two_days.jpg
