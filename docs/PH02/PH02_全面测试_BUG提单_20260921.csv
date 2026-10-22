@@ -382,3 +382,7 @@
 【游戏管理-游戏进入】个别会员进入 PG 游戏一直提示 Login failed，玩家名参数为空，会员无法再玩任何 PG 游戏,"1) 会员 2112812719163482112 登录 H5
 2) 首页点 PG 游戏 Honey Trap of Diao Chan
 3) 游戏加载页提示 Login failed, system retrying...，一直进不去；换其他 PG 游戏同样",进入游戏时下发正确的玩家名，会员能正常进入并下注；已经出问题的会员能自动恢复,功能,高 - P1,待处理,Smith,2026-10-22,后端,进游戏接口 POST /api/v1/bff/games/enter 返回的 game_url 中 n= 为空，ot=1.2112812719163482112.9b8d00…225764 每次相同；PG verifyOperatorPlayerSession 返回 cd=1002 Authorization failed；对照会员 2112812727648559104、2112812731251466240、2112812693762777088 等 game_url 均带 n=手机号，可正常下注；该会员 /user/info 正常，JWT 中 username=639061964458 正常；该会员最后一笔成功下注(tx 3001)后再无下注记录；截图 img/1022_pg_login_failed.jpg
+【钱包管理-出款人工审核】出款通道停用期间审核通过的提现单一直卡在出款中：实际没有提交给支付商，会员资金被冻结且无法处理,"1) 会员(需人工审核的 VIP 等级)提现 ₱100 到 GCash 收款账号，订单进入出款人工审核
+2) 后台 钱包管理-出款通道配置 停用 GCash
+3) 出款人工审核 通过这笔单：提示成功，订单变为出款中
+4) 启用回 GCash，等待 15 分钟以上：订单仍是出款中，支付商后台查不到该单，会员资金一直冻结",审核通过时校验出款通道状态：通道不可用时拦截并提示审核员；或已进入出款的单提交失败时标记失败并退款给会员，不应无限期卡在出款中,功能/资金,高 - P1,待处理,Smith,2026-10-22,后端,"提现单 2113111129565380608(会员 2112812727648559104，₱100，人工审核)：GCash 出款通道停用状态下审核通过，hash_withdraw_orders.status=500、transaction_id 为空；hash_withdraw_outboxes 该单 status=2(已发布)、disbursement_retry_count=0、error_message 为空，查询重试 7 次、间隔 30s→5min 递增，query_message 每次均为 {""Code"":21006,""MchOrderID"":""""}；EzPay 模拟出款接口返回 order not exist；通道已重新启用，20 分钟后订单仍为 500、无失败/退款。对照：同一时段正常审核通过的单在数秒内拿到 transaction_id(DU5V…)；通道停用时会员新发起提现返回 10335"
