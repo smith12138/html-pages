@@ -373,3 +373,6 @@
 【活动管理-亏损救援金】亏损救援金的「统计起始时间」不和活动起止时间比较，设在活动结束之后也能保存，活动期间永远不会结算,"1) 活动管理-亏损救援金-新增：活动时间 5 天后开始、8 天后结束
 2) 统计起始时间选 9 天后(晚于活动结束)，窗口 1 天、步长 1 天，其他正常填写
 3) 保存成功，没有任何提示",统计起始时间应不晚于活动结束时间(且第一个统计窗口结束时间不晚于活动结束)；是否允许早于活动开始请产品确认，不允许的话一并校验,校验,低 - P3,待处理,Smith,2026-10-22,前后端,loss-rescue-activity-configs/create start_time=now+5d、end_time=now+8d、loss_stat_start_time=now+9d 返回 0；loss_stat_start_time=now+4d(早于开始)也返回 0；后台表单 loss_stat_start_time 校验规则只有必填(请选择统计起始时间)；测试活动已删除
+【H5-站内通知弹窗】提现被驳回的通知弹窗也用了庆祝样式(顶部🎉礼花)，和「提现被拒、钱已退回」的内容不搭,"1) 会员在 H5 发起提现，后台出款人工审核驳回
+2) 会员打开 H5 首页或任意页面
+3) 弹出「Withdrawal Rejected」通知，顶部是 🎉 礼花图标",提现驳回、出款失败等负面通知使用中性或提示样式(例如信息/警告图标)，不使用礼花等庆祝元素,UI,低 - P3,待处理,Smith,2026-10-22,前端,会员 2112812778181533696 订单 2112856394513944576 被驳回后，H5 弹窗(RewardCelebration 组件)标题 Withdrawal Rejected，正文 Your withdrawal of ₱100.00 … was not approved. The amount has been refunded to your balance.，顶部为 🎉 图标，与 Recharge Successful、Bet check-in reward 弹窗样式相同
