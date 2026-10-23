@@ -393,3 +393,6 @@
 【H5-领奖中心-每日签到】昨天没领的每日存款签到和今天的签到同时显示时，两张卡片完全一样、没有日期，都写着「today」，会员分不清是哪天的,"1) 后台有启用中的每日存款签到活动(手动领取)
 2) 会员第一天充值达标，不领取
 3) 第二天再充值达标，打开 H5 领奖中心：Daily Sign-in 下出现两张同名卡片，都写 Requires 1 deposit today，没有日期",卡片显示所属日期(如 Oct 21 / Today)，昨天的卡片不要写「today」；或者把往日未领的单独归到「往日待领」,UI/跨日,低 - P3,待处理,Smith,2026-10-22,前端,会员 2112812731251466240 领奖中心 Daily Sign-in 出现两张「Deposit sign-in」卡片：一张 now ₱30.00、一张 now ₱20.00，均为 Requires 1 deposit today — you have 1、Ready to claim；GET /api/v1/bff/activity/claimables/list 两条 sign_in 分别 sign_in_date=20261022、20261021；截图 img/1022_signin_two_days.jpg
+【H5-领奖中心-存款签到】存款签到本期完成后，卡片不显示本期截止和下一期开始时间；期次按 24 小时滚动，会员第二天上午充值仍算上一期，容易以为新一期已完成而断签,"1) 存款签到(必须连续)活动，会员第 2 期 10-22 15:58 到 10-23 15:58，10-22 已充值达标
+2) 10-23 上午会员再充值 ₱10
+3) 打开 H5 领奖中心：卡片仍显示 Period 2 Done，累计变成 ₱32，没有任何下一期开始时间的提示","已完成状态也显示本期截止时间和下一期开始时间(例如「Next period starts Oct 23, 15:58」)，提醒会员下一期需要在这个时间之后充值",UI/跨日,低 - P3,待处理,Smith,2026-10-23,前端,会员 2112812778181533696 活动 QA_smith_存款签到(连续3期)：第2期 start 10-22 15:58:46、end 10-23 15:58:46；10-23 上午充值 ₱10(订单 2113466475528036352) 计入第2期，cumulative 22→32；H5 卡片文字为 Period 2 / Deposited ₱ 32.00 / ₱ 20.00 / Done for this period / Deposit in every period — missing one ends this check-in.；claimables 返回 start_time=1792655926639、end_time=1792742326639；截图 img/1023_checkin_done_no_time.png
