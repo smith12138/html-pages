@@ -374,15 +374,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     <div class="form-grid" style="margin-bottom:12px">
       <div class="form-group">
         <label class="form-label">Base Domain</label>
-        <input class="form-input mono" id="cs_domain" value="http://18.138.19.23:8081" placeholder="测试环境域名, 可含 http:// / https://">
+        <input class="form-input mono" id="cs_domain" value="https://ph01-api-test.aaoo-test.com" placeholder="测试环境域名, 可含 http:// / https://">
       </div>
       <div class="form-group">
         <label class="form-label">App ID <span style="font-weight:400;color:#9ca3af">(X-CS-App-ID)</span></label>
-        <input class="form-input mono" id="cs_appid" value="cs_sm_ohqlcgjesf6bcgrqvue2bxg6" placeholder="如 cs_sm_xxxxxxxxxxxx">
+        <input class="form-input mono" id="cs_appid" value="cs_sm_xbgik25xbxkishbw3aibslni" placeholder="如 cs_sm_xxxxxxxxxxxx">
       </div>
       <div class="form-group full">
         <label class="form-label">Secret</label>
-        <input class="form-input mono" id="cs_secret" value="zZ5ujphuXpPIbxLJsKct170AhOYCkThDpj-Jo3jp4uc" placeholder="初始化/轮换时一次性显示">
+        <input class="form-input mono" id="cs_secret" value="eKU_EHrEgXHmXAk-YaQwijhOetz4QSidPlG6o8NvJe8" placeholder="初始化/轮换时一次性显示">
       </div>
       <div class="form-group full">
         <label class="form-label">CORS Proxy <span style="font-weight:400;color:#9ca3af">（浏览器内「查询」需经代理转发 X-CS-* 头；留空仅可用「复制 cURL」）</span></label>
@@ -405,11 +405,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     </div>
 
     <div class="api-panel active" id="cspanel_profile">
-      <div class="form-grid"><div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_profile_uid" placeholder="会员公开编号 user_no"></div></div>
+      <div class="form-grid"><div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_profile_uid" value="2085089452" placeholder="会员公开编号 user_no"></div></div>
     </div>
     <div class="api-panel" id="cspanel_deposit">
       <div class="form-grid">
-        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_deposit_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_deposit_uid" value="2085089452" placeholder="user_no"></div>
         <div class="form-group"><label class="form-label">status</label><input class="form-input mono" id="cs_deposit_status" placeholder="如 pending/completed/failed（以 Swagger 为准）"></div>
         <div class="form-group"><label class="form-label">page</label><input class="form-input" id="cs_deposit_page" value="1" type="number"></div>
         <div class="form-group"><label class="form-label">page_size</label><input class="form-input" id="cs_deposit_psize" value="10" type="number"></div>
@@ -417,21 +417,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     </div>
     <div class="api-panel" id="cspanel_withdraw">
       <div class="form-grid">
-        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_withdraw_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_withdraw_uid" value="2085089452" placeholder="user_no"></div>
         <div class="form-group"><label class="form-label">status</label><input class="form-input mono" id="cs_withdraw_status" placeholder="如 pending_review/completed/rejected"></div>
         <div class="form-group"><label class="form-label">page</label><input class="form-input" id="cs_withdraw_page" value="1" type="number"></div>
         <div class="form-group"><label class="form-label">page_size</label><input class="form-input" id="cs_withdraw_psize" value="10" type="number"></div>
       </div>
     </div>
     <div class="api-panel" id="cspanel_turnover">
-      <div class="form-grid"><div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_turnover_uid" placeholder="user_no"></div></div>
+      <div class="form-grid"><div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_turnover_uid" value="2085089452" placeholder="user_no"></div></div>
     </div>
     <div class="api-panel" id="cspanel_wallet">
-      <div class="form-grid"><div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_wallet_uid" placeholder="user_no"></div></div>
+      <div class="form-grid"><div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_wallet_uid" value="2085089452" placeholder="user_no"></div></div>
     </div>
     <div class="api-panel" id="cspanel_bet">
       <div class="form-grid">
-        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_bet_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_bet_uid" value="2085089452" placeholder="user_no"></div>
         <div class="form-group"><label class="form-label">type</label><input class="form-input mono" id="cs_bet_type" placeholder="settled/unsettled/cancelled/promos"></div>
         <div class="form-group"><label class="form-label">page</label><input class="form-input" id="cs_bet_page" value="1" type="number"></div>
         <div class="form-group"><label class="form-label">page_size</label><input class="form-input" id="cs_bet_psize" value="10" type="number"></div>
@@ -439,7 +439,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     </div>
     <div class="api-panel" id="cspanel_bonus">
       <div class="form-grid">
-        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_bonus_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_bonus_uid" value="2085089452" placeholder="user_no"></div>
         <div class="form-group"><label class="form-label">category</label><input class="form-input mono" id="cs_bonus_category" placeholder="cashback/promo/free_bonus_15/commission"></div>
         <div class="form-group"><label class="form-label">page</label><input class="form-input" id="cs_bonus_page" value="1" type="number"></div>
         <div class="form-group"><label class="form-label">page_size</label><input class="form-input" id="cs_bonus_psize" value="10" type="number"></div>
@@ -458,7 +458,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
     <div class="api-panel" id="cspanel_ticket">
       <div class="form-hint" style="margin-bottom:8px">POST · JSON body（转人工/核实统一入口）</div>
       <div class="form-grid">
-        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_ticket_uid" placeholder="user_no"></div>
+        <div class="form-group"><label class="form-label">uid <span class="req">*</span></label><input class="form-input mono" id="cs_ticket_uid" value="2085089452" placeholder="user_no"></div>
         <div class="form-group"><label class="form-label">type <span class="req">*</span></label><input class="form-input mono" id="cs_ticket_type" placeholder="工单类型"></div>
         <div class="form-group full"><label class="form-label">context</label><input class="form-input mono" id="cs_ticket_context" placeholder="上下文（可选）"></div>
         <div class="form-group full"><label class="form-label">evidence</label><input class="form-input mono" id="cs_ticket_evidence" placeholder="凭证URL，逗号分隔（可选）"></div>
